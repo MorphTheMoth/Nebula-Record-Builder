@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="script.js"></script>
+<title>Stella Sora Nebula Builds</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Consolas', 'SF Mono', monospace; background: #161616; color: #ddd; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+.page { max-width: 1050px; width: 100%; background: #1a1a1a; min-height: 100vh; padding: 20px; }
+img { image-rendering: -webkit-optimize-contrast; }
+.disc-dropdown::-webkit-scrollbar { width: 8px; }
+.disc-dropdown::-webkit-scrollbar-track { background: #1a1a1a; border-radius: 6px; }
+.disc-dropdown::-webkit-scrollbar-thumb { background: #444; border-radius: 6px; }
+.disc-dropdown::-webkit-scrollbar-thumb:hover { background: #666; }
+.disc-dropdown { scrollbar-width: thin; scrollbar-color: #444 #1a1a1a; }
+
+h1 { color: #aaa; font-size: 16px; font-weight: bold; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; }
+h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 10px; }
+
+.section { margin-bottom: 20px; border-top: 1px solid #2a2a2a; padding-top: 14px; }
+
+/* Characters grid: flex wrap + group headers */
+.char-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+  justify-content: space-between;
+  row-gap: 12px;
+}
+.char-group-header {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #777;
+  background: #1f1f1f;
+  width: 100%;
+  padding: 8px 0 4px 4px;
+  margin-top: 6px;
+  border-bottom: 1px solid #2e2e2e;
+}
+.char-group-header:first-of-type { margin-top: 0; }
+
+.char-card {
+  width: 90px; margin: 0 4px; cursor: pointer; border: 1px solid #333; border-radius: 3px;
+  overflow: hidden; background: #222; transition: border-color 0.1s;
+  position: relative; user-select: none;
+}
+.char-card:hover { border-color: #555; }
+.char-card.selected { border-color: #888; }
+.char-card.selected::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.05); }
+.char-card img { width: 100%; aspect-ratio: 1; display: block; background: #2a2a2a; }
+.char-card .label { font-size: 11px; color: #f0f0f0;; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* soft element backgrounds — subtle tint, no extra elements */
+.char-card[data-element="Aqua"]   { background: rgba(0, 255, 255, 0.08); border-color: #2a6a6a; }
+.char-card[data-element="Ignis"]  { background: rgba(255, 80, 40, 0.08); border-color: #6a3a2a; }
+.char-card[data-element="Ventus"] { background: rgba(100, 200, 100, 0.08); border-color: #2a5a2a; }
+.char-card[data-element="Terra"]  { background: rgba(146, 83, 44, 0.154); border-color: #5c451b; }
+.char-card[data-element="Lux"]    { background: rgba(255, 250, 111, 0.084); border-color: #746a2c; }
+.char-card[data-element="Umbra"]  { background: rgba(120, 80, 160, 0.08); border-color: #4a3a6a; }
+.char-card[data-element="Other"]  { background: #222; border-color: #3a3a3a; }
+.slot-badge {
+  position: absolute; top: 4px; left: 4px;
+  font-size: 9px; background: rgba(0,0,0,0.8); color: #ddd;
+  padding: 2px 6px; border-radius: 3px; z-index: 2; font-weight: bold;
+}
+
+/* Discs */
+.disc-row { display: flex; gap: 10px; align-items: flex-start; }
+.disc-slot { display: flex; flex-direction: column; gap: 4px; }
+.disc-slot-label { font-size: 9px; color: #555; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+.disc-picker { position: relative; }
+.disc-thumb {
+  width: 72px; height: 72px; border: 1px solid #333; border-radius: 3px; object-fit: cover;
+  background: #222; cursor: pointer; overflow: hidden; display: flex;
+  align-items: center; justify-content: center; transition: border-color 0.1s;
+}
+.disc-thumb:hover { border-color: #555; }
+.disc-thumb.selected { border-color: #888; }
+.disc-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.disc-thumb .plus { color: #444; font-size: 24px; }
+
+.disc-dropdown {
+  display: none; position: absolute; top: 76px; left: 0;
+  background: #222; border: 1px solid #444; border-radius: 3px;
+  z-index: 100; width: 280px; max-height: 400px; overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+.disc-dropdown.open-above { top: auto; bottom: 76px; }
+.disc-dropdown.open { display: block; }
+.disc-search {
+  width: 100%; padding: 7px 10px; background: #1a1a1a; border: none; border-bottom: 1px solid #333;
+  color: #ccc; font-size: 11px; outline: none; font-family: inherit;
+  position: sticky; top: 0; z-index: 12;
+  display: block;
+}
+.disc-group-header {
+  padding: 5px 10px 3px; font-size: 9px; text-transform: uppercase; letter-spacing: 1px;
+  color: #aaa; background: #1e1e1e; border-bottom: 1px solid #303030;
+  position: sticky;
+  top: 28px;
+  z-index: 10;
+}
+.disc-search::placeholder { color: #555; }
+.disc-group-header.team-el { color: #cdd; background: #242424; }
+.disc-option {
+  display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+  cursor: pointer; border-bottom: 1px solid #2a2a2a; transition: background 0.1s;
+}
+.disc-option img { width: 58px; height: 58px; border-radius: 2px; background: #333; flex-shrink: 0; object-fit: cover;}
+.disc-option .info { flex: 1; }
+.disc-option .dname { font-size: 12px; color: #ccc; }
+.disc-option .dmeta { font-size: 9px; color: #666; margin-top: 2px; }
+.disc-option.selected-opt { background: #282828; }
+
+.disc-option[data-element="Aqua"] { background: rgba(0, 255, 255, 0.07); border-left: 2px solid rgba(0, 255, 255, 0.4); }
+.disc-option[data-element="Ignis"] { background: rgba(255, 80, 40, 0.07); border-left: 2px solid rgba(255, 80, 40, 0.4); }
+.disc-option[data-element="Ventus"] { background: rgba(100, 200, 100, 0.07); border-left: 2px solid rgba(100, 200, 100, 0.4); }
+.disc-option[data-element="Terra"] { background: rgba(148, 99, 25, 0.14); border-left: 2px solid rgba(160, 120, 60, 0.4); }
+.disc-option[data-element="Lux"] { background: rgba(255, 238, 112, 0.139); border-left: 2px solid rgba(255, 237, 100, 0.4); }
+.disc-option[data-element="Umbra"] { background: rgba(164, 107, 222, 0.138); border-left: 2px solid rgba(130, 54, 205, 0.446); }
+.disc-option[data-element="None"] { background: rgba(128, 128, 128, 0.05); border-left: 2px solid rgba(128, 128, 128, 0.3); }
+
+.disc-option[data-element="Aqua"]:hover { background: rgba(0, 255, 255, 0.18); border-left-color: rgba(0, 255, 255, 0.7); }
+.disc-option[data-element="Ignis"]:hover { background: rgba(255, 80, 40, 0.18); border-left-color: rgba(255, 80, 40, 0.7); }
+.disc-option[data-element="Ventus"]:hover { background: rgba(100, 200, 100, 0.18); border-left-color: rgba(100, 200, 100, 0.7); }
+.disc-option[data-element="Terra"]:hover { background: rgba(160, 120, 60, 0.18); border-left-color: rgba(160, 120, 60, 0.7); }
+.disc-option[data-element="Lux"]:hover { background: rgba(255, 219, 100, 0.284); border-left-color: rgba(252, 220, 117, 0.781); }
+.disc-option[data-element="Umbra"]:hover { background: rgba(159, 96, 222, 0.26); border-left-color: rgba(138, 83, 193, 0.7); }
+.disc-option[data-element="None"]:hover { background: rgba(128, 128, 128, 0.12); border-left-color: rgba(128, 128, 128, 0.5); }
+.disc-option:hover { background: #2a2a2a; border-left-color: #666; }
+
+/* Potentials */
+.pot-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.pot-tab {
+  padding: 4px 14px; font-size: 12px; font-family: inherit;
+  background: #222; border: 1px solid #333; color: #666;
+  border-radius: 2px; cursor: pointer; transition: background 0.1s, color 0.1s;
+}
+.pot-tab:hover { background: #2a2a2a; color: #999; }
+.pot-tab.active { background: #2a2a2a; border-color: #666; color: #ccc; }
+.pot-page { display: none; }
+.pot-page.active { display: flex; gap: 16px; flex-wrap: wrap; }
+.pot-group { flex: 1; min-width: 200px; }
+.pot-group-label { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.pot-list { display: flex; flex-direction: column; gap: 4px; }
+.pot-item {
+  display: flex; align-items: center; gap: 8px; padding: 5px 8px;
+  border: 1px solid #2a2a2a; border-radius: 2px; background: #1e1e1e;
+  cursor: pointer; transition: border-color 0.1s, background 0.1s; user-select: none;
+}
+.pot-item:hover { border-color: #444; background: #222; }
+.pot-item.active { border-color: #666; background: #232323; }
+.pot-item img { width: 40px; height: 52px; object-fit: cover; border-radius: 2px; background: #2a2a2a; flex-shrink: 0; }
+.pot-item .pname { flex: 1; font-size: 12px; color: #bbb; }
+.pot-controls { display: flex; align-items: center; }
+.pot-btn {
+  width: 24px; height: 24px; background: #282828; border: 1px solid #3a3a3a;
+  color: #666; font-size: 15px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.1s, color 0.1s; user-select: none; flex-shrink: 0;
+  font-family: inherit;
+}
+.pot-btn:first-child { border-radius: 2px 0 0 2px; }
+.pot-btn:last-child { border-radius: 0 2px 2px 0; }
+.pot-btn:hover { background: #3a3a3a; color: #bbb; }
+.pot-val {
+  width: 28px; background: #222; border: 1px solid #3a3a3a; border-left: none; border-right: none;
+  color: #ccc; font-size: 13px; font-weight: bold; padding: 0; text-align: center;
+  font-family: inherit; height: 24px; outline: none;
+}
+.pot-val:focus { background: #2a2a2a; }
+
+/* Potential tooltip */
+.pot-tooltip {
+  position: fixed;background: #1e1e1e;border: 1px solid #555;border-radius: 6px;padding: 10px;z-index: 200;
+  pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.6); display: flex; gap: 12px; max-width: 400px; 
+  font-family: 'Consolas', monospace; font-size: 11px; line-height: 1.4; color: #ddd; backdrop-filter: blur(2px);
+}
+.pot-tooltip img {  width: 100px; object-fit: contain; }
+.pot-tooltip .desc { flex: 1; word-wrap: break-word; white-space: normal; }
+
+/* Notes */
+input[type=number] { -moz-appearance: textfield; }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.notes-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+.note-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 6px 8px; border: 1px solid #2a2a2a; border-radius: 3px; background: #1e1e1e;
+}
+.note-item img { width: 40px; height: 40px; object-fit: contain; border-radius: 2px; }
+.note-item .nname { font-size: 8px; color: #777; text-align: center; max-width: 72px; line-height: 1.3; }
+.note-controls { display: flex; align-items: center; }
+.note-btn {
+  width: 22px; height: 22px; background: #282828; border: 1px solid #3a3a3a;
+  color: #666; font-size: 15px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.1s, color 0.1s; user-select: none; flex-shrink: 0; font-family: inherit;
+}
+.note-btn:first-child { border-radius: 2px 0 0 2px; }
+.note-btn:last-child { border-radius: 0 2px 2px 0; }
+.note-btn:hover { background: #3a3a3a; color: #bbb; }
+.note-val {
+  width: 34px; background: #222; border: 1px solid #3a3a3a; border-left: none; border-right: none;
+  color: #ccc; font-size: 11px; padding: 0 2px; text-align: center;
+  font-family: inherit; height: 22px; outline: none;
+}
+.note-val:focus { background: #2a2a2a; }
+
+/* Output */
+#output { color: #a66; }
+.output-fixed {
+  flex: 1;
+  background: #111;
+  height: 32px;
+  overflow-y: auto;
+  padding: 7px 12px;
+  cursor: default;
+}
+
+.sep { width: 1px; background: #2a2a2a; margin: 0 4px; align-self: stretch; }
+.loading { color: #555; font-size: 12px; font-style: italic; }
+.err { color: #a66; font-size: 11px; }
+
+/* Import */
+.import-row { display: flex; gap: 8px; align-items: center; }
+.import-input {
+  flex: 1; background: #111; border: 1px solid #333; border-radius: 3px;
+  padding: 7px 10px; color: #ccc; font-size: 12px; font-family: inherit; outline: none;
+}
+.import-input::placeholder { color: #444; }
+.import-input:focus { border-color: #555; }
+.import-btn {
+  background: #222; border: 1px solid #444; color: #aaa; padding: 7px 14px;
+  border-radius: 3px; cursor: pointer; font-size: 11px; font-family: inherit;
+  letter-spacing: 1px; white-space: nowrap; transition: background 0.1s; height: 32px;
+}
+.import-btn:hover { background: #2e2e2e; color: #ccc; }
+.import-status { font-size: 10px; font-weight: normal; }
+.import-status.ok { color: rgb(64, 125, 64); }
+.import-status.bad { color: rgb(129, 77, 77); }
+
+</style>
+</head>
+
+<body>
+<div class="page">
+  <h1>SS Build Generator</h1>
+
+  <div class="section">
+    <h2 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <span>Nebula Command</span>
+      <span id="outputStatus" style="font-size: 10px; color: #6c6;"></span>
+    </h2>
+    <div class="import-row">
+      <div class="import-input output-fixed" id="output">— select characters —</div>
+      <button class="import-btn" id="copyOutputBtn">Copy</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <span>Preset Code</span>
+      <span id="importStatus" style="font-size: 10px; color: rgb(64, 125, 64);"></span>
+    </h2>
+    <div class="import-row">
+      <input class="import-input" id="importInput" type="text" placeholder="Select characters to generate…" autocomplete="off" spellcheck="false">
+      <button class="import-btn" onclick="importPotentials()">Import</button>
+      <button class="import-btn" onclick="copyBase64()">Copy</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Characters</h2>
+    <div class="char-grid" id="charGrid"><span class="loading">Loading characters…</span></div>
+  </div>
+
+  <div class="section">
+    <h2>Discs</h2>
+    <div class="disc-row" id="discRow"><span class="loading">Loading discs…</span></div>
+  </div>
+
+  <div class="section" id="potSection" style="display:none">
+    <h2>Potentials</h2>
+    <div class="pot-tabs" id="potTabs"></div>
+    <div id="potContent"></div>
+  </div>
+
+  <div class="section" id="notesSection" style="display:none">
+    <h2>Notes</h2>
+    <div class="notes-grid" id="notesGrid"></div>
+  </div>
+</div>
+
+</body>
+</html>
