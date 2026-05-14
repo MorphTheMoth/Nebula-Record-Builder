@@ -1,5 +1,6 @@
 # [Nebula-Record-Builder](https://morphthemoth.github.io/Nebula-Record-Builder/)
-[Link](https://morphthemoth.github.io/Nebula-Record-Builder/).
+[Link](https://morphthemoth.github.io/Nebula-Record-Builder/)
+
 Stella Sora record builder supporting preset codes and emblems, meant to be used for [Nebula Private Server](https://github.com/Melledy/Nebula).
 
 
