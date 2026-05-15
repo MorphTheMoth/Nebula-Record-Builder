@@ -3,7 +3,7 @@ const BASE_ASSETS = 'https://raw.githubusercontent.com/AutumnVN/ssassets/main/';
 
 let charData = {}, discData = {}, charJson = {};
 let selectedChars = [null, null, null];
-let selectedDiscs = [null, null, null, null, null, null];
+let selectedDiscs = ["212005", "211006", "211005", null, null, null];
 let potLevels = {};
 let noteCounts = {};
 let potentialDesc = {};
