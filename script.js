@@ -1338,7 +1338,10 @@ function importPotentials() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const inp = document.getElementById('importInput');
-  if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') importPotentials(); });
+  if (inp) {
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') importPotentials(); });
+    inp.addEventListener('paste', () => { setTimeout(importPotentials, 0); });
+  }
   document.getElementById('copyOutputBtn')?.addEventListener('click', copyOutputText);
 });
 
