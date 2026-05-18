@@ -272,6 +272,24 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 .emblem-level-select:focus { border-color: #555; background: #2a2a2a; }
 
 
+/* Disc copies + output */
+.disc-and-output { display: flex; align-items: flex-start; gap: 16px; }
+.disc-copies-ctrl { display: flex; justify-content: center; }
+.disc-copy-val { width: 28px; height: 22px; font-size: 11px; font-weight: bold; }
+.disc-output-panel {
+  flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0;
+  align-self: stretch; height: 114px; padding-top: 16px;
+}
+.disc-output-text {
+  flex: 1;
+  background: #111; border: 1px solid #333; border-radius: 3px;
+  padding: 8px 12px; color: #888; font-size: 12px; font-family: inherit;
+  white-space: pre; overflow: auto; min-height: 60px;
+}
+.disc-output-btn {
+  height: 22px;
+}
+
 /* Notes */
 input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 input[type=number]::-webkit-inner-spin-button,
@@ -384,7 +402,10 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
       <span>Discs</span>
       <button class="import-btn clear-btn" onclick="clearDiscs()" title="Reset discs to defaults">Clear</button>
     </h2>
-    <div class="disc-row" id="discRow"><span class="loading">Loading discs…</span></div>
+    <div class="disc-and-output">
+      <div class="disc-row" id="discRow"><span class="loading">Loading discs…</span></div>
+      <div class="disc-output-panel" id="discOutputPanel"></div>
+    </div>
   </div>
 
   <div class="section" id="potSection" style="display:none">

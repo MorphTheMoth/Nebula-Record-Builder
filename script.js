@@ -6,6 +6,7 @@ let selectedChars = [null, null, null];
 let selectedDiscs = ["212005", "211006", "211005", null, null, null];
 let potLevels = {};
 let noteCounts = {};
+let discCopies = {};
 let playerId = '10001';
 
 function saveState() {
@@ -16,7 +17,8 @@ function saveState() {
     potLevels: Object.fromEntries(Object.entries(potLevels).map(([k, v]) => [k, v])),
     emblemStats: Object.fromEntries(Object.entries(emblemStats).map(([k, v]) => [k, v])),
     emblemStatGroups: Object.fromEntries(Object.entries(emblemStatGroups).map(([k, v]) => [k, v])),
-    noteCounts: Object.fromEntries(Object.entries(noteCounts).map(([k, v]) => [k, v]))
+    noteCounts: Object.fromEntries(Object.entries(noteCounts).map(([k, v]) => [k, v])),
+    discCopies: Object.fromEntries(Object.entries(discCopies).map(([k, v]) => [k, v]))
   };
   localStorage.setItem('nebulaBuildState', JSON.stringify(state));
 }
@@ -33,6 +35,7 @@ function loadState() {
     emblemStats = state.emblemStats || {};
     emblemStatGroups = state.emblemStatGroups || {};
     noteCounts = state.noteCounts || {};
+    discCopies = state.discCopies || {};
   } catch (e) {
     console.warn('Failed to load state:', e);
   }
@@ -329,6 +332,46 @@ function renderDiscs() {
     picker.appendChild(thumb);
     picker.appendChild(dd);
     slot.appendChild(picker);
+
+    // Copy controls under each disc slot
+    const id = selectedDiscs[i];
+    if (id) {
+      if (discCopies[id] === undefined) discCopies[id] = 1;
+      const controls = document.createElement('div');
+      controls.className = 'note-controls disc-copies-ctrl';
+
+      const btnMinus = document.createElement('button');
+      btnMinus.className = 'note-btn'; btnMinus.textContent = '−';
+
+      const val = document.createElement('span');
+      val.className = 'pot-val disc-copy-val';
+      val.id = `disc-copy-val-${i}`;
+      val.textContent = `c${discCopies[id]}`;
+
+      const btnPlus = document.createElement('button');
+      btnPlus.className = 'note-btn'; btnPlus.textContent = '+';
+
+      const update = (delta) => {
+        discCopies[id] = Math.min(6, Math.max(1, (discCopies[id] || 1) + delta));
+        val.textContent = `c${discCopies[id]}`;
+        updateDiscOutputText();
+        saveState();
+      };
+      btnMinus.onclick = () => update(-1);
+      btnPlus.onclick  = () => update(+1);
+
+      controls.appendChild(btnMinus);
+      controls.appendChild(val);
+      controls.appendChild(btnPlus);
+      slot.appendChild(controls);
+    } else {
+      // Empty placeholder to keep alignment consistent
+      const placeholder = document.createElement('div');
+      placeholder.className = 'disc-copies-ctrl';
+      placeholder.style.height = '22px';
+      slot.appendChild(placeholder);
+    }
+
     row.appendChild(slot);
   }
 }
@@ -484,8 +527,56 @@ function selectDisc(slotIdx, id) {
   selectedDiscs[slotIdx] = id;
   closeAllDiscDD();
   renderDiscs();
+  renderDiscOutput();
   updateNotes();
   generate();
+}
+
+// -------------------------------------------------- DISC OUTPUT -----------------------------------------
+function renderDiscOutput() {
+  const panel = document.getElementById('discOutputPanel');
+  if (!panel || panel.dataset.built) { updateDiscOutputText(); return; }
+  panel.dataset.built = '1';
+
+  const outEl = document.createElement('div');
+  outEl.className = 'disc-output-text';
+  outEl.id = 'discOutputText';
+  panel.appendChild(outEl);
+
+  const btnRow = document.createElement('div');
+  btnRow.className = 'emblem-output-btn-row';
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'emblem-output-btn disc-output-btn';
+  copyBtn.textContent = 'Copy';
+
+  const feedbackSpan = document.createElement('span');
+  feedbackSpan.className = 'emblem-feedback';
+  feedbackSpan.id = 'discCopyFeedback';
+
+  copyBtn.onclick = () => {
+    const txt = document.getElementById('discOutputText')?.textContent;
+    if (!txt || txt === '—') return;
+    navigator.clipboard.writeText(txt).then(() => {
+      const fb = document.getElementById('discCopyFeedback');
+      if (fb) { fb.textContent = 'copied'; setTimeout(() => { fb.textContent = ''; }, 1500); }
+    }).catch(() => {});
+  };
+
+  btnRow.appendChild(copyBtn);
+  btnRow.appendChild(feedbackSpan);
+  panel.appendChild(btnRow);
+
+  updateDiscOutputText();
+}
+
+function updateDiscOutputText() {
+  const outEl = document.getElementById('discOutputText');
+  if (!outEl) return;
+  const lines = selectedDiscs
+    .filter(id => id)
+    .map(id => `disc ${id} lv80 a8 c${(discCopies[id] || 1) - 1} @${playerId}`);
+  outEl.textContent = lines.length ? lines.join('\n')+'\n' : '—';
 }
 
 // -------------------------------------------------- POTENTIALS -----------------------------------------
@@ -1209,6 +1300,7 @@ function generate() {
 
   parts.push('@' + playerId);
   out.textContent = parts.join(' ');
+  updateDiscOutputText();
   saveState();
   out.style.color = '#6a8a6a';
 }
@@ -1405,7 +1497,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function clearDiscs() {
   selectedDiscs = ["212005", "211006", "211005", null, null, null];
+  discCopies = {};
   renderDiscs();
+  renderDiscOutput();
   updateNotes();
   saveState();
   generate();
@@ -1438,6 +1532,7 @@ function clearNotes() {
 function clearAll() {
   selectedChars = [null, null, null];
   selectedDiscs = ["212005", "211006", "211005", null, null, null];
+  discCopies = {};
   potLevels = {};
   emblemStats = {};
   emblemStatGroups = {};
@@ -1447,6 +1542,7 @@ function clearAll() {
   saveState();
   refreshCharBadges();
   renderDiscs();
+  renderDiscOutput();
   updateNotes();
   updatePotentials();
   generate();
@@ -1477,6 +1573,7 @@ async function init() {
     if (playerIdInput) playerIdInput.value = playerId;
     await renderChars();
     renderDiscs();
+    renderDiscOutput();
     updateNotes();
     refreshCharBadges();
     updatePotentials();
