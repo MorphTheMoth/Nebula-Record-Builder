@@ -422,7 +422,10 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
   <div class="section" id="notesSection" style="display:none">
     <h2 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <span>Notes</span>
-      <button class="import-btn clear-btn" onclick="clearNotes()" title="Reset all notes to 20">Clear</button>
+      <div>
+        <button class="import-btn clear-btn" onclick="clearNotes(0)" title="Reset all notes to 0">Clear</button>
+        <button class="import-btn clear-btn" onclick="clearNotes(20)" title="Reset all notes to 20">Default</button>
+      </div>
     </h2>
     <div class="notes-grid" id="notesGrid"></div>
   </div>

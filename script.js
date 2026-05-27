@@ -1195,7 +1195,7 @@ function getRelevantElements() {
   return elements;
 }
 
-function updateNotes() {
+function updateNotes(resetNotesCount = 20) {
   const sec = document.getElementById('notesSection');
   const grid = document.getElementById('notesGrid');
   sec.style.display = '';
@@ -1212,7 +1212,7 @@ function updateNotes() {
   });
 
   toShow.forEach(id => {
-    if (noteCounts[id] === undefined) noteCounts[id] = 20;
+    if (noteCounts[id] === undefined) noteCounts[id] = resetNotesCount;
     const item = document.createElement('div');
     item.className = 'note-item';
 
@@ -1522,10 +1522,10 @@ function clearEmblems(cId) {
   generate();
 }
 
-function clearNotes() {
+function clearNotes(resetNotesCount) {
   noteCounts = {};
   saveState();
-  updateNotes();
+  updateNotes(resetNotesCount);
   generate();
 }
 
