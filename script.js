@@ -1312,7 +1312,7 @@ function copyOutputText() {
   const txt = out.textContent;
   if (!txt || txt === '—') return;
   
-  navigator.clipboard.writeText(txt).then(() => {
+  navigator.clipboard.writeText(txt+'\n').then(() => {
     const statusSpan = document.getElementById('outputStatus');
     if (outputTimeout) clearTimeout(outputTimeout);
     statusSpan.textContent = 'Copied';
