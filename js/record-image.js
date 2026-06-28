@@ -1,3 +1,42 @@
+let currentThemeName = localStorage.getItem('nrb-theme') || 'dark';
+
+function populateThemeSelect() {
+  const sel = document.getElementById('themeSelect');
+  if (!sel) return;
+  sel.innerHTML = '';
+  for (const key of Object.keys(themes)) {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = themes[key].name;
+    sel.appendChild(opt);
+  }
+  sel.value = currentThemeName;
+}
+
+function setTheme(name) {
+  if (!themes[name]) return;
+  currentThemeName = name;
+  localStorage.setItem('nrb-theme', name);
+  const sel = document.getElementById('themeSelect');
+  if (sel) sel.value = name;
+  const overlay = document.getElementById('recordImageOverlay');
+  if (overlay && overlay.style.display !== 'none') {
+    renderRecordImage(packPotentials());
+  }
+}
+
+function prevTheme() {
+  const keys = Object.keys(themes);
+  const idx = keys.indexOf(currentThemeName);
+  setTheme(keys[(idx - 1 + keys.length) % keys.length]);
+}
+
+function nextTheme() {
+  const keys = Object.keys(themes);
+  const idx = keys.indexOf(currentThemeName);
+  setTheme(keys[(idx + 1) % keys.length]);
+}
+
 function hideRecordImage() {
   document.getElementById('recordImageOverlay').style.display = 'none';
   document.body.classList.remove('modal-open');
@@ -18,13 +57,8 @@ function renderRecordImage(b64) {
 
   const cfgMap = buildCfgMap(validIds.map(String));
 
-  const sectionColors = {
-    core: 'rgba(255,120,180,0.55)',
-    high: 'rgba(100,230,200,0.5)',
-    medium: 'rgba(200,200,80,0.5)',
-    low: 'rgba(240,200,120,0.55)',
-    optional: 'rgba(150,150,150,0.45)',
-  };
+  const theme = getTheme(currentThemeName);
+  const sectionColors = theme.groups;
   const groupKeys = ['core', 'high', 'medium', 'low', 'optional'];
 
   const RP = 6, NW = 20, IG = 4, GG = 20;
@@ -129,19 +163,19 @@ function renderRecordImage(b64) {
 
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" style="max-width:100%;height:auto;display:block;">
 <defs><clipPath id="c"><rect width="${PW}" height="${PH}" rx="4"/></clipPath></defs>
-<rect width="${svgW}" height="${svgH}" fill="#1a1a1a"/>`;
+<rect width="${svgW}" height="${svgH}" fill="${theme.svgBg}"/>`;
 
   for (const row of rows) {
     const ry = row.y + sp;
     for (const el of row.elements) {
       const ex = el.x + sp;
       if (el.t === 'portrait') {
-        svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${el.slot === 0 ? 'rgba(82, 75, 120, 0.45)' : 'rgba(90,90,120,0.4)'}"/>`;
+        svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${theme.portrait[el.slot === 0 ? 0 : 1]}"/>`;
         svg += `<g transform="translate(${ex+RP+NW+IG},${ry+RP})" clip-path="url(#c)"><image x="${SO}" y="${SO}" width="${SW}" height="${SH}" href="${esc(el.img)}" preserveAspectRatio="xMidYMid slice"/></g>`;
-        svg += `<foreignObject x="${ex+RP}" y="${ry+RP}" width="${NW}" height="${PH}"><div xmlns="http://www.w3.org/1999/xhtml" style="width:${NW}px;height:${PH}px;display:flex;justify-content:center;"><div style="writing-mode:vertical-rl;font-size:20px;font-weight:700;color:#fff;line-height:0.85;font-family:sans-serif;">${esc(el.name)}</div></div></foreignObject>`;
+        svg += `<foreignObject x="${ex+RP}" y="${ry+RP}" width="${NW}" height="${PH}"><div xmlns="http://www.w3.org/1999/xhtml" style="width:${NW}px;height:${PH}px;display:flex;justify-content:center;"><div style="writing-mode:vertical-rl;font-size:20px;font-weight:700;color:${theme.titleColor};line-height:0.85;font-family:sans-serif;">${esc(el.name)}</div></div></foreignObject>`;
       } else {
         svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${el.color}"/>`;
-        svg += `<foreignObject x="${ex+RP}" y="${ry+RP}" width="${NW}" height="${PH}"><div xmlns="http://www.w3.org/1999/xhtml" style="width:${NW}px;height:${PH}px;display:flex;justify-content:center;"><div style="writing-mode:vertical-rl;font-size:20px;font-weight:700;color:#fff;line-height:0.85;font-family:sans-serif;">${el.key.charAt(0).toUpperCase()+el.key.slice(1)}</div></div></foreignObject>`;
+        svg += `<foreignObject x="${ex+RP}" y="${ry+RP}" width="${NW}" height="${PH}"><div xmlns="http://www.w3.org/1999/xhtml" style="width:${NW}px;height:${PH}px;display:flex;justify-content:center;"><div style="writing-mode:vertical-rl;font-size:20px;font-weight:700;color:${theme.titleColor};line-height:0.85;font-family:sans-serif;">${el.key.charAt(0).toUpperCase()+el.key.slice(1)}</div></div></foreignObject>`;
         let ix = ex + RP + NW + IG;
         for (const p of el.items) {
           svg += `<g data-id="${p.id}" transform="translate(${ix},${ry+RP})" clip-path="url(#c)"><image x="0" y="0" width="${PW}" height="${PH}" href="${esc(BASE_ASSETS)}potential/${p.id}.webp" preserveAspectRatio="xMidYMid slice"/></g>`;
@@ -154,12 +188,13 @@ function renderRecordImage(b64) {
   }
 
   if (dividerY > 0) {
-    svg += `<line x1="${sp}" y1="${dividerY}" x2="${sp + maxRowW}" y2="${dividerY}" stroke="#333" stroke-width="${dividerH}" stroke-linecap="round"/>`;
+    svg += `<line x1="${sp}" y1="${dividerY}" x2="${sp + maxRowW}" y2="${dividerY}" stroke="${theme.dividerColor}" stroke-width="${dividerH}" stroke-linecap="round"/>`;
   }
 
   svg += `</svg>`;
 
   document.getElementById('recordImageContent').innerHTML = svg;
+  populateThemeSelect();
 
   let tt = document.querySelector('.pot-tooltip');
   if (!tt) {
@@ -308,6 +343,7 @@ function buildRecordUrl() {
   let url = base + '?record-png=' + b64;
   const prioStr = slotStrs.join('_');
   if (prioStr.replace(/-/g, '')) url += '&priorities=' + prioStr;
+  url += '&theme=' + currentThemeName;
   return url;
 }
 
@@ -325,6 +361,10 @@ function copyRecordLink() {
 
 function checkRecordImageParam() {
   const params = new URLSearchParams(window.location.search);
+  const themeParam = params.get('theme');
+  if (themeParam && themes[themeParam]) {
+    currentThemeName = themeParam;
+  }
   const preview = params.get('record-preview');
   const image = params.get('record-image');
   if (preview) {
