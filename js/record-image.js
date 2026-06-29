@@ -196,57 +196,7 @@ function renderRecordImage(b64) {
   document.getElementById('recordImageContent').innerHTML = svg;
   populateThemeSelect();
 
-  let tt = document.querySelector('.pot-tooltip');
-  if (!tt) {
-    tt = document.createElement('div');
-    tt.className = 'pot-tooltip';
-    tt.style.display = 'none';
-    document.body.appendChild(tt);
-  }
-  const svgEl = document.querySelector('#recordImageContent svg');
-  if (svgEl) {
-    svgEl.querySelectorAll('[data-id]').forEach(el => {
-      let moveHandler = null;
-      const pid = el.getAttribute('data-id');
-      el.addEventListener('mouseenter', e => {
-        const tooltip = document.querySelector('.pot-tooltip');
-        if (!tooltip) return;
-        let def = null;
-        for (const key of Object.keys(charJson)) {
-          const c = charJson[key];
-          if (!c?.potential) continue;
-          for (const pk of ['mainCore','mainNormal','supportCore','supportNormal','common']) {
-            const arr = c.potential[pk];
-            if (!Array.isArray(arr)) continue;
-            const found = arr.find(p => String(p.id) === pid);
-            if (found) { def = found; break; }
-          }
-          if (def) break;
-        }
-        const bigImg = document.createElement('img');
-        bigImg.src = BASE_ASSETS + `potential/${pid}.webp`;
-        const descDiv = document.createElement('div');
-        descDiv.className = 'desc';
-        let rawDesc = def ? formatPotentialDesc(pid, def.params) : 'No description available.';
-        if (!rawDesc || rawDesc === 'No description available.') rawDesc = 'No detailed description found.';
-        rawDesc = formatDescriptionWithColor(rawDesc);
-        descDiv.innerHTML = rawDesc;
-        tooltip.innerHTML = '';
-        tooltip.appendChild(bigImg);
-        tooltip.appendChild(descDiv);
-        tooltip.style.display = 'flex';
-        const updatePos = ev => { tooltip.style.left = (ev.clientX + 15) + 'px'; tooltip.style.top = (ev.clientY + 15) + 'px'; };
-        updatePos(e);
-        window.addEventListener('mousemove', updatePos);
-        moveHandler = updatePos;
-      });
-      el.addEventListener('mouseleave', () => {
-        const tooltip = document.querySelector('.pot-tooltip');
-        if (tooltip) tooltip.style.display = 'none';
-        if (moveHandler) { window.removeEventListener('mousemove', moveHandler); moveHandler = null; }
-      });
-    });
-  }
+  attachPotentialTooltips(document.querySelector('#recordImageContent svg'));
 
   document.getElementById('recordImageOverlay').style.display = 'block';
   document.body.classList.add('modal-open');
@@ -357,6 +307,131 @@ function copyRecordLink() {
     const btn = document.querySelector('#recordImageOverlay .record-preview-header button:nth-child(3)');
     if (btn) { const t = btn.textContent; btn.textContent = '✓ Copied! '; setTimeout(() => btn.textContent = t, 1500); }
   }).catch(() => alert('Failed to copy link.'));
+}
+
+function attachPotentialTooltips(container) {
+  let tt = document.querySelector('.pot-tooltip');
+  if (!tt) {
+    tt = document.createElement('div');
+    tt.className = 'pot-tooltip';
+    tt.style.display = 'none';
+    document.body.appendChild(tt);
+  }
+  if (!container) return;
+  container.querySelectorAll('[data-id]').forEach(el => {
+    let moveHandler = null;
+    const pid = el.getAttribute('data-id');
+    el.addEventListener('mouseenter', e => {
+      const tooltip = document.querySelector('.pot-tooltip');
+      if (!tooltip) return;
+      let def = null;
+      for (const key of Object.keys(charJson)) {
+        const c = charJson[key];
+        if (!c?.potential) continue;
+        for (const pk of ['mainCore','mainNormal','supportCore','supportNormal','common']) {
+          const arr = c.potential[pk];
+          if (!Array.isArray(arr)) continue;
+          const found = arr.find(p => String(p.id) === pid);
+          if (found) { def = found; break; }
+        }
+        if (def) break;
+      }
+      const bigImg = document.createElement('img');
+      bigImg.src = BASE_ASSETS + `potential/${pid}.webp`;
+      const descDiv = document.createElement('div');
+      descDiv.className = 'desc';
+      let rawDesc = def ? formatPotentialDesc(pid, def.params) : 'No description available.';
+      if (!rawDesc || rawDesc === 'No description available.') rawDesc = 'No detailed description found.';
+      rawDesc = formatDescriptionWithColor(rawDesc);
+      descDiv.innerHTML = rawDesc;
+      tooltip.innerHTML = '';
+      tooltip.appendChild(bigImg);
+      tooltip.appendChild(descDiv);
+      tooltip.style.display = 'flex';
+      const updatePos = ev => { tooltip.style.left = (ev.clientX + 15) + 'px'; tooltip.style.top = (ev.clientY + 15) + 'px'; };
+      updatePos(e);
+      window.addEventListener('mousemove', updatePos);
+      moveHandler = updatePos;
+    });
+    el.addEventListener('mouseleave', () => {
+      const tooltip = document.querySelector('.pot-tooltip');
+      if (tooltip) tooltip.style.display = 'none';
+      if (moveHandler) { window.removeEventListener('mousemove', moveHandler); moveHandler = null; }
+    });
+  });
+}
+
+function enablePngHover(pngImg) {
+  const svgEl = document.querySelector('#recordImageContent svg');
+  if (!svgEl || !pngImg) return;
+
+  const vb = svgEl.getAttribute('viewBox').split(' ').map(Number);
+  const svgW = vb[2], svgH = vb[3];
+  const PW = 120, PH = 153;
+
+  const pots = [];
+  svgEl.querySelectorAll('[data-id]').forEach(el => {
+    const pid = el.getAttribute('data-id');
+    const t = el.getAttribute('transform');
+    const m = t?.match(/translate\(([^,]+),([^)]+)\)/);
+    if (!m) return;
+    pots.push({ id: pid, x: parseFloat(m[1]), y: parseFloat(m[2]) });
+  });
+  if (!pots.length) return;
+
+  let currentPid = null;
+
+  pngImg.addEventListener('mousemove', e => {
+    const rect = pngImg.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (svgW / rect.width);
+    const my = (e.clientY - rect.top) * (svgH / rect.height);
+
+    const hit = pots.find(p => mx >= p.x && mx < p.x + PW && my >= p.y && my < p.y + PH);
+
+    const tooltip = document.querySelector('.pot-tooltip');
+    if (!tooltip) return;
+
+    if (hit) {
+      if (hit.id !== currentPid) {
+        currentPid = hit.id;
+        let def = null;
+        for (const key of Object.keys(charJson)) {
+          const c = charJson[key];
+          if (!c?.potential) continue;
+          for (const pk of ['mainCore','mainNormal','supportCore','supportNormal','common']) {
+            const arr = c.potential[pk];
+            if (!Array.isArray(arr)) continue;
+            const found = arr.find(p => String(p.id) === hit.id);
+            if (found) { def = found; break; }
+          }
+          if (def) break;
+        }
+        const bigImg = document.createElement('img');
+        bigImg.src = BASE_ASSETS + `potential/${hit.id}.webp`;
+        const descDiv = document.createElement('div');
+        descDiv.className = 'desc';
+        let rawDesc = def ? formatPotentialDesc(hit.id, def.params) : 'No description available.';
+        if (!rawDesc || rawDesc === 'No description available.') rawDesc = 'No detailed description found.';
+        rawDesc = formatDescriptionWithColor(rawDesc);
+        descDiv.innerHTML = rawDesc;
+        tooltip.innerHTML = '';
+        tooltip.appendChild(bigImg);
+        tooltip.appendChild(descDiv);
+        tooltip.style.display = 'flex';
+      }
+      tooltip.style.left = (e.clientX + 15) + 'px';
+      tooltip.style.top = (e.clientY + 15) + 'px';
+    } else if (currentPid) {
+      currentPid = null;
+      tooltip.style.display = 'none';
+    }
+  });
+
+  pngImg.addEventListener('mouseleave', () => {
+    currentPid = null;
+    const tooltip = document.querySelector('.pot-tooltip');
+    if (tooltip) tooltip.style.display = 'none';
+  });
 }
 
 function checkRecordImageParam() {

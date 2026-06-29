@@ -83,10 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function init() {
   try {
-    [charData, discData, charJson] = await Promise.all([
+    [charData, discData, charJson, potentialDesc] = await Promise.all([
       fetchJSON(BASE_RAW + 'characterid.json'),
       fetchJSON(BASE_RAW + 'disc.json'),
       fetchJSON(BASE_RAW + 'character.json'),
+      fetchJSON(BASE_RAW + 'EN/language/en_US/Potential.json')
+        .catch(e => { console.warn('Could not load potential descriptions', e); return {}; }),
     ]);
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -120,7 +122,15 @@ async function init() {
           const pngBlob = await svgToPngBlob(svgEl);
           const pngUrl = URL.createObjectURL(pngBlob);
           const cover = document.getElementById('preloadCover');
-          if (cover) cover.innerHTML = `<div style="position:fixed;top:0;left:0;right:0;height:36px;background:#1a1a1a;border-bottom:1px solid #333;display:flex;align-items:center;padding:0 16px;gap:8px;z-index:10;"><a href="${editUrl}" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;font-family:inherit;letter-spacing:1px;text-decoration:none;transition:background 0.1s;" onmouseover="this.style.background='#2e2e2e';this.style.color='#ccc'" onmouseout="this.style.background='#222';this.style.color='#aaa'">Edit</a><a href="${pngUrl}" download="record.png" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;font-family:inherit;letter-spacing:1px;text-decoration:none;transition:background 0.1s;" onmouseover="this.style.background='#2e2e2e';this.style.color='#ccc'" onmouseout="this.style.background='#222';this.style.color='#aaa'">Download</a></div><img src="${pngUrl}" style="display:block;margin:40px auto 0;max-width:100%;">`;
+          if (cover) cover.innerHTML = `<div style="position:fixed;top:0;left:0;right:0;height:36px;background:#1a1a1a;border-bottom:1px solid #333;display:flex;align-items:center;padding:0 16px;gap:8px;z-index:10;"><a href="${editUrl}" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;font-family:inherit;letter-spacing:1px;text-decoration:none;transition:background 0.1s;" onmouseover="this.style.background='#2e2e2e';this.style.color='#ccc'" onmouseout="this.style.background='#222';this.style.color='#aaa'">Edit</a><a href="${pngUrl}" download="record.png" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;font-family:inherit;letter-spacing:1px;text-decoration:none;transition:background 0.1s;" onmouseover="this.style.background='#2e2e2e';this.style.color='#ccc'" onmouseout="this.style.background='#222';this.style.color='#aaa'">Download</a></div><div style="position:relative;display:inline-flex;margin:40px auto 0;"><img id="recordPngImage" src="${pngUrl}" style="display:block;max-width:90vw;max-height:calc(100vh - 100px);"></div>`;
+          const pngImg = document.getElementById('recordPngImage');
+          if (pngImg) {
+            if (pngImg.complete) {
+              enablePngHover(pngImg);
+            } else {
+              pngImg.onload = () => enablePngHover(pngImg);
+            }
+          }
         } catch (e) {
           const cover = document.getElementById('preloadCover');
           if (cover) cover.innerHTML = '<p style="color:red">PNG generation failed</p>';
@@ -145,10 +155,6 @@ async function init() {
   } catch(e) {
     document.getElementById('charGrid').innerHTML = `<span class="err">Error loading data: ${e.message}</span>`;
   }
-  try {
-    const potLang = await fetchJSON(BASE_RAW + 'EN/language/en_US/Potential.json');
-    potentialDesc = potLang;
-  } catch(e) { console.warn('Could not load potential descriptions', e); }
   try {
     [emblemAttrData, itemData] = await Promise.all([
       fetchJSON(BASE_RAW + 'EN/bin/CharGemAttrValue.json'),
