@@ -400,6 +400,8 @@ body.modal-open { overflow:hidden; }
 .theme-select option { background:#1a1a1a; color:#ccc; }
 .theme-arrow { padding:6px 8px; line-height:1; }
 
+g[data-id].svg-drag-src { opacity:0.4; }
+
 </style>
 </head>
 
@@ -496,7 +498,8 @@ body.modal-open { overflow:hidden; }
         <button class="record-preview-close theme-arrow" onclick="nextTheme()" title="Next theme">▼</button>
         <button class="record-preview-close" onclick="downloadRecordSVG()">SVG</button>
         <button class="record-preview-close" onclick="openRecordPNG()">PNG</button>
-        <button class="record-preview-close" onclick="copyRecordLink()">Copy Link</button>
+        <button class="record-preview-close" id="copyRecordLinkBtn" onclick="copyRecordLink()">Copy Link</button>
+        <button class="record-preview-close" onclick="resetPotOrder()">Default Order</button>
         <button class="record-preview-close" onclick="hideRecordImage()">Close</button>
       </div>
     </div>

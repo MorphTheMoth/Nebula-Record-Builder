@@ -21,6 +21,7 @@ function clearDiscs() {
 
 function clearPotentials() {
   potLevels = {};
+  potOrder = {};
   saveState();
   updatePotentials();
   generate();
@@ -48,6 +49,7 @@ function clearAll() {
   selectedDiscs = ["212005", "211006", "211005", null, null, null];
   discCopies = {};
   potLevels = {};
+  potOrder = {};
   emblemStats = {};
   emblemStatGroups = {};
   emblemPotBonuses = {};
@@ -111,9 +113,14 @@ async function init() {
     }
 
     if (png) {
-      const editUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?record-preview=' + encodeURIComponent(png) + (prioStr ? '&priorities=' + encodeURIComponent(prioStr) : '');
+      const orderParam = urlParams.get('order');
+      let editUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?record-preview=' + encodeURIComponent(png) + (prioStr ? '&priorities=' + encodeURIComponent(prioStr) : '');
+      const themeParam = urlParams.get('theme');
+      if (themeParam) editUrl += '&theme=' + encodeURIComponent(themeParam);
+      if (orderParam) editUrl += '&order=' + encodeURIComponent(orderParam);
       document.getElementById('importInput').value = png;
       importPotentials();
+      if (orderParam) resolveOrderFromParam(orderParam);
       renderRecordImage(png);
       setTimeout(async () => {
         const svgEl = document.querySelector('#recordImageContent svg');

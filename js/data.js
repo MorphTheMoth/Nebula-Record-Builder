@@ -17,6 +17,7 @@ let emblemPotBonuses = {};
 let priorityMode = false;
 let priorityMap = {};
 let pendingPrios = [];
+let potOrder = {};
 let typeIdToSlot = {};
 let discImagesPreloaded = false;
 let activePotTab = 0;
@@ -75,7 +76,8 @@ function saveState() {
     playerId, selectedChars, selectedDiscs,
     potLevels: {...potLevels}, emblemStats: {...emblemStats},
     emblemStatGroups: {...emblemStatGroups}, noteCounts: {...noteCounts}, discCopies: {...discCopies},
-    priorityMap: {...priorityMap}, priorityMode
+    priorityMap: {...priorityMap}, priorityMode,
+    potOrder: JSON.parse(JSON.stringify(potOrder))
   };
   localStorage.setItem('nebulaBuildState', JSON.stringify(state));
 }
@@ -94,6 +96,7 @@ function loadState() {
     noteCounts = state.noteCounts || {};
     discCopies = state.discCopies || {};
     priorityMap = state.priorityMap || {};
+    potOrder = state.potOrder || {};
     if (state.priorityMode) priorityMode = true;
   } catch (e) { console.warn('Failed to load state:', e); }
 }
