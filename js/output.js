@@ -8,7 +8,18 @@ function updateBase64() {
   }
 }
 
+function cleanupPotOrder() {
+  for (const slot of Object.keys(potOrder)) {
+    for (const group of Object.keys(potOrder[slot])) {
+      potOrder[slot][group] = potOrder[slot][group].filter(id => (potLevels[+id] || 0) > 0);
+      if (!potOrder[slot][group].length) delete potOrder[slot][group];
+    }
+    if (!Object.keys(potOrder[slot]).length) delete potOrder[slot];
+  }
+}
+
 function generate() {
+  cleanupPotOrder();
   const out = document.getElementById('output');
   const chars = selectedChars.filter(c => c);
   updateBase64();

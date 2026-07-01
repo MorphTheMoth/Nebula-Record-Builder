@@ -459,7 +459,18 @@ function onSvgDragMove(e) {
   const arr = potOrder[slot][group];
   const fromIdx = arr.indexOf(draggedId);
   const toIdx = arr.indexOf(targetId);
-  if (fromIdx === -1 || toIdx === -1) return;
+  if (toIdx === -1) return;
+  if (fromIdx === -1) {
+    arr.push(draggedId);
+    const newFromIdx = arr.indexOf(draggedId);
+    arr.splice(newFromIdx, 1);
+    const newToIdx = arr.indexOf(targetId);
+    arr.splice(insertBefore ? newToIdx : newToIdx + 1, 0, draggedId);
+    renderRecordImage(packPotentials());
+    _svgDrag.el = document.querySelector(`g[data-id="${_svgDrag.id}"]`);
+    if (_svgDrag.el) { _svgDrag.el.classList.add('svg-drag-src'); _svgDrag.el.style.cursor = 'grabbing'; }
+    return;
+  }
 
   arr.splice(fromIdx, 1);
   const newToIdx = arr.indexOf(targetId);

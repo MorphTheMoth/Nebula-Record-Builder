@@ -1,3 +1,121 @@
+const SAVED_BUILDS_KEY = 'nrb-saved-builds';
+
+function saveBuild() {
+  const chars = selectedChars.filter(c => c);
+  if (!chars.length) { alert('Select at least one character first.'); return; }
+
+  let backdrop = document.querySelector('.save-build-backdrop');
+  if (backdrop) return;
+  backdrop = document.createElement('div');
+  backdrop.className = 'load-build-backdrop save-build-backdrop';
+  backdrop.onclick = e => { if (e.target === backdrop) backdrop.remove(); };
+  const defaultName = currentTitle || '';
+  backdrop.innerHTML = `<div class="save-build-modal" onclick="event.stopPropagation()">
+    <h2>Save Build</h2>
+    <div style="padding:16px 20px;">
+      <input type="text" id="saveBuildName" value="${escHtml(defaultName)}" placeholder="Build name..." style="width:100%;background:#111;border:1px solid #333;color:#ccc;padding:8px 10px;border-radius:3px;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box;">
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;">
+        <button class="save-build-cancel" style="background:#222;border:1px solid #444;color:#aaa;padding:6px 16px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;">Cancel</button>
+        <button class="save-build-confirm" style="background:#2a4a2a;border:1px solid #3a6a3a;color:#aca;padding:6px 16px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;">Save</button>
+      </div>
+    </div>
+  </div>`;
+  document.body.appendChild(backdrop);
+
+  const input = backdrop.querySelector('#saveBuildName');
+  input.focus();
+  input.select();
+
+  backdrop.querySelector('.save-build-cancel').onclick = () => backdrop.remove();
+  backdrop.querySelector('.save-build-confirm').onclick = () => {
+    const name = input.value.trim() || defaultName;
+    const builds = JSON.parse(localStorage.getItem(SAVED_BUILDS_KEY) || '[]');
+    const build = {
+      id: Date.now(),
+      title: name,
+      timestamp: Date.now(),
+      chars: [...selectedChars],
+      url: buildRecordUrl().replace('record-png=', 'record-preview='),
+      state: {
+        selectedDiscs: [...selectedDiscs],
+        discCopies: {...discCopies},
+        noteCounts: {...noteCounts},
+        emblemStats: {...emblemStats},
+        emblemStatGroups: {...emblemStatGroups}
+      }
+    };
+    builds.push(build);
+    localStorage.setItem(SAVED_BUILDS_KEY, JSON.stringify(builds));
+    backdrop.remove();
+  };
+}
+
+function showLoadBuildPopup() {
+  let backdrop = document.querySelector('.load-build-backdrop');
+  if (backdrop) return;
+  const builds = JSON.parse(localStorage.getItem(SAVED_BUILDS_KEY) || '[]');
+  backdrop = document.createElement('div');
+  backdrop.className = 'load-build-backdrop';
+  backdrop.onclick = e => { if (e.target === backdrop) backdrop.remove(); };
+  const modal = document.createElement('div');
+  modal.className = 'load-build-modal';
+  let html = '<h2>Saved Builds</h2>';
+  if (!builds.length) {
+    html += '<div class="load-build-empty">No saved builds yet.</div>';
+  } else {
+    const sorted = [...builds].sort((a, b) => {
+      const aName = (charJson[a.chars[0]]?.name || '').toLowerCase();
+      const bName = (charJson[b.chars[0]]?.name || '').toLowerCase();
+      if (aName < bName) return -1;
+      if (aName > bName) return 1;
+      return b.timestamp - a.timestamp;
+    });
+    for (const build of sorted) {
+      const icons = build.chars.filter(c => c).map(id =>
+        `<img src="${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${id}02_XXL.webp" alt="" loading="lazy">`
+      ).join('');
+      const time = new Date(build.timestamp).toLocaleString();
+      html += `<div class="load-build-entry" data-id="${build.id}">
+        <div class="load-build-entry-icons">${icons || '<span style="color:#555;font-size:11px;">—</span>'}</div>
+        <div class="load-build-entry-info">
+          <div class="load-build-entry-title">${escHtml(build.title)}</div>
+          <div class="load-build-entry-time">${escHtml(time)}</div>
+        </div>
+        <button class="load-build-entry-del" data-del="${build.id}" title="Delete">&times;</button>
+      </div>`;
+    }
+  }
+  modal.innerHTML = html;
+  backdrop.appendChild(modal);
+  document.body.appendChild(backdrop);
+
+  modal.querySelectorAll('.load-build-entry').forEach(el => {
+    el.addEventListener('click', e => {
+      if (e.target.closest('.load-build-entry-del')) return;
+      const id = Number(el.dataset.id);
+      const build = builds.find(b => b.id === id);
+      if (!build) return;
+      backdrop.remove();
+      sessionStorage.setItem('nrb-load-extras', JSON.stringify(build.state));
+      window.location.href = build.url;
+    });
+  });
+  modal.querySelectorAll('.load-build-entry-del').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const id = Number(btn.dataset.del);
+      const filtered = builds.filter(b => b.id !== id);
+      localStorage.setItem(SAVED_BUILDS_KEY, JSON.stringify(filtered));
+      backdrop.remove();
+      showLoadBuildPopup();
+    });
+  });
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 function preloadAllDiscImages() {
   if (discImagesPreloaded) return;
   const ids = Object.keys(discData);
@@ -198,6 +316,27 @@ async function init() {
   preloadAllDiscImages();
 
   checkRecordImageParam();
+
+  const extrasJson = sessionStorage.getItem('nrb-load-extras');
+  if (extrasJson) {
+    sessionStorage.removeItem('nrb-load-extras');
+    try {
+      const extras = JSON.parse(extrasJson);
+      if (extras.selectedDiscs) selectedDiscs = extras.selectedDiscs;
+      if (extras.discCopies) discCopies = extras.discCopies;
+      if (extras.noteCounts) noteCounts = extras.noteCounts;
+      if (extras.emblemStats) emblemStats = extras.emblemStats;
+      if (extras.emblemStatGroups) emblemStatGroups = extras.emblemStatGroups;
+      fillDiscList();
+      renderDiscOutput();
+      renderDiscs();
+      updateDiscOutputText();
+      updateNotes();
+      selectedChars.filter(c => c).forEach(cId => computeEmblemBonuses(cId));
+      updatePotentials();
+      generate();
+    } catch(e) { console.warn('Failed to restore extras:', e); }
+  }
 }
 
 init();

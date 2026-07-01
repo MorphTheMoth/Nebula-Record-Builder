@@ -406,6 +406,42 @@ body.modal-open { overflow:hidden; }
 .record-title-input:focus { border-color:#666; color:#ccc; }
 .record-title-input::placeholder { color:#555; }
 
+.load-build-backdrop {
+  position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);
+  display:flex;align-items:center;justify-content:center;z-index:1000;
+}
+.load-build-modal {
+  background:#1e1e1e;border:1px solid #333;border-radius:8px;
+  max-width:520px;width:90%;max-height:80vh;overflow-y:auto;padding:0;
+}
+.load-build-modal h2 {
+  margin:0;padding:16px 20px;color:#aaa;font-size:14px;font-weight:bold;
+  letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid #333;
+}
+.load-build-entry {
+  display:flex;align-items:center;gap:12px;padding:12px 20px;
+  cursor:pointer;transition:background 0.1s;border-bottom:1px solid #2a2a2a;
+}
+.load-build-entry:last-child { border-bottom:none; }
+.load-build-entry:hover { background:#2a2a2a; }
+.load-build-entry-icons { display:flex;gap:4px; }
+.load-build-entry-icons img { width:48px;height:48px;border-radius:4px; }
+.load-build-entry-info { flex:1;min-width:0; }
+.load-build-entry-title { color:#ccc;font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.load-build-entry-time { color:#666;font-size:11px;margin-top:2px; }
+.load-build-entry-del {
+  background:none;border:none;color:#555;cursor:pointer;font-size:24px;padding:8px;line-height:1;
+}
+.load-build-entry-del:hover { color:#c66; }
+.load-build-empty { padding:40px 20px;text-align:center;color:#555;font-size:13px; }
+.save-build-modal {
+  background:#1e1e1e;border:1px solid #333;border-radius:8px;width:340px;
+}
+.save-build-modal h2 {
+  margin:0;padding:16px 20px;color:#aaa;font-size:14px;font-weight:bold;
+  letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid #333;
+}
+
 g[data-id].svg-drag-src { opacity:0.4; }
 
 </style>
@@ -463,6 +499,8 @@ g[data-id].svg-drag-src { opacity:0.4; }
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
       <div class="pot-tabs" id="potTabs" style="margin-bottom:0"></div>
       <div style="display:flex;gap:6px;">
+        <button class="import-btn" onclick="saveBuild()">Save Build</button>
+        <button class="import-btn" onclick="showLoadBuildPopup()">Load Build</button>
         <button class="import-btn" id="priorityToggle" onclick="togglePriorityMode()">Edit Priorities</button>
         <button class="import-btn" onclick="renderRecordImage(packPotentials())" title="Open record preview">Preview Record</button>
         <button class="import-btn clear-btn" onclick="clearPotentials()" title="Reset all potentials and emblems">Clear</button>
