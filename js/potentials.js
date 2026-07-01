@@ -206,7 +206,7 @@ function updatePotentials() {
               if (priorityMap[p.id] === v) opt.selected = true;
               sel.appendChild(opt);
             });
-            sel.onchange = () => { priorityMap[p.id] = sel.value; };
+            sel.onchange = () => { priorityMap[p.id] = sel.value; saveState(); };
             controls.appendChild(sel);
           }
         } else {

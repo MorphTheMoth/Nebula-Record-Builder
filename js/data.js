@@ -74,7 +74,8 @@ function saveState() {
   const state = {
     playerId, selectedChars, selectedDiscs,
     potLevels: {...potLevels}, emblemStats: {...emblemStats},
-    emblemStatGroups: {...emblemStatGroups}, noteCounts: {...noteCounts}, discCopies: {...discCopies}
+    emblemStatGroups: {...emblemStatGroups}, noteCounts: {...noteCounts}, discCopies: {...discCopies},
+    priorityMap: {...priorityMap}, priorityMode
   };
   localStorage.setItem('nebulaBuildState', JSON.stringify(state));
 }
@@ -92,6 +93,8 @@ function loadState() {
     emblemStatGroups = state.emblemStatGroups || {};
     noteCounts = state.noteCounts || {};
     discCopies = state.discCopies || {};
+    priorityMap = state.priorityMap || {};
+    if (state.priorityMode) priorityMode = true;
   } catch (e) { console.warn('Failed to load state:', e); }
 }
 
