@@ -438,20 +438,57 @@ function onSvgDragMove(e) {
   if (!raw) return;
   const g = raw.closest('g[data-id]');
   if (!g) return;
-  if (g.getAttribute('data-slot') !== _svgDrag.slot || g.getAttribute('data-group') !== _svgDrag.group) return;
+  if (g.getAttribute('data-slot') !== _svgDrag.slot) return;
 
   const targetId = g.getAttribute('data-id');
+  const targetGroup = g.getAttribute('data-group');
   if (targetId === _svgDrag.id) return;
 
   const rect = g.getBoundingClientRect();
   const insertBefore = e.clientX < rect.left + rect.width / 2;
+
+  const slot = parseInt(_svgDrag.slot);
+  const sourceGroup = _svgDrag.group;
+  const draggedId = _svgDrag.id;
+
+  if (targetGroup !== sourceGroup) {
+    _lastStateKey = null;
+    priorityMap[draggedId] = targetGroup;
+
+    if (!potOrder[slot]) potOrder[slot] = {};
+    if (potOrder[slot][sourceGroup]) {
+      const idx = potOrder[slot][sourceGroup].indexOf(draggedId);
+      if (idx !== -1) potOrder[slot][sourceGroup].splice(idx, 1);
+    }
+    if (!potOrder[slot][targetGroup]) {
+      potOrder[slot][targetGroup] = getCurrentGroupOrder(slot, targetGroup);
+    }
+
+    const tgtArr = potOrder[slot][targetGroup];
+    const curIdx = tgtArr.indexOf(draggedId);
+    if (curIdx !== -1) tgtArr.splice(curIdx, 1);
+
+    const toIdx = tgtArr.indexOf(targetId);
+    if (toIdx !== -1) {
+      tgtArr.splice(insertBefore ? toIdx : toIdx + 1, 0, draggedId);
+    } else {
+      tgtArr.push(draggedId);
+    }
+
+    _svgDrag.group = targetGroup;
+    _svgDrag.slot = String(slot);
+    saveState();
+    renderRecordImage(packPotentials());
+    _svgDrag.el = document.querySelector(`g[data-id="${_svgDrag.id}"]`);
+    if (_svgDrag.el) { _svgDrag.el.classList.add('svg-drag-src'); _svgDrag.el.style.cursor = 'grabbing'; }
+    return;
+  }
+
   const stateKey = targetId + (insertBefore ? '<' : '>');
   if (stateKey === _lastStateKey) return;
   _lastStateKey = stateKey;
 
-  const slot = parseInt(_svgDrag.slot);
-  const group = _svgDrag.group;
-  const draggedId = _svgDrag.id;
+  const group = sourceGroup;
 
   if (!potOrder[slot]) potOrder[slot] = {};
   if (!potOrder[slot][group]) potOrder[slot][group] = getCurrentGroupOrder(slot, group);
