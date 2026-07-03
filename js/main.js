@@ -264,7 +264,7 @@ async function init() {
         .catch(e => { console.warn('Could not load potential descriptions', e); return {}; }),
     ]);
 
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search.replace(/\+/g, '%2B'));
     const png = urlParams.get('record-png');
     const prioStr = urlParams.get('priorities');
     if (prioStr) {

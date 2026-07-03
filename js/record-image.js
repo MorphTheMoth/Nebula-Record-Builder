@@ -698,7 +698,7 @@ function enablePngHover(pngImg) {
 }
 
 function checkRecordImageParam() {
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search.replace(/\+/g, '%2B'));
   const titleParam = params.get('title');
   if (titleParam) {
     currentTitle = titleParam;
