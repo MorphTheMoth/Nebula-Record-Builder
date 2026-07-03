@@ -4,11 +4,16 @@ let currentBuildId = null;
 
 function buildCurrentState() {
   return {
+    selectedChars: [...selectedChars],
     selectedDiscs: [...selectedDiscs],
     discCopies: {...discCopies},
     noteCounts: {...noteCounts},
     emblemStats: {...emblemStats},
-    emblemStatGroups: {...emblemStatGroups}
+    emblemStatGroups: {...emblemStatGroups},
+    potLevels: {...potLevels},
+    priorityMap: {...priorityMap},
+    priorityMode,
+    potOrder: JSON.parse(JSON.stringify(potOrder))
   };
 }
 
@@ -165,6 +170,25 @@ function showLoadBuildPopup() {
   });
 }
 
+function applyPendingPrios() {
+  if (!pendingPrios.length) return;
+  const chars = selectedChars.filter(c => c);
+  const cfgMap = buildCfgMap(chars);
+  chars.forEach((charId, slot) => {
+    const cfg = cfgMap[charId];
+    if (!cfg || !pendingPrios[slot]) return;
+    const allIds = [...(cfg.MasterSpecificPotentialIds||[]), ...(cfg.MasterNormalPotentialIds||[]),
+                     ...(cfg.AssistSpecificPotentialIds||[]), ...(cfg.AssistNormalPotentialIds||[]),
+                     ...(cfg.CommonPotentialIds||[])];
+    allIds.forEach(fullId => {
+      const shortId = String(fullId).slice(-2);
+      const prio = pendingPrios[slot][shortId];
+      if (prio) priorityMap[fullId] = prio;
+    });
+  });
+  pendingPrios = [];
+}
+
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -221,6 +245,8 @@ function clearAll() {
   discCopies = {};
   potLevels = {};
   potOrder = {};
+  priorityMap = {};
+  priorityMode = false;
   emblemStats = {};
   emblemStatGroups = {};
   emblemPotBonuses = {};
@@ -338,6 +364,7 @@ async function init() {
     updateNotes();
     refreshCharBadges();
     updatePotentials();
+    applyPendingPrios();
     generate();
   } catch(e) {
     document.getElementById('charGrid').innerHTML = `<span class="err">Error loading data: ${e.message}</span>`;
@@ -376,11 +403,16 @@ async function init() {
     sessionStorage.removeItem('nrb-load-extras');
     try {
       const extras = JSON.parse(extrasJson);
+      if (extras.selectedChars) selectedChars = extras.selectedChars;
       if (extras.selectedDiscs) selectedDiscs = extras.selectedDiscs;
       if (extras.discCopies) discCopies = extras.discCopies;
       if (extras.noteCounts) noteCounts = extras.noteCounts;
       if (extras.emblemStats) emblemStats = extras.emblemStats;
       if (extras.emblemStatGroups) emblemStatGroups = extras.emblemStatGroups;
+      if (extras.potLevels) potLevels = extras.potLevels;
+      if (extras.priorityMap) priorityMap = extras.priorityMap;
+      if (extras.priorityMode) priorityMode = true;
+      if (extras.potOrder) potOrder = extras.potOrder;
       fillDiscList();
       renderDiscOutput();
       renderDiscs();
@@ -388,6 +420,7 @@ async function init() {
       updateNotes();
       selectedChars.filter(c => c).forEach(cId => computeEmblemBonuses(cId));
       updatePotentials();
+      applyPendingPrios();
       generate();
       currentBuildId = extras.buildId || null;
       if (currentBuildId) localStorage.setItem(CURRENT_BUILD_KEY, currentBuildId);
