@@ -495,12 +495,15 @@ g[data-id].svg-drag-src { opacity:0.4; }
   <div class="section" id="potSection" style="display:none">
     <h2 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <span>Potentials</span>
+      <div style="display:flex;gap:6px;">
+        <button class="import-btn" onclick="saveBuildCurrent()">Save</button>
+        <button class="import-btn" onclick="saveBuildAs()">Save As</button>
+        <button class="import-btn" onclick="showLoadBuildPopup()">Load Build</button>
+      </div>
     </h2>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
       <div class="pot-tabs" id="potTabs" style="margin-bottom:0"></div>
       <div style="display:flex;gap:6px;">
-        <button class="import-btn" onclick="saveBuild()">Save Build</button>
-        <button class="import-btn" onclick="showLoadBuildPopup()">Load Build</button>
         <button class="import-btn" id="priorityToggle" onclick="togglePriorityMode()">Edit Priorities</button>
         <button class="import-btn" onclick="renderRecordImage(packPotentials())" title="Open record preview">Preview Record</button>
         <button class="import-btn clear-btn" onclick="clearPotentials()" title="Reset all potentials and emblems">Clear</button>

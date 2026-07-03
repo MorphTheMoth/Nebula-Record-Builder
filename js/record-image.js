@@ -728,4 +728,8 @@ function checkRecordImageParam() {
 
   const titleInput = document.getElementById('recordTitle');
   if (titleInput) titleInput.value = currentTitle;
+
+  if (preview || image) {
+    history.replaceState(null, '', window.location.pathname);
+  }
 }

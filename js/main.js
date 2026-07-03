@@ -1,15 +1,41 @@
 const SAVED_BUILDS_KEY = 'nrb-saved-builds';
+const CURRENT_BUILD_KEY = 'nrb-current-build-id';
+let currentBuildId = null;
 
-function saveBuild() {
-  const chars = selectedChars.filter(c => c);
-  if (!chars.length) { alert('Select at least one character first.'); return; }
+function buildCurrentState() {
+  return {
+    selectedDiscs: [...selectedDiscs],
+    discCopies: {...discCopies},
+    noteCounts: {...noteCounts},
+    emblemStats: {...emblemStats},
+    emblemStatGroups: {...emblemStatGroups}
+  };
+}
 
+function showToast(msg) {
+  const el = document.createElement('div');
+  el.textContent = msg;
+  Object.assign(el.style, {
+    position:'fixed', bottom:'24px', left:'50%', transform:'translateX(-50%)',
+    background:'#2a4a2a', border:'1px solid #3a6a3a', color:'#aca',
+    padding:'8px 20px', borderRadius:'4px', fontSize:'13px',
+    fontFamily:'inherit', zIndex:'10001', opacity:'0',
+    transition:'opacity 0.2s', pointerEvents:'none'
+  });
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.style.opacity = '1');
+  setTimeout(() => {
+    el.style.opacity = '0';
+    setTimeout(() => el.remove(), 200);
+  }, 1500);
+}
+
+function showSaveBuildModal(defaultName, onSave) {
   let backdrop = document.querySelector('.save-build-backdrop');
   if (backdrop) return;
   backdrop = document.createElement('div');
   backdrop.className = 'load-build-backdrop save-build-backdrop';
   backdrop.onclick = e => { if (e.target === backdrop) backdrop.remove(); };
-  const defaultName = currentTitle || '';
   backdrop.innerHTML = `<div class="save-build-modal" onclick="event.stopPropagation()">
     <h2>Save Build</h2>
     <div style="padding:16px 20px;">
@@ -29,6 +55,38 @@ function saveBuild() {
   backdrop.querySelector('.save-build-cancel').onclick = () => backdrop.remove();
   backdrop.querySelector('.save-build-confirm').onclick = () => {
     const name = input.value.trim() || defaultName;
+    backdrop.remove();
+    onSave(name);
+  };
+}
+
+function saveBuildCurrent() {
+  const chars = selectedChars.filter(c => c);
+  if (!chars.length) { alert('Select at least one character first.'); return; }
+
+  const loadedId = currentBuildId || Number(localStorage.getItem(CURRENT_BUILD_KEY));
+  const builds = JSON.parse(localStorage.getItem(SAVED_BUILDS_KEY) || '[]');
+  const existing = builds.find(b => b.id === loadedId);
+
+  if (!existing) {
+    saveBuildAs();
+    return;
+  }
+
+  existing.timestamp = Date.now();
+  existing.chars = [...selectedChars];
+  existing.url = buildRecordUrl().replace('record-png=', 'record-preview=');
+  existing.state = buildCurrentState();
+  localStorage.setItem(SAVED_BUILDS_KEY, JSON.stringify(builds));
+  showToast('Saved');
+}
+
+function saveBuildAs() {
+  const chars = selectedChars.filter(c => c);
+  if (!chars.length) { alert('Select at least one character first.'); return; }
+
+  const defaultName = currentTitle || '';
+  showSaveBuildModal(defaultName, (name) => {
     const builds = JSON.parse(localStorage.getItem(SAVED_BUILDS_KEY) || '[]');
     const build = {
       id: Date.now(),
@@ -36,18 +94,13 @@ function saveBuild() {
       timestamp: Date.now(),
       chars: [...selectedChars],
       url: buildRecordUrl().replace('record-png=', 'record-preview='),
-      state: {
-        selectedDiscs: [...selectedDiscs],
-        discCopies: {...discCopies},
-        noteCounts: {...noteCounts},
-        emblemStats: {...emblemStats},
-        emblemStatGroups: {...emblemStatGroups}
-      }
+      state: buildCurrentState()
     };
     builds.push(build);
     localStorage.setItem(SAVED_BUILDS_KEY, JSON.stringify(builds));
-    backdrop.remove();
-  };
+    currentBuildId = build.id;
+    localStorage.setItem(CURRENT_BUILD_KEY, currentBuildId);
+  });
 }
 
 function showLoadBuildPopup() {
@@ -96,7 +149,7 @@ function showLoadBuildPopup() {
       const build = builds.find(b => b.id === id);
       if (!build) return;
       backdrop.remove();
-      sessionStorage.setItem('nrb-load-extras', JSON.stringify(build.state));
+      sessionStorage.setItem('nrb-load-extras', JSON.stringify({...build.state, buildId: build.id}));
       window.location.href = build.url;
     });
   });
@@ -276,6 +329,7 @@ async function init() {
     if (cover) cover.remove();
 
     loadState();
+    currentBuildId = Number(localStorage.getItem(CURRENT_BUILD_KEY)) || null;
     const playerIdInput = document.getElementById('playerIdInput');
     if (playerIdInput) playerIdInput.value = playerId;
     await renderChars();
@@ -335,6 +389,8 @@ async function init() {
       selectedChars.filter(c => c).forEach(cId => computeEmblemBonuses(cId));
       updatePotentials();
       generate();
+      currentBuildId = extras.buildId || null;
+      if (currentBuildId) localStorage.setItem(CURRENT_BUILD_KEY, currentBuildId);
     } catch(e) { console.warn('Failed to restore extras:', e); }
   }
 }
