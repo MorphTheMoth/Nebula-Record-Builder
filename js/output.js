@@ -150,6 +150,73 @@ function buildCfgMap(charIds) {
   return map;
 }
 
+function packPotLevels(charIds) {
+  const bits = [];
+  const writeBits = (val, n) => { for (let i = n-1; i >= 0; i--) bits.push((val >>> i) & 1); };
+
+  writeBits(charIds.length, 8);
+  charIds.forEach(id => writeBits(+id >>> 0, 32));
+
+  const cfgMap = buildCfgMap(charIds);
+  charIds.forEach(id => {
+    const cfg = cfgMap[+id];
+    if (!cfg) return;
+    const specIds  = cfg.AssistSpecificPotentialIds || [];
+    const normIds  = cfg.AssistNormalPotentialIds   || [];
+    const commIds  = cfg.CommonPotentialIds         || [];
+
+    specIds.forEach(pid => writeBits(potLevels[pid] > 0 ? 1 : 0, 1));
+    normIds.forEach(pid => writeBits(Math.min(7, potLevels[pid] || 0), 3));
+    commIds.forEach(pid => writeBits(Math.min(7, potLevels[pid] || 0), 3));
+  });
+
+  const bytes = [];
+  for (let i = 0; i < bits.length; i += 8) {
+    let byte = 0;
+    for (let j = 0; j < 8; j++) byte = (byte << 1) | (bits[i+j] || 0);
+    bytes.push(byte & 0xFF);
+  }
+  return bytesToB64(new Uint8Array(bytes));
+}
+
+function unpackPotLevels(b64) {
+  const bytes = b64ToBytes(b64);
+  const bits = [];
+  for (const byte of bytes) for (let j = 7; j >= 0; j--) bits.push((byte >> j) & 1);
+
+  let idx = 0;
+  const readBits = n => {
+    let v = 0;
+    for (let i = n-1; i >= 0; i--) v += (bits[idx++] || 0) << i;
+    return v >>> 0;
+  };
+
+  const count = readBits(8);
+  const charIds = [];
+  for (let i = 0; i < count; i++) {
+    const id = readBits(32);
+    if (id !== 0 && !charJson[id]) throw new Error(`Unknown bonus character id ${id}`);
+    charIds.push(id);
+  }
+
+  const cfgMap = buildCfgMap(charIds.filter(id => id !== 0).map(String));
+  const potentials = {};
+
+  charIds.forEach(id => {
+    const cfg = cfgMap[id];
+    if (!cfg) return;
+    const specIds = cfg.AssistSpecificPotentialIds || [];
+    const normIds = cfg.AssistNormalPotentialIds   || [];
+    const commIds = cfg.CommonPotentialIds         || [];
+
+    specIds.forEach(pid => { const f = readBits(1); if (f) potentials[pid] = 1; });
+    normIds.forEach(pid => { const v = readBits(3); if (v) potentials[pid] = v; });
+    commIds.forEach(pid => { const v = readBits(3); if (v) potentials[pid] = v; });
+  });
+
+  return { charIds, potentials };
+}
+
 function packPotentials() {
   const top3 = selectedChars.filter(c => c).slice(0, 3);
   const chars = [

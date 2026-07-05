@@ -317,13 +317,15 @@ async function downloadRecordPNG() {
 
 function buildRecordUrl() {
   const b64 = packPotentials();
-  const chars = selectedChars.filter(c => c).slice(0, 3);
+  const allChars = selectedChars.filter(c => c);
+  const chars = allChars.slice(0, 3);
+  const extras = allChars.slice(3);
   const cfgMap = buildCfgMap(chars);
   const keys = ['core', 'high', 'medium', 'low', 'optional'];
   const slotStrs = [];
-  chars.forEach((cId, slot) => {
-    const cfg = cfgMap[cId];
-    if (!cfg) { slotStrs.push(''); return; }
+  const buildPrioSlot = (cId) => {
+    const cfg = buildCfgMap([cId])[+cId];
+    if (!cfg) return '';
     const allIds = [...(cfg.MasterSpecificPotentialIds||[]), ...(cfg.MasterNormalPotentialIds||[]),
                      ...(cfg.AssistSpecificPotentialIds||[]), ...(cfg.AssistNormalPotentialIds||[]),
                      ...(cfg.CommonPotentialIds||[])];
@@ -334,15 +336,20 @@ function buildRecordUrl() {
         (byPrio[priorityMap[fullId]] || (byPrio[priorityMap[fullId]] = [])).push(short);
       }
     });
-    const parts = keys.map(k => (byPrio[k] || []).join(','));
-    slotStrs.push(parts.join('-'));
-  });
+    return keys.map(k => (byPrio[k] || []).join(',')).join('-');
+  };
+  chars.forEach(cId => slotStrs.push(buildPrioSlot(cId)));
+  extras.forEach(cId => slotStrs.push(buildPrioSlot(cId)));
   const base = window.location.protocol + '//' + window.location.host + window.location.pathname;
   let url = base + '?record-png=' + encodeURIComponent(b64);
   const prioStr = slotStrs.join('_');
   if (prioStr.replace(/-/g, '')) url += '&priorities=' + encodeURIComponent(prioStr);
   if (currentTitle) url += '&title=' + encodeURIComponent(currentTitle);
   url += '&theme=' + encodeURIComponent(currentThemeName);
+
+  if (extras.length) {
+    url += '&bonus-data=' + encodeURIComponent(packPotLevels(extras));
+  }
 
   const groupKeys = ['core', 'high', 'medium', 'low', 'optional'];
   const orderParts = [];
@@ -707,6 +714,20 @@ function enablePngHover(pngImg) {
   });
 }
 
+function applyBonusUnitsData(b64) {
+  if (!b64) return;
+  try {
+    const { charIds, potentials } = unpackPotLevels(b64);
+    const validIds = charIds.filter(id => id !== 0).map(String).filter(id => charData[id]);
+    validIds.forEach(id => {
+      if (!selectedChars.includes(id)) selectedChars.push(id);
+    });
+    Object.entries(potentials).forEach(([pid, lvl]) => { potLevels[+pid] = lvl; });
+  } catch(e) {
+    console.warn('Failed to apply bonus units:', e.message);
+  }
+}
+
 function checkRecordImageParam() {
   const params = new URLSearchParams(window.location.search.replace(/\+/g, '%2B'));
   const titleParam = params.get('title');
@@ -722,17 +743,23 @@ function checkRecordImageParam() {
   const preview = params.get('record-preview');
   const png = params.get('record-png');
   const image = params.get('record-image') || png;
+  const bonusData = params.get('bonus-data');
   if (preview) {
     document.getElementById('importInput').value = preview;
     importPotentials();
     applyPendingPrios();
+    applyBonusUnitsData(bonusData);
     if (orderParam) resolveOrderFromParam(orderParam);
     renderRecordImage(preview);
+    generate();
+    refreshCharBadges();
+    updatePotentials();
   }
   if (image) {
     document.getElementById('importInput').value = image;
     importPotentials();
     applyPendingPrios();
+    applyBonusUnitsData(bonusData);
     if (orderParam) resolveOrderFromParam(orderParam);
     renderRecordImage(image);
     setTimeout(() => downloadRecordPNG(), 500);
@@ -741,7 +768,7 @@ function checkRecordImageParam() {
   const titleInput = document.getElementById('recordTitle');
   if (titleInput) titleInput.value = currentTitle;
 
-  if (preview || image) {
+  if (bonusData || preview || image) {
     history.replaceState(null, '', window.location.pathname);
   }
 }

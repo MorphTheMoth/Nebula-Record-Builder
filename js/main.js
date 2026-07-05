@@ -310,7 +310,8 @@ async function init() {
 
     if (png) {
       const orderParam = urlParams.get('order');
-      let editUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?record-preview=' + encodeURIComponent(png) + (prioStr ? '&priorities=' + encodeURIComponent(prioStr) : '');
+      const bonusData = urlParams.get('bonus-data');
+      let editUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?record-preview=' + encodeURIComponent(png) + (prioStr ? '&priorities=' + encodeURIComponent(prioStr) : '') + (bonusData ? '&bonus-data=' + encodeURIComponent(bonusData) : '');
       const themeParam = urlParams.get('theme');
       if (themeParam) editUrl += '&theme=' + encodeURIComponent(themeParam);
       if (orderParam) editUrl += '&order=' + encodeURIComponent(orderParam);
@@ -319,6 +320,7 @@ async function init() {
       document.getElementById('importInput').value = png;
       importPotentials();
       applyPendingPrios();
+      applyBonusUnitsData(bonusData);
       if (orderParam) resolveOrderFromParam(orderParam);
       renderRecordImage(png);
       setTimeout(async () => {
