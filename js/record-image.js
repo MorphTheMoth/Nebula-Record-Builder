@@ -160,7 +160,7 @@ function renderRecordImage(b64) {
     }
 
     const charImg = `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}02_XL.webp`;
-    const name = ch.name || '';
+    const name = charData[charId] || '';
 
     let x = 0;
     const elements = [];
