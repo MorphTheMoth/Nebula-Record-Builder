@@ -290,10 +290,10 @@ function buildRecordUrl() {
     slotStrs.push(parts.join('-'));
   });
   const base = window.location.protocol + '//' + window.location.host + window.location.pathname;
-  let url = base + '?record-png=' + b64;
+  let url = base + '?record-png=' + encodeURIComponent(b64);
   const prioStr = slotStrs.join('_');
-  if (prioStr.replace(/-/g, '')) url += '&priorities=' + prioStr;
-  url += '&theme=' + currentThemeName;
+  if (prioStr.replace(/-/g, '')) url += '&priorities=' + encodeURIComponent(prioStr);
+  url += '&theme=' + encodeURIComponent(currentThemeName);
   return url;
 }
 

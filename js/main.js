@@ -111,7 +111,7 @@ async function init() {
     }
 
     if (png) {
-      const editUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?record-preview=' + png + (prioStr ? '&priorities=' + prioStr : '');
+      const editUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?record-preview=' + encodeURIComponent(png) + (prioStr ? '&priorities=' + encodeURIComponent(prioStr) : '');
       document.getElementById('importInput').value = png;
       importPotentials();
       renderRecordImage(png);
