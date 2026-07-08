@@ -73,7 +73,7 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 }
 
 /* Discs */
-.disc-row { display: flex; gap: 10px; align-items: flex-start; }
+.disc-row { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
 .disc-slot { display: flex; flex-direction: column; gap: 4px; }
 .disc-slot-label { font-size: 9px; color: #555; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
 .disc-picker { position: relative; }
@@ -347,7 +347,7 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
 .err { color: #a66; font-size: 11px; }
 
 /* Import */
-.import-row { display: flex; gap: 8px; align-items: center; }
+.import-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .import-input {
   flex: 1; background: #111; border: 1px solid #333; border-radius: 3px;
   padding: 7px 10px; color: #ccc; font-size: 12px; font-family: inherit; outline: none;
@@ -444,6 +444,22 @@ body.modal-open { overflow:hidden; }
 
 g[data-id].svg-drag-src { opacity:0.4; }
 
+@media (max-width: 600px) {
+  .page { padding: 12px; }
+  .import-btn { padding: 6px 10px; font-size: 10px; }
+  .disc-thumb { width: 54px; height: 54px; }
+  .disc-and-output { flex-direction: column; }
+  .disc-output-panel { width: 100%; padding-top: 0; height: auto; }
+  .disc-output-text { min-height: 80px; }
+  .char-card { width: 72px; }
+  .char-grid { grid-template-columns: repeat(auto-fill, 72px); justify-content: start; gap: 6px; }
+  .emblem-container { grid-template-columns: repeat(2, 1fr); }
+  .note-item { padding: 4px 6px; }
+  .note-item img { width: 32px; height: 32px; }
+  .record-preview-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .record-preview-modal { padding: 16px; }
+}
+
 </style>
 </head>
 
@@ -452,7 +468,7 @@ g[data-id].svg-drag-src { opacity:0.4; }
 <div style="color:#555;font-size:13px;letter-spacing:1px;text-transform:uppercase;">Loading…</div>
 </div>
 <div class="page">
-  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 20px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 20px; flex-wrap: wrap; gap: 8px;">
     <h1 style="margin: 0;">Nebula Record Builder</h1>
     <div style="display: flex; align-items: center; gap: 8px;">
       <span style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px;">Player ID:</span>
@@ -495,15 +511,15 @@ g[data-id].svg-drag-src { opacity:0.4; }
   <div class="section" id="potSection" style="display:none">
     <h2 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <span>Potentials</span>
-      <div style="display:flex;gap:6px;">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
         <button class="import-btn" onclick="saveBuildCurrent()">Save</button>
         <button class="import-btn" onclick="saveBuildAs()">Save As</button>
         <button class="import-btn" onclick="showLoadBuildPopup()">Load Build</button>
       </div>
     </h2>
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
       <div class="pot-tabs" id="potTabs" style="margin-bottom:0"></div>
-      <div style="display:flex;gap:6px;">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
         <button class="import-btn" id="priorityToggle" onclick="togglePriorityMode()">Edit Priorities</button>
         <button class="import-btn" onclick="renderRecordImage(packPotentials())" title="Open record preview">Preview Record</button>
         <button class="import-btn" onclick="openRecordPNG()" title="Open full-screen PNG preview">PNG</button>
@@ -540,7 +556,7 @@ g[data-id].svg-drag-src { opacity:0.4; }
   <div class="record-preview-modal">
     <div class="record-preview-header">
       <h2 class="record-preview-title">Record Preview</h2>
-      <div style="display:flex;gap:6px;">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
         <input type="text" id="recordTitle" class="record-title-input" placeholder="Record title..." value="" oninput="setRecordTitle(this.value)" maxlength="60">
         <button class="record-preview-close theme-arrow" onclick="prevTheme()" title="Previous theme">▲</button>
         <select class="record-preview-close theme-select" id="themeSelect" onchange="setTheme(this.value)"></select>
