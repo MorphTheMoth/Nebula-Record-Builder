@@ -433,3 +433,16 @@ async function init() {
 }
 
 init();
+
+document.addEventListener('click', (e) => {
+  const tt = document.querySelector('.pot-tooltip');
+  if (!tt || tt.style.display === 'none') return;
+  if (!e.target.closest('.pot-item img, [data-id], #recordPngImage')) {
+    tt.style.display = 'none';
+  }
+});
+
+document.addEventListener('touchmove', () => {
+  const tt = document.querySelector('.pot-tooltip');
+  if (tt) tt.style.display = 'none';
+}, { passive: true });

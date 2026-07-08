@@ -589,6 +589,7 @@ function resolveOrderFromParam(orderStr) {
 }
 
 function attachPotentialTooltips(container) {
+  if (window.matchMedia('(max-width: 600px)').matches) return;
   let tt = document.querySelector('.pot-tooltip');
   if (!tt) {
     tt = document.createElement('div');
