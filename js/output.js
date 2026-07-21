@@ -102,7 +102,7 @@ function copyAllOutputs() {
 
   if (parts.length === 0) return;
 
-  const combined = parts.join('\r\n');
+  const combined = parts.join('\r\n').replace(/\r?\n/g, '\r\n');
   navigator.clipboard.writeText(combined).then(() => {
     const statusSpan = document.getElementById('outputStatus');
     if (outputTimeout) clearTimeout(outputTimeout);
