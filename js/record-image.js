@@ -268,16 +268,19 @@ function downloadRecordSVG() {
 async function svgToPngBlob(svgEl) {
   const clone = svgEl.cloneNode(true);
   const imgs = clone.querySelectorAll('image');
+  let hadFailure = false;
   await Promise.all(Array.from(imgs).map(async el => {
     const href = el.getAttribute('href');
     if (!href || href.startsWith('data:')) return;
     try {
       const resp = await fetch(href);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const blob = await resp.blob();
       const dataUrl = await new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); });
       el.setAttribute('href', dataUrl);
-    } catch (e) { console.warn('PNG embed failed:', href, e); }
+    } catch (e) { console.warn('PNG embed failed:', href, e); hadFailure = true; el.remove(); }
   }));
+  if (hadFailure) showToast('Some images failed to load');
   const svgData = new XMLSerializer().serializeToString(clone);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
