@@ -309,6 +309,11 @@ function renderDiscOutput() {
   const outEl = document.createElement('div');
   outEl.className = 'disc-output-text';
   outEl.id = 'discOutputText';
+  outEl.addEventListener('click', () => {
+    const txt = outEl.textContent;
+    if (!txt || txt === '—') return;
+    copyToClipboard(txt.replace(/\r?\n+$/, ''));
+  });
   panel.appendChild(outEl);
 
   const btnRow = document.createElement('div');
@@ -318,18 +323,13 @@ function renderDiscOutput() {
   copyBtn.className = 'emblem-output-btn disc-output-btn';
   copyBtn.textContent = 'Copy';
 
-  const feedbackSpan = document.createElement('span');
-  feedbackSpan.className = 'emblem-feedback';
-  feedbackSpan.id = 'discCopyFeedback';
-
   copyBtn.onclick = () => {
     const txt = document.getElementById('discOutputText')?.textContent;
     if (!txt || txt === '—') return;
-    copyToClipboard(txt, 'discCopyFeedback');
+    copyToClipboard(txt);
   };
 
   btnRow.appendChild(copyBtn);
-  btnRow.appendChild(feedbackSpan);
   panel.appendChild(btnRow);
 
   updateDiscOutputText();

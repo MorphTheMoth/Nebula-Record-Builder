@@ -100,10 +100,9 @@ function loadState() {
   } catch (e) { console.warn('Failed to load state:', e); }
 }
 
-function copyToClipboard(text, feedbackId, msg = 'copied') {
+function copyToClipboard(text) {
   navigator.clipboard.writeText(text.replace(/\r?\n/g, '\r\n')).then(() => {
-    const fb = document.getElementById(feedbackId);
-    if (fb) { fb.textContent = msg; setTimeout(() => { fb.textContent = ''; }, 1500); }
+    showToast('Copied');
   }).catch(() => {});
 }
 

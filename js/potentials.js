@@ -435,13 +435,14 @@ function updatePotentials() {
     emblemOutput.className = 'emblem-output';
     emblemOutput.id = `emblem-output-${cId}`;
     emblemOutput.textContent = '—';
+    emblemOutput.addEventListener('click', () => {
+      const txt = emblemOutput.textContent;
+      if (!txt || txt === '—') return;
+      copyToClipboard(txt.replace(/\r?\n+$/, ''));
+    });
 
     const btnRow = document.createElement('div');
     btnRow.className = 'emblem-output-btn-row';
-
-    const feedbackSpan = document.createElement('span');
-    feedbackSpan.className = 'emblem-feedback';
-    feedbackSpan.id = `emblem-feedback-${cId}`;
 
     const copyBtn = document.createElement('button');
     copyBtn.className = 'emblem-output-btn';
@@ -455,7 +456,6 @@ function updatePotentials() {
     copyAllBtn.onclick = () => copyAllEmblems(cId);
     btnRow.appendChild(copyAllBtn);
 
-    btnRow.appendChild(feedbackSpan);
     emblemOutputContainer.appendChild(emblemOutput);
     emblemOutputContainer.appendChild(btnRow);
     emblemContainer.appendChild(emblemOutputContainer);
@@ -583,7 +583,7 @@ function copyEmblemOutput(cId) {
   if (!outputEl) return;
   const txt = outputEl.textContent;
   if (!txt || txt === '—') return;
-  copyToClipboard(txt, `emblem-feedback-${cId}`);
+  copyToClipboard(txt);
 }
 
 function copyAllEmblems(clickedCharId) {
@@ -598,7 +598,9 @@ function copyAllEmblems(clickedCharId) {
 
   if (allLines.length === 0) return;
 
-  copyToClipboard(allLines.join('\r\n')+'\r\n', `emblem-feedback-${clickedCharId}`, 'copied all');
+  navigator.clipboard.writeText(allLines.join('\r\n')+'\r\n').then(() => {
+    showToast('All Copied');
+  }).catch(() => {});
 }
 
 function togglePriorityMode() {

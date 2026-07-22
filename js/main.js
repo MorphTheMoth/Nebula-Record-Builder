@@ -270,6 +270,23 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('copyOutputBtn')?.addEventListener('click', copyOutputText);
   document.getElementById('copyAllOutputBtn')?.addEventListener('click', copyAllOutputs);
 
+  document.getElementById('output')?.addEventListener('click', () => {
+    const out = document.getElementById('output');
+    const txt = out?.textContent;
+    if (!txt || txt === '—') return;
+    navigator.clipboard.writeText(txt.replace(/\r?\n/g, '\r\n')).then(() => {
+      showToast('Copied');
+    }).catch(() => {});
+  });
+
+  document.getElementById('importInput')?.addEventListener('click', () => {
+    const input = document.getElementById('importInput');
+    if (!input.value.trim()) return;
+    navigator.clipboard.writeText(input.value).then(() => {
+      showToast('Copied');
+    }).catch(() => {});
+  });
+
   const playerIdInput = document.getElementById('playerIdInput');
   if (playerIdInput) {
     playerIdInput.addEventListener('input', () => {
@@ -339,7 +356,7 @@ async function init() {
           const cover = document.getElementById('preloadCover');
           if (cover) cover.innerHTML = `<div id="pngToolbar" style="position:fixed;top:0;left:0;right:0;height:40px;background:#1a1a1a;border-bottom:1px solid #333;display:flex;align-items:center;padding:0 16px;gap:8px;z-index:10;">
   <input class="png-input" type="text" readonly value="${png.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}" style="width:260px;background:#111;border:1px solid #333;color:#aaa;padding:4px 8px;border-radius:3px;font-size:13px;font-family:monospace;outline:none;">
-  <button class="png-copy" onclick="var i=this.previousElementSibling;navigator.clipboard.writeText(i.value).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Code',1500)})" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;letter-spacing:1px;white-space:nowrap;">Copy Code</button>
+  <button class="png-copy" onclick="var i=this.previousElementSibling;navigator.clipboard.writeText(i.value).then(()=>{showToast('Copied')})" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;letter-spacing:1px;white-space:nowrap;">Copy Code</button>
   <a class="png-edit" href="${editUrl}" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;letter-spacing:1px;text-decoration:none;white-space:nowrap;transition:background 0.1s;" onmouseover="this.style.background='#2e2e2e';this.style.color='#ccc'" onmouseout="this.style.background='#222';this.style.color='#aaa'">Edit</a>
   <a class="png-download" href="${pngUrl}" download="record.png" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;letter-spacing:1px;text-decoration:none;white-space:nowrap;transition:background 0.1s;" onmouseover="this.style.background='#2e2e2e';this.style.color='#ccc'" onmouseout="this.style.background='#222';this.style.color='#aaa'">Download</a>
 </div>

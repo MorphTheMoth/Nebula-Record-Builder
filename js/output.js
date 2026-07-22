@@ -1,6 +1,3 @@
-let outputTimeout = null;
-let base64Timeout = null;
-
 function updateBase64() {
   const importInp = document.getElementById('importInput');
   if (importInp && document.activeElement !== importInp) {
@@ -69,14 +66,7 @@ function copyOutputText() {
   if (!txt || txt === '—') return;
 
   navigator.clipboard.writeText(txt.replace(/\r?\n/g, '\r\n') + '\r\n').then(() => {
-    const statusSpan = document.getElementById('outputStatus');
-    if (outputTimeout) clearTimeout(outputTimeout);
-    statusSpan.textContent = 'Copied';
-    statusSpan.style.color = '#6c6';
-    outputTimeout = setTimeout(() => {
-      statusSpan.textContent = '';
-      outputTimeout = null;
-    }, 1500);
+    showToast('Copied');
   }).catch(() => {});
 }
 
@@ -104,14 +94,7 @@ function copyAllOutputs() {
 
   const combined = parts.join('\r\n').replace(/\r?\n/g, '\r\n');
   navigator.clipboard.writeText(combined).then(() => {
-    const statusSpan = document.getElementById('outputStatus');
-    if (outputTimeout) clearTimeout(outputTimeout);
-    statusSpan.textContent = 'All Copied';
-    statusSpan.style.color = '#6c6';
-    outputTimeout = setTimeout(() => {
-      statusSpan.textContent = '';
-      outputTimeout = null;
-    }, 1500);
+    showToast('All Copied');
   }).catch(() => {});
 }
 
@@ -120,16 +103,7 @@ function copyBase64() {
   if (!input.value.trim()) return;
 
   navigator.clipboard.writeText(input.value).then(() => {
-    const statusSpan = document.getElementById('importStatus');
-    if (base64Timeout) clearTimeout(base64Timeout);
-    statusSpan.textContent = 'Copied';
-    statusSpan.style.color = '#6c6';
-    base64Timeout = setTimeout(() => {
-      if (statusSpan.textContent === 'Copied') {
-        statusSpan.textContent = '';
-      }
-      base64Timeout = null;
-    }, 1500);
+    showToast('Copied');
   }).catch(() => {});
 }
 

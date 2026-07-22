@@ -384,9 +384,8 @@ function openRecordPNG() {
 function copyRecordLink() {
   const url = buildRecordUrl();
   navigator.clipboard.writeText(url).then(() => {
-    const btn = document.getElementById('copyRecordLinkBtn');
-    if (btn) { const t = btn.textContent; btn.textContent = '✓ Copied!'; setTimeout(() => btn.textContent = t, 1500); }
-  }).catch(() => alert('Failed to copy link.'));
+    showToast('Copied');
+  }).catch(() => {});
 }
 
 function getPotPriority(potId, level) {
