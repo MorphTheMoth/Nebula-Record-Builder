@@ -1,6 +1,6 @@
 import json, urllib.request, os, re
 
-STRIP_HIDDEN = re.compile(r'\s*HiddenParam\d+:\s*&HiddenParam\d+&\s*(?:\([^)]*\))?\s*')
+STRIP_HIDDEN = re.compile(r'\s*(?:HiddenParam\d+:\s*&HiddenParam\d+&\s*(?:\([^)]*\))?|Param\d+:\s*&Param\d+&\s*\(OnceAdditionalAttribute[^)]*\))\s*')
 
 BASE_RAW = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/main/'
 OUT_DIR = 'data'
