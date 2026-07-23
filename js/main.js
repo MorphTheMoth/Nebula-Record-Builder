@@ -239,25 +239,12 @@ function clearNotes(resetNotesCount) {
   generate();
 }
 
-function clearAll() {
+function clearCharacters() {
   selectedChars = [];
-  selectedDiscs = ["212005", "211006", "211005", null, null, null];
-  discCopies = {};
-  potLevels = {};
-  potOrder = {};
-  priorityMap = {};
-  priorityMode = false;
-  emblemStats = {};
-  emblemStatGroups = {};
-  emblemPotBonuses = {};
-  noteCounts = {};
-  activePotTab = 0;
   saveState();
   refreshCharBadges();
-  renderDiscs();
-  renderDiscOutput();
-  updateNotes();
   updatePotentials();
+  updateNotes();
   generate();
 }
 
