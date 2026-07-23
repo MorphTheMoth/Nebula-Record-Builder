@@ -12,7 +12,9 @@ function buildCurrentState() {
     emblemStatGroups: {...emblemStatGroups},
     potLevels: {...potLevels},
     priorityMap: {...priorityMap},
-    potOrder: JSON.parse(JSON.stringify(potOrder))
+    potOrder: JSON.parse(JSON.stringify(potOrder)),
+    currentTitle: currentTitle,
+    currentThemeName: currentThemeName
   };
 }
 
@@ -153,8 +155,33 @@ function showLoadBuildPopup() {
       const build = builds.find(b => b.id === id);
       if (!build) return;
       backdrop.remove();
-      sessionStorage.setItem('nrb-load-extras', JSON.stringify({...build.state, buildId: build.id}));
-      window.location.href = build.url;
+      const extras = build.state;
+      if (extras.selectedChars) selectedChars = extras.selectedChars;
+      if (extras.selectedDiscs) selectedDiscs = extras.selectedDiscs;
+      if (extras.discCopies) discCopies = extras.discCopies;
+      if (extras.noteCounts) noteCounts = extras.noteCounts;
+      if (extras.emblemStats) emblemStats = extras.emblemStats;
+      if (extras.emblemStatGroups) emblemStatGroups = extras.emblemStatGroups;
+      if (extras.potLevels) potLevels = extras.potLevels;
+      if (extras.priorityMap) priorityMap = extras.priorityMap;
+      if (extras.potOrder) potOrder = extras.potOrder;
+      currentTitle = extras.currentTitle || '';
+      localStorage.setItem('nrb-title', currentTitle);
+      const titleInput = document.getElementById('recordTitle');
+      if (titleInput) titleInput.value = currentTitle;
+      currentThemeName = extras.currentThemeName || 'dark';
+      localStorage.setItem('nrb-theme', currentThemeName);
+      populateThemeSelect();
+      renderDiscOutput();
+      renderDiscs();
+      updateDiscOutputText();
+      updateNotes();
+      selectedChars.filter(c => c).forEach(cId => computeEmblemBonuses(cId));
+      updatePotentials();
+      generate();
+      currentBuildId = build.id;
+      if (currentBuildId) localStorage.setItem(CURRENT_BUILD_KEY, currentBuildId);
+      renderRecordImage(packPotentials());
     });
   });
   modal.querySelectorAll('.load-build-entry-del').forEach(btn => {
