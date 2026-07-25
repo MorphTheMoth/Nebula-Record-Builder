@@ -57,7 +57,8 @@ function hideRecordImage() {
   document.body.classList.remove('modal-open');
 }
 
-function renderRecordImage(b64) {
+function renderRecordImage(b64, options = {}) {
+  const returnSVG = !!options.returnSVG;
   let decoded;
   try {
     decoded = unpackPotentials(b64);
@@ -243,6 +244,8 @@ function renderRecordImage(b64) {
 
   svg += `</svg>`;
 
+  if (returnSVG) return svg;
+
   document.getElementById('recordImageContent').innerHTML = svg;
   populateThemeSelect();
 
@@ -254,7 +257,14 @@ function renderRecordImage(b64) {
   document.body.classList.add('modal-open');
 }
 
-async function svgToPngBlob(svgEl) {
+async function svgToPngBlob(svgSource) {
+  let svgEl;
+  if (typeof svgSource === 'string') {
+    svgEl = new DOMParser().parseFromString(svgSource, 'image/svg+xml').documentElement;
+  } else {
+    svgEl = svgSource;
+  }
+
   const clone = svgEl.cloneNode(true);
 
   const imgs = clone.querySelectorAll('image');
@@ -272,11 +282,11 @@ async function svgToPngBlob(svgEl) {
   }));
   if (hadFailure) showToast('Some images failed to load');
 
-  const svgData = new XMLSerializer().serializeToString(clone);
+  const inlinedSvgString = new XMLSerializer().serializeToString(clone);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   const img = new Image();
-  const blob = new Blob([svgData], { type: 'image/svg+xml' });
+  const blob = new Blob([inlinedSvgString], { type: 'image/svg+xml' });
   const url = URL.createObjectURL(blob);
   return new Promise((resolve, reject) => {
     img.onload = () => {
@@ -286,7 +296,7 @@ async function svgToPngBlob(svgEl) {
       ctx.scale(scale, scale);
       ctx.drawImage(img, 0, 0);
       URL.revokeObjectURL(url);
-      canvas.toBlob(pngBlob => resolve(pngBlob));
+      canvas.toBlob(pngBlob => resolve({ pngBlob, svgString: inlinedSvgString }));
     };
     img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('PNG conversion failed')); };
     img.src = url;
@@ -297,7 +307,7 @@ async function downloadRecordPNG() {
   const svgEl = document.querySelector('#recordImageContent svg');
   if (!svgEl) return;
   try {
-    const pngBlob = await svgToPngBlob(svgEl);
+    const { pngBlob } = await svgToPngBlob(svgEl);
     const pngUrl = URL.createObjectURL(pngBlob);
     const a = document.createElement('a');
     a.href = pngUrl;

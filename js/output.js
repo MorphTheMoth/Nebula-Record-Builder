@@ -259,27 +259,33 @@ function unpackPotentials(b64) {
   return { charIds, potentials: result };
 }
 
-function importPotentials() {
+function importPotentials(skipUI = false) {
   const raw = document.getElementById('importInput').value.trim();
   const status = document.getElementById('importStatus');
-  if (!raw) { status.textContent = ''; return; }
+  if (!raw) { if (status) status.textContent = ''; return; }
 
   try {
     const { charIds, potentials } = unpackPotentials(raw);
     const validIds = charIds.map(String).filter(id => id !== '0' && charData[id]);
     selectedChars = validIds;
     Object.entries(potentials).forEach(([pid, lvl]) => { potLevels[+pid] = lvl; });
-    refreshCharBadges();
-    updatePotentials();
-    updateNotes();
-    generate();
+    if (!skipUI) {
+      refreshCharBadges();
+      updatePotentials();
+      updateNotes();
+      generate();
 
-    const names = validIds.map(id => charData[id] || id).join(', ');
-    status.textContent = `✓ Imported: ${names}`;
-    status.className = 'import-status ok';
+      const names = validIds.map(id => charData[id] || id).join(', ');
+      if (status) {
+        status.textContent = `✓ Imported: ${names}`;
+        status.className = 'import-status ok';
+      }
+    }
   } catch(e) {
-    status.textContent = `✗ ${e.message}`;
-    status.className = 'import-status bad';
+    if (status) {
+      status.textContent = `✗ ${e.message}`;
+      status.className = 'import-status bad';
+    }
   }
 }
 
