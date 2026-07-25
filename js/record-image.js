@@ -1,5 +1,6 @@
 let currentThemeName = localStorage.getItem('nrb-theme') || 'dark';
 let currentTitle = localStorage.getItem('nrb-title') || '';
+let _lastRecordPngBlob = null;
 
 function setRecordTitle(value) {
   currentTitle = value;
@@ -59,6 +60,7 @@ function hideRecordImage() {
 
 function renderRecordImage(b64, options = {}) {
   const returnSVG = !!options.returnSVG;
+  _lastRecordPngBlob = null;
   let decoded;
   try {
     decoded = unpackPotentials(b64);
@@ -317,6 +319,22 @@ async function downloadRecordPNG() {
     document.body.removeChild(a);
     URL.revokeObjectURL(pngUrl);
   } catch (e) { alert('PNG export failed.'); }
+}
+
+async function copyRecordPNG() {
+  let blob = _lastRecordPngBlob;
+  if (!blob) {
+    const svgEl = document.querySelector('#recordImageContent svg');
+    if (!svgEl) return;
+    try {
+      const result = await svgToPngBlob(svgEl);
+      blob = result.pngBlob;
+    } catch (e) { showToast('Copy failed'); return; }
+  }
+  try {
+    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+    showToast('Copied');
+  } catch (e) { showToast('Copy failed'); }
 }
 
 function buildRecordUrl() {

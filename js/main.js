@@ -25,7 +25,7 @@ function showToast(msg) {
     position:'fixed', bottom:'24px', left:'50%', transform:'translateX(-50%)',
     background:'#2a4a2a', border:'1px solid #3a6a3a', color:'#aca',
     padding:'8px 20px', borderRadius:'4px', fontSize:'13px',
-    fontFamily:'inherit', zIndex:'10001', opacity:'0',
+    fontFamily:'inherit', zIndex:'100000', opacity:'0',
     transition:'opacity 0.2s', pointerEvents:'none'
   });
   document.body.appendChild(el);
@@ -362,13 +362,15 @@ async function init() {
       const svgString = renderRecordImage(png, { returnSVG: true });
       try {
         const { pngBlob, svgString: inlinedSvgString } = await svgToPngBlob(svgString);
+        _lastRecordPngBlob = pngBlob;
         const pngUrl = URL.createObjectURL(pngBlob);
         document.getElementById('recordImageContent').innerHTML = inlinedSvgString;
         const cover = document.getElementById('preloadCover');
         if (cover) cover.innerHTML = `<div id="pngToolbar" style="position:fixed;top:0;left:0;right:0;height:40px;background:#1a1a1a;border-bottom:1px solid #333;display:flex;align-items:center;padding:0 16px;gap:8px;z-index:10;">
   <input class="png-input" type="text" readonly value="${png.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}" style="width:260px;background:#111;border:1px solid #333;color:#aaa;padding:4px 8px;border-radius:3px;font-size:13px;font-family:monospace;outline:none;">
-  <button class="png-copy" onclick="var i=this.previousElementSibling;navigator.clipboard.writeText(i.value).then(()=>{showToast('Copied')})" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;letter-spacing:1px;white-space:nowrap;">Copy Code</button>
+  <button class="png-copy" onclick="var i=this.previousElementSibling;navigator.clipboard.writeText(i.value).then(()=>{showToast('Copied')}).catch(()=>{showToast('Copy failed')})" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;letter-spacing:1px;white-space:nowrap;transition:background 0.1s;" onmouseover="this.style.background='#2e2e2e';this.style.color='#ccc'" onmouseout="this.style.background='#222';this.style.color='#aaa'">Copy Code</button>
   <a class="png-edit" href="${editUrl}" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;letter-spacing:1px;text-decoration:none;white-space:nowrap;transition:background 0.1s;" onmouseover="this.style.background='#2e2e2e';this.style.color='#ccc'" onmouseout="this.style.background='#222';this.style.color='#aaa'">Edit</a>
+  <button class="png-copy" onclick="copyRecordPNG()" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;letter-spacing:1px;white-space:nowrap;transition:background 0.1s;" onmouseover="this.style.background='#2e2e2e';this.style.color='#ccc'" onmouseout="this.style.background='#222';this.style.color='#aaa'">Copy PNG</button>
   <a class="png-download" href="${pngUrl}" download="record.png" style="background:#222;border:1px solid #444;color:#aaa;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;letter-spacing:1px;text-decoration:none;white-space:nowrap;transition:background 0.1s;" onmouseover="this.style.background='#2e2e2e';this.style.color='#ccc'" onmouseout="this.style.background='#222';this.style.color='#aaa'">Download</a>
 </div>
 <div id="pngImageWrap" style="position:relative;display:inline-flex;margin:48px auto 0;"><img id="recordPngImage" src="${pngUrl}" style="display:block;max-width:90vw;max-height:calc(100vh - 100px);"></div>`;
