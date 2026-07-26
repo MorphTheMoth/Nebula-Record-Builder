@@ -293,14 +293,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(() => {});
   });
 
-  document.getElementById('importInput')?.addEventListener('click', () => {
-    const input = document.getElementById('importInput');
-    if (!input.value.trim()) return;
-    navigator.clipboard.writeText(input.value).then(() => {
-      showToast('Copied');
-    }).catch(() => {});
-  });
-
   const playerIdInput = document.getElementById('playerIdInput');
   if (playerIdInput) {
     playerIdInput.addEventListener('input', () => {
