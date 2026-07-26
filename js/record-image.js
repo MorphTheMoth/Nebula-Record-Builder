@@ -638,17 +638,22 @@ function attachPotentialTooltips(container) {
         }
         if (def) break;
       }
-      const bigImg = document.createElement('img');
+      let bigImg = tooltip.querySelector('img');
+      if (!bigImg) {
+        bigImg = document.createElement('img');
+        tooltip.insertBefore(bigImg, tooltip.firstChild);
+      }
       bigImg.src = BASE_ASSETS + `potential/${pid}.webp`;
-      const descDiv = document.createElement('div');
-      descDiv.className = 'desc';
+      let descDiv = tooltip.querySelector('.desc');
+      if (!descDiv) {
+        descDiv = document.createElement('div');
+        descDiv.className = 'desc';
+        tooltip.appendChild(descDiv);
+      }
       let rawDesc = def ? formatPotentialDesc(pid, def.params) : 'No description available.';
       if (!rawDesc || rawDesc === 'No description available.') rawDesc = 'No detailed description found.';
       rawDesc = formatDescriptionWithColor(rawDesc);
       descDiv.innerHTML = rawDesc;
-      tooltip.innerHTML = '';
-      tooltip.appendChild(bigImg);
-      tooltip.appendChild(descDiv);
       tooltip.style.display = 'flex';
       const updatePos = ev => { tooltip.style.left = (ev.clientX + 15) + 'px'; tooltip.style.top = (ev.clientY + 15) + 'px'; };
       updatePos(e);
@@ -716,17 +721,23 @@ function enablePngHover(pngImg) {
           }
           if (def) break;
         }
-        const bigImg = document.createElement('img');
-        bigImg.src = BASE_ASSETS + `potential/${hit.id}.webp`;
-        const descDiv = document.createElement('div');
-        descDiv.className = 'desc';
+        let bigImg = tooltip.querySelector('img');
+        if (!bigImg) {
+          bigImg = document.createElement('img');
+          tooltip.insertBefore(bigImg, tooltip.firstChild);
+        }
+        const imgEl = svgEl.querySelector(`g[data-id="${hit.id}"] image`);
+        bigImg.src = imgEl ? imgEl.getAttribute('href') : BASE_ASSETS + `potential/${hit.id}.webp`;
+        let descDiv = tooltip.querySelector('.desc');
+        if (!descDiv) {
+          descDiv = document.createElement('div');
+          descDiv.className = 'desc';
+          tooltip.appendChild(descDiv);
+        }
         let rawDesc = def ? formatPotentialDesc(hit.id, def.params) : 'No description available.';
         if (!rawDesc || rawDesc === 'No description available.') rawDesc = 'No detailed description found.';
         rawDesc = formatDescriptionWithColor(rawDesc);
         descDiv.innerHTML = rawDesc;
-        tooltip.innerHTML = '';
-        tooltip.appendChild(bigImg);
-        tooltip.appendChild(descDiv);
         tooltip.style.display = 'flex';
       }
       tooltip.style.left = (e.clientX + 15) + 'px';
