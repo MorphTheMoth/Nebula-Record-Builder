@@ -667,6 +667,14 @@ function enablePngHover(pngImg) {
   const svgEl = document.querySelector('#recordImageContent svg');
   if (!svgEl || !pngImg) return;
 
+  let tt = document.querySelector('.pot-tooltip');
+  if (!tt) {
+    tt = document.createElement('div');
+    tt.className = 'pot-tooltip';
+    tt.style.display = 'none';
+    document.body.appendChild(tt);
+  }
+
   const vb = svgEl.getAttribute('viewBox').split(' ').map(Number);
   const svgW = vb[2], svgH = vb[3];
   const PW = 120, PH = 153;
