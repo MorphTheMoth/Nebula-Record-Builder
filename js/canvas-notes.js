@@ -555,7 +555,7 @@ function closeAddNoteMenu() {
   if (menu) menu.remove();
 }
 
-function openDiscPickerForNote(noteId, anchorEl) {
+function openDiscPickerForNote(noteId, anchorEl, clickPos) {
   closeDiscPicker();
   const note = getCanvasNote(noteId);
   if (!note) return;
@@ -661,14 +661,24 @@ function openDiscPickerForNote(noteId, anchorEl) {
   menu.appendChild(body);
 
   document.body.appendChild(menu);
-  const r = (anchorEl && anchorEl.getBoundingClientRect) ? anchorEl.getBoundingClientRect() : { left: window.innerWidth/2, right: window.innerWidth/2, top: window.innerHeight/2, bottom: window.innerHeight/2 };
   const menuRect = menu.getBoundingClientRect();
   const margin = 8;
-  let left = r.left + r.width/2 - menuRect.width/2;
-  left = Math.max(margin, Math.min(window.innerWidth - menuRect.width - margin, left));
-  let top = r.bottom + 4;
-  if (top + menuRect.height > window.innerHeight - margin) {
-    top = Math.max(margin, r.top - menuRect.height - 4);
+  let left, top;
+  if (clickPos) {
+    left = clickPos.clientX - menuRect.width / 2;
+    top = clickPos.clientY + 4;
+    if (top + menuRect.height > window.innerHeight - margin) {
+      top = Math.max(margin, clickPos.clientY - menuRect.height - 4);
+    }
+    left = Math.max(margin, Math.min(window.innerWidth - menuRect.width - margin, left));
+  } else {
+    const r = (anchorEl && anchorEl.getBoundingClientRect) ? anchorEl.getBoundingClientRect() : { left: window.innerWidth/2, right: window.innerWidth/2, top: window.innerHeight/2, bottom: window.innerHeight/2 };
+    left = r.left + r.width/2 - menuRect.width/2;
+    left = Math.max(margin, Math.min(window.innerWidth - menuRect.width - margin, left));
+    top = r.bottom + 4;
+    if (top + menuRect.height > window.innerHeight - margin) {
+      top = Math.max(margin, r.top - menuRect.height - 4);
+    }
   }
   menu.style.position = 'fixed';
   menu.style.left = left + 'px';
@@ -817,8 +827,9 @@ function _wireNoteToolbar(bar, note) {
       const act = btn.getAttribute('data-act');
       if (act === 'edit') startTextEditInPlace(note.id);
       else if (act === 'pick-disc') {
+        const clickPos = { clientX: e.clientX, clientY: e.clientY };
         closeNoteToolbar();
-        openDiscPickerForNote(note.id, btn);
+        openDiscPickerForNote(note.id, btn, clickPos);
       } else if (act === 'del') {
         closeNoteToolbar();
         removeCanvasNote(note.id);
