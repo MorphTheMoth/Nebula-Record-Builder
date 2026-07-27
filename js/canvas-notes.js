@@ -8,6 +8,11 @@ const CANVAS_NOTE_TYPES = {
     label: 'Disc Img',
     icon: 'D',
     defaults: { fontSize: 18, text: '', discId: null, imgSize: 80 }
+  },
+  chain: {
+    label: 'Chain',
+    icon: 'C',
+    defaults: { fontSize: 18, text: '', targetId: null, length: 80 }
   }
 };
 
@@ -33,6 +38,49 @@ function _defaultDiscId() {
   return ids[0] || null;
 }
 
+function _firstPotId() {
+  const svg = document.querySelector('#recordImageContent svg');
+  if (!svg) return null;
+  const g = svg.querySelector('g[data-id]');
+  return g ? g.getAttribute('data-id') : null;
+}
+
+function _potIdAtPoint(svgEl, clientX, clientY) {
+  if (!svgEl) return null;
+  const PW = 120, PH = 153;
+  const rect = svgEl.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return null;
+  const vb = svgEl.getAttribute('viewBox').split(' ').map(Number);
+  const svgW = vb[2], svgH = vb[3];
+  if (!svgW || !svgH) return null;
+  const mx = ((clientX - rect.left) / rect.width) * svgW;
+  const my = ((clientY - rect.top) / rect.height) * svgH;
+  const pots = [];
+  svgEl.querySelectorAll('g[data-id]').forEach(g => {
+    const t = g.getAttribute('transform');
+    const m = t && t.match(/translate\(([^,]+),([^)]+)\)/);
+    if (!m) return;
+    pots.push({ id: g.getAttribute('data-id'), x: parseFloat(m[1]), y: parseFloat(m[2]) });
+  });
+  const hit = pots.find(p => mx >= p.x && mx < p.x + PW && my >= p.y && my < p.y + PH);
+  return hit ? hit.id : null;
+}
+
+function _chainAnchorInfo(svgEl, targetId) {
+  if (!svgEl || !targetId) return null;
+  const PW = 120, PH = 153;
+  const targetG = svgEl.querySelector(`g[data-id="${CSS.escape(String(targetId))}"]`);
+  if (!targetG) return null;
+  const t = targetG.getAttribute('transform');
+  const m = t && t.match(/translate\(([^,]+),([^)]+)\)/);
+  if (!m) return null;
+  const tx = parseFloat(m[1]);
+  const ty = parseFloat(m[2]);
+  const cx = tx + PW / 2;
+  const cy = ty + PH / 2;
+  return { cx: cx + 61, cy: cy + 35 };
+}
+
 function getCanvasNote(id) {
   return canvasNotes.find(n => n.id === id);
 }
@@ -48,7 +96,9 @@ function addCanvasNote(type, xPct, yPct) {
     fontSize: def.fontSize,
     text: def.text,
     discId: type === 'discImg' && !def.discId ? (_defaultDiscId() ?? null) : (def.discId ?? null),
-    imgSize: def.imgSize ?? 80
+    imgSize: def.imgSize ?? 80,
+    targetId: type === 'chain' ? (def.targetId ?? _firstPotId() ?? null) : null,
+    length: def.length ?? 80
   };
   canvasNotes.push(note);
   saveState();
@@ -80,6 +130,8 @@ const _RARITY_GRADIENTS = {
   5: ['#dd88ee', '#77ffff']
 };
 const _DISC_BADGE_BASE = 'data/disc badges/';
+const _CHAIN_HREF = 'data/chain.webp';
+const _CHAIN_SRC_W = 6, _CHAIN_SRC_H = 28;
 
 function _renderNoteSvg(note, svgW, svgH) {
   const fs = note.fontSize || 18;
@@ -142,6 +194,16 @@ function _renderNoteSvg(note, svgW, svgH) {
     }
     return { w: size, h: size, inner };
   }
+  if (note.type === 'chain') {
+    const length = note.length || 80;
+    const visualLen = length;
+    const visualW = visualLen * (_CHAIN_SRC_W / _CHAIN_SRC_H);
+    const w = visualW, h = visualLen;
+    return {
+      w: visualLen, h: visualW,
+      inner: `<g transform="rotate(-90)" opacity="0.75" style="image-rendering:pixelated;shape-rendering:crispEdges"><image x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" href="${_escAttr(_CHAIN_HREF)}" preserveAspectRatio="none" style="image-rendering:pixelated"/></g>`
+    };
+  }
   return null;
 }
 
@@ -156,12 +218,38 @@ function renderCanvasNotes(svgEl) {
   const svgW = vb[2], svgH = vb[3];
   if (!svgW || !svgH) return;
 
+  const PW = 120, PH = 153;
+  const chainById = new Map();
+  const orphanedChainIds = [];
+  for (const note of canvasNotes) {
+    if (note.type !== 'chain') continue;
+    if (!note.targetId) continue;
+    const info = _chainAnchorInfo(svgEl, note.targetId);
+    if (!info) {
+      orphanedChainIds.push(note.id);
+      continue;
+    }
+    chainById.set(note.id, { note, cx: info.cx, cy: info.cy });
+  }
+  if (orphanedChainIds.length) {
+    canvasNotes = canvasNotes.filter(n => !orphanedChainIds.includes(n.id));
+    if (typeof saveState === 'function') saveState();
+  }
+
   const NS = 'http://www.w3.org/2000/svg';
   for (const note of canvasNotes) {
     const r = _renderNoteSvg(note, svgW, svgH);
     if (!r) continue;
-    const x = (note.x / 100) * svgW;
-    const y = (note.y / 100) * svgH;
+    let x, y;
+    if (note.type === 'chain') {
+      const info = chainById.get(note.id);
+      if (!info) continue;
+      x = info.cx;
+      y = info.cy;
+    } else {
+      x = (note.x / 100) * svgW;
+      y = (note.y / 100) * svgH;
+    }
     const g = document.createElementNS(NS, 'g');
     g.setAttribute('data-note-id', note.id);
     g.setAttribute('class', 'canvas-note');
@@ -194,14 +282,43 @@ function renderCanvasNotes(svgEl) {
   attachCanvasNoteEvents(svgEl);
 }
 
-function buildNotesSvgString(svgW, svgH) {
+function buildNotesSvgString(svgW, svgH, potPositions) {
   if (!canvasNotes.length) return '';
+  const PW = 120, PH = 153;
+  const svgEl = document.querySelector('#recordImageContent svg');
+  const chainCenters = new Map();
+  for (const note of canvasNotes) {
+    if (note.type !== 'chain') continue;
+    if (!note.targetId) continue;
+    let info = null;
+    if (svgEl) {
+      info = _chainAnchorInfo(svgEl, note.targetId);
+    }
+    if (!info && Array.isArray(potPositions)) {
+      const PW_ = PW, PH_ = PH;
+      const anchor = potPositions.find(p => p.id === String(note.targetId));
+      if (anchor) {
+        const ax = anchor.x + PW_ / 2;
+        const ay = anchor.y + PH_ / 2;
+        info = { cx: ax + 61, cy: ay + 35 };
+      }
+    }
+    if (info) chainCenters.set(note.id, info);
+  }
   let out = '';
   for (const note of canvasNotes) {
     const r = _renderNoteSvg(note, svgW, svgH);
     if (!r) continue;
-    const x = (note.x / 100) * svgW;
-    const y = (note.y / 100) * svgH;
+    let x, y;
+    if (note.type === 'chain') {
+      const info = chainCenters.get(note.id);
+      if (!info) continue;
+      x = info.cx;
+      y = info.cy;
+    } else {
+      x = (note.x / 100) * svgW;
+      y = (note.y / 100) * svgH;
+    }
     out += `<g data-note-id="${note.id}" class="canvas-note" transform="translate(${x},${y})">${r.inner}</g>`;
   }
   return out;
@@ -227,16 +344,25 @@ function onCanvasNotePointerDown(e) {
   e.preventDefault();
   try { g.setPointerCapture(e.pointerId); } catch(_) {}
 
+  const note = getCanvasNote(id);
+  const isChain = note && note.type === 'chain';
   _noteDrag = {
     id,
     el: g,
     startX: e.clientX,
     startY: e.clientY,
-    moved: false
+    moved: false,
+    isChain
   };
-  g.addEventListener('pointermove', onCanvasNotePointerMove);
-  g.addEventListener('pointerup', onCanvasNotePointerUp);
-  g.addEventListener('pointercancel', onCanvasNotePointerUp);
+  if (isChain) {
+    g.addEventListener('pointermove', onCanvasChainPointerMove);
+    g.addEventListener('pointerup', onCanvasNotePointerUp);
+    g.addEventListener('pointercancel', onCanvasNotePointerUp);
+  } else {
+    g.addEventListener('pointermove', onCanvasNotePointerMove);
+    g.addEventListener('pointerup', onCanvasNotePointerUp);
+    g.addEventListener('pointercancel', onCanvasNotePointerUp);
+  }
 }
 
 function onCanvasNotePointerMove(e) {
@@ -272,13 +398,64 @@ function onCanvasNotePointerMove(e) {
   _noteDrag.lastVy = newVy;
 }
 
+function onCanvasChainPointerMove(e) {
+  if (!_noteDrag) return;
+  const dx = e.clientX - _noteDrag.startX;
+  const dy = e.clientY - _noteDrag.startY;
+
+  if (!_noteDrag.moved) {
+    if (Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
+    _noteDrag.moved = true;
+    closeNoteToolbar();
+    _noteDrag.el.style.cursor = 'grabbing';
+  }
+
+  const svgEl = document.querySelector('#recordImageContent svg');
+  if (!svgEl) return;
+  const potId = _potIdAtPoint(svgEl, e.clientX, e.clientY);
+  if (potId) {
+    const info = _chainAnchorInfo(svgEl, potId);
+    if (info) {
+      _noteDrag.el.setAttribute('transform', `translate(${info.cx},${info.cy})`);
+      _noteDrag.pendingTargetId = potId;
+      return;
+    }
+  }
+  if (_noteDrag.pendingTargetId) {
+    const info = _chainAnchorInfo(svgEl, _noteDrag.pendingTargetId);
+    if (info) {
+      _noteDrag.el.setAttribute('transform', `translate(${info.cx},${info.cy})`);
+      return;
+    }
+  }
+}
+
 function onCanvasNotePointerUp(e) {
   if (!_noteDrag) return;
   const g = _noteDrag.el;
   g.removeEventListener('pointermove', onCanvasNotePointerMove);
+  g.removeEventListener('pointermove', onCanvasChainPointerMove);
   g.removeEventListener('pointerup', onCanvasNotePointerUp);
   g.removeEventListener('pointercancel', onCanvasNotePointerUp);
   try { g.releasePointerCapture(e.pointerId); } catch(_) {}
+
+  if (_noteDrag.isChain) {
+    if (_noteDrag.moved && _noteDrag.pendingTargetId) {
+      updateCanvasNote(_noteDrag.id, { targetId: _noteDrag.pendingTargetId });
+      _noteDrag.el.style.cursor = editNotesMode ? 'grab' : 'default';
+    } else if (!_noteDrag.moved) {
+      const now = Date.now();
+      const clickedId = _noteDrag.id;
+      if (_lastNoteClick && _lastNoteClick.id === clickedId && now - _lastNoteClick.time < 300) {
+        _lastNoteClick = null;
+      } else {
+        _lastNoteClick = { id: clickedId, time: now };
+        openNoteToolbar(clickedId, g);
+      }
+    }
+    _noteDrag = null;
+    return;
+  }
 
   if (_noteDrag.moved && _noteDrag.lastVx !== undefined) {
     const vw = _noteDrag.startSvgW, vh = _noteDrag.startSvgH;
@@ -310,7 +487,7 @@ function onCanvasNoteDblClick(e) {
   if (!note) return;
   if (note.type === 'discImg') {
     openDiscPickerForNote(id, e.currentTarget);
-  } else {
+  } else if (note.type === 'text') {
     startTextEditInPlace(id);
   }
 }
@@ -524,11 +701,21 @@ function openNoteToolbar(noteId, gEl) {
 
   const vb = svgEl.getAttribute('viewBox').split(' ').map(Number);
   const svgW = vb[2], svgH = vb[3];
-  const noteX = (note.x / 100) * svgW;
-  const noteY = (note.y / 100) * svgH;
+  let noteVx, noteVy;
+  if (note.type === 'chain') {
+    const info = _chainAnchorInfo(svgEl, note.targetId);
+    if (info) {
+      noteVx = info.cx;
+      noteVy = info.cy;
+    }
+  }
+  if (noteVx == null) {
+    noteVx = (note.x / 100) * svgW;
+    noteVy = (note.y / 100) * svgH;
+  }
   const svgRect = svgEl.getBoundingClientRect();
-  const screenX = svgRect.left + (noteX / svgW) * svgRect.width;
-  const screenY = svgRect.top + (noteY / svgH) * svgRect.height;
+  const screenX = svgRect.left + (noteVx / svgW) * svgRect.width;
+  const screenY = svgRect.top + (noteVy / svgH) * svgRect.height;
 
   const r = _renderNoteSvg(note, svgW, svgH);
   if (!r) return;
@@ -605,6 +792,20 @@ function _noteToolbarInner(note) {
       </button>
     `;
   }
+  if (note.type === 'chain') {
+    const anchorLabel = note.targetId != null ? String(note.targetId) : '—';
+    return `
+      <span class="ntb-label" title="Anchored potential">${_escAttr(anchorLabel)}</span>
+      <span class="ntb-sep"></span>
+      <input class="ntb-size-input" type="number" value="${note.length||80}" min="30" max="200" step="5" title="Chain length">
+      <span class="ntb-sep"></span>
+      <button class="ntb-btn" data-act="del" title="Delete note">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 5h10M6 5V3h4v2M5 5l1 9h4l1-9"/>
+        </svg>
+      </button>
+    `;
+  }
   return '';
 }
 
@@ -633,6 +834,8 @@ function _wireNoteToolbar(bar, note) {
       if (isNaN(val)) return;
       if (note.type === 'text') {
         updateCanvasNote(note.id, { fontSize: Math.max(8, Math.min(96, val)) });
+      } else if (note.type === 'chain') {
+        updateCanvasNote(note.id, { length: Math.max(30, Math.min(200, Math.round(val))) });
       } else {
         updateCanvasNote(note.id, { imgSize: Math.max(20, Math.min(400, Math.round(val * 10))) });
       }
@@ -703,6 +906,9 @@ function startTextEditInPlace(noteId) {
     ed.style.left = Math.max(4, Math.min(modalRect.width - w - 4, relX - w / 2)) + 'px';
     ed.style.top = (relY - h / 2 - 4) + 'px';
   };
+  const svgNote = svgEl.querySelector(`g[data-note-id="${CSS.escape(noteId)}"]`);
+  if (svgNote) svgNote.style.opacity = '0';
+
   ed.addEventListener('input', updateSize);
   modal.appendChild(ed);
   updateSize();
@@ -781,6 +987,10 @@ function encodeCanvasNotesToParam() {
       if (n.type === 'discImg') {
         return `D_${n.x}_${n.y}_${n.fontSize}_${n.imgSize}_${n.discId}`;
       }
+      if (n.type === 'chain') {
+        const tid = n.targetId == null ? 'null' : String(n.targetId);
+        return `C_${tid}_${n.length||80}`;
+      }
       return `t_${n.x}_${n.y}_${n.fontSize}_${_escNoteText(n.text)}`;
     });
     return parts.join('~');
@@ -793,7 +1003,8 @@ function decodeCanvasNotesFromParam(s) {
     const noteStrs = _splitEscaped(s, '~');
     const parsed = noteStrs.map(ns => {
       const f = ns.split('_');
-      const type = f[0] === 'D' ? 'discImg' : 'text';
+      const head = f[0];
+      const type = head === 'D' ? 'discImg' : (head === 'C' ? 'chain' : 'text');
       const note = {
         id: _genNoteId(),
         type,
@@ -805,10 +1016,23 @@ function decodeCanvasNotesFromParam(s) {
         note.imgSize = Number(f[4]) || 80;
         note.discId = f[5] && f[5] !== 'null' ? f[5] : null;
         note.text = '';
+        note.targetId = null;
+        note.length = 80;
+      } else if (type === 'chain') {
+        note.x = 50;
+        note.y = 50;
+        note.fontSize = 18;
+        note.text = '';
+        note.discId = null;
+        note.imgSize = 80;
+        note.targetId = f[1] && f[1] !== 'null' ? f[1] : null;
+        note.length = Number(f[2]) || 80;
       } else {
         note.text = _unescNoteText(f.slice(4).join('_'));
         note.discId = null;
         note.imgSize = 80;
+        note.targetId = null;
+        note.length = 80;
       }
       return note;
     });
@@ -822,7 +1046,9 @@ function decodeCanvasNotesFromParam(s) {
         fontSize: n.fontSize || 18,
         text: n.text || '',
         discId: n.discId ?? null,
-        imgSize: n.imgSize || 80
+        imgSize: n.imgSize || 80,
+        targetId: n.targetId ?? null,
+        length: n.length || 80
       }));
     saveState();
   } catch(e) { console.warn('Failed to decode canvas notes:', e.message); }
