@@ -172,6 +172,7 @@ function showLoadBuildPopup() {
       currentThemeName = extras.currentThemeName || 'dark';
       localStorage.setItem('nrb-theme', currentThemeName);
       populateThemeSelect();
+      refreshCharBadges();
       renderDiscOutput();
       renderDiscs();
       updateDiscOutputText();
