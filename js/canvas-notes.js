@@ -1,0 +1,829 @@
+const CANVAS_NOTE_TYPES = {
+  text: {
+    label: 'Text',
+    icon: 'T',
+    defaults: { fontSize: 18, text: 'Note' }
+  },
+  discImg: {
+    label: 'Disc Img',
+    icon: 'D',
+    defaults: { fontSize: 18, text: '', discId: null, imgSize: 80 }
+  }
+};
+
+function _genNoteId() {
+  return 'cn-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7);
+}
+
+function _roundPct(n) {
+  return Math.round(n * 100) / 100;
+}
+
+function _defaultDiscId() {
+  const ELEMENT_ORDER = { Aqua:0, Ignis:1, Ventus:2, Terra:3, Lux:4, Umbra:5, None:6, Other:7 };
+  const ids = Object.keys(discData).filter(id => discData[id] && discData[id].element);
+  ids.sort((a, b) => {
+    const da = discData[a], db = discData[b];
+    const ea = ELEMENT_ORDER[da.element] ?? 99;
+    const eb = ELEMENT_ORDER[db.element] ?? 99;
+    if (ea !== eb) return ea - eb;
+    if ((db.star || 0) !== (da.star || 0)) return (db.star || 0) - (da.star || 0);
+    return (da.name || '').localeCompare(db.name || '');
+  });
+  return ids[0] || null;
+}
+
+function getCanvasNote(id) {
+  return canvasNotes.find(n => n.id === id);
+}
+
+function addCanvasNote(type, xPct, yPct) {
+  if (!CANVAS_NOTE_TYPES[type]) return null;
+  const def = CANVAS_NOTE_TYPES[type].defaults;
+  const note = {
+    id: _genNoteId(),
+    type,
+    x: _roundPct(xPct ?? 50),
+    y: _roundPct(yPct ?? 50),
+    fontSize: def.fontSize,
+    text: def.text,
+    discId: type === 'discImg' && !def.discId ? (_defaultDiscId() ?? null) : (def.discId ?? null),
+    imgSize: def.imgSize ?? 80
+  };
+  canvasNotes.push(note);
+  saveState();
+  return note;
+}
+
+function updateCanvasNote(id, patch) {
+  const n = getCanvasNote(id);
+  if (!n) return null;
+  Object.assign(n, patch);
+  if (patch.x !== undefined) n.x = _roundPct(patch.x);
+  if (patch.y !== undefined) n.y = _roundPct(patch.y);
+  saveState();
+  return n;
+}
+
+function removeCanvasNote(id) {
+  canvasNotes = canvasNotes.filter(n => n.id !== id);
+  saveState();
+}
+
+function _escAttr(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+const _RARITY_GRADIENTS = {
+  3: ['#88ccee', '#ddffff'],
+  4: ['#ffdd55', '#eeffcc'],
+  5: ['#dd88ee', '#77ffff']
+};
+const _DISC_BADGE_BASE = 'data/disc badges/';
+
+function _renderNoteSvg(note, svgW, svgH) {
+  const fs = note.fontSize || 18;
+  if (note.type === 'text') {
+    const outlinePad = 6;
+    const text = note.text || '';
+    const lines = text.split('\n');
+    const lineHeight = fs * 1.2;
+    const maxLineLen = Math.max(...lines.map(l => l.length), 1);
+    const w = Math.max(80, maxLineLen * fs * 0.6 + outlinePad * 2);
+    const h = lines.length * lineHeight + outlinePad * 2;
+    const tspans = lines.map((line, i) => {
+      const dy = i === 0 ? -((lines.length - 1) * lineHeight) / 2 : lineHeight;
+      return `<tspan x="0" dy="${dy}">${_escAttr(line) || ' '}</tspan>`;
+    }).join('');
+    return {
+      w, h,
+      inner: `<text x="0" y="0" text-anchor="middle" dominant-baseline="middle" font-size="${fs}" font-weight="bold" fill="#fff" font-family="Consolas, monospace" style="paint-order:stroke;stroke:#000;stroke-width:3px;stroke-linejoin:round;">${tspans}</text>`
+    };
+  }
+  if (note.type === 'discImg') {
+    const size = note.imgSize || 80;
+    if (!note.discId) {
+      return {
+        w: size, h: size,
+        inner: `<rect x="${-size/2}" y="${-size/2}" width="${size}" height="${size}" fill="rgba(255,255,255,0.06)" stroke="#888" stroke-width="2" stroke-dasharray="4 3" rx="4"/><text x="0" y="0" text-anchor="middle" dominant-baseline="middle" font-size="${Math.max(10, size*0.18)}" fill="#888" font-family="Consolas, monospace">pick disc</text>`
+      };
+    }
+    const dd = discData?.[note.discId] || {};
+    const imgId = String(note.discId).slice(2);
+    const href = BASE_ASSETS + `export/assets/assetbundles/icon/outfit/outfit_${imgId}_a.webp`;
+    const star = dd.star || 0;
+    const el = dd.element;
+    const showBadge = !!el;
+    const grad = _RARITY_GRADIENTS[star];
+    const fw = Math.max(3, size * 0.05);
+    const is = size - 2 * fw;
+    const ix = -is / 2;
+    const iy = -is / 2;
+    const bs = size * 0.35;
+    const zoom = 10;
+    const iz = is + zoom;
+    const uid = String(note.id).replace(/[^a-zA-Z0-9]/g, '_');
+    const gradId = `rg_${uid}`;
+    const clipId = `dc_${uid}`;
+    let defs = `<clipPath id="${clipId}"><rect x="${ix}" y="${iy}" width="${is}" height="${is}" rx="3"/></clipPath>`;
+    if (grad) {
+      defs += `<linearGradient id="${gradId}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${grad[0]}"/><stop offset="1" stop-color="${grad[1]}"/></linearGradient>`;
+    }
+    const frameFill = grad ? `url(#${gradId})` : '#2a2a2a';
+    let inner = `<defs>${defs}</defs>`;
+    inner += `<rect x="${-size/2}" y="${-size/2}" width="${size}" height="${size}" fill="${frameFill}" rx="4"/>`;
+    inner += `<g clip-path="url(#${clipId})">`;
+    inner += `<rect x="${ix}" y="${iy}" width="${is}" height="${is}" fill="#2a2a2a"/>`;
+    inner += `<image x="${-iz/2}" y="${-iz/2}" width="${iz}" height="${iz}" href="${_escAttr(href)}" preserveAspectRatio="xMidYMid slice"/>`;
+    inner += `</g>`;
+    if (showBadge) {
+      const badgeHref = _DISC_BADGE_BASE + el + '.avif';
+      inner += `<image x="${-size/2}" y="${-size/2}" width="${bs}" height="${bs}" href="${_escAttr(badgeHref)}"/>`;
+    }
+    return { w: size, h: size, inner };
+  }
+  return null;
+}
+
+function renderCanvasNotes(svgEl) {
+  if (!svgEl) return;
+  if (_noteDrag) {
+    _noteDrag = null;
+  }
+  svgEl.querySelectorAll('g[data-note-id]').forEach(el => el.remove());
+
+  const vb = svgEl.getAttribute('viewBox').split(' ').map(Number);
+  const svgW = vb[2], svgH = vb[3];
+  if (!svgW || !svgH) return;
+
+  const NS = 'http://www.w3.org/2000/svg';
+  for (const note of canvasNotes) {
+    const r = _renderNoteSvg(note, svgW, svgH);
+    if (!r) continue;
+    const x = (note.x / 100) * svgW;
+    const y = (note.y / 100) * svgH;
+    const g = document.createElementNS(NS, 'g');
+    g.setAttribute('data-note-id', note.id);
+    g.setAttribute('class', 'canvas-note');
+    g.setAttribute('transform', `translate(${x},${y})`);
+    g.style.cursor = editNotesMode ? 'grab' : 'default';
+
+    if (editNotesMode) {
+      const rect = document.createElementNS(NS, 'rect');
+      rect.setAttribute('class', 'canvas-note-outline');
+      rect.setAttribute('x', String(-r.w / 2));
+      rect.setAttribute('y', String(-r.h / 2));
+      rect.setAttribute('width', String(r.w));
+      rect.setAttribute('height', String(r.h));
+      rect.setAttribute('rx', '3');
+      rect.setAttribute('fill', 'rgba(255,255,255,0.04)');
+      rect.setAttribute('stroke', '#888');
+      rect.setAttribute('stroke-width', '2');
+      rect.setAttribute('stroke-dasharray', '4 3');
+      g.appendChild(rect);
+    }
+
+    const content = document.createElementNS(NS, 'g');
+    content.setAttribute('class', 'canvas-note-content');
+    content.innerHTML = r.inner;
+    g.appendChild(content);
+
+    svgEl.appendChild(g);
+  }
+
+  attachCanvasNoteEvents(svgEl);
+}
+
+function buildNotesSvgString(svgW, svgH) {
+  if (!canvasNotes.length) return '';
+  let out = '';
+  for (const note of canvasNotes) {
+    const r = _renderNoteSvg(note, svgW, svgH);
+    if (!r) continue;
+    const x = (note.x / 100) * svgW;
+    const y = (note.y / 100) * svgH;
+    out += `<g data-note-id="${note.id}" class="canvas-note" transform="translate(${x},${y})">${r.inner}</g>`;
+  }
+  return out;
+}
+
+function attachCanvasNoteEvents(svgEl) {
+  if (!svgEl) return;
+  svgEl.querySelectorAll('g[data-note-id]').forEach(g => {
+    g.addEventListener('pointerdown', onCanvasNotePointerDown);
+    g.addEventListener('dblclick', onCanvasNoteDblClick);
+  });
+}
+
+let _noteDrag = null;
+let _lastNoteClick = null;
+
+function onCanvasNotePointerDown(e) {
+  if (!editNotesMode) return;
+  if (e.button !== 0) return;
+  const g = e.currentTarget;
+  const id = g.getAttribute('data-note-id');
+  e.stopPropagation();
+  e.preventDefault();
+  try { g.setPointerCapture(e.pointerId); } catch(_) {}
+
+  _noteDrag = {
+    id,
+    el: g,
+    startX: e.clientX,
+    startY: e.clientY,
+    moved: false
+  };
+  g.addEventListener('pointermove', onCanvasNotePointerMove);
+  g.addEventListener('pointerup', onCanvasNotePointerUp);
+  g.addEventListener('pointercancel', onCanvasNotePointerUp);
+}
+
+function onCanvasNotePointerMove(e) {
+  if (!_noteDrag) return;
+  const dx = e.clientX - _noteDrag.startX;
+  const dy = e.clientY - _noteDrag.startY;
+
+  if (!_noteDrag.moved) {
+    if (Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
+    _noteDrag.moved = true;
+    _noteDrag.startVx = (getCanvasNote(_noteDrag.id)?.x ?? 0) / 100;
+    _noteDrag.startVy = (getCanvasNote(_noteDrag.id)?.y ?? 0) / 100;
+    _noteDrag.startSvgW = 0;
+    _noteDrag.startSvgH = 0;
+    const svgEl = document.querySelector('#recordImageContent svg');
+    if (svgEl) {
+      const vb = svgEl.getAttribute('viewBox').split(' ').map(Number);
+      _noteDrag.startSvgW = vb[2];
+      _noteDrag.startSvgH = vb[3];
+      _noteDrag.svgRect = svgEl.getBoundingClientRect();
+    }
+    closeNoteToolbar();
+    _noteDrag.el.style.cursor = 'grabbing';
+  }
+
+  if (!_noteDrag.startSvgW) return;
+  const vw = _noteDrag.startSvgW, vh = _noteDrag.startSvgH;
+  const rect = _noteDrag.svgRect;
+  const newVx = _noteDrag.startVx * vw + (dx / rect.width) * vw;
+  const newVy = _noteDrag.startVy * vh + (dy / rect.height) * vh;
+  _noteDrag.el.setAttribute('transform', `translate(${newVx},${newVy})`);
+  _noteDrag.lastVx = newVx;
+  _noteDrag.lastVy = newVy;
+}
+
+function onCanvasNotePointerUp(e) {
+  if (!_noteDrag) return;
+  const g = _noteDrag.el;
+  g.removeEventListener('pointermove', onCanvasNotePointerMove);
+  g.removeEventListener('pointerup', onCanvasNotePointerUp);
+  g.removeEventListener('pointercancel', onCanvasNotePointerUp);
+  try { g.releasePointerCapture(e.pointerId); } catch(_) {}
+
+  if (_noteDrag.moved && _noteDrag.lastVx !== undefined) {
+    const vw = _noteDrag.startSvgW, vh = _noteDrag.startSvgH;
+    const xPct = _roundPct((_noteDrag.lastVx / vw) * 100);
+    const yPct = _roundPct((_noteDrag.lastVy / vh) * 100);
+    updateCanvasNote(_noteDrag.id, { x: xPct, y: yPct });
+    _noteDrag.el.style.cursor = editNotesMode ? 'grab' : 'default';
+  } else if (!_noteDrag.moved) {
+    const now = Date.now();
+    const clickedId = _noteDrag.id;
+    if (_lastNoteClick && _lastNoteClick.id === clickedId && now - _lastNoteClick.time < 300) {
+      _lastNoteClick = null;
+    } else {
+      _lastNoteClick = { id: clickedId, time: now };
+      openNoteToolbar(clickedId, g);
+    }
+  }
+  _noteDrag = null;
+}
+
+function onCanvasNoteDblClick(e) {
+  if (!editNotesMode) return;
+  e.stopPropagation();
+  e.preventDefault();
+  _lastNoteClick = null;
+  closeNoteToolbar();
+  const id = e.currentTarget.getAttribute('data-note-id');
+  const note = getCanvasNote(id);
+  if (!note) return;
+  if (note.type === 'discImg') {
+    openDiscPickerForNote(id, e.currentTarget);
+  } else {
+    startTextEditInPlace(id);
+  }
+}
+
+function setEditNotesMode(on) {
+  editNotesMode = !!on;
+  const btn = document.getElementById('editNotesBtn');
+  if (btn) {
+    btn.classList.toggle('active-toggle', editNotesMode);
+  }
+  closeNoteToolbar();
+  closeAddNoteMenu();
+  const svg = document.querySelector('#recordImageContent svg');
+  if (svg) renderCanvasNotes(svg);
+}
+
+function toggleCanvasNotesMode() {
+  setEditNotesMode(!editNotesMode);
+}
+
+function openAddNoteMenu(anchorEl) {
+  closeAddNoteMenu();
+  if (!editNotesMode) setEditNotesMode(true);
+  const menu = document.createElement('div');
+  menu.className = 'add-note-menu';
+  menu.id = 'addNoteMenu';
+  const types = Object.keys(CANVAS_NOTE_TYPES);
+  menu.innerHTML = types.map(t => {
+    const meta = CANVAS_NOTE_TYPES[t];
+    return `<button class="add-note-type" data-type="${t}"><span class="add-note-type-icon">${_escAttr(meta.icon)}</span><span>${_escAttr(meta.label)}</span></button>`;
+  }).join('');
+  document.body.appendChild(menu);
+  const r = anchorEl.getBoundingClientRect();
+  menu.style.position = 'fixed';
+  menu.style.left = (r.left) + 'px';
+  menu.style.top = (r.bottom + 4) + 'px';
+  menu.style.zIndex = '100002';
+  menu.querySelectorAll('.add-note-type').forEach(btn => {
+    btn.addEventListener('click', ev => {
+      ev.stopPropagation();
+      const type = btn.getAttribute('data-type');
+      const note = addCanvasNote(type, 50, 50);
+      closeAddNoteMenu();
+      if (note) {
+        renderRecordImage(packPotentials());
+        const g = document.querySelector(`g[data-note-id="${note.id}"]`);
+        if (g) openNoteToolbar(note.id, g);
+      }
+    });
+  });
+  setTimeout(() => {
+    document.addEventListener('mousedown', _onAddNoteMenuOutside, { once: true });
+  }, 0);
+}
+
+function _onAddNoteMenuOutside(e) {
+  const menu = document.getElementById('addNoteMenu');
+  if (!menu) return;
+  if (e.target.closest('#addNoteMenu') || e.target.closest('#addNoteBtn')) return;
+  closeAddNoteMenu();
+}
+
+function closeAddNoteMenu() {
+  const menu = document.getElementById('addNoteMenu');
+  if (menu) menu.remove();
+}
+
+function openDiscPickerForNote(noteId, anchorEl) {
+  closeDiscPicker();
+  const note = getCanvasNote(noteId);
+  if (!note) return;
+  const ids = Object.keys(discData || {});
+  if (!ids.length) {
+    showToast('No discs loaded yet');
+    return;
+  }
+
+  const ELEMENT_ORDER = { Aqua:0, Ignis:1, Ventus:2, Terra:3, Lux:4, Umbra:5, None:6, Other:7 };
+  const ELEMENT_COLORS = {
+    Aqua:   '#4aa3ff',
+    Ignis:  '#ff6b4a',
+    Ventus: '#5fd97e',
+    Terra:  '#c4a04a',
+    Lux:    '#ffd84a',
+    Umbra:  '#a06fff',
+    None:   '#888888',
+    Other:  '#888888'
+  };
+
+  const charElementCount = {};
+  if (typeof selectedChars !== 'undefined' && typeof charJson !== 'undefined') {
+    selectedChars.filter(c => c).slice(0, 3).forEach(id => {
+      const el = charJson[id] && charJson[id].element;
+      if (el) charElementCount[el] = (charElementCount[el] || 0) + 1;
+    });
+  }
+
+  const grouped = {};
+  for (const id of ids) {
+    const d = discData[id];
+    const el = d.element || 'Other';
+    if (!grouped[el]) grouped[el] = [];
+    grouped[el].push({ id, d });
+  }
+  const elementKeys = Object.keys(grouped).sort((a, b) => {
+    const ca = charElementCount[a] || 0;
+    const cb = charElementCount[b] || 0;
+    if (cb !== ca) return cb - ca;
+    const oa = ELEMENT_ORDER[a] ?? 99;
+    const ob = ELEMENT_ORDER[b] ?? 99;
+    if (oa !== ob) return oa - ob;
+    return a.localeCompare(b);
+  });
+  for (const k of elementKeys) {
+    grouped[k].sort((a, b) => {
+      const sa = a.d.star || 0;
+      const sb = b.d.star || 0;
+      if (sb !== sa) return sb - sa;
+      return (a.d.name || '').localeCompare(b.d.name || '');
+    });
+  }
+
+  const menu = document.createElement('div');
+  menu.className = 'disc-picker-menu';
+  menu.id = 'discPickerMenu';
+  const head = document.createElement('div');
+  head.className = 'disc-picker-head';
+  head.innerHTML = `<span>Choose a disc</span><button class="disc-picker-close" title="Close">×</button>`;
+  menu.appendChild(head);
+  head.querySelector('.disc-picker-close').onclick = closeDiscPicker;
+
+  const body = document.createElement('div');
+  body.className = 'disc-picker-body';
+  for (const el of elementKeys) {
+    const section = document.createElement('div');
+    section.className = 'disc-picker-section';
+    const bar = document.createElement('div');
+    bar.className = 'disc-picker-section-bar';
+    bar.style.background = ELEMENT_COLORS[el] || '#888';
+    section.appendChild(bar);
+    const grid = document.createElement('div');
+    grid.className = 'disc-picker-grid';
+    for (const { id, d } of grouped[el]) {
+      const imgId = String(id).slice(2);
+      const cell = document.createElement('button');
+      cell.type = 'button';
+      let cellClass = 'disc-picker-cell';
+      if (note.discId === id) cellClass += ' selected';
+      if (d.star === 3 || d.star === 4 || d.star === 5) cellClass += ' star' + d.star;
+      cell.className = cellClass;
+      cell.title = `${d.name || id}${d.element && d.element !== 'None' ? ' (' + d.element + ')' : ''} · ${'★'.repeat(d.star || 0)}`;
+      cell.setAttribute('data-id', id);
+      let cellHTML = `<div class="disc-picker-clip"><img loading="lazy" src="${BASE_ASSETS}export/assets/assetbundles/icon/outfit/outfit_${imgId}_a.webp" onerror="this.style.opacity=0.2"></div>`;
+      if (d.element) {
+        cellHTML += `<img class="disc-picker-badge" loading="lazy" src="${_DISC_BADGE_BASE}${d.element}.avif" alt="${d.element}">`;
+      }
+      cell.innerHTML = cellHTML;
+      cell.onclick = (ev) => {
+        ev.stopPropagation();
+        updateCanvasNote(noteId, { discId: id });
+        closeDiscPicker();
+        renderRecordImage(packPotentials());
+        const g = document.querySelector(`g[data-note-id="${noteId}"]`);
+        if (g) openNoteToolbar(noteId, g);
+      };
+      grid.appendChild(cell);
+    }
+    section.appendChild(grid);
+    body.appendChild(section);
+  }
+  menu.appendChild(body);
+
+  document.body.appendChild(menu);
+  const r = (anchorEl && anchorEl.getBoundingClientRect) ? anchorEl.getBoundingClientRect() : { left: window.innerWidth/2, right: window.innerWidth/2, top: window.innerHeight/2, bottom: window.innerHeight/2 };
+  const menuRect = menu.getBoundingClientRect();
+  const margin = 8;
+  let left = r.left + r.width/2 - menuRect.width/2;
+  left = Math.max(margin, Math.min(window.innerWidth - menuRect.width - margin, left));
+  let top = r.bottom + 4;
+  if (top + menuRect.height > window.innerHeight - margin) {
+    top = Math.max(margin, r.top - menuRect.height - 4);
+  }
+  menu.style.position = 'fixed';
+  menu.style.left = left + 'px';
+  menu.style.top = top + 'px';
+  menu.style.zIndex = '100005';
+
+  setTimeout(() => {
+    document.addEventListener('mousedown', _onDiscPickerOutside, { once: true });
+  }, 0);
+}
+
+function _onDiscPickerOutside(e) {
+  const menu = document.getElementById('discPickerMenu');
+  if (!menu) return;
+  if (e.target.closest('#discPickerMenu') || e.target.closest('.note-toolbar')) return;
+  closeDiscPicker();
+}
+
+function closeDiscPicker() {
+  const menu = document.getElementById('discPickerMenu');
+  if (menu) menu.remove();
+}
+
+function openNoteToolbar(noteId, gEl) {
+  closeNoteToolbar();
+  const note = getCanvasNote(noteId);
+  if (!note) return;
+  const svgEl = document.querySelector('#recordImageContent svg');
+  if (!svgEl) return;
+
+  const vb = svgEl.getAttribute('viewBox').split(' ').map(Number);
+  const svgW = vb[2], svgH = vb[3];
+  const noteX = (note.x / 100) * svgW;
+  const noteY = (note.y / 100) * svgH;
+  const svgRect = svgEl.getBoundingClientRect();
+  const screenX = svgRect.left + (noteX / svgW) * svgRect.width;
+  const screenY = svgRect.top + (noteY / svgH) * svgRect.height;
+
+  const r = _renderNoteSvg(note, svgW, svgH);
+  if (!r) return;
+  const noteScreenH = (r.h / svgH) * svgRect.height;
+  const noteTopY = screenY - noteScreenH / 2;
+  const noteBotY = screenY + noteScreenH / 2;
+
+  const bar = document.createElement('div');
+  bar.className = 'note-toolbar';
+  bar.id = 'noteToolbar';
+  bar.setAttribute('data-note-id', noteId);
+  bar.innerHTML = _noteToolbarInner(note);
+  document.body.appendChild(bar);
+
+  const barRect = bar.getBoundingClientRect();
+  let left = screenX - barRect.width / 2;
+  let top = noteTopY - barRect.height - 12;
+  const margin = 8;
+  if (left < margin) left = margin;
+  if (left + barRect.width > window.innerWidth - margin) left = window.innerWidth - barRect.width - margin;
+  if (top < margin) top = noteBotY + 12;
+  bar.style.position = 'fixed';
+  bar.style.left = left + 'px';
+  bar.style.top = top + 'px';
+  bar.style.zIndex = '100003';
+
+  _wireNoteToolbar(bar, note);
+  document.addEventListener('pointerdown', _onToolbarOutsideClick);
+}
+
+function _onToolbarOutsideClick(e) {
+  const bar = document.getElementById('noteToolbar');
+  if (!bar) return;
+  if (e.target.closest('.note-toolbar')) return;
+  if (e.target.closest('g[data-note-id]')) return;
+  if (e.target.closest('#addNoteMenu')) return;
+  if (e.target.closest('#discPickerMenu')) return;
+  if (e.target.closest('#addNoteBtn')) return;
+  if (e.target.closest('#editNotesBtn')) return;
+  closeNoteToolbar();
+}
+
+function _noteToolbarInner(note) {
+  if (note.type === 'text') {
+    return `
+      <button class="ntb-btn" data-act="edit" title="Edit text">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11.5 2.5l2 2-7 7-2.5.5.5-2.5 7-7z"/>
+        </svg>
+      </button>
+      <input class="ntb-size-input" type="number" value="${note.fontSize||18}" min="8" max="96" step="1" title="Font size">
+      <span class="ntb-sep"></span>
+      <button class="ntb-btn" data-act="del" title="Delete note">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 5h10M6 5V3h4v2M5 5l1 9h4l1-9"/>
+        </svg>
+      </button>
+    `;
+  }
+  if (note.type === 'discImg') {
+    return `
+      <button class="ntb-btn" data-act="pick-disc" title="Choose disc">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="12" height="12" rx="1.5"/>
+          <path d="M2 6h12M6 6v8"/>
+        </svg>
+      </button>
+      <input class="ntb-size-input" type="number" value="${(note.imgSize||80)/10}" min="2" max="40" step="0.5" title="Disc size (×10)">
+      <span class="ntb-sep"></span>
+      <button class="ntb-btn" data-act="del" title="Delete note">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 5h10M6 5V3h4v2M5 5l1 9h4l1-9"/>
+        </svg>
+      </button>
+    `;
+  }
+  return '';
+}
+
+function _wireNoteToolbar(bar, note) {
+  bar.querySelectorAll('.ntb-btn').forEach(btn => {
+    btn.addEventListener('mousedown', e => e.preventDefault());
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const act = btn.getAttribute('data-act');
+      if (act === 'edit') startTextEditInPlace(note.id);
+      else if (act === 'pick-disc') {
+        closeNoteToolbar();
+        openDiscPickerForNote(note.id, btn);
+      } else if (act === 'del') {
+        closeNoteToolbar();
+        removeCanvasNote(note.id);
+        renderRecordImage(packPotentials());
+      }
+    });
+  });
+  const inp = bar.querySelector('.ntb-size-input');
+  if (inp) {
+    inp.addEventListener('mousedown', e => e.stopPropagation());
+    inp.addEventListener('change', () => {
+      const val = parseFloat(inp.value);
+      if (isNaN(val)) return;
+      if (note.type === 'text') {
+        updateCanvasNote(note.id, { fontSize: Math.max(8, Math.min(96, val)) });
+      } else {
+        updateCanvasNote(note.id, { imgSize: Math.max(20, Math.min(400, Math.round(val * 10))) });
+      }
+      renderRecordImage(packPotentials());
+    });
+  }
+}
+
+function closeNoteToolbar() {
+  document.removeEventListener('pointerdown', _onToolbarOutsideClick);
+  const bar = document.getElementById('noteToolbar');
+  if (bar) bar.remove();
+  const ed = document.getElementById('noteTextEditor');
+  if (ed) ed.remove();
+}
+
+function startTextEditInPlace(noteId) {
+  const note = getCanvasNote(noteId);
+  if (!note) return;
+  const svgEl = document.querySelector('#recordImageContent svg');
+  if (!svgEl) return;
+  const modal = document.querySelector('.record-preview-modal');
+  if (!modal) return;
+
+  const vb = svgEl.getAttribute('viewBox').split(' ').map(Number);
+  const vw = vb[2], vh = vb[3];
+  const noteX = (note.x / 100) * vw;
+  const noteY = (note.y / 100) * vh;
+  const svgRect = svgEl.getBoundingClientRect();
+  const modalRect = modal.getBoundingClientRect();
+  const screenX = svgRect.left + (noteX / vw) * svgRect.width;
+  const screenY = svgRect.top + (noteY / vh) * svgRect.height;
+  const relX = screenX - modalRect.left;
+  const relY = screenY - modalRect.top;
+
+  const fs = note.fontSize || 18;
+  const lineHeight = fs * 1.2;
+
+  const measure = document.createElement('span');
+  measure.style.cssText = `visibility:hidden;position:absolute;left:-9999px;top:-9999px;font:${fs}px Consolas, 'SF Mono', monospace;white-space:pre;padding:0;border:0;`;
+  document.body.appendChild(measure);
+
+  const ed = document.createElement('textarea');
+  ed.id = 'noteTextEditor';
+  ed.className = 'note-text-editor note-text-editor-inplace';
+  ed.value = note.text || '';
+  ed.maxLength = 200;
+  ed.rows = 1;
+  ed.style.position = 'absolute';
+  ed.style.fontSize = fs + 'px';
+  ed.style.lineHeight = lineHeight + 'px';
+  ed.style.padding = '2px 6px';
+  ed.style.textAlign = 'center';
+  ed.style.zIndex = '100004';
+
+  const updateSize = () => {
+    const lines = ed.value.split('\n');
+    let maxW = 0;
+    for (const line of lines) {
+      measure.textContent = line || 'M';
+      maxW = Math.max(maxW, measure.offsetWidth);
+    }
+    const maxAllowedW = modalRect.width - 40;
+    const w = Math.max(60, Math.min(maxAllowedW, maxW + 16));
+    const h = Math.max(lineHeight + 8, lines.length * lineHeight + 12);
+    ed.style.width = w + 'px';
+    ed.style.height = h + 'px';
+    ed.style.left = Math.max(4, Math.min(modalRect.width - w - 4, relX - w / 2)) + 'px';
+    ed.style.top = (relY - h / 2 - 4) + 'px';
+  };
+  ed.addEventListener('input', updateSize);
+  modal.appendChild(ed);
+  updateSize();
+  ed.focus();
+  ed.select();
+
+  let done = false;
+  const finish = (commit) => {
+    if (done) return;
+    done = true;
+    const newText = ed.value;
+    ed.remove();
+    measure.remove();
+    if (commit && newText !== note.text) {
+      updateCanvasNote(noteId, { text: newText });
+    }
+    renderRecordImage(packPotentials());
+  };
+  ed.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); finish(true); }
+    else if (e.key === 'Escape') { e.preventDefault(); finish(false); }
+  });
+  ed.addEventListener('blur', () => finish(true));
+}
+
+function resetCanvasNotesMode() {
+  _lastNoteClick = null;
+  _noteDrag = null;
+  setEditNotesMode(false);
+  closeNoteToolbar();
+  closeAddNoteMenu();
+  closeDiscPicker();
+}
+
+function clearCanvasNotes() {
+  closeNoteToolbar();
+  closeAddNoteMenu();
+  closeDiscPicker();
+  canvasNotes = [];
+  const svg = document.querySelector('#recordImageContent svg');
+  if (svg) renderCanvasNotes(svg);
+  if (typeof saveState === 'function') saveState();
+}
+
+function _escNoteText(s) {
+  return String(s == null ? '' : s)
+    .replace(/\\/g, '\\\\')
+    .replace(/~/g, '\\~')
+    .replace(/_/g, '\\_');
+}
+function _unescNoteText(s) {
+  return String(s).replace(/\\(.)/g, '$1');
+}
+function _splitEscaped(s, sep) {
+  const out = [];
+  let cur = '';
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === '\\' && i + 1 < s.length) {
+      cur += s[i] + s[i + 1];
+      i++;
+    } else if (s[i] === sep) {
+      out.push(cur);
+      cur = '';
+    } else {
+      cur += s[i];
+    }
+  }
+  out.push(cur);
+  return out;
+}
+
+function encodeCanvasNotesToParam() {
+  if (!canvasNotes.length) return '';
+  try {
+    const parts = canvasNotes.map(n => {
+      if (n.type === 'discImg') {
+        return `D_${n.x}_${n.y}_${n.fontSize}_${n.imgSize}_${n.discId}`;
+      }
+      return `t_${n.x}_${n.y}_${n.fontSize}_${_escNoteText(n.text)}`;
+    });
+    return parts.join('~');
+  } catch(e) { return ''; }
+}
+
+function decodeCanvasNotesFromParam(s) {
+  if (!s) return;
+  try {
+    const noteStrs = _splitEscaped(s, '~');
+    const parsed = noteStrs.map(ns => {
+      const f = ns.split('_');
+      const type = f[0] === 'D' ? 'discImg' : 'text';
+      const note = {
+        id: _genNoteId(),
+        type,
+        x: Number(f[1]) || 50,
+        y: Number(f[2]) || 50,
+        fontSize: Number(f[3]) || 18,
+      };
+      if (type === 'discImg') {
+        note.imgSize = Number(f[4]) || 80;
+        note.discId = f[5] && f[5] !== 'null' ? f[5] : null;
+        note.text = '';
+      } else {
+        note.text = _unescNoteText(f.slice(4).join('_'));
+        note.discId = null;
+        note.imgSize = 80;
+      }
+      return note;
+    });
+    canvasNotes = parsed
+      .filter(n => CANVAS_NOTE_TYPES[n.type])
+      .map(n => ({
+        id: n.id || _genNoteId(),
+        type: n.type,
+        x: typeof n.x === 'number' ? _roundPct(n.x) : 50,
+        y: typeof n.y === 'number' ? _roundPct(n.y) : 50,
+        fontSize: n.fontSize || 18,
+        text: n.text || '',
+        discId: n.discId ?? null,
+        imgSize: n.imgSize || 80
+      }));
+    saveState();
+  } catch(e) { console.warn('Failed to decode canvas notes:', e.message); }
+}

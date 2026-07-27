@@ -13,6 +13,7 @@ function buildCurrentState() {
     potLevels: {...potLevels},
     priorityMap: {...priorityMap},
     potOrder: JSON.parse(JSON.stringify(potOrder)),
+    canvasNotes: (canvasNotes || []).map(n => ({...n})),
     currentTitle: currentTitle,
     currentThemeName: currentThemeName
   };
@@ -167,6 +168,7 @@ function showLoadBuildPopup() {
       if (!build) return;
       backdrop.remove();
       const extras = build.state;
+      clearCanvasNotes();
       if (extras.selectedChars) selectedChars = extras.selectedChars;
       if (extras.selectedDiscs) selectedDiscs = extras.selectedDiscs;
       if (extras.discCopies) discCopies = extras.discCopies;
@@ -176,6 +178,7 @@ function showLoadBuildPopup() {
       if (extras.potLevels) potLevels = extras.potLevels;
       if (extras.priorityMap) priorityMap = extras.priorityMap;
       if (extras.potOrder) potOrder = extras.potOrder;
+      if (extras.canvasNotes) canvasNotes = extras.canvasNotes;
       currentTitle = extras.currentTitle || '';
       localStorage.setItem('nrb-title', currentTitle);
       const titleInput = document.getElementById('recordTitle');
@@ -353,8 +356,11 @@ async function init() {
       if (orderParam) editUrl += '&order=' + encodeURIComponent(orderParam);
       const titleParam = urlParams.get('title');
       if (titleParam) editUrl += '&title=' + encodeURIComponent(titleParam);
+      const notesParam = urlParams.get('notes');
+      if (notesParam) editUrl += '&notes=' + encodeURIComponent(notesParam);
       currentTitle = '';
       currentThemeName = 'dark';
+      clearCanvasNotes();
       const titleP = urlParams.get('title');
       if (titleP) setRecordTitle(titleP);
       const themeP = urlParams.get('theme');
@@ -364,6 +370,9 @@ async function init() {
       applyPendingPrios();
       applyBonusUnitsData(bonusData);
       if (orderParam) resolveOrderFromParam(orderParam);
+      if (notesParam && typeof decodeCanvasNotesFromParam === 'function') {
+        decodeCanvasNotesFromParam(notesParam);
+      }
       const svgString = renderRecordImage(png, { returnSVG: true });
       try {
         const { pngBlob, svgString: inlinedSvgString } = await svgToPngBlob(svgString);
@@ -450,6 +459,7 @@ async function init() {
     sessionStorage.removeItem('nrb-load-extras');
     try {
       const extras = JSON.parse(extrasJson);
+      clearCanvasNotes();
       if (extras.selectedChars) selectedChars = extras.selectedChars;
       if (extras.selectedDiscs) selectedDiscs = extras.selectedDiscs;
       if (extras.discCopies) discCopies = extras.discCopies;
@@ -459,6 +469,7 @@ async function init() {
       if (extras.potLevels) potLevels = extras.potLevels;
       if (extras.priorityMap) priorityMap = extras.priorityMap;
       if (extras.potOrder) potOrder = extras.potOrder;
+      if (extras.canvasNotes) canvasNotes = extras.canvasNotes;
       renderDiscOutput();
       renderDiscs();
       updateDiscOutputText();

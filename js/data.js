@@ -20,6 +20,8 @@ let potOrder = {};
 let typeIdToSlot = {};
 let discImagesPreloaded = false;
 let activePotTab = 0;
+let canvasNotes = [];
+let editNotesMode = false;
 
 const NOTE_IDS = [90011,90012,90013,90014,90015,90016,90017,90018,90019,90020,90021,90022,90023];
 const ELEMENT_NOTE = {Aqua:90018,Ignis:90019,Ventus:90020,Terra:90021,Lux:90022,Umbra:90023};
@@ -76,7 +78,8 @@ function saveState() {
     potLevels: {...potLevels}, emblemStats: {...emblemStats},
     emblemStatGroups: {...emblemStatGroups}, noteCounts: {...noteCounts}, discCopies: {...discCopies},
     priorityMap: {...priorityMap},
-    potOrder: JSON.parse(JSON.stringify(potOrder))
+    potOrder: JSON.parse(JSON.stringify(potOrder)),
+    canvasNotes: canvasNotes.map(n => ({...n}))
   };
   localStorage.setItem('nebulaBuildState', JSON.stringify(state));
 }
@@ -96,6 +99,7 @@ function loadState() {
     discCopies = state.discCopies || {};
     priorityMap = state.priorityMap || {};
     potOrder = state.potOrder || {};
+    canvasNotes = Array.isArray(state.canvasNotes) ? state.canvasNotes : [];
   } catch (e) { console.warn('Failed to load state:', e); }
 }
 

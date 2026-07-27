@@ -10,6 +10,7 @@
 <script src="js/potentials.js"></script>
 <script src="js/output.js"></script>
 <script src="js/record-image.js"></script>
+<script src="js/canvas-notes.js"></script>
 <script src="js/main.js"></script>
 <title>Nebula Record Builder</title>
 <style>
@@ -456,6 +457,127 @@ body.modal-open { overflow:hidden; }
 
 g[data-id].svg-drag-src { opacity:0.4; }
 
+/* Canvas notes (Edit Notes mode) */
+.record-preview-close.active-toggle {
+  background: #ccc; border-color: #ccc; color: #111;
+}
+.record-preview-close.active-toggle:hover { background: #bbb; color: #111; }
+.add-note-menu {
+  background: #1e1e1e; border: 1px solid #444; border-radius: 4px;
+  padding: 4px; display: flex; flex-direction: column; gap: 2px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+  font-family: 'Consolas', monospace;
+}
+.add-note-type {
+  display: flex; align-items: center; gap: 8px;
+  background: transparent; border: 1px solid transparent; color: #ccc;
+  padding: 6px 12px; font-size: 12px; font-family: inherit;
+  border-radius: 3px; cursor: pointer; text-align: left;
+  min-width: 110px; letter-spacing: 1px;
+}
+.add-note-type:hover { background: #2a2a2a; border-color: #555; color: #fff; }
+.add-note-type-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; background: #2a2a2a; border: 1px solid #444;
+  border-radius: 3px; font-weight: bold; color: #aaa; font-size: 12px;
+}
+.note-toolbar {
+  display: flex; align-items: center; gap: 4px;
+  background: #1e1e1e; border: 1px solid #555; border-radius: 4px;
+  padding: 4px; box-shadow: 0 4px 14px rgba(0,0,0,0.7);
+  font-family: 'Consolas', monospace;
+}
+.ntb-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 26px; height: 26px; padding: 0 6px;
+  background: #2a2a2a; border: 1px solid #3a3a3a; color: #ccc;
+  border-radius: 3px; cursor: pointer; font-size: 11px;
+  font-family: inherit; line-height: 1;
+}
+.ntb-btn:hover { background: #3a3a3a; color: #fff; }
+.ntb-btn .up { color: #6c6; margin-left: 1px; font-size: 10px; }
+.ntb-btn .down { color: #c66; margin-left: 1px; font-size: 10px; }
+.ntb-btn.is-active { background: #3a3a3a; color: #ffcb3b; border-color: #5a4a20; }
+.ntb-btn.is-active:hover { background: #4a4a3a; }
+.ntb-sep { width: 1px; height: 18px; background: #3a3a3a; margin: 0 2px; }
+.ntb-size-input {
+  width: 38px; height: 26px; padding: 0 4px; margin: 0 2px; box-sizing: border-box;
+  background: #1e1e1e; border: 1px solid #3a3a3a; color: #ccc; border-radius: 3px;
+  font-family: 'Consolas', monospace; font-size: 11px; text-align: center;
+  -moz-appearance: textfield; outline: none;
+}
+.ntb-size-input::-webkit-inner-spin-button,
+.ntb-size-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.ntb-size-input:focus { border-color: #4a8aaa; }
+.disc-picker-menu {
+  background: #1e1e1e; border: 1px solid #444; border-radius: 4px;
+  padding: 8px; box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+  font-family: 'Consolas', monospace; max-width: 480px;
+}
+.disc-picker-head {
+  display: flex; align-items: center; justify-content: space-between;
+  color: #ccc; font-size: 11px; letter-spacing: 1px; padding: 2px 4px 6px;
+  border-bottom: 1px solid #333; margin-bottom: 6px;
+}
+.disc-picker-close {
+  background: transparent; border: none; color: #888; font-size: 16px;
+  line-height: 1; cursor: pointer; padding: 0 4px;
+}
+.disc-picker-close:hover { color: #fff; }
+.disc-picker-body {
+  max-height: 380px; overflow-y: auto; padding-right: 2px;
+}
+.disc-picker-section {
+  margin-bottom: 6px;
+}
+.disc-picker-section:last-child { margin-bottom: 0; }
+.disc-picker-section-bar {
+  height: 3px; border-radius: 2px; margin-bottom: 3px;
+  box-shadow: 0 0 4px currentColor;
+}
+.disc-picker-grid {
+  display: grid; grid-template-columns: repeat(6, 64px); gap: 4px;
+  padding: 2px;
+}
+.disc-picker-cell {
+  position: relative; width: 64px; height: 64px; padding: 0;
+  background: #2a2a2a; border: 0; border-radius: 5px;
+  cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center;
+}
+.disc-picker-cell.star3 { background: linear-gradient(135deg, #88ccee, #ddffff); }
+.disc-picker-cell.star4 { background: linear-gradient(135deg, #ffdd55, #eeffcc); }
+.disc-picker-cell.star5 { background: linear-gradient(135deg, #dd88ee, #77ffff); }
+.disc-picker-cell:hover { box-shadow: 0 0 0 2px #6ab0d0; }
+.disc-picker-cell.selected { box-shadow: 0 0 0 2px #6c6; }
+.disc-picker-clip {
+  position: relative; z-index: 1;
+  width: calc(100% - 8px); height: calc(100% - 8px);
+  overflow: hidden; border-radius: 3px; background: #2a2a2a;
+}
+.disc-picker-clip > img {
+  width: calc(100% + 10px); height: calc(100% + 10px);
+  margin: -5px; object-fit: cover; display: block;
+  image-rendering: -webkit-optimize-contrast;
+}
+.disc-picker-badge {
+  position: absolute; top: 0; left: 0; width: 32px; height: 32px;
+  z-index: 2; pointer-events: none;
+}
+.note-text-editor {
+  background: rgba(20,20,20,0.92); border: 1px solid #4a8aaa; color: #fff;
+  font-family: 'Consolas', 'SF Mono', monospace; font-weight: bold;
+  border-radius: 3px; outline: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+}
+.note-text-editor-inplace {
+  background: rgba(20,20,20,0.85); border-color: #6ab0d0;
+  box-shadow: 0 0 0 2px rgba(106,176,208,0.25), 0 4px 12px rgba(0,0,0,0.7);
+  resize: none;
+  overflow: hidden;
+  font-family: 'Consolas', 'SF Mono', monospace;
+  white-space: pre;
+}
+
 /* Vanilla Mode: show only Preset Code, Characters, Potentials */
 body.vanilla-mode #recordCommandSection,
 body.vanilla-mode #discsSection,
@@ -591,16 +713,21 @@ body.vanilla-mode .emblem-section { display: none !important; }
   <div class="record-preview-modal">
     <div class="record-preview-header">
       <h2 class="record-preview-title">Record Preview</h2>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        <input type="text" id="recordTitle" class="record-title-input" placeholder="Record title..." value="" oninput="setRecordTitle(this.value)" maxlength="60">
-        <button class="record-preview-close theme-arrow" onclick="prevTheme()" title="Previous theme">▲</button>
-        <select class="record-preview-close theme-select" id="themeSelect" onchange="setTheme(this.value)"></select>
-        <button class="record-preview-close theme-arrow" onclick="nextTheme()" title="Next theme">▼</button>
-        <button class="record-preview-close" onclick="openRecordPNG()">PNG</button>
-        <button class="record-preview-close" onclick="copyRecordPNG()">Copy PNG</button>
-        <button class="record-preview-close" id="copyRecordLinkBtn" onclick="copyRecordLink()">Copy Link</button>
-        <button class="record-preview-close" onclick="resetPotOrder()">Default Order</button>
-        <button class="record-preview-close" onclick="hideRecordImage()">Close</button>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+          <button class="record-preview-close" onclick="openRecordPNG()">PNG</button>
+          <button class="record-preview-close" onclick="copyRecordPNG()">Copy PNG</button>
+          <button class="record-preview-close" id="copyRecordLinkBtn" onclick="copyRecordLink()">Copy Link</button>
+          <button class="record-preview-close" onclick="hideRecordImage()">Close</button>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+          <input type="text" id="recordTitle" class="record-title-input" placeholder="Record title..." value="" oninput="setRecordTitle(this.value)" maxlength="60">
+          <button class="record-preview-close theme-arrow" onclick="prevTheme()" title="Previous theme">▲</button>
+          <select class="record-preview-close theme-select" id="themeSelect" onchange="setTheme(this.value)"></select>
+          <button class="record-preview-close theme-arrow" onclick="nextTheme()" title="Next theme">▼</button>
+          <button class="record-preview-close" id="editNotesBtn" onclick="toggleCanvasNotesMode()">Notes Editing Mode</button>
+          <button class="record-preview-close" id="addNoteBtn" onclick="openAddNoteMenu(this)">Add Note</button>
+        </div>
       </div>
     </div>
     <div id="recordImageContent" class="record-preview-content"></div>

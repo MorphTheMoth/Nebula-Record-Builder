@@ -56,6 +56,7 @@ function nextTheme() {
 function hideRecordImage() {
   document.getElementById('recordImageOverlay').style.display = 'none';
   document.body.classList.remove('modal-open');
+  if (typeof resetCanvasNotesMode === 'function') resetCanvasNotesMode();
 }
 
 function renderRecordImage(b64, options = {}) {
@@ -246,7 +247,13 @@ function renderRecordImage(b64, options = {}) {
 
   svg += `</svg>`;
 
-  if (returnSVG) return svg;
+  if (returnSVG) {
+    if (typeof buildNotesSvgString === 'function') {
+      const notes = buildNotesSvgString(svgW, svgH);
+      if (notes) svg = svg.replace(/<\/svg>\s*$/, notes + '</svg>');
+    }
+    return svg;
+  }
 
   document.getElementById('recordImageContent').innerHTML = svg;
   populateThemeSelect();
@@ -254,6 +261,12 @@ function renderRecordImage(b64, options = {}) {
   attachPotentialTooltips(document.querySelector('#recordImageContent svg'));
 
   enableSvgReorder();
+
+  const finalSvg = document.querySelector('#recordImageContent svg');
+  if (finalSvg) {
+    renderCanvasNotes(finalSvg);
+    attachCanvasNoteEvents(finalSvg);
+  }
 
   document.getElementById('recordImageOverlay').style.display = 'block';
   document.body.classList.add('modal-open');
@@ -386,6 +399,9 @@ function buildRecordUrl() {
   });
   const orderStr = orderParts.join('_');
   if (orderStr.replace(/_/g, '')) url += '&order=' + encodeURIComponent(orderStr);
+
+  const notesStr = typeof encodeCanvasNotesToParam === 'function' ? encodeCanvasNotesToParam() : '';
+  if (notesStr) url += '&notes=' + encodeURIComponent(notesStr);
 
   return url;
 }
@@ -778,15 +794,20 @@ function checkRecordImageParam() {
   const bonusData = params.get('bonus-data');
   const titleParam = params.get('title');
   const themeParam = params.get('theme');
+  const notesParam = params.get('notes');
   if (preview || image) {
     currentTitle = '';
     currentThemeName = 'dark';
+    if (typeof clearCanvasNotes === 'function') clearCanvasNotes();
     if (titleParam) {
       currentTitle = titleParam;
       localStorage.setItem('nrb-title', currentTitle);
     }
     if (themeParam && themes[themeParam]) {
       currentThemeName = themeParam;
+    }
+    if (notesParam && typeof decodeCanvasNotesFromParam === 'function') {
+      decodeCanvasNotesFromParam(notesParam);
     }
   }
   if (preview) {
