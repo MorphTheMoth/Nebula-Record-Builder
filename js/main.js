@@ -84,6 +84,7 @@ function saveBuildCurrent() {
   existing.url = buildRecordUrl().replace('record-png=', 'record-preview=');
   existing.state = buildCurrentState();
   localStorage.setItem(SAVED_BUILDS_KEY, JSON.stringify(builds));
+  updatePotSaveButton();
   showToast('Saved');
 }
 
@@ -106,7 +107,17 @@ function saveBuildAs() {
     localStorage.setItem(SAVED_BUILDS_KEY, JSON.stringify(builds));
     currentBuildId = build.id;
     localStorage.setItem(CURRENT_BUILD_KEY, currentBuildId);
+    updatePotSaveButton();
   });
+}
+
+function updatePotSaveButton() {
+  const btn = document.getElementById('potSaveBtn');
+  if (!btn) return;
+  const loadedId = currentBuildId || Number(localStorage.getItem(CURRENT_BUILD_KEY));
+  const builds = JSON.parse(localStorage.getItem(SAVED_BUILDS_KEY) || '[]');
+  const existing = builds.find(b => b.id === loadedId);
+  btn.textContent = existing ? `Save '${existing.title}'` : 'Save';
 }
 
 function showLoadBuildPopup() {
@@ -182,6 +193,7 @@ function showLoadBuildPopup() {
       generate();
       currentBuildId = build.id;
       if (currentBuildId) localStorage.setItem(CURRENT_BUILD_KEY, currentBuildId);
+      updatePotSaveButton();
       renderRecordImage(packPotentials());
     });
   });
@@ -387,6 +399,7 @@ async function init() {
 
     loadState();
     currentBuildId = Number(localStorage.getItem(CURRENT_BUILD_KEY)) || null;
+    updatePotSaveButton();
     const playerIdInput = document.getElementById('playerIdInput');
     if (playerIdInput) playerIdInput.value = playerId;
     await renderChars();
@@ -456,6 +469,7 @@ async function init() {
       generate();
       currentBuildId = extras.buildId || null;
       if (currentBuildId) localStorage.setItem(CURRENT_BUILD_KEY, currentBuildId);
+      updatePotSaveButton();
     } catch(e) { console.warn('Failed to restore extras:', e); }
   }
 }

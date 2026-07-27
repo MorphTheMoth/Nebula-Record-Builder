@@ -116,6 +116,7 @@ function updatePotentials() {
   const chars = selectedChars.filter(c => c);
   if (!chars.length) { sec.style.display = 'none'; return; }
   sec.style.display = '';
+  updatePotSaveButton();
 
   if (activePotTab >= chars.length) activePotTab = 0;
 
