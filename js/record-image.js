@@ -412,7 +412,12 @@ function buildRecordUrl() {
     const encoded = groupKeys.map(key => {
       const ids = potOrder[slot][key];
       if (!ids || !ids.length) return '';
-      return ids.map(id => String(id).slice(-2)).join('');
+      const validIds = ids.filter(id => {
+        const level = potLevels[+id] || 0;
+        return level > 0 && getPotPriority(id, level) === key;
+      });
+      if (!validIds.length) return '';
+      return validIds.map(id => String(id).slice(-2)).join('');
     }).join('-');
     orderParts.push(encoded);
   });
@@ -630,14 +635,41 @@ function resolveOrderFromParam(orderStr) {
     allFullIds.forEach(fid => { shortToFull[String(fid).slice(-2)] = fid; });
 
     const orders = {};
+    const corrupted = {};
     parts.forEach((part, i) => {
       if (i >= groupKeys.length) return;
+      const key = groupKeys[i];
+      if (!part) { corrupted[key] = false; return; }
+      const seen = new Set();
       const fullIds = [];
+      let rawCount = 0;
       for (let j = 0; j < part.length; j += 2) {
         const short = part.slice(j, j + 2);
-        if (short.length === 2 && shortToFull[short]) fullIds.push(String(shortToFull[short]));
+        if (short.length === 2 && shortToFull[short]) {
+          rawCount++;
+          if (!seen.has(short)) {
+            seen.add(short);
+            fullIds.push(String(shortToFull[short]));
+          }
+        }
       }
-      if (fullIds.length) orders[groupKeys[i]] = fullIds;
+      corrupted[key] = rawCount > seen.size;
+      if (fullIds.length) orders[key] = fullIds;
+    });
+
+    groupKeys.forEach(key => {
+      if (!orders[key]) return;
+      const natural = getCurrentGroupOrder(slot, key);
+      const naturalSet = new Set(natural);
+      let cleaned;
+      if (corrupted[key]) {
+        cleaned = natural;
+      } else {
+        cleaned = orders[key].filter(id => naturalSet.has(id));
+        natural.forEach(id => { if (!cleaned.includes(id)) cleaned.push(id); });
+      }
+      if (cleaned.length) orders[key] = cleaned;
+      else delete orders[key];
     });
 
     if (Object.keys(orders).length) potOrder[slot] = orders;

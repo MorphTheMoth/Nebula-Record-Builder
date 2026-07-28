@@ -8,7 +8,10 @@ function updateBase64() {
 function cleanupPotOrder() {
   for (const slot of Object.keys(potOrder)) {
     for (const group of Object.keys(potOrder[slot])) {
-      potOrder[slot][group] = potOrder[slot][group].filter(id => (potLevels[+id] || 0) > 0);
+      potOrder[slot][group] = potOrder[slot][group].filter(id => {
+        const level = potLevels[+id] || 0;
+        return level > 0 && getPotPriority(id, level) === group;
+      });
       if (!potOrder[slot][group].length) delete potOrder[slot][group];
     }
     if (!Object.keys(potOrder[slot]).length) delete potOrder[slot];
