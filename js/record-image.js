@@ -212,7 +212,7 @@ function renderRecordImage(b64, options = {}) {
   }
 
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" style="max-width:100%;height:auto;display:block;">
-<defs><clipPath id="c"><rect width="${PW}" height="${PH}" rx="4"/></clipPath></defs>
+<defs><clipPath id="c"><rect width="${PW}" height="${PH}" rx="4"/></clipPath><style>@font-face{font-family:'DejaVu Sans Mono';src:url('data/fonts/DejaVuSansMono.woff2')format('woff2');}</style></defs>
 <rect width="${svgW}" height="${svgH}" fill="${theme.svgBg}"/>`;
 
   if (currentTitle) {
@@ -297,6 +297,23 @@ async function svgToPngBlob(svgSource) {
       el.setAttribute('href', dataUrl);
     } catch (e) { console.warn('PNG embed failed:', href, e); hadFailure = true; el.remove(); }
   }));
+
+  const styles = clone.querySelectorAll('style');
+  for (const el of styles) {
+    const text = el.textContent;
+    const urlMatch = text.match(/url\(['"]?([^'"()]+)['"]?\)/);
+    if (urlMatch && !urlMatch[1].startsWith('data:')) {
+      try {
+        const resp = await fetch(urlMatch[1]);
+        if (resp.ok) {
+          const blob = await resp.blob();
+          const dataUrl = await new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); });
+          el.textContent = text.replace(urlMatch[1], dataUrl);
+        }
+      } catch (e) { console.warn('Font embed failed:', urlMatch[1], e); }
+    }
+  }
+
   if (hadFailure) showToast('Some images failed to load');
 
   const inlinedSvgString = new XMLSerializer().serializeToString(clone);
