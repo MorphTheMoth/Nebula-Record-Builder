@@ -378,14 +378,14 @@ function buildRecordUrl() {
   chars.forEach(cId => slotStrs.push(buildPrioSlot(cId)));
   extras.forEach(cId => slotStrs.push(buildPrioSlot(cId)));
   const base = window.location.protocol + '//' + window.location.host + window.location.pathname;
-  let url = base + '?record-png=' + encodeURIComponent(b64);
+  let url = base + '?png=' + encodeURIComponent(b64);
   const prioStr = slotStrs.join('_');
-  if (prioStr.replace(/-/g, '')) url += '&priorities=' + encodeURIComponent(prioStr);
-  if (currentTitle) url += '&title=' + encodeURIComponent(currentTitle);
-  url += '&theme=' + encodeURIComponent(currentThemeName);
+  if (prioStr.replace(/-/g, '')) url += '&p=' + encodeURIComponent(prioStr);
+  if (currentTitle) url += '&t=' + encodeURIComponent(currentTitle);
+  url += '&h=' + encodeURIComponent(currentThemeName);
 
   if (extras.length) {
-    url += '&bonus-data=' + encodeURIComponent(packPotLevels(extras));
+    url += '&b=' + encodeURIComponent(packPotLevels(extras));
   }
 
   const groupKeys = ['core', 'high', 'medium', 'low', 'optional'];
@@ -400,10 +400,10 @@ function buildRecordUrl() {
     orderParts.push(encoded);
   });
   const orderStr = orderParts.join('_');
-  if (orderStr.replace(/_/g, '')) url += '&order=' + encodeURIComponent(orderStr);
+  if (orderStr.replace(/_/g, '')) url += '&o=' + encodeURIComponent(orderStr);
 
   const notesStr = typeof encodeCanvasNotesToParam === 'function' ? encodeCanvasNotesToParam() : '';
-  if (notesStr) url += '&notes=' + encodeURIComponent(notesStr);
+  if (notesStr) url += '&n=' + encodeURIComponent(notesStr);
 
   return url;
 }
@@ -789,14 +789,14 @@ function applyBonusUnitsData(b64) {
 
 function checkRecordImageParam() {
   const params = new URLSearchParams(window.location.search.replace(/\+/g, '%2B'));
-  const orderParam = params.get('order');
-  const preview = params.get('record-preview');
-  const png = params.get('record-png');
+  const orderParam = params.get('o') ?? params.get('order');
+  const preview = params.get('r') ?? params.get('record-preview');
+  const png = params.get('png') ?? params.get('record-png');
   const image = params.get('record-image') || png;
-  const bonusData = params.get('bonus-data');
-  const titleParam = params.get('title');
-  const themeParam = params.get('theme');
-  const notesParam = params.get('notes');
+  const bonusData = params.get('b') ?? params.get('bonus-data');
+  const titleParam = params.get('t') ?? params.get('title');
+  const themeParam = params.get('h') ?? params.get('theme');
+  const notesParam = params.get('n') ?? params.get('notes');
   if (preview || image) {
     currentTitle = '';
     currentThemeName = 'dark';

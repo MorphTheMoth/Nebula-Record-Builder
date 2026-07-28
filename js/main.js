@@ -82,7 +82,7 @@ function saveBuildCurrent() {
 
   existing.timestamp = Date.now();
   existing.chars = [...selectedChars];
-  existing.url = buildRecordUrl().replace('record-png=', 'record-preview=');
+  existing.url = buildRecordUrl().replace('png=', 'r=');
   existing.state = buildCurrentState();
   localStorage.setItem(SAVED_BUILDS_KEY, JSON.stringify(builds));
   updatePotSaveButton();
@@ -101,7 +101,7 @@ function saveBuildAs() {
       title: name,
       timestamp: Date.now(),
       chars: [...selectedChars],
-      url: buildRecordUrl().replace('record-png=', 'record-preview='),
+      url: buildRecordUrl().replace('png=', 'r='),
       state: buildCurrentState()
     };
     builds.push(build);
@@ -329,8 +329,8 @@ async function init() {
     potDescMap = buildPotDescMap();
 
     const urlParams = new URLSearchParams(window.location.search.replace(/\+/g, '%2B'));
-    const png = urlParams.get('record-png');
-    const prioStr = urlParams.get('priorities');
+    const png = urlParams.get('png') ?? urlParams.get('record-png');
+    const prioStr = urlParams.get('p') ?? urlParams.get('priorities');
     if (prioStr) {
       const slotStrs = prioStr.split('_');
       const keys = ['core', 'high', 'medium', 'low', 'optional'];
@@ -348,22 +348,22 @@ async function init() {
     }
 
     if (png) {
-      const orderParam = urlParams.get('order');
-      const bonusData = urlParams.get('bonus-data');
-      let editUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?record-preview=' + encodeURIComponent(png) + (prioStr ? '&priorities=' + encodeURIComponent(prioStr) : '') + (bonusData ? '&bonus-data=' + encodeURIComponent(bonusData) : '');
-      const themeParam = urlParams.get('theme');
-      if (themeParam) editUrl += '&theme=' + encodeURIComponent(themeParam);
-      if (orderParam) editUrl += '&order=' + encodeURIComponent(orderParam);
-      const titleParam = urlParams.get('title');
-      if (titleParam) editUrl += '&title=' + encodeURIComponent(titleParam);
-      const notesParam = urlParams.get('notes');
-      if (notesParam) editUrl += '&notes=' + encodeURIComponent(notesParam);
+      const orderParam = urlParams.get('o') ?? urlParams.get('order');
+      const bonusData = urlParams.get('b') ?? urlParams.get('bonus-data');
+      let editUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?r=' + encodeURIComponent(png) + (prioStr ? '&p=' + encodeURIComponent(prioStr) : '') + (bonusData ? '&b=' + encodeURIComponent(bonusData) : '');
+      const themeParam = urlParams.get('h') ?? urlParams.get('theme');
+      if (themeParam) editUrl += '&h=' + encodeURIComponent(themeParam);
+      if (orderParam) editUrl += '&o=' + encodeURIComponent(orderParam);
+      const titleParam = urlParams.get('t') ?? urlParams.get('title');
+      if (titleParam) editUrl += '&t=' + encodeURIComponent(titleParam);
+      const notesParam = urlParams.get('n') ?? urlParams.get('notes');
+      if (notesParam) editUrl += '&n=' + encodeURIComponent(notesParam);
       currentTitle = '';
       currentThemeName = 'dark';
       clearCanvasNotes();
-      const titleP = urlParams.get('title');
+      const titleP = urlParams.get('t') ?? urlParams.get('title');
       if (titleP) setRecordTitle(titleP);
-      const themeP = urlParams.get('theme');
+      const themeP = urlParams.get('h') ?? urlParams.get('theme');
       if (themeP && themes[themeP]) currentThemeName = themeP;
       document.getElementById('importInput').value = png;
       importPotentials(true);
