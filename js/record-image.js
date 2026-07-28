@@ -373,7 +373,7 @@ function buildRecordUrl() {
         (byPrio[priorityMap[fullId]] || (byPrio[priorityMap[fullId]] = [])).push(short);
       }
     });
-    return keys.map(k => (byPrio[k] || []).join(',')).join('-');
+    return keys.map(k => (byPrio[k] || []).join('.')).join('-');
   };
   chars.forEach(cId => slotStrs.push(buildPrioSlot(cId)));
   extras.forEach(cId => slotStrs.push(buildPrioSlot(cId)));

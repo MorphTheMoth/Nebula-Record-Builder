@@ -339,7 +339,7 @@ async function init() {
         const map = {};
         groups.forEach((part, i) => {
           if (i >= keys.length) return;
-          (part || '').split(',').filter(Boolean).forEach(id => {
+          (part || '').split(/[.,]/).filter(Boolean).forEach(id => {
             map[id.trim()] = keys[i];
           });
         });
