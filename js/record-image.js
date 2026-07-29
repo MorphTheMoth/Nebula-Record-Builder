@@ -235,7 +235,7 @@ function renderRecordImage(b64, options = {}) {
   }
 
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" style="max-width:100%;height:auto;display:block;">
-<defs><clipPath id="c"><rect width="${PW}" height="${PH}" rx="4"/></clipPath><style>@font-face{font-family:'DejaVu Sans Mono';src:url('data/fonts/DejaVuSansMono.woff2')format('woff2');}</style></defs>
+<defs><clipPath id="c"><rect width="${PW}" height="${PH}" rx="4"/></clipPath><style>@font-face{font-family:'DejaVu Sans Mono';src:url('data/fonts/DejaVuSansMono.woff2')format('woff2');}.h-bdg{opacity:0;transition:opacity .12s}.h-ar:hover .h-bdg{opacity:1}.h-ar{cursor:pointer}</style></defs>
 <rect width="${svgW}" height="${svgH}" fill="${theme.svgBg}"/>`;
 
   if (currentTitle) {
@@ -249,7 +249,7 @@ function renderRecordImage(b64, options = {}) {
       const ex = el.x + sp;
       if (el.t === 'portrait') {
         svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${theme.portrait[el.slot === 0 ? 0 : 1]}"/>`;
-        svg += `<g transform="translate(${ex+RP+NW+IG},${ry+RP})" clip-path="url(#c)"><image x="${SO}" y="${SO}" width="${SW}" height="${SH}" href="${esc(el.img)}" preserveAspectRatio="xMidYMid slice"/><rect x="0" y="0" width="${PW}" height="${PH}" fill="transparent" class="char-head-click" data-slot="${el.slot}" data-char-id="${el.charId}" style="cursor:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2732%27 height=%2732%27 viewBox=%270 0 32 32%27%3E%3Cpath d=%27M4 22v6h6L26 12l-6-6L4 22zM26 8a2 2 0 0 0 0-2.83L22.83 2a2 2 0 0 0-2.83 0L18 4l6 6 2-2z%27 fill=%27white%27 stroke=%27%23222%27 stroke-width=%271.5%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E') 4 28, pointer;"/></g>`;
+        svg += `<g class="h-ar" transform="translate(${ex+RP+NW+IG},${ry+RP})" clip-path="url(#c)"><image x="${SO}" y="${SO}" width="${SW}" height="${SH}" href="${esc(el.img)}" preserveAspectRatio="xMidYMid slice"/><g class="h-bdg" style="pointer-events:none"><rect x="0" y="0" width="${PW}" height="${PH}" fill="rgba(0,0,0,0.4)"/><circle cx="${PW/2}" cy="${PH/2}" r="16" fill="rgba(0,0,0,0.55)"/><g transform="translate(${PW/2},${PH/2}) rotate(-45)"><polygon points="-10,-4 -8,-4 4,-4 10,0 4,4 -8,4 -10,4" fill="#eee"/></g></g><rect x="0" y="0" width="${PW}" height="${PH}" fill="transparent" class="char-head-click" data-slot="${el.slot}" data-char-id="${el.charId}"/></g>`;
         svg += vertText(ex + RP + 19, ry + RP + 2, el.name, theme.titleColor);
       } else {
         svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${el.color}"/>`;
