@@ -1272,11 +1272,13 @@ function finalizeCrop(charId, slot, dataUrl, scale, tx, ty, naturalW, naturalH, 
 
   const img = new Image();
   img.onload = () => {
+    const scale2 = 2;
     const canvas = document.createElement('canvas');
-    canvas.width = 120;
-    canvas.height = 153;
+    canvas.width = 120 * scale2;
+    canvas.height = 153 * scale2;
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, 120, 153);
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, 120 * scale2, 153 * scale2);
     customHeadImages[String(charId)] = canvas.toDataURL('image/png');
     const menu = document.querySelector('.head-variant-menu');
     if (menu) menu.remove();
