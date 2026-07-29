@@ -260,6 +260,9 @@ function clearDiscs() {
 function clearPotentials() {
   potLevels = {};
   potOrder = {};
+  currentBuildId = null;
+  localStorage.removeItem(CURRENT_BUILD_KEY);
+  updatePotSaveButton();
   saveState();
   updatePotentials();
   generate();
@@ -284,6 +287,9 @@ function clearNotes(resetNotesCount) {
 
 function clearCharacters() {
   selectedChars = [];
+  currentBuildId = null;
+  localStorage.removeItem(CURRENT_BUILD_KEY);
+  updatePotSaveButton();
   saveState();
   refreshCharBadges();
   updatePotentials();

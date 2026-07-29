@@ -69,6 +69,11 @@ function toggleChar(id) {
   } else {
     selectedChars.push(id);
   }
+  if (!selectedChars.length) {
+    currentBuildId = null;
+    localStorage.removeItem(CURRENT_BUILD_KEY);
+    updatePotSaveButton();
+  }
   refreshCharBadges();
   updatePotentials();
   updateNotes();
