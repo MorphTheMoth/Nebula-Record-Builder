@@ -2,7 +2,7 @@ const CANVAS_NOTE_TYPES = {
   text: {
     label: 'Text',
     icon: 'T',
-    defaults: { fontSize: 18, text: 'Note' }
+    defaults: { fontSize: 18, text: 'Note', color: 10 }
   },
   discImg: {
     label: 'Disc Img',
@@ -95,6 +95,7 @@ function addCanvasNote(type, xPct, yPct) {
     y: _roundPct(yPct ?? 50),
     fontSize: def.fontSize,
     text: def.text,
+    color: def.color ?? 10,
     discId: type === 'discImg' && !def.discId ? (_defaultDiscId() ?? null) : (def.discId ?? null),
     imgSize: def.imgSize ?? 80,
     targetId: type === 'chain' ? (def.targetId ?? _firstPotId() ?? null) : null,
@@ -149,7 +150,7 @@ function _renderNoteSvg(note, svgW, svgH) {
     }).join('');
     return {
       w, h,
-      inner: `<text x="0" y="0" text-anchor="middle" dominant-baseline="middle" font-size="${fs}" font-weight="bold" fill="#fff" font-family="Consolas, monospace" style="paint-order:stroke;stroke:#000;stroke-width:3px;stroke-linejoin:round;">${tspans}</text>`
+      inner: `<text x="0" y="0" text-anchor="middle" dominant-baseline="middle" font-size="${fs}" font-weight="bold" fill="${_getThemeColor(note.color)}" font-family="Consolas, monospace">${tspans}</text>`
     };
   }
   if (note.type === 'discImg') {
@@ -702,6 +703,56 @@ function closeDiscPicker() {
   if (menu) menu.remove();
 }
 
+function _openColorPicker(anchorEl, note) {
+  _closeColorPicker();
+  const bar = anchorEl.closest('.note-toolbar') || document.getElementById('noteToolbar');
+  if (!bar) return;
+  const popup = document.createElement('div');
+  popup.className = 'color-picker-popup';
+  popup.id = 'colorPickerPopup';
+  popup.innerHTML = _getThemeColorSwatches(note.color);
+  document.body.appendChild(popup);
+
+  const r = anchorEl.getBoundingClientRect();
+  popup.style.position = 'fixed';
+  popup.style.left = r.left + 'px';
+  popup.style.top = (r.bottom + 4) + 'px';
+  popup.style.zIndex = '100003';
+
+  popup.querySelectorAll('.ntb-clr').forEach(swatch => {
+    swatch.addEventListener('mousedown', e => e.preventDefault());
+    swatch.addEventListener('click', e => {
+      e.stopPropagation();
+      const idxStr = swatch.getAttribute('data-index');
+      if (idxStr == null) return;
+      const idx = parseInt(idxStr, 10);
+      updateCanvasNote(note.id, { color: idx });
+      const clrBtn = bar.querySelector('.ntb-clr-btn');
+      if (clrBtn) clrBtn.style.background = _getThemeColor(idx);
+      _closeColorPicker();
+      renderRecordImage(packPotentials());
+    });
+  });
+
+  document.removeEventListener('mousedown', _onColorPickerOutside);
+  setTimeout(() => {
+    document.addEventListener('mousedown', _onColorPickerOutside, { once: true });
+  }, 0);
+}
+
+function _closeColorPicker() {
+  document.removeEventListener('mousedown', _onColorPickerOutside);
+  const popup = document.getElementById('colorPickerPopup');
+  if (popup) popup.remove();
+}
+
+function _onColorPickerOutside(e) {
+  const popup = document.getElementById('colorPickerPopup');
+  if (!popup) return;
+  if (e.target.closest('#colorPickerPopup') || e.target.closest('.ntb-clr-btn')) return;
+  _closeColorPicker();
+}
+
 function openNoteToolbar(noteId, gEl) {
   closeNoteToolbar();
   const note = getCanvasNote(noteId);
@@ -763,9 +814,40 @@ function _onToolbarOutsideClick(e) {
   if (e.target.closest('g[data-note-id]')) return;
   if (e.target.closest('#addNoteMenu')) return;
   if (e.target.closest('#discPickerMenu')) return;
+  if (e.target.closest('#colorPickerPopup')) return;
   if (e.target.closest('#addNoteBtn')) return;
   if (e.target.closest('#editNotesBtn')) return;
   closeNoteToolbar();
+}
+
+function _getThemePalette() {
+  const theme = getTheme(currentThemeName);
+  return [
+    theme.svgBg,
+    theme.portrait[0],
+    theme.portrait[1],
+    theme.titleColor,
+    theme.dividerColor,
+    theme.groups.core,
+    theme.groups.high,
+    theme.groups.medium,
+    theme.groups.low,
+    theme.groups.optional,
+    '#ffffff'
+  ];
+}
+
+function _getThemeColor(index) {
+  return _getThemePalette()[index] || '#ffffff';
+}
+
+function _getThemeColorSwatches(currentIndex) {
+  const palette = _getThemePalette();
+  const labels = ['Bg', 'P1', 'P2', 'Title', 'Div', 'Core', 'High', 'Med', 'Low', 'Opt', 'Wht'];
+  return palette.map((color, idx) => {
+    const active = idx === (currentIndex ?? 10) ? ' is-active' : '';
+    return `<button class="ntb-clr${active}" data-index="${idx}" style="background:${color}" title="${labels[idx]}"></button>`;
+  }).join('');
 }
 
 function _noteToolbarInner(note) {
@@ -777,6 +859,8 @@ function _noteToolbarInner(note) {
         </svg>
       </button>
       <input class="ntb-size-input" type="number" value="${note.fontSize||18}" min="8" max="96" step="1" title="Font size">
+      <span class="ntb-sep"></span>
+      <button class="ntb-clr-btn" data-act="color" title="Text color" style="background:${_getThemeColor(note.color)}"></button>
       <span class="ntb-sep"></span>
       <button class="ntb-btn" data-act="del" title="Delete note">
         <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -837,6 +921,20 @@ function _wireNoteToolbar(bar, note) {
       }
     });
   });
+  const clrBtn = bar.querySelector('.ntb-clr-btn');
+  if (clrBtn) {
+    clrBtn.addEventListener('mousedown', e => e.stopPropagation());
+    clrBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      e.preventDefault();
+      const popup = document.getElementById('colorPickerPopup');
+      if (popup) {
+        _closeColorPicker();
+        return;
+      }
+      _openColorPicker(clrBtn, note);
+    });
+  }
   const inp = bar.querySelector('.ntb-size-input');
   if (inp) {
     inp.addEventListener('mousedown', e => e.stopPropagation());
@@ -857,6 +955,7 @@ function _wireNoteToolbar(bar, note) {
 
 function closeNoteToolbar() {
   document.removeEventListener('pointerdown', _onToolbarOutsideClick);
+  _closeColorPicker();
   const bar = document.getElementById('noteToolbar');
   if (bar) bar.remove();
   const ed = document.getElementById('noteTextEditor');
@@ -1002,7 +1101,7 @@ function encodeCanvasNotesToParam() {
         const tid = n.targetId == null ? 'null' : String(n.targetId);
         return `C_${tid}_${n.length||80}`;
       }
-      return `t_${n.x}_${n.y}_${n.fontSize}_${_escNoteText(n.text)}`;
+      return `t_${n.x}_${n.y}_${n.fontSize}_${n.color ?? 10}_${_escNoteText(n.text)}`;
     });
     return parts.join('~');
   } catch(e) { return ''; }
@@ -1039,7 +1138,23 @@ function decodeCanvasNotesFromParam(s) {
         note.targetId = f[1] && f[1] !== 'null' ? f[1] : null;
         note.length = Number(f[2]) || 80;
       } else {
-        note.text = _unescNoteText(f.slice(4).join('_'));
+        if (f.length > 5) {
+          const raw = f[4];
+          const parsedIdx = parseInt(raw, 10);
+          if (!isNaN(parsedIdx) && parsedIdx >= 0 && parsedIdx <= 10) {
+            note.color = parsedIdx;
+            note.text = _unescNoteText(f.slice(5).join('_'));
+          } else if (/^#[0-9a-fA-F]{6,8}$/.test(raw) || /^rgba?\(/.test(raw)) {
+            note.color = 10;
+            note.text = _unescNoteText(f.slice(5).join('_'));
+          } else {
+            note.color = 10;
+            note.text = _unescNoteText(f.slice(4).join('_'));
+          }
+        } else {
+          note.color = 10;
+          note.text = _unescNoteText(f.slice(4).join('_'));
+        }
         note.discId = null;
         note.imgSize = 80;
         note.targetId = null;
@@ -1054,9 +1169,10 @@ function decodeCanvasNotesFromParam(s) {
         type: n.type,
         x: typeof n.x === 'number' ? _roundPct(n.x) : 50,
         y: typeof n.y === 'number' ? _roundPct(n.y) : 50,
-        fontSize: n.fontSize || 18,
-        text: n.text || '',
-        discId: n.discId ?? null,
+    fontSize: n.fontSize || 18,
+    text: n.text || '',
+    color: n.color ?? 10,
+    discId: n.discId ?? null,
         imgSize: n.imgSize || 80,
         targetId: n.targetId ?? null,
         length: n.length || 80

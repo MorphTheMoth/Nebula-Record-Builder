@@ -509,6 +509,25 @@ g[data-id].svg-drag-src { opacity:0.4; }
 .ntb-size-input::-webkit-inner-spin-button,
 .ntb-size-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .ntb-size-input:focus { border-color: #4a8aaa; }
+.ntb-clr-btn {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 1.5px solid #555; cursor: pointer; padding: 0;
+  flex-shrink: 0; box-sizing: border-box;
+}
+.ntb-clr-btn:hover { border-color: #fff; }
+.ntb-clr {
+  width: 16px; height: 16px; border: 1.5px solid #555;
+  border-radius: 2px; cursor: pointer; padding: 0;
+  flex-shrink: 0; box-sizing: border-box;
+}
+.ntb-clr:hover { border-color: #fff; }
+.ntb-clr.is-active { border-color: #ffcb3b; outline: 1px solid #ffcb3b; }
+.color-picker-popup {
+  display: flex; flex-wrap: wrap; gap: 3px;
+  background: #1e1e1e; border: 1px solid #444; border-radius: 4px;
+  padding: 6px; box-shadow: 0 4px 14px rgba(0,0,0,0.7);
+  width: fit-content; font-family: 'Consolas', monospace;
+}
 .ntb-label {
   display: inline-flex; align-items: center;
   height: 26px; padding: 0 6px;
