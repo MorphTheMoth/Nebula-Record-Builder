@@ -233,7 +233,7 @@ function renderRecordImage(b64, options = {}) {
         svg += vertText(ex + RP + 19, ry + RP + 2, el.key, theme.titleColor);
         let ix = ex + RP + NW + IG;
         for (const p of el.items) {
-          svg += `<g data-id="${p.id}" data-slot="${el.slot}" data-group="${el.key}" transform="translate(${ix},${ry+RP})" clip-path="url(#c)"><image x="0" y="0" width="${PW}" height="${PH}" href="${esc(BASE_ASSETS)}potential/${p.id}.webp" preserveAspectRatio="xMidYMid slice"/></g>`;
+          svg += `<g data-id="${p.id}" data-slot="${el.slot}" data-group="${el.key}" transform="translate(${ix},${ry+RP})"><rect width="${PW}" height="${PH}" fill="transparent"/><image x="0" y="0" width="${PW}" height="${PH}" href="${esc(BASE_ASSETS)}potential/${p.id}.webp" preserveAspectRatio="xMidYMid slice" clip-path="url(#c)" style="pointer-events:none;user-select:none"/></g>`;
           if (!['01','02','03','04','21','22','23','24'].includes(String(p.id).slice(-2)))
             svg += `<text x="${ix+15}" y="${ry+RP+16}" font-size="16" font-family="'DejaVu Sans Mono', monospace" font-weight="bold" fill="#568">${p.level}</text>`;
           potPositions.push({ id: String(p.id), slot: el.slot, group: el.key, x: ix, y: ry + RP });
@@ -512,6 +512,7 @@ function onSvgPotMouseDown(e) {
 
 function onSvgDragMove(e) {
   if (!_svgDrag) return;
+  e.preventDefault();
   const raw = document.elementFromPoint(e.clientX, e.clientY);
   if (!raw) return;
   const g = raw.closest('g[data-id]');
