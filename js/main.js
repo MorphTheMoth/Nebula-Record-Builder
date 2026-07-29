@@ -15,7 +15,8 @@ function buildCurrentState() {
     potOrder: JSON.parse(JSON.stringify(potOrder)),
     canvasNotes: (canvasNotes || []).map(n => ({...n})),
     currentTitle: currentTitle,
-    currentThemeName: currentThemeName
+    currentThemeName: currentThemeName,
+    charHeadVariants: {...charHeadVariants}
   };
 }
 
@@ -35,6 +36,47 @@ function showToast(msg) {
     el.style.opacity = '0';
     setTimeout(() => el.remove(), 200);
   }, 1500);
+}
+
+function showErrorToast(msg) {
+  const el = document.createElement('div');
+  el.textContent = msg;
+  Object.assign(el.style, {
+    position:'fixed', bottom:'24px', left:'50%', transform:'translateX(-50%)',
+    background:'#4a1a1a', border:'1px solid #6a2a2a', color:'#e8a0a0',
+    padding:'8px 20px', borderRadius:'4px', fontSize:'13px',
+    fontFamily:'inherit', zIndex:'100000', opacity:'0',
+    transition:'opacity 0.2s', pointerEvents:'none'
+  });
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.style.opacity = '1');
+  setTimeout(() => {
+    el.style.opacity = '0';
+    setTimeout(() => el.remove(), 200);
+  }, 1500);
+}
+
+function showConfirmModal(msg, onConfirm) {
+  let backdrop = document.querySelector('.load-build-backdrop');
+  if (backdrop) return;
+  backdrop = document.createElement('div');
+  backdrop.className = 'load-build-backdrop';
+  backdrop.style.zIndex = '10001';
+  backdrop.onclick = e => { if (e.target === backdrop) backdrop.remove(); };
+  backdrop.innerHTML = `<div class="load-build-modal" onclick="event.stopPropagation()">
+    <h2>Warning</h2>
+    <div style="padding:20px;color:#e8a0a0;font-size:13px;line-height:1.5;">${msg}</div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;padding:0 20px 20px;">
+      <button class="confirm-cancel-btn" style="background:#222;border:1px solid #444;color:#aaa;padding:6px 16px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;">Cancel</button>
+      <button class="confirm-proceed-btn" style="background:#4a1a1a;border:1px solid #6a2a2a;color:#e8a0a0;padding:6px 16px;border-radius:3px;cursor:pointer;font-size:12px;font-family:inherit;">Proceed</button>
+    </div>
+  </div>`;
+  document.body.appendChild(backdrop);
+  backdrop.querySelector('.confirm-cancel-btn').onclick = () => backdrop.remove();
+  backdrop.querySelector('.confirm-proceed-btn').onclick = () => {
+    backdrop.remove();
+    onConfirm();
+  };
 }
 
 function showSaveBuildModal(defaultName, onSave) {
@@ -142,9 +184,12 @@ function showLoadBuildPopup() {
       return b.timestamp - a.timestamp;
     });
     for (const build of sorted) {
-      const icons = build.chars.filter(c => c).map(id =>
-        `<img src="${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${id}02_XXL.webp" alt="" loading="lazy">`
-      ).join('');
+      const buildVariants = build.state?.charHeadVariants || {};
+      const icons = build.chars.filter(c => c).map(id => {
+        const v = buildVariants[String(id)] || '02';
+        const src = BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${id}${v}_XXL.webp`;
+        return `<img src="${src}" alt="" loading="lazy">`;
+      }).join('');
       const time = new Date(build.timestamp).toLocaleString();
       html += `<div class="load-build-entry" data-id="${build.id}">
         <div class="load-build-entry-icons">${icons || '<span style="color:#555;font-size:11px;">—</span>'}</div>
@@ -179,6 +224,7 @@ function showLoadBuildPopup() {
       if (extras.priorityMap) priorityMap = extras.priorityMap;
       if (extras.potOrder) potOrder = extras.potOrder;
       if (extras.canvasNotes) canvasNotes = extras.canvasNotes;
+      if (extras.charHeadVariants) charHeadVariants = extras.charHeadVariants;
       currentTitle = extras.currentTitle || '';
       localStorage.setItem('nrb-title', currentTitle);
       const titleInput = document.getElementById('recordTitle');
@@ -364,6 +410,8 @@ async function init() {
       if (titleParam) editUrl += '&t=' + encodeURIComponent(titleParam);
       const notesParam = urlParams.get('n') ?? urlParams.get('notes');
       if (notesParam) editUrl += '&n=' + encodeURIComponent(notesParam);
+      const variantParam = urlParams.get('v') ?? urlParams.get('variants');
+      if (variantParam) editUrl += '&v=' + encodeURIComponent(variantParam);
       currentTitle = '';
       currentThemeName = 'dark';
       clearCanvasNotes();
@@ -376,6 +424,7 @@ async function init() {
       applyPendingPrios();
       applyBonusUnitsData(bonusData);
       if (orderParam) resolveOrderFromParam(orderParam);
+      if (variantParam) parseHeadVariantsParam(variantParam);
       if (notesParam && typeof decodeCanvasNotesFromParam === 'function') {
         decodeCanvasNotesFromParam(notesParam);
       }
@@ -476,6 +525,7 @@ async function init() {
       if (extras.priorityMap) priorityMap = extras.priorityMap;
       if (extras.potOrder) potOrder = extras.potOrder;
       if (extras.canvasNotes) canvasNotes = extras.canvasNotes;
+      if (extras.charHeadVariants) charHeadVariants = extras.charHeadVariants;
       renderDiscOutput();
       renderDiscs();
       updateDiscOutputText();
@@ -495,9 +545,12 @@ init();
 
 document.addEventListener('click', (e) => {
   const tt = document.querySelector('.pot-tooltip');
-  if (!tt || tt.style.display === 'none') return;
-  if (!e.target.closest('.pot-item img, [data-id], #recordPngImage')) {
+  if (tt && tt.style.display !== 'none' && !e.target.closest('.pot-item img, [data-id], #recordPngImage')) {
     tt.style.display = 'none';
+  }
+  const vm = document.querySelector('.head-variant-menu');
+  if (vm && !e.target.closest('.head-variant-menu, .char-head-click')) {
+    vm.remove();
   }
 });
 

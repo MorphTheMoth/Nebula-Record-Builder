@@ -59,6 +59,27 @@ function hideRecordImage() {
   if (typeof resetCanvasNotesMode === 'function') resetCanvasNotesMode();
 }
 
+function previewRecord() {
+  const hasChar = selectedChars.some(c => c);
+  const currentPotIds = new Set();
+  selectedChars.filter(c => c).slice(0, 3).forEach(cId => {
+    const cfg = charJson[cId]?.potential;
+    if (!cfg) return;
+    const isMain = selectedChars.filter(c => c).indexOf(cId) === 0;
+    const coreKey = isMain ? 'mainCore' : 'supportCore';
+    const normalKey = isMain ? 'mainNormal' : 'supportNormal';
+    (cfg[coreKey] || []).forEach(p => currentPotIds.add(p.id));
+    (cfg[normalKey] || []).forEach(p => currentPotIds.add(p.id));
+    (cfg.common || []).forEach(p => currentPotIds.add(p.id));
+  });
+  const hasPot = [...currentPotIds].some(pid => (potLevels[pid] || 0) > 0);
+  if (!hasChar || !hasPot) {
+    showErrorToast('Select a character or potential first.');
+    return;
+  }
+  renderRecordImage(packPotentials());
+}
+
 function renderRecordImage(b64, options = {}) {
   const returnSVG = !!options.returnSVG;
   _lastRecordPngBlob = null;
@@ -167,14 +188,16 @@ function renderRecordImage(b64, options = {}) {
       }
     }
 
-    const charImg = `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}02_XL.webp`;
+    const variant = charHeadVariants[String(charId)] || '02';
+    const customSrc = customHeadImages[String(charId)];
+    const charImg = customSrc || `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}${variant}_XL.webp`;
     const name = charData[charId] || '';
 
     let x = 0;
     const elements = [];
 
     const pbW = RP + NW + IG + PW + RP;
-    elements.push({ t: 'portrait', x, w: pbW, img: charImg, name, slot });
+    elements.push({ t: 'portrait', x, w: pbW, img: charImg, name, slot, charId });
     x += pbW;
 
     for (const key of groupKeys) {
@@ -226,7 +249,7 @@ function renderRecordImage(b64, options = {}) {
       const ex = el.x + sp;
       if (el.t === 'portrait') {
         svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${theme.portrait[el.slot === 0 ? 0 : 1]}"/>`;
-        svg += `<g transform="translate(${ex+RP+NW+IG},${ry+RP})" clip-path="url(#c)"><image x="${SO}" y="${SO}" width="${SW}" height="${SH}" href="${esc(el.img)}" preserveAspectRatio="xMidYMid slice"/></g>`;
+        svg += `<g transform="translate(${ex+RP+NW+IG},${ry+RP})" clip-path="url(#c)"><image x="${SO}" y="${SO}" width="${SW}" height="${SH}" href="${esc(el.img)}" preserveAspectRatio="xMidYMid slice"/><rect x="0" y="0" width="${PW}" height="${PH}" fill="transparent" class="char-head-click" data-slot="${el.slot}" data-char-id="${el.charId}" style="cursor:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2732%27 height=%2732%27 viewBox=%270 0 32 32%27%3E%3Cpath d=%27M4 22v6h6L26 12l-6-6L4 22zM26 8a2 2 0 0 0 0-2.83L22.83 2a2 2 0 0 0-2.83 0L18 4l6 6 2-2z%27 fill=%27white%27 stroke=%27%23222%27 stroke-width=%271.5%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E') 4 28, pointer;"/></g>`;
         svg += vertText(ex + RP + 19, ry + RP + 2, el.name, theme.titleColor);
       } else {
         svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${el.color}"/>`;
@@ -269,6 +292,8 @@ function renderRecordImage(b64, options = {}) {
     renderCanvasNotes(finalSvg);
     attachCanvasNoteEvents(finalSvg);
   }
+
+  attachHeadVariantClicks();
 
   document.getElementById('recordImageOverlay').style.display = 'block';
   document.body.classList.add('modal-open');
@@ -427,10 +452,33 @@ function buildRecordUrl() {
   const notesStr = typeof encodeCanvasNotesToParam === 'function' ? encodeCanvasNotesToParam() : '';
   if (notesStr) url += '&n=' + encodeURIComponent(notesStr);
 
+  const variantParts = [];
+  allChars.forEach(cId => {
+    const v = charHeadVariants[String(cId)] || '02';
+    variantParts.push(v);
+  });
+  const anyCustom = variantParts.some(v => v !== '02');
+  if (anyCustom) {
+    const first3 = variantParts.slice(0, 3).join('-');
+    if (extras.length) {
+      const extraVariants = variantParts.slice(3).join('-');
+      url += '&v=' + encodeURIComponent(first3 + '_' + extraVariants);
+    } else {
+      url += '&v=' + encodeURIComponent(first3);
+    }
+  }
+
   return url;
 }
 
 function openRecordPNG() {
+  if (Object.keys(customHeadImages).length > 0) {
+    showConfirmModal(
+      'Custom character images won\u2019t render in the PNG view. Use \u2018Copy PNG\u2019 inside the preview instead.',
+      () => { window.location.href = buildRecordUrl(); }
+    );
+    return;
+  }
   window.location.href = buildRecordUrl();
 }
 
@@ -837,6 +885,142 @@ function applyBonusUnitsData(b64) {
   }
 }
 
+const HEAD_VARIANTS_CACHE = {};
+
+function imageExists(url) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
+}
+
+async function getAvailableHeadVariants(charId) {
+  if (HEAD_VARIANTS_CACHE[charId]) return HEAD_VARIANTS_CACHE[charId];
+  const available = [];
+  for (let i = 1; i <= 20; i++) {
+    const v = String(i).padStart(2, '0');
+    const exists = await imageExists(`${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}${v}_XL.webp`);
+    if (exists) {
+      available.push(v);
+    } else {
+      break;
+    }
+  }
+  HEAD_VARIANTS_CACHE[charId] = available.length > 0 ? available : ['01'];
+  return HEAD_VARIANTS_CACHE[charId];
+}
+
+function showHeadVariantMenu(charId, slot, clickX, clickY) {
+  let menu = document.querySelector('.head-variant-menu');
+  if (menu) menu.remove();
+
+  menu = document.createElement('div');
+  menu.className = 'head-variant-menu';
+  menu.style.cssText = `position:fixed;z-index:100001;background:#1e1e1e;border:1px solid #555;border-radius:6px;padding:8px;box-shadow:0 6px 20px rgba(0,0,0,0.7);display:flex;gap:6px;`;
+
+  const loading = document.createElement('div');
+  loading.textContent = 'Loading...';
+  loading.style.cssText = 'color:#888;font-size:12px;padding:8px 12px;';
+  menu.appendChild(loading);
+  menu.style.left = Math.min(clickX, window.innerWidth - 200) + 'px';
+  menu.style.top = Math.min(clickY, window.innerHeight - 100) + 'px';
+  document.body.appendChild(menu);
+
+  getAvailableHeadVariants(charId).then(variants => {
+    menu.innerHTML = '';
+
+    const uploadOpt = document.createElement('div');
+    uploadOpt.style.cssText = 'cursor:pointer;border-radius:4px;overflow:hidden;border:2px dashed #555;display:flex;flex-direction:column;align-items:center;gap:2px;padding:2px;';
+
+    const uploadWrap = document.createElement('div');
+    uploadWrap.style.cssText = 'width:72px;height:92px;display:flex;align-items:center;justify-content:center;border-radius:2px;background:#2a2a2a;';
+
+    const plusIcon = document.createElement('span');
+    plusIcon.textContent = '+';
+    plusIcon.style.cssText = 'font-size:28px;color:#666;line-height:1;';
+
+    const uploadLbl = document.createElement('div');
+    uploadLbl.textContent = 'Custom';
+    uploadLbl.style.cssText = 'font-size:10px;color:#888;text-align:center;';
+
+    uploadWrap.appendChild(plusIcon);
+    uploadOpt.appendChild(uploadWrap);
+    uploadOpt.appendChild(uploadLbl);
+
+    uploadOpt.onclick = () => {
+      menu.remove();
+      showCropModal(charId, slot);
+    };
+
+    menu.appendChild(uploadOpt);
+
+    variants.forEach(v => {
+      const opt = document.createElement('div');
+      opt.style.cssText = 'cursor:pointer;border-radius:4px;overflow:hidden;border:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:2px;padding:2px;';
+
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'width:72px;height:92px;overflow:hidden;border-radius:2px;background:#2a2a2a;';
+
+      const img = document.createElement('img');
+      img.src = `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}${v}_XL.webp`;
+      img.style.cssText = 'width:100%;height:100%;display:block;object-fit:cover;';
+      img.loading = 'lazy';
+
+      const lbl = document.createElement('div');
+      lbl.textContent = v;
+      lbl.style.cssText = 'font-size:10px;color:#888;text-align:center;';
+
+      wrap.appendChild(img);
+      opt.appendChild(wrap);
+      opt.appendChild(lbl);
+
+      const current = charHeadVariants[String(charId)] || '02';
+
+      opt.onclick = () => {
+        setHeadVariant(charId, slot, v);
+        menu.remove();
+      };
+
+      menu.appendChild(opt);
+    });
+  });
+}
+
+function setHeadVariant(charId, slot, variant) {
+  charHeadVariants[String(charId)] = variant;
+  saveState();
+  renderRecordImage(packPotentials());
+}
+
+function attachHeadVariantClicks() {
+  const svg = document.querySelector('#recordImageContent svg');
+  if (!svg) return;
+  svg.querySelectorAll('.char-head-click').forEach(el => {
+    el.addEventListener('click', e => {
+      const charId = el.getAttribute('data-char-id');
+      const slot = el.getAttribute('data-slot');
+      const rect = svg.getBoundingClientRect();
+      showHeadVariantMenu(charId, slot, e.clientX, e.clientY);
+    });
+  });
+}
+
+function parseHeadVariantsParam(str) {
+  if (!str) return;
+  const allChars = selectedChars.filter(c => c);
+  const parts = str.split('_');
+  const first3 = parts[0] ? parts[0].split('-') : [];
+  const extras = parts[1] ? parts[1].split('-') : [];
+  const all = [...first3, ...extras];
+  all.forEach((v, i) => {
+    if (i < allChars.length && v.match(/^\d{2}$/)) {
+      charHeadVariants[String(allChars[i])] = v;
+    }
+  });
+}
+
 function checkRecordImageParam() {
   const params = new URLSearchParams(window.location.search.replace(/\+/g, '%2B'));
   const orderParam = params.get('o') ?? params.get('order');
@@ -847,6 +1031,7 @@ function checkRecordImageParam() {
   const titleParam = params.get('t') ?? params.get('title');
   const themeParam = params.get('h') ?? params.get('theme');
   const notesParam = params.get('n') ?? params.get('notes');
+  const variantParam = params.get('v') ?? params.get('variants');
   if (preview || image) {
     currentTitle = '';
     currentThemeName = 'dark';
@@ -868,6 +1053,7 @@ function checkRecordImageParam() {
     applyPendingPrios();
     applyBonusUnitsData(bonusData);
     if (orderParam) resolveOrderFromParam(orderParam);
+    if (variantParam) parseHeadVariantsParam(variantParam);
     renderRecordImage(preview);
     generate();
     refreshCharBadges();
@@ -879,6 +1065,7 @@ function checkRecordImageParam() {
     applyPendingPrios();
     applyBonusUnitsData(bonusData);
     if (orderParam) resolveOrderFromParam(orderParam);
+    if (variantParam) parseHeadVariantsParam(variantParam);
     renderRecordImage(image);
     setTimeout(() => downloadRecordPNG(), 500);
   }
@@ -889,4 +1076,212 @@ function checkRecordImageParam() {
   if (bonusData || preview || image) {
     history.replaceState(null, '', window.location.pathname);
   }
+}
+
+function showCropModal(charId, slot) {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.style.display = 'none';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => buildCropUI(charId, slot, reader.result);
+    reader.readAsDataURL(file);
+  };
+  document.body.appendChild(input);
+  input.click();
+  input.remove();
+}
+
+function buildCropUI(charId, slot, dataUrl) {
+  let scale = 1, tx = 0, ty = 0;
+  const cropW = 240, cropH = 306;
+  const vpW = 360, vpH = 459;
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:200000;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;';
+
+  const panel = document.createElement('div');
+  panel.style.cssText = 'background:#1e1e1e;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;';
+
+  const title = document.createElement('div');
+  title.textContent = 'Crop Head Image';
+  title.style.cssText = 'font-size:14px;font-weight:bold;color:#ccc;padding:14px 16px 0;';
+
+  const viewport = document.createElement('div');
+  viewport.style.cssText = `position:relative;width:${vpW}px;height:${vpH}px;overflow:hidden;background:#222;margin:12px 16px;border-radius:4px;cursor:grab;`;
+
+  const img = new Image();
+  img.style.cssText = 'position:absolute;left:0;top:0;transform-origin:0 0;user-select:none;pointer-events:none;-webkit-user-drag:none;';
+  img.draggable = false;
+
+  const mask = document.createElement('div');
+  mask.style.cssText = `position:absolute;width:${cropW}px;height:${cropH}px;left:50%;top:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 9999px rgba(0,0,0,0.6);pointer-events:none;z-index:2;`;
+
+  const frame = document.createElement('div');
+  frame.style.cssText = `position:absolute;width:${cropW}px;height:${cropH}px;left:50%;top:50%;transform:translate(-50%,-50%);border:2px solid #fff;pointer-events:none;z-index:3;box-sizing:border-box;border-radius:2px;`;
+
+  viewport.appendChild(img);
+  viewport.appendChild(mask);
+  viewport.appendChild(frame);
+
+  const controls = document.createElement('div');
+  controls.style.cssText = 'display:flex;align-items:center;gap:10px;padding:0 16px 8px;';
+
+  const zoomLabel = document.createElement('span');
+  zoomLabel.textContent = 'Zoom';
+  zoomLabel.style.cssText = 'color:#aaa;font-size:12px;';
+
+  const zoomSlider = document.createElement('input');
+  zoomSlider.type = 'range';
+  zoomSlider.min = '10';
+  zoomSlider.max = '500';
+  zoomSlider.step = '1';
+  zoomSlider.style.cssText = 'flex:1;accent-color:#4a8;';
+
+  const zoomVal = document.createElement('span');
+  zoomVal.style.cssText = 'color:#aaa;font-size:12px;width:50px;text-align:right;font-variant-numeric:tabular-nums;';
+
+  const btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;gap:8px;justify-content:flex-end;padding:0 16px 12px;';
+
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.style.cssText = 'padding:6px 16px;border:1px solid #555;border-radius:4px;background:#333;color:#ccc;cursor:pointer;font-size:12px;';
+  cancelBtn.onclick = () => { cleanup(); overlay.remove(); };
+
+  const applyBtn = document.createElement('button');
+  applyBtn.textContent = 'Apply';
+  applyBtn.style.cssText = 'padding:6px 16px;border:none;border-radius:4px;background:#4a8;color:#fff;cursor:pointer;font-size:12px;font-weight:bold;';
+
+  btnRow.appendChild(cancelBtn);
+  btnRow.appendChild(applyBtn);
+  controls.appendChild(zoomLabel);
+  controls.appendChild(zoomSlider);
+  controls.appendChild(zoomVal);
+  panel.appendChild(title);
+  panel.appendChild(viewport);
+  panel.appendChild(controls);
+  panel.appendChild(btnRow);
+  overlay.appendChild(panel);
+  document.body.appendChild(overlay);
+
+  let isDragging = false;
+  let dragStartX, dragStartY, startTx, startTy;
+
+  function update() {
+    const dw = Math.round(img.naturalWidth * scale);
+    const dh = Math.round(img.naturalHeight * scale);
+    img.style.width = dw + 'px';
+    img.style.height = dh + 'px';
+    img.style.transform = `translate(${tx}px, ${ty}px)`;
+    zoomSlider.value = String(Math.round(scale * 100));
+    zoomVal.textContent = Math.round(scale * 100) + '%';
+  }
+
+  function centerImage() {
+    const dw = img.naturalWidth * scale;
+    const dh = img.naturalHeight * scale;
+    tx = (vpW - dw) / 2;
+    ty = (vpH - dh) / 2;
+    update();
+  }
+
+  img.onload = () => {
+    const sx = vpW / img.naturalWidth;
+    const sy = vpH / img.naturalHeight;
+    scale = Math.min(sx, sy);
+    centerImage();
+  };
+  img.src = dataUrl;
+
+  zoomSlider.oninput = () => {
+    const newScale = parseFloat(zoomSlider.value) / 100;
+    const ratio = newScale / scale;
+    const cx = vpW / 2, cy = vpH / 2;
+    tx = cx - (cx - tx) * ratio;
+    ty = cy - (cy - ty) * ratio;
+    scale = newScale;
+    update();
+  };
+
+  viewport.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    startTx = tx;
+    startTy = ty;
+    viewport.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  function onMove(e) {
+    if (!isDragging) return;
+    tx = startTx + (e.clientX - dragStartX);
+    ty = startTy + (e.clientY - dragStartY);
+    update();
+  }
+
+  function onUp() {
+    if (!isDragging) return;
+    isDragging = false;
+    viewport.style.cursor = 'grab';
+  }
+
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+
+  viewport.addEventListener('wheel', e => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? 0.9 : 1.1;
+    const newScale = Math.min(5, Math.max(0.1, scale * delta));
+    const ratio = newScale / scale;
+    const cx = vpW / 2, cy = vpH / 2;
+    tx = cx - (cx - tx) * ratio;
+    ty = cy - (cy - ty) * ratio;
+    scale = newScale;
+    update();
+  }, { passive: false });
+
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) { cleanup(); overlay.remove(); }
+  });
+
+  applyBtn.onclick = () => {
+    finalizeCrop(charId, slot, dataUrl, scale, tx, ty, img.naturalWidth, img.naturalHeight, vpW, vpH, cropW, cropH);
+    cleanup();
+    overlay.remove();
+  };
+
+  function cleanup() {
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+  }
+}
+
+function finalizeCrop(charId, slot, dataUrl, scale, tx, ty, naturalW, naturalH, vpW, vpH, cropW, cropH) {
+  const cfx = (vpW - cropW) / 2;
+  const cfy = (vpH - cropH) / 2;
+  const sx = (cfx - tx) / scale;
+  const sy = (cfy - ty) / scale;
+  const sw = cropW / scale;
+  const sh = cropH / scale;
+
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 120;
+    canvas.height = 153;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, 120, 153);
+    customHeadImages[String(charId)] = canvas.toDataURL('image/png');
+    const menu = document.querySelector('.head-variant-menu');
+    if (menu) menu.remove();
+    renderRecordImage(packPotentials());
+    if (typeof renderChars === 'function') renderChars();
+  };
+  img.src = dataUrl;
 }
