@@ -94,7 +94,7 @@ function copyAllOutputs() {
 
   const combined = parts
     .map(p => p.replace(/\r?\n|\r|\n/g, '\n').replace(/\n+/g, '\n').replace(/^\n+|\n+$/g, ''))
-    .join('\r\n');
+    .join('\r\n') + '\r\n';
   navigator.clipboard.writeText(combined).then(() => {
     showToast('All Copied');
   }).catch(() => {});
