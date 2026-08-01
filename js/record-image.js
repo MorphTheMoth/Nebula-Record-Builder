@@ -710,8 +710,9 @@ function resolveOrderFromParam(orderStr) {
       if (!orders[key]) return;
       const natural = getCurrentGroupOrder(slot, key);
       const naturalSet = new Set(natural);
+      const hasForeign = orders[key].some(id => !naturalSet.has(id));
       let cleaned;
-      if (corrupted[key]) {
+      if (corrupted[key] || hasForeign) {
         cleaned = natural;
       } else {
         cleaned = orders[key].filter(id => naturalSet.has(id));
