@@ -418,7 +418,8 @@ async function init() {
       const titleP = urlParams.get('t') ?? urlParams.get('title');
       if (titleP) setRecordTitle(titleP);
       const themeP = urlParams.get('h') ?? urlParams.get('theme');
-      if (themeP && themes[themeP]) currentThemeName = themeP;
+      const resolvedTheme = resolveThemeName(themeP);
+      if (resolvedTheme) currentThemeName = resolvedTheme;
       document.getElementById('importInput').value = png;
       importPotentials(true);
       applyPendingPrios();

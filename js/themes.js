@@ -13,22 +13,9 @@ const themes = {
     titleColor: '#ffffff',
     dividerColor: '#333333'
   },
-  midnight: {
-    name: 'Midnight',
-    svgBg: '#0d1117',
-    portrait: ['rgba(48,79,255,0.35)', 'rgba(30,60,200,0.3)'],
-    groups: {
-      core: 'rgba(0,220,255,0.55)',
-      high: 'rgba(80,255,180,0.50)',
-      medium: 'rgba(255,230,0,0.48)',
-      low: 'rgba(255,100,80,0.48)',
-      optional: 'rgba(180,180,200,0.40)'
-    },
-    titleColor: '#f0f4ff',
-    dividerColor: '#1e2a40'
-  },
-  forest: {
-    name: 'Forest',
+  ventus: {
+    name: 'Ventus',
+    aliases: ['forest'],
     svgBg: '#0f1a0f',
     portrait: ['rgba(40,120,60,0.4)', 'rgba(30,100,50,0.35)'],
     groups: {
@@ -41,8 +28,9 @@ const themes = {
     titleColor: '#f2fbf0',
     dividerColor: '#1a3a1a'
   },
-  desert: {
-    name: 'Desert',
+  terra: {
+    name: 'Terra',
+    aliases: ['desert'],
     svgBg: '#1e1610',
     portrait: ['rgba(180,120,60,0.4)', 'rgba(160,100,50,0.35)'],
     groups: {
@@ -55,8 +43,9 @@ const themes = {
     titleColor: '#fdf6ee',
     dividerColor: '#3a2a14'
   },
-  ocean: {
-    name: 'Ocean',
+  aqua: {
+    name: 'Aqua',
+    aliases: ['ocean'],
     svgBg: '#050e1a',
     portrait: ['rgba(0,120,200,0.4)', 'rgba(0,80,180,0.35)'],
     groups: {
@@ -69,19 +58,49 @@ const themes = {
     titleColor: '#eef8ff',
     dividerColor: '#0a2040'
   },
-  neon: {
-    name: 'Neon',
-    svgBg: '#0a0010',
-    portrait: ['rgba(180,0,255,0.35)', 'rgba(140,0,220,0.3)'],
+  ignis: {
+    name: 'Ignis',
+    aliases: ['ember'],
+    svgBg: '#160a02',
+    portrait: ['rgba(220,80,20,0.4)', 'rgba(200,60,10,0.35)'],
     groups: {
-      core: 'rgba(255,0,200,0.65)',
-      high: 'rgba(0,255,180,0.58)',
-      medium: 'rgba(255,220,0,0.55)',
-      low: 'rgba(0,200,255,0.52)',
-      optional: 'rgba(180,100,255,0.45)'
+      core: 'rgba(255,80,20,0.65)',
+      high: 'rgba(255,180,0,0.58)',
+      medium: 'rgba(255,40,80,0.54)',
+      low: 'rgba(80,220,120,0.50)',
+      optional: 'rgba(220,140,100,0.42)'
+    },
+    titleColor: '#fff0e8',
+    dividerColor: '#2c1206'
+  },
+  lux: {
+    name: 'Lux',
+    svgBg: '#0a0e1a',
+    portrait: ['rgba(85,125,218,0.33)', 'rgba(60,110,210,0.3)'],
+    groups: {
+      core: 'rgba(255,215,80,0.62)',
+      high: 'rgba(206,189,112,0.56)',
+      medium: 'rgba(158,162,145,0.50)',
+      low: 'rgba(109,136,178,0.46)',
+      optional: 'rgba(60,110,210,0.40)'
+    },
+    titleColor: '#fff6dc',
+    dividerColor: '#141c34'
+  },
+  umbra: {
+    name: 'Umbra',
+    aliases: ['void'],
+    svgBg: '#030305',
+    portrait: ['rgba(40,40,60,0.6)', 'rgba(30,30,50,0.55)'],
+    groups: {
+      core: 'rgba(195,120,255,0.55)',
+      high: 'rgba(160,102,210,0.50)',
+      medium: 'rgba(125,85,165,0.48)',
+      low: 'rgba(90,68,120,0.46)',
+      optional: 'rgba(55,50,75,0.40)'
     },
     titleColor: '#ffffff',
-    dividerColor: '#2a0040'
+    dividerColor: '#0e0e18'
   },
   ash: {
     name: 'Ash',
@@ -97,44 +116,16 @@ const themes = {
     titleColor: '#ffffff',
     dividerColor: '#2e2e32'
   },
-  aurora: {
-    name: 'Aurora',
-    svgBg: '#060c18',
-    portrait: ['rgba(20,180,160,0.4)', 'rgba(10,150,130,0.35)'],
-    groups: {
-      core: 'rgba(100,80,255,0.62)',
-      high: 'rgba(0,240,200,0.55)',
-      medium: 'rgba(60,210,255,0.52)',
-      low: 'rgba(180,255,100,0.48)',
-      optional: 'rgba(80,160,200,0.42)'
-    },
-    titleColor: '#eefffa',
-    dividerColor: '#0c1e30'
-  },
-  crimson: {
-    name: 'Crimson',
-    svgBg: '#1a0808',
-    portrait: ['rgba(180,30,40,0.4)', 'rgba(150,20,30,0.35)'],
-    groups: {
-      core: 'rgba(255,60,60,0.62)',
-      high: 'rgba(255,160,0,0.56)',
-      medium: 'rgba(255,240,60,0.50)',
-      low: 'rgba(0,220,160,0.50)',
-      optional: 'rgba(200,120,120,0.42)'
-    },
-    titleColor: '#fff0ee',
-    dividerColor: '#3a1010'
-  },
   obsidian: {
     name: 'Obsidian',
     svgBg: '#0b0b0f',
     portrait: ['rgba(60,60,100,0.5)', 'rgba(50,50,80,0.45)'],
     groups: {
-      core: 'rgba(140,100,255,0.60)',
-      high: 'rgba(80,200,255,0.54)',
-      medium: 'rgba(0,240,200,0.50)',
-      low: 'rgba(255,200,80,0.48)',
-      optional: 'rgba(160,160,200,0.40)'
+      core: 'rgba(175,100,255,0.60)',
+      high: 'rgba(155,100,224,0.54)',
+      medium: 'rgba(135,100,192,0.50)',
+      low: 'rgba(115,100,161,0.46)',
+      optional: 'rgba(95,100,130,0.40)'
     },
     titleColor: '#f4f0ff',
     dividerColor: '#1a1a28'
@@ -167,44 +158,16 @@ const themes = {
     titleColor: '#fdf3e6',
     dividerColor: '#2a1e0c'
   },
-  ember: {
-    name: 'Ember',
-    svgBg: '#160a02',
-    portrait: ['rgba(220,80,20,0.4)', 'rgba(200,60,10,0.35)'],
-    groups: {
-      core: 'rgba(255,80,20,0.65)',
-      high: 'rgba(255,180,0,0.58)',
-      medium: 'rgba(255,40,80,0.54)',
-      low: 'rgba(80,220,120,0.50)',
-      optional: 'rgba(220,140,100,0.42)'
-    },
-    titleColor: '#fff0e8',
-    dividerColor: '#2c1206'
-  },
-  void: {
-    name: 'Void',
-    svgBg: '#030305',
-    portrait: ['rgba(40,40,60,0.6)', 'rgba(30,30,50,0.55)'],
-    groups: {
-      core: 'rgba(180,160,255,0.55)',
-      high: 'rgba(100,220,255,0.50)',
-      medium: 'rgba(255,160,220,0.48)',
-      low: 'rgba(120,255,200,0.46)',
-      optional: 'rgba(160,160,210,0.40)'
-    },
-    titleColor: '#ffffff',
-    dividerColor: '#0e0e18'
-  },
   dusk: {
     name: 'Dusk',
     svgBg: '#100818',
     portrait: ['rgba(120,60,160,0.4)', 'rgba(100,40,140,0.35)'],
     groups: {
-      core: 'rgba(220,80,255,0.58)',
-      high: 'rgba(120,80,255,0.54)',
-      medium: 'rgba(255,160,60,0.50)',
-      low: 'rgba(0,220,220,0.48)',
-      optional: 'rgba(180,120,200,0.40)'
+      core: 'rgba(255,140,90,0.58)',
+      high: 'rgba(215,120,105,0.54)',
+      medium: 'rgba(175,100,120,0.50)',
+      low: 'rgba(135,80,135,0.48)',
+      optional: 'rgba(95,60,150,0.40)'
     },
     titleColor: '#f8eeff',
     dividerColor: '#1e1030'
@@ -214,11 +177,11 @@ const themes = {
     svgBg: '#0e0608',
     portrait: ['rgba(200,60,80,0.4)', 'rgba(180,40,60,0.35)'],
     groups: {
-      core: 'rgba(255,80,40,0.65)',
-      high: 'rgba(255,190,0,0.58)',
-      medium: 'rgba(255,60,160,0.52)',
-      low: 'rgba(80,220,120,0.50)',
-      optional: 'rgba(220,130,120,0.42)'
+      core: 'rgba(255,90,40,0.65)',
+      high: 'rgba(242,90,60,0.58)',
+      medium: 'rgba(230,90,80,0.52)',
+      low: 'rgba(218,90,100,0.50)',
+      optional: 'rgba(205,90,120,0.42)'
     },
     titleColor: '#fff2e6',
     dividerColor: '#280a10'
@@ -228,11 +191,11 @@ const themes = {
     svgBg: '#0c0c10',
     portrait: ['rgba(80,80,100,0.4)', 'rgba(60,60,80,0.35)'],
     groups: {
-      core: 'rgba(220,220,255,0.50)',
-      high: 'rgba(140,200,255,0.46)',
-      medium: 'rgba(200,160,255,0.44)',
-      low: 'rgba(120,255,220,0.44)',
-      optional: 'rgba(180,180,210,0.38)'
+      core: 'rgba(225,225,255,0.50)',
+      high: 'rgba(198,198,224,0.46)',
+      medium: 'rgba(170,170,192,0.44)',
+      low: 'rgba(142,142,161,0.44)',
+      optional: 'rgba(115,115,130,0.38)'
     },
     titleColor: '#ffffff',
     dividerColor: '#1c1c22'
@@ -251,89 +214,19 @@ const themes = {
     titleColor: '#eafffa',
     dividerColor: '#052824'
   },
-  prussian: {
-    name: 'Prussian',
-    svgBg: '#04111e',
-    portrait: ['rgba(10,80,140,0.45)', 'rgba(8,60,120,0.4)'],
-    groups: {
-      core: 'rgba(0,160,255,0.60)',
-      high: 'rgba(0,240,220,0.54)',
-      medium: 'rgba(80,180,255,0.52)',
-      low: 'rgba(200,240,80,0.48)',
-      optional: 'rgba(80,160,200,0.42)'
-    },
-    titleColor: '#eaf6ff',
-    dividerColor: '#0a2030'
-  },
-  midnight2: {
-    name: 'Deep navy',
-    svgBg: '#08082a',
-    portrait: ['rgba(40,40,160,0.45)', 'rgba(30,30,140,0.4)'],
-    groups: {
-      core: 'rgba(80,140,255,0.62)',
-      high: 'rgba(80,220,255,0.55)',
-      medium: 'rgba(160,80,255,0.52)',
-      low: 'rgba(0,255,200,0.50)',
-      optional: 'rgba(140,150,230,0.42)'
-    },
-    titleColor: '#f0f0ff',
-    dividerColor: '#10103a'
-  },
-  moss: {
-    name: 'Moss',
-    svgBg: '#161a10',
-    portrait: ['rgba(80,100,40,0.45)', 'rgba(60,80,30,0.4)'],
-    groups: {
-      core: 'rgba(160,240,60,0.58)',
-      high: 'rgba(80,210,80,0.54)',
-      medium: 'rgba(40,200,160,0.50)',
-      low: 'rgba(220,220,60,0.48)',
-      optional: 'rgba(140,180,100,0.42)'
-    },
-    titleColor: '#f4fbe8',
-    dividerColor: '#242a18'
-  },
-  steel: {
-    name: 'Steel',
-    svgBg: '#11161c',
-    portrait: ['rgba(80,110,140,0.4)', 'rgba(60,90,120,0.35)'],
-    groups: {
-      core: 'rgba(100,200,255,0.56)',
-      high: 'rgba(60,240,220,0.52)',
-      medium: 'rgba(140,220,140,0.50)',
-      low: 'rgba(240,230,120,0.48)',
-      optional: 'rgba(140,180,210,0.42)'
-    },
-    titleColor: '#eef5ff',
-    dividerColor: '#1e2830'
-  },
   velvet: {
     name: 'Velvet',
     svgBg: '#0f0818',
     portrait: ['rgba(120,20,140,0.45)', 'rgba(100,10,120,0.4)'],
     groups: {
-      core: 'rgba(200,40,255,0.62)',
-      high: 'rgba(100,60,255,0.56)',
-      medium: 'rgba(255,80,180,0.52)',
-      low: 'rgba(0,220,255,0.50)',
-      optional: 'rgba(180,80,220,0.42)'
+      core: 'rgba(210,40,200,0.62)',
+      high: 'rgba(185,40,172,0.56)',
+      medium: 'rgba(160,40,145,0.52)',
+      low: 'rgba(135,40,118,0.50)',
+      optional: 'rgba(110,40,90,0.42)'
     },
     titleColor: '#f8eeff',
     dividerColor: '#1e0c28'
-  },
-  infrared: {
-    name: 'Infrared',
-    svgBg: '#0e0808',
-    portrait: ['rgba(160,20,20,0.45)', 'rgba(140,10,10,0.4)'],
-    groups: {
-      core: 'rgba(255,40,40,0.65)',
-      high: 'rgba(255,160,0,0.58)',
-      medium: 'rgba(255,240,40,0.52)',
-      low: 'rgba(255,0,180,0.50)',
-      optional: 'rgba(200,100,100,0.42)'
-    },
-    titleColor: '#fff0ee',
-    dividerColor: '#220c0c'
   },
   sakura: {
     name: 'Sakura',
@@ -348,34 +241,6 @@ const themes = {
     },
     titleColor: '#1a0810',
     dividerColor: '#f5c0cc'
-  },
-  parchment: {
-    name: 'Parchment',
-    svgBg: '#f5f0e0',
-    portrait: ['rgba(140,100,60,0.25)', 'rgba(120,80,40,0.2)'],
-    groups: {
-      core: 'rgba(180,80,20,0.50)',
-      high: 'rgba(80,160,60,0.44)',
-      medium: 'rgba(200,160,20,0.44)',
-      low: 'rgba(60,140,180,0.42)',
-      optional: 'rgba(160,140,120,0.36)'
-    },
-    titleColor: '#160f04',
-    dividerColor: '#d4c9a0'
-  },
-  slate: {
-    name: 'Slate',
-    svgBg: '#f8f9fa',
-    portrait: ['rgba(80,100,140,0.2)', 'rgba(60,80,120,0.18)'],
-    groups: {
-      core: 'rgba(60,100,220,0.46)',
-      high: 'rgba(0,180,220,0.42)',
-      medium: 'rgba(120,60,220,0.42)',
-      low: 'rgba(0,180,140,0.40)',
-      optional: 'rgba(120,140,180,0.34)'
-    },
-    titleColor: '#000000',
-    dividerColor: '#dde2f0'
   },
   jade: {
     name: 'Jade',
@@ -433,34 +298,6 @@ const themes = {
     titleColor: '#1c0e04',
     dividerColor: '#e8ccbc'
   },
-  mint: {
-    name: 'Mint',
-    svgBg: '#f0fbf7',
-    portrait: ['rgba(40,180,140,0.22)', 'rgba(20,160,120,0.18)'],
-    groups: {
-      core: 'rgba(0,180,140,0.50)',
-      high: 'rgba(40,210,160,0.44)',
-      medium: 'rgba(0,180,220,0.44)',
-      low: 'rgba(120,220,80,0.42)',
-      optional: 'rgba(80,180,160,0.36)'
-    },
-    titleColor: '#04160f',
-    dividerColor: '#b8e8d8'
-  },
-  chalk: {
-    name: 'Chalk',
-    svgBg: '#fafaf8',
-    portrait: ['rgba(60,60,70,0.15)', 'rgba(40,40,50,0.12)'],
-    groups: {
-      core: 'rgba(60,60,80,0.46)',
-      high: 'rgba(40,140,200,0.42)',
-      medium: 'rgba(80,180,60,0.42)',
-      low: 'rgba(200,140,40,0.40)',
-      optional: 'rgba(140,140,150,0.34)'
-    },
-    titleColor: '#000000',
-    dividerColor: '#e0e0dc'
-  },
   harvest: {
     name: 'Harvest',
     svgBg: '#fdf8f0',
@@ -474,79 +311,18 @@ const themes = {
     },
     titleColor: '#180f00',
     dividerColor: '#e8d8b0'
-  },
-  blush: {
-    name: 'Blush',
-    svgBg: '#fff8f8',
-    portrait: ['rgba(220,120,140,0.2)', 'rgba(200,100,120,0.16)'],
-    groups: {
-      core: 'rgba(220,60,110,0.48)',
-      high: 'rgba(240,120,200,0.44)',
-      medium: 'rgba(180,100,240,0.44)',
-      low: 'rgba(60,200,200,0.40)',
-      optional: 'rgba(210,160,180,0.36)'
-    },
-    titleColor: '#1e0a10',
-    dividerColor: '#f0d0d8'
-  },
-  peach: {
-    name: 'Peach',
-    svgBg: '#fff9f5',
-    portrait: ['rgba(220,130,80,0.22)', 'rgba(200,110,60,0.18)'],
-    groups: {
-      core: 'rgba(240,120,40,0.50)',
-      high: 'rgba(255,180,40,0.46)',
-      medium: 'rgba(220,80,160,0.44)',
-      low: 'rgba(60,200,180,0.42)',
-      optional: 'rgba(210,170,140,0.36)'
-    },
-    titleColor: '#1a0e04',
-    dividerColor: '#f0d0b8'
-  },
-  nordic: {
-    name: 'Nordic',
-    svgBg: '#f2f5f8',
-    portrait: ['rgba(60,100,140,0.2)', 'rgba(40,80,120,0.16)'],
-    groups: {
-      core: 'rgba(20,100,200,0.48)',
-      high: 'rgba(0,180,220,0.44)',
-      medium: 'rgba(0,160,140,0.44)',
-      low: 'rgba(140,180,220,0.44)',
-      optional: 'rgba(100,140,180,0.36)'
-    },
-    titleColor: '#000000',
-    dividerColor: '#ccd8e4'
-  },
-  limestone: {
-    name: 'Limestone',
-    svgBg: '#f7f5f0',
-    portrait: ['rgba(120,110,90,0.22)', 'rgba(100,90,70,0.18)'],
-    groups: {
-      core: 'rgba(100,90,60,0.48)',
-      high: 'rgba(120,180,60,0.44)',
-      medium: 'rgba(180,120,60,0.44)',
-      low: 'rgba(60,160,200,0.42)',
-      optional: 'rgba(160,155,135,0.36)'
-    },
-    titleColor: '#000000',
-    dividerColor: '#dcd8cc'
-  },
-  sand: {
-    name: 'Sand',
-    svgBg: '#f8f4ec',
-    portrait: ['rgba(160,130,80,0.22)', 'rgba(140,110,60,0.18)'],
-    groups: {
-      core: 'rgba(180,140,40,0.50)',
-      high: 'rgba(160,100,60,0.46)',
-      medium: 'rgba(140,60,180,0.44)',
-      low: 'rgba(40,180,160,0.42)',
-      optional: 'rgba(170,155,120,0.36)'
-    },
-    titleColor: '#140e02',
-    dividerColor: '#e0d4b8'
   }
 };
 
+function resolveThemeName(name) {
+  if (themes[name]) return name;
+  for (const key of Object.keys(themes)) {
+    const aliases = themes[key].aliases;
+    if (aliases && aliases.indexOf(name) !== -1) return key;
+  }
+  return null;
+}
+
 function getTheme(name) {
-  return themes[name] || themes.dark;
+  return themes[resolveThemeName(name)] || themes.dark;
 }

@@ -1,4 +1,4 @@
-let currentThemeName = localStorage.getItem('nrb-theme') || 'dark';
+let currentThemeName = resolveThemeName(localStorage.getItem('nrb-theme')) || 'dark';
 let currentTitle = localStorage.getItem('nrb-title') || '';
 let _lastRecordPngBlob = null;
 
@@ -30,11 +30,12 @@ function populateThemeSelect() {
 }
 
 function setTheme(name) {
-  if (!themes[name]) return;
-  currentThemeName = name;
-  localStorage.setItem('nrb-theme', name);
+  const resolved = resolveThemeName(name);
+  if (!resolved) return;
+  currentThemeName = resolved;
+  localStorage.setItem('nrb-theme', resolved);
   const sel = document.getElementById('themeSelect');
-  if (sel) sel.value = name;
+  if (sel) sel.value = resolved;
   const overlay = document.getElementById('recordImageOverlay');
   if (overlay && overlay.style.display !== 'none') {
     renderRecordImage(packPotentials());
@@ -1041,8 +1042,9 @@ function checkRecordImageParam() {
       currentTitle = titleParam;
       localStorage.setItem('nrb-title', currentTitle);
     }
-    if (themeParam && themes[themeParam]) {
-      currentThemeName = themeParam;
+    if (themeParam) {
+      const resolved = resolveThemeName(themeParam);
+      if (resolved) currentThemeName = resolved;
     }
     if (notesParam && typeof decodeCanvasNotesFromParam === 'function') {
       decodeCanvasNotesFromParam(notesParam);
