@@ -343,7 +343,33 @@ function clearCharacters() {
   generate();
 }
 
+function setupSectionFold() {
+  const KEY = 'nrb-folded-sections';
+  document.querySelectorAll('.section h2 > span:first-child').forEach(span => {
+    const sec = span.closest('.section');
+    if (!sec) return;
+    span.classList.add('sec-title');
+    span.addEventListener('click', () => {
+      const folded = sec.classList.toggle('folded');
+      if (!sec.id) return;
+      let foldedList = [];
+      try { foldedList = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e) {}
+      const idx = foldedList.indexOf(sec.id);
+      if (folded && idx === -1) foldedList.push(sec.id);
+      if (!folded && idx !== -1) foldedList.splice(idx, 1);
+      localStorage.setItem(KEY, JSON.stringify(foldedList));
+    });
+  });
+  try {
+    JSON.parse(localStorage.getItem(KEY) || '[]').forEach(key => {
+      const sec = document.getElementById(key);
+      if (sec) sec.classList.add('folded');
+    });
+  } catch(e) {}
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  setupSectionFold();
   const inp = document.getElementById('importInput');
   if (inp) {
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') importPotentials(); });

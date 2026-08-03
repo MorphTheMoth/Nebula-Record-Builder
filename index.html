@@ -28,6 +28,14 @@ h1 { color: #aaa; font-size: 16px; font-weight: bold; margin-bottom: 20px; lette
 h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 10px; }
 
 .section { margin-bottom: 20px; border-top: 1px solid #2a2a2a; padding-top: 14px; }
+.section.folded > :not(h2) { display: none !important; }
+.sec-title { cursor: pointer; user-select: none; }
+.sec-title:hover { color: #999; }
+.sec-title::before {
+  content: '▾'; display: inline-block; width: 12px; margin-right: 4px;
+  color: #555; font-size: 18px; vertical-align: 0px;
+}
+.section.folded .sec-title::before { content: '▸'; }
 
 /* Characters grid: flex wrap + group headers */
 .char-grid {
@@ -213,7 +221,7 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 /* Potential tooltip */
 .pot-tooltip {
   position: fixed;background: #1e1e1e;border: 1px solid #555;border-radius: 6px;padding: 10px;z-index: 100000;
-  pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.6); display: flex; gap: 12px; max-width: 400px; 
+  pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.6); display: flex; gap: 12px; max-width: 400px;
   font-family: 'Consolas', monospace; font-size: 11px; line-height: 1.4; color: #ddd; backdrop-filter: blur(2px);
 }
 .pot-tooltip img {  width: 100px; object-fit: contain; }
@@ -664,7 +672,7 @@ body.vanilla-mode .emblem-section { display: none !important; }
     </div>
   </div>
 
-  <div class="section">
+  <div class="section" id="charactersSection">
     <h2 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <span>Characters</span>
       <button class="import-btn clear-btn" onclick="clearCharacters()" title="Unselect all characters">Clear</button>
@@ -672,7 +680,7 @@ body.vanilla-mode .emblem-section { display: none !important; }
     <div class="char-grid" id="charGrid"><span class="loading">Loading characters…</span></div>
   </div>
 
-  <div class="section">
+  <div class="section" id="presetCodeSection">
     <h2 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <span>Preset Code</span>
       <div class="preset-btns-mobile">
