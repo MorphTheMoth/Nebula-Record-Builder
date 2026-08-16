@@ -513,6 +513,20 @@ function getCurrentGroupOrder(slot, group) {
   return pots.filter(p => getPotPriority(p.id, p.level) === group).map(p => String(p.id));
 }
 
+function getOrBuildGroupOrder(slot, group) {
+  if (!potOrder[slot]) potOrder[slot] = {};
+  const arr = potOrder[slot][group];
+  if (arr) {
+    for (const id of getCurrentGroupOrder(slot, group)) {
+      if (!arr.includes(id)) arr.push(id);
+    }
+    return arr;
+  }
+  const fresh = getCurrentGroupOrder(slot, group);
+  potOrder[slot][group] = [...fresh];
+  return potOrder[slot][group];
+}
+
 function resetPotOrder() {
   potOrder = {};
   saveState();
@@ -587,12 +601,10 @@ function onSvgDragMove(e) {
     if (potOrder[slot][sourceGroup]) {
       const idx = potOrder[slot][sourceGroup].indexOf(draggedId);
       if (idx !== -1) potOrder[slot][sourceGroup].splice(idx, 1);
-    }
-    if (!potOrder[slot][targetGroup]) {
-      potOrder[slot][targetGroup] = getCurrentGroupOrder(slot, targetGroup);
+      if (!potOrder[slot][sourceGroup].length) delete potOrder[slot][sourceGroup];
     }
 
-    const tgtArr = potOrder[slot][targetGroup];
+    const tgtArr = getOrBuildGroupOrder(slot, targetGroup);
     const curIdx = tgtArr.indexOf(draggedId);
     if (curIdx !== -1) tgtArr.splice(curIdx, 1);
 
@@ -607,7 +619,7 @@ function onSvgDragMove(e) {
     _svgDrag.slot = String(slot);
     saveState();
     renderRecordImage(packPotentials());
-    _svgDrag.el = document.querySelector(`g[data-id="${_svgDrag.id}"]`);
+    _svgDrag.el = document.querySelector(`#recordImageContent g[data-slot="${_svgDrag.slot}"][data-id="${_svgDrag.id}"]`);
     if (_svgDrag.el) { _svgDrag.el.classList.add('svg-drag-src'); _svgDrag.el.style.cursor = 'grabbing'; }
     return;
   }
@@ -618,10 +630,7 @@ function onSvgDragMove(e) {
 
   const group = sourceGroup;
 
-  if (!potOrder[slot]) potOrder[slot] = {};
-  if (!potOrder[slot][group]) potOrder[slot][group] = getCurrentGroupOrder(slot, group);
-
-  const arr = potOrder[slot][group];
+  const arr = getOrBuildGroupOrder(slot, group);
   const fromIdx = arr.indexOf(draggedId);
   const toIdx = arr.indexOf(targetId);
   if (toIdx === -1) return;
@@ -643,7 +652,7 @@ function onSvgDragMove(e) {
 
   renderRecordImage(packPotentials());
 
-  _svgDrag.el = document.querySelector(`g[data-id="${_svgDrag.id}"]`);
+  _svgDrag.el = document.querySelector(`#recordImageContent g[data-slot="${_svgDrag.slot}"][data-id="${_svgDrag.id}"]`);
   if (_svgDrag.el) {
     _svgDrag.el.classList.add('svg-drag-src');
     _svgDrag.el.style.cursor = 'grabbing';
