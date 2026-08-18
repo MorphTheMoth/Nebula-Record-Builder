@@ -47,7 +47,8 @@ function buildEmblemGroups(charId, isMain) {
     } else if (AttrType === 12) {
       name = capitalizeWords(EFFECT_ATTR_NAMES[AttrTypeFirstSubtype]) || `Attr${AttrTypeFirstSubtype}`;
     } else if (AttrType === 37) {
-      name = `Charge Eff (${CHARGE_EFF_TYPE_NAMES[AttrTypeFirstSubtype] ?? AttrTypeFirstSubtype}) `;
+      const chargeEffSub = AttrTypeFirstSubtype ?? 0;
+      name = `Charge Eff (${CHARGE_EFF_TYPE_NAMES[chargeEffSub] ?? chargeEffSub}) `;
     } else if (AttrType === 7) {
       name = `${ABILITY_TYPE_NAMES[AttrTypeFirstSubtype] ?? AttrTypeFirstSubtype} Levelup`;
     } else if (AttrType === 99) {
