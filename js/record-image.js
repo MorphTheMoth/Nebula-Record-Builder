@@ -198,7 +198,8 @@ function renderRecordImage(b64, options = {}) {
     const elements = [];
 
     const pbW = RP + NW + IG + PW + RP;
-    elements.push({ t: 'portrait', x, w: pbW, img: charImg, name, slot, charId });
+    const potSum = allPots.reduce((s, p) => s + p.level, 0);
+    elements.push({ t: 'portrait', x, w: pbW, img: charImg, name, slot, charId, potSum });
     x += pbW;
 
     for (const key of groupKeys) {
@@ -252,6 +253,7 @@ function renderRecordImage(b64, options = {}) {
         svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${theme.portrait[el.slot === 0 ? 0 : 1]}"/>`;
         svg += `<g class="h-ar" transform="translate(${ex+RP+NW+IG},${ry+RP})" clip-path="url(#c)"><image x="${SO}" y="${SO}" width="${SW}" height="${SH}" href="${esc(el.img)}" preserveAspectRatio="xMidYMid slice"/><g class="h-bdg" style="pointer-events:none"><rect x="0" y="0" width="${PW}" height="${PH}" fill="rgba(0,0,0,0.4)"/><circle cx="${PW/2}" cy="${PH/2}" r="16" fill="rgba(0,0,0,0.55)"/><g transform="translate(${PW/2},${PH/2}) rotate(-45)"><polygon points="-10,-4 -8,-4 4,-4 10,0 4,4 -8,4 -10,4" fill="#eee"/></g></g><rect x="0" y="0" width="${PW}" height="${PH}" fill="transparent" class="char-head-click" data-slot="${el.slot}" data-char-id="${el.charId}"/></g>`;
         svg += vertText(ex + RP + 19, ry + RP + 2, el.name, theme.titleColor);
+        svg += `<text x="${ex + RP - 1}" y="${ry + RH - 8}" font-size="16" font-family="'DejaVu Sans Mono', monospace" font-weight="bold" fill="${theme.titleColor}">${el.potSum || 0}</text>`;
       } else {
         svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${el.color}"/>`;
         svg += vertText(ex + RP + 19, ry + RP + 2, el.key, theme.titleColor);
