@@ -448,8 +448,8 @@ async function init() {
       if (resolvedTheme) currentThemeName = resolvedTheme;
       document.getElementById('importInput').value = png;
       importPotentials(true);
-      applyPendingPrios();
       applyBonusUnitsData(bonusData);
+      applyPendingPrios();
       if (orderParam) resolveOrderFromParam(orderParam);
       if (variantParam) parseHeadVariantsParam(variantParam);
       if (notesParam && typeof decodeCanvasNotesFromParam === 'function') {

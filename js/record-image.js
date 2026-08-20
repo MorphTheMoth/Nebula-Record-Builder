@@ -1134,8 +1134,8 @@ function checkRecordImageParam() {
   if (preview) {
     document.getElementById('importInput').value = preview;
     importPotentials();
-    applyPendingPrios();
     applyBonusUnitsData(bonusData);
+    applyPendingPrios();
     if (orderParam) resolveOrderFromParam(orderParam);
     if (variantParam) parseHeadVariantsParam(variantParam);
     renderRecordImage(preview);
@@ -1146,8 +1146,8 @@ function checkRecordImageParam() {
   if (image) {
     document.getElementById('importInput').value = image;
     importPotentials();
-    applyPendingPrios();
     applyBonusUnitsData(bonusData);
+    applyPendingPrios();
     if (orderParam) resolveOrderFromParam(orderParam);
     if (variantParam) parseHeadVariantsParam(variantParam);
     renderRecordImage(image);
