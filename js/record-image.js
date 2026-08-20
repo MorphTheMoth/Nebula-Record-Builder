@@ -1,5 +1,10 @@
 let currentThemeName = resolveThemeName(localStorage.getItem('nrb-theme')) || 'dark';
 let currentTitle = localStorage.getItem('nrb-title') || '';
+let currentLvlFont = (() => { const v = Number(localStorage.getItem('nrb-lvl-font')); return (v && v > 0) ? v : 17; })();
+let showTotalPots = localStorage.getItem('nrb-show-total-pots') !== 'false';
+let showTotalPotsCount = localStorage.getItem('nrb-show-total-pots-count') === 'true';
+let totalPotsCountPrefix = localStorage.getItem('nrb-total-pots-count-prefix');
+if (totalPotsCountPrefix === null) totalPotsCountPrefix = 'Total Pots';
 let _lastRecordPngBlob = null;
 
 function setRecordTitle(value) {
@@ -11,9 +16,64 @@ function setRecordTitle(value) {
   }
 }
 
+function setLvlFont(value) {
+  const v = parseInt(value, 10);
+  currentLvlFont = (v && v > 0) ? v : 16;
+  localStorage.setItem('nrb-lvl-font', String(currentLvlFont));
+  const overlay = document.getElementById('recordImageOverlay');
+  if (overlay && overlay.style.display !== 'none') {
+    renderRecordImage(packPotentials());
+  }
+}
+
+function openUserSettings() {
+  const ov = document.getElementById('userSettingsOverlay');
+  if (ov) ov.style.display = 'block';
+}
+
+function closeUserSettings() {
+  const ov = document.getElementById('userSettingsOverlay');
+  if (ov) ov.style.display = 'none';
+}
+
+function setShowTotalPots(value) {
+  showTotalPots = !!value;
+  localStorage.setItem('nrb-show-total-pots', showTotalPots ? 'true' : 'false');
+  const overlay = document.getElementById('recordImageOverlay');
+  if (overlay && overlay.style.display !== 'none') {
+    renderRecordImage(packPotentials());
+  }
+}
+
+function setShowTotalPotsCount(value) {
+  showTotalPotsCount = !!value;
+  localStorage.setItem('nrb-show-total-pots-count', showTotalPotsCount ? 'true' : 'false');
+  const overlay = document.getElementById('recordImageOverlay');
+  if (overlay && overlay.style.display !== 'none') {
+    renderRecordImage(packPotentials());
+  }
+}
+
+function setTotalPotsCountPrefix(value) {
+  totalPotsCountPrefix = value || '';
+  localStorage.setItem('nrb-total-pots-count-prefix', totalPotsCountPrefix);
+  const overlay = document.getElementById('recordImageOverlay');
+  if (overlay && overlay.style.display !== 'none') {
+    renderRecordImage(packPotentials());
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('recordTitle');
   if (input) input.value = currentTitle;
+  const lvlInput = document.getElementById('recordLvlFont');
+  if (lvlInput) lvlInput.value = currentLvlFont;
+  const totalPotsInput = document.getElementById('recordShowTotalPots');
+  if (totalPotsInput) totalPotsInput.checked = showTotalPots;
+  const totalPotsCountInput = document.getElementById('recordShowTotalPotsCount');
+  if (totalPotsCountInput) totalPotsCountInput.checked = showTotalPotsCount;
+  const totalPotsCountPrefixInput = document.getElementById('recordTotalPotsCountPrefix');
+  if (totalPotsCountPrefixInput) totalPotsCountPrefixInput.value = totalPotsCountPrefix;
 });
 
 function populateThemeSelect() {
@@ -137,6 +197,7 @@ function renderRecordImage(b64, options = {}) {
 
   const rows = [];
   let maxRowW = 0;
+  let totalPotCount = 0;
 
   const dividerH = 3;
   const extraGap = 12;
@@ -199,6 +260,7 @@ function renderRecordImage(b64, options = {}) {
 
     const pbW = RP + NW + IG + PW + RP;
     const potSum = allPots.reduce((s, p) => s + p.level, 0);
+    totalPotCount += potSum;
     elements.push({ t: 'portrait', x, w: pbW, img: charImg, name, slot, charId, potSum });
     x += pbW;
 
@@ -223,7 +285,8 @@ function renderRecordImage(b64, options = {}) {
   }
 
   const sp = 10;
-  const titleH = currentTitle ? 64 : 0;
+  const titleHasCount = showTotalPotsCount && totalPotCount > 0;
+  const titleH = (currentTitle || titleHasCount) ? 64 : 0;
   const svgW = maxRowW + sp * 2;
   let svgH = titleH + rows.length * RH + (rows.length - 1) * RG + sp * 2;
   const dividerYs = [];
@@ -240,8 +303,14 @@ function renderRecordImage(b64, options = {}) {
 <defs><clipPath id="c"><rect width="${PW}" height="${PH}" rx="4"/></clipPath><style>@font-face{font-family:'DejaVu Sans Mono';src:url('data/fonts/DejaVuSansMono.woff2')format('woff2');}.h-bdg{opacity:0;transition:opacity .12s}.h-ar:hover .h-bdg{opacity:1}.h-ar{cursor:pointer}</style></defs>
 <rect width="${svgW}" height="${svgH}" fill="${theme.svgBg}"/>`;
 
-  if (currentTitle) {
-    svg += `<text x="${sp + 20}" y="${titleH - 18}" font-size="36" font-weight="900" fill="${theme.titleColor}" font-family="DejaVu Sans, sans-serif">${esc(currentTitle)}</text>`;
+  let titleText = '';
+  if (titleHasCount) {
+    titleText += (totalPotsCountPrefix ? totalPotsCountPrefix + ' ' : '') + totalPotCount;
+    if (currentTitle) titleText += ' | ';
+  }
+  titleText += (currentTitle || '');
+  if (titleText) {
+    svg += `<text x="${sp + 20}" y="${titleH - 18}" font-size="36" font-weight="900" fill="${theme.titleColor}" font-family="DejaVu Sans, sans-serif">${esc(titleText)}</text>`;
   }
 
   const potPositions = [];
@@ -253,7 +322,8 @@ function renderRecordImage(b64, options = {}) {
         svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${theme.portrait[el.slot === 0 ? 0 : 1]}"/>`;
         svg += `<g class="h-ar" transform="translate(${ex+RP+NW+IG},${ry+RP})" clip-path="url(#c)"><image x="${SO}" y="${SO}" width="${SW}" height="${SH}" href="${esc(el.img)}" preserveAspectRatio="xMidYMid slice"/><g class="h-bdg" style="pointer-events:none"><rect x="0" y="0" width="${PW}" height="${PH}" fill="rgba(0,0,0,0.4)"/><circle cx="${PW/2}" cy="${PH/2}" r="16" fill="rgba(0,0,0,0.55)"/><g transform="translate(${PW/2},${PH/2}) rotate(-45)"><polygon points="-10,-4 -8,-4 4,-4 10,0 4,4 -8,4 -10,4" fill="#eee"/></g></g><rect x="0" y="0" width="${PW}" height="${PH}" fill="transparent" class="char-head-click" data-slot="${el.slot}" data-char-id="${el.charId}"/></g>`;
         svg += vertText(ex + RP + 19, ry + RP + 2, el.name, theme.titleColor);
-        svg += `<text x="${ex + RP - 1}" y="${ry + RH - 8}" font-size="16" font-family="'DejaVu Sans Mono', monospace" font-weight="bold" fill="${theme.titleColor}">${el.potSum || 0}</text>`;
+        if (showTotalPots)
+          svg += `<text x="${ex + RP - 1}" y="${ry + RH - 8}" font-size="16" font-family="'DejaVu Sans Mono', monospace" font-weight="bold" fill="${theme.titleColor}">${el.potSum || 0}</text>`;
       } else {
         svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${el.color}"/>`;
         svg += vertText(ex + RP + 19, ry + RP + 2, el.key, theme.titleColor);
@@ -261,7 +331,7 @@ function renderRecordImage(b64, options = {}) {
         for (const p of el.items) {
           svg += `<g data-id="${p.id}" data-slot="${el.slot}" data-group="${el.key}" transform="translate(${ix},${ry+RP})"><rect width="${PW}" height="${PH}" fill="transparent"/><image x="0" y="0" width="${PW}" height="${PH}" href="${esc(BASE_ASSETS)}potential/${p.id}.webp" preserveAspectRatio="xMidYMid slice" clip-path="url(#c)" style="pointer-events:none;user-select:none"/></g>`;
           if (!['01','02','03','04','21','22','23','24'].includes(String(p.id).slice(-2)))
-            svg += `<text x="${ix+15}" y="${ry+RP+16}" font-size="16" font-family="'DejaVu Sans Mono', monospace" font-weight="bold" fill="#568">${p.level}</text>`;
+            svg += `<text x="${ix + 22}" y="${ry + RP + 12}" text-anchor="middle" dominant-baseline="middle" font-size="${currentLvlFont}" font-family="'DejaVu Sans Mono', monospace" font-weight="bold" fill="#568">${p.level}</text>`;
           potPositions.push({ id: String(p.id), slot: el.slot, group: el.key, x: ix, y: ry + RP });
           ix += PW + IG;
         }
@@ -1086,6 +1156,9 @@ function checkRecordImageParam() {
 
   const titleInput = document.getElementById('recordTitle');
   if (titleInput) titleInput.value = currentTitle;
+
+  const lvlFontInput = document.getElementById('recordLvlFont');
+  if (lvlFontInput) lvlFontInput.value = currentLvlFont;
 
   if (bonusData || preview || image) {
     history.replaceState(null, '', window.location.pathname);
