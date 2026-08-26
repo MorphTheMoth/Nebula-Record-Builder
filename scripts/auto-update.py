@@ -156,6 +156,15 @@ def main():
 
     subprocess.check_call(
         [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-slim.py')])
+    # Refresh local _XL head images (trimmed) — cheap if already cached
+    try:
+        print('[auto-update] refreshing head images...')
+        subprocess.check_call(
+            [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-heads.py')])
+    except subprocess.CalledProcessError as e:
+        print(f'[auto-update] fetch-heads failed (continuing): {e}')
+    except Exception as e:
+        print(f'[auto-update] fetch-heads error (continuing): {e}')
     with open(STATE_FILE, 'w') as f:
         json.dump(prev, f, indent=2, sort_keys=True)
         f.write('\n')
@@ -164,9 +173,11 @@ def main():
     # Also commit the state file so clones stay in sync. Force-add in case
     # .gitignore ignores it (pattern .fetch-state.json matches any dir).
     git('add', '-f', os.path.join('scripts', '.fetch-state.json'), check=False)
-    # If this script itself was previously untracked, track it too
+    # Track auto-update runner and heads fetcher
     if os.path.exists(os.path.join(SCRIPT_DIR, 'auto-update.py')):
         git('add', '-f', os.path.join('scripts', 'auto-update.py'), check=False)
+    if os.path.exists(os.path.join(SCRIPT_DIR, 'fetch-heads.py')):
+        git('add', '-f', os.path.join('scripts', 'fetch-heads.py'), check=False)
     staged = git('diff', '--cached', '--name-only')
     if not staged.stdout.strip():
         print('[auto-update] no data changes after slim; nothing to commit.')

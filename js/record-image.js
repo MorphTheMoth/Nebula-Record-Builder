@@ -252,7 +252,7 @@ function renderRecordImage(b64, options = {}) {
 
     const variant = charHeadVariants[String(charId)] || '02';
     const customSrc = customHeadImages[String(charId)];
-    const charImg = customSrc || `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}${variant}_XL.webp`;
+    const charImg = customSrc || headImageUrl(charId, variant);
     const name = charData[charId] || '';
 
     let x = 0;
@@ -387,13 +387,29 @@ async function svgToPngBlob(svgSource) {
   await Promise.all(Array.from(imgs).map(async el => {
     const href = el.getAttribute('href');
     if (!href || href.startsWith('data:')) return;
-    try {
-      const resp = await fetch(href);
+    const tryFetch = async (url) => {
+      const resp = await fetch(url);
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const blob = await resp.blob();
       const dataUrl = await new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); });
+      return dataUrl;
+    };
+    try {
+      const dataUrl = await tryFetch(href);
       el.setAttribute('href', dataUrl);
-    } catch (e) { console.warn('PNG embed failed:', href, e); hadFailure = true; el.remove(); }
+    } catch (e) {
+      // Fallback: if local heads 404, try remote ssassets
+      const m = href.match(/data\/heads\/head_(\d+)(\d{2})_XL\.webp/);
+      if (m) {
+        const fallback = headImageFallbackUrl(m[1], m[2]);
+        try {
+          const dataUrl2 = await tryFetch(fallback);
+          el.setAttribute('href', dataUrl2);
+          return;
+        } catch (e2) { console.warn('PNG embed fallback failed:', href, '->', fallback, e2); }
+      }
+      console.warn('PNG embed failed:', href, e); hadFailure = true; el.remove();
+    }
   }));
 
   const styles = clone.querySelectorAll('style');
@@ -981,10 +997,21 @@ function imageExists(url) {
 
 async function getAvailableHeadVariants(charId) {
   if (HEAD_VARIANTS_CACHE[charId]) return HEAD_VARIANTS_CACHE[charId];
+  // Prefer local manifest (fast, no network flood) — falls back to probing
+  try {
+    const manifest = await loadHeadManifest();
+    if (manifest && manifest[String(charId)] && manifest[String(charId)].length) {
+      HEAD_VARIANTS_CACHE[charId] = manifest[String(charId)];
+      return HEAD_VARIANTS_CACHE[charId];
+    }
+  } catch {}
   const available = [];
   for (let i = 1; i <= 20; i++) {
     const v = String(i).padStart(2, '0');
-    const exists = await imageExists(`${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}${v}_XL.webp`);
+    // Try local trimmed image first, fall back to remote if not yet cached
+    const localUrl = headImageUrl(charId, v);
+    let exists = await imageExists(localUrl);
+    if (!exists) exists = await imageExists(headImageFallbackUrl(charId, v));
     if (exists) {
       available.push(v);
     } else {
@@ -1047,7 +1074,8 @@ function showHeadVariantMenu(charId, slot, clickX, clickY) {
       wrap.style.cssText = 'width:72px;height:92px;overflow:hidden;border-radius:2px;background:#2a2a2a;';
 
       const img = document.createElement('img');
-      img.src = `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}${v}_XL.webp`;
+      img.src = headImageUrl(charId, v);
+      img.onerror = () => { img.onerror = null; img.src = headImageFallbackUrl(charId, v); };
       img.style.cssText = 'width:100%;height:100%;display:block;object-fit:cover;';
       img.loading = 'lazy';
 

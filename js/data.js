@@ -1,4 +1,22 @@
 const BASE_ASSETS = 'https://raw.githubusercontent.com/AutumnVN/ssassets/main/';
+const LOCAL_HEAD_BASE = 'data/heads/';
+let _headManifest = null;
+
+function headImageUrl(charId, variant) {
+  return `${LOCAL_HEAD_BASE}head_${charId}${variant}_XL.webp`;
+}
+function headImageFallbackUrl(charId, variant) {
+  return `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}${variant}_XL.webp`;
+}
+async function loadHeadManifest() {
+  if (_headManifest) return _headManifest;
+  try {
+    const resp = await fetch(`${LOCAL_HEAD_BASE}manifest.json`);
+    if (resp.ok) _headManifest = await resp.json();
+    else _headManifest = {};
+  } catch { _headManifest = {}; }
+  return _headManifest;
+}
 
 let charData = {}, discData = {}, charJson = {};
 let selectedChars = [];
