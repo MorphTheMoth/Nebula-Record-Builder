@@ -33,7 +33,7 @@ async function renderChars() {
     div.dataset.element = ch.element;
 
     const img = document.createElement('img');
-    img.src = BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${ch.id}02_XXL.webp`;
+    setCroppedHead(img, BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${ch.id}02_XXL.webp`);
     div.appendChild(img);
 
     const lbl = document.createElement('div');

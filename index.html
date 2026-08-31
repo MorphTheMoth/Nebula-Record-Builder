@@ -11,6 +11,7 @@
 <script src="js/output.js"></script>
 <script src="js/record-image.js"></script>
 <script src="js/canvas-notes.js"></script>
+<script src="js/edit-characters.js"></script>
 <script src="js/main.js"></script>
 <title>Nebula Record Builder</title>
 <style>
@@ -628,6 +629,78 @@ body.vanilla-mode #notesSection,
 body.vanilla-mode .vanilla-hide,
 body.vanilla-mode .emblem-section { display: none !important; }
 
+/* Edit Characters popup */
+.edit-chars-backdrop {
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.65);z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+}
+.edit-chars-modal {
+  background:#1e1e1e;border:1px solid #333;border-radius:8px;
+  max-width:900px;width:90vw;max-height:85vh;overflow:auto;
+  padding:20px;box-sizing:border-box;
+}
+.edit-chars-header {
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:16px;
+}
+.edit-chars-title {
+  margin:0;color:#aaa;font-size:14px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;
+}
+.edit-chars-close {
+  background:#222;border:1px solid #444;color:#aaa;padding:6px 14px;border-radius:3px;
+  cursor:pointer;font-size:12px;font-family:inherit;letter-spacing:1px;transition:background 0.1s;
+}
+.edit-chars-close:hover { background:#2e2e2e; color:#ccc; }
+.edit-chars-grid {
+  display:flex;gap:12px;flex-wrap:nowrap;overflow-x:auto;
+  padding-bottom:12px;
+}
+.edit-chars-col {
+  flex:0 0 110px;width:110px;
+  display:flex;flex-direction:column;align-items:center;
+  gap:6px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:4px;
+  padding:10px 8px;
+}
+.edit-chars-col.all-col { border-color:#3a3a3a; background:#222; }
+.edit-chars-col img {
+  width:80px;height:80px;object-fit:cover;border-radius:3px;
+  background:#2a2a2a;display:block;
+}
+.edit-chars-col .col-label {
+  font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:1px;
+  text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:100%;
+}
+.edit-chars-fields { display:flex;flex-direction:column;gap:6px;width:100%; }
+.edit-chars-field { display:flex;flex-direction:column;gap:2px; }
+.edit-chars-field label {
+  font-size:9px;color:#666;text-transform:uppercase;letter-spacing:0.8px;
+}
+.edit-chars-field input {
+  width:100%;background:#111;border:1px solid #333;border-radius:3px;
+  color:#ccc;font-size:12px;font-family:inherit;padding:5px 6px;
+  outline:none;box-sizing:border-box;text-align:center;
+}
+.edit-chars-field input:focus { border-color:#555; background:#1a1a1a; }
+.edit-chars-field input::placeholder { color:#444; }
+.edit-chars-output-row {
+  display:flex;gap:8px;align-items:center;margin-top:16px;
+  border-top:1px solid #2a2a2a;padding-top:12px;
+}
+.edit-chars-output {
+  flex:1;background:#111;border:1px solid #333;border-radius:3px;
+  padding:8px 12px;color:#888;font-size:12px;font-family:inherit;
+  white-space:pre;overflow:auto;min-height:32px;max-height:120px;
+  cursor:pointer;
+}
+.edit-chars-copy-btn {
+  background:#222;border:1px solid #444;color:#aaa;padding:7px 14px;
+  border-radius:3px;cursor:pointer;font-size:11px;font-family:inherit;
+  letter-spacing:1px;white-space:nowrap;transition:background 0.1s;height:32px;
+}
+.edit-chars-copy-btn:hover { background:#2e2e2e;color:#ccc; }
+
 @media (max-width: 600px) {
   .page { padding: 12px; }
   .import-btn { padding: 6px 10px; font-size: 10px; }
@@ -685,7 +758,10 @@ body.vanilla-mode .emblem-section { display: none !important; }
   <div class="section" id="charactersSection">
     <h2 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <span>Characters</span>
-      <button class="import-btn clear-btn" onclick="clearCharacters()" title="Unselect all characters">Clear</button>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="import-btn vanilla-hide" id="editCharsBtn" onclick="openEditCharsPopup()" title="Edit character skill/talent/affinity">Edit Characters</button>
+        <button class="import-btn clear-btn" onclick="clearCharacters()" title="Unselect all characters">Clear</button>
+      </div>
     </h2>
     <div class="char-grid" id="charGrid"><span class="loading">Loading characters…</span></div>
   </div>
@@ -799,6 +875,23 @@ body.vanilla-mode .emblem-section { display: none !important; }
         <span>Total Pot Count Prefix</span>
         <input type="text" id="recordTotalPotsCountPrefix" class="record-title-input" placeholder="prefix..." value="Total Pots" oninput="setTotalPotsCountPrefix(this.value)" style="width:140px;text-align:center;">
       </div>
+    </div>
+  </div>
+</div>
+
+<div id="editCharsOverlay" class="edit-chars-backdrop" style="display:none" onclick="if(event.target===this)closeEditCharsPopup()">
+  <div class="edit-chars-modal" onclick="event.stopPropagation()">
+    <div class="edit-chars-header">
+      <h2 class="edit-chars-title">Edit Characters</h2>
+      <div style="display:flex;gap:8px;">
+        <button class="edit-chars-close clear-btn" onclick="clearEditCharsInputs()" title="Clear all skill/talent/affinity inputs" style="color:#966;border-color:#4a3333;">Clear</button>
+        <button class="edit-chars-close" onclick="closeEditCharsPopup()">Close</button>
+      </div>
+    </div>
+    <div id="editCharsGrid" class="edit-chars-grid"></div>
+    <div class="edit-chars-output-row">
+      <div id="editCharsOutput" class="edit-chars-output" onclick="copyEditCharsOutput(true)">— no characters selected —</div>
+      <button class="edit-chars-copy-btn" onclick="copyEditCharsOutput()">Copy</button>
     </div>
   </div>
 </div>
