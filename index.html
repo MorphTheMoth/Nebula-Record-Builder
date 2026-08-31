@@ -40,9 +40,9 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 /* Characters grid: flex wrap + group headers */
 .char-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 100px);
+  grid-template-columns: repeat(auto-fill, 98px);
   justify-content: space-between;
-  row-gap: 12px;
+  row-gap: 10px;
 }
 .char-group-header {
   font-size: 9px;
@@ -58,23 +58,21 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 .char-group-header:first-of-type { margin-top: 0; }
 
 .char-card {
-  width: 90px; margin: 0 4px; cursor: pointer; border: 1px solid #333; border-radius: 3px;
-  overflow: hidden; background: #222; transition: border-color 0.1s;
+  width: 90px; margin: 0 4px; cursor: pointer; border: none; border-radius: 3px;
+  overflow: hidden; background: #222;
   position: relative; user-select: none;
 }
-.char-card:hover { border-color: #555; }
-.char-card.selected { border-color: #888; }
 .char-card.selected::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.05); }
 .char-card img { width: 100%; aspect-ratio: 1; display: block; background: #2a2a2a; }
 .char-card .label { font-size: 11px; color: #f0f0f0;; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* soft element backgrounds — subtle tint, no extra elements */
-.char-card[data-element="Aqua"]   { background: rgba(0, 255, 255, 0.08); border-color: #2a6a6a; }
-.char-card[data-element="Ignis"]  { background: rgba(255, 80, 40, 0.08); border-color: #6a3a2a; }
-.char-card[data-element="Ventus"] { background: rgba(100, 200, 100, 0.08); border-color: #2a5a2a; }
-.char-card[data-element="Terra"]  { background: rgba(146, 83, 44, 0.154); border-color: #5c451b; }
-.char-card[data-element="Lux"]    { background: rgba(255, 250, 111, 0.084); border-color: #746a2c; }
-.char-card[data-element="Umbra"]  { background: rgba(120, 80, 160, 0.08); border-color: #4a3a6a; }
-.char-card[data-element="Other"]  { background: #222; border-color: #3a3a3a; }
+.char-card[data-element="Aqua"]   { background: rgba(0, 255, 255, 0.22); }
+.char-card[data-element="Ignis"]  { background: rgba(255, 80, 40, 0.22); }
+.char-card[data-element="Ventus"] { background: rgba(100, 200, 100, 0.22); }
+.char-card[data-element="Terra"]  { background: rgba(146, 83, 44, 0.32); }
+.char-card[data-element="Lux"]    { background: rgba(255, 230, 70, 0.28); }
+.char-card[data-element="Umbra"]  { background: rgba(120, 80, 160, 0.22); }
+.char-card[data-element="Other"]  { background: #222; }
 .slot-badge {
   position: absolute; top: 4px; left: 4px;
   font-size: 9px; background: rgba(0,0,0,0.8); color: #ddd;
@@ -638,7 +636,7 @@ body.vanilla-mode .emblem-section { display: none !important; }
   .disc-output-panel { width: 100%; padding-top: 0; height: auto; }
   .disc-output-text { min-height: 80px; }
   .char-card { width: 72px; }
-  .char-grid { grid-template-columns: repeat(auto-fill, 72px); justify-content: start; gap: 6px; }
+  .char-grid { grid-template-columns: repeat(auto-fill, 72px); justify-content: start; gap: 4px; }
   .emblem-container { grid-template-columns: repeat(2, 1fr); }
   .note-item { padding: 4px 6px; }
   .note-item img { width: 32px; height: 32px; }
