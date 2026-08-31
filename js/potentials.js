@@ -470,6 +470,37 @@ function updatePotentials() {
   });
 }
 
+function getEmblemDefaultOptions(emblemIdx) {
+  const slot = emblemIdx + 1;
+  const out = [];
+  const seen = new Set();
+  for (const entry of Object.values(emblemAttrData)) {
+    if (entry.AttrType !== 12) continue;
+    if (typeIdToSlot[entry.TypeId] !== slot) continue;
+    if (entry.AttrTypeFirstSubtype !== 2 && entry.AttrTypeFirstSubtype !== 3) continue;
+    if (seen.has(entry.TypeId)) continue;
+    seen.add(entry.TypeId);
+    out.push(entry.TypeId);
+  }
+  return out;
+}
+
+function emblemEntryIdForLevel(typeId, level) {
+  for (const entry of Object.values(emblemAttrData)) {
+    if (entry.TypeId === typeId && entry.Level === level) return String(entry.Id);
+  }
+  return null;
+}
+
+function rollDefaultEmblem(emblemIdx, usedTypeIds) {
+  const pool = getEmblemDefaultOptions(emblemIdx).filter(t => !usedTypeIds.has(t));
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.map(t => emblemEntryIdForLevel(t, Math.random() < 0.5 ? 1 : 2));
+}
+
 function updateEmblemOutput(cId) {
   const outputEl = document.getElementById(`emblem-output-${cId}`);
   if (!outputEl) return;
@@ -477,16 +508,30 @@ function updateEmblemOutput(cId) {
   const lines = [];
   for (let e = 0; e < 3; e++) {
     const statIds = [];
-    const base = [101, 6001, 9401];
+    const usedTypeIds = new Set();
+    let anySet = false;
+
+    for (let s = 0; s < 4; s++) {
+      const entry = emblemAttrData[emblemStats[`${cId}_${e}_${s}`]];
+      if (entry) usedTypeIds.add(entry.TypeId);
+    }
+
+    const defaults = rollDefaultEmblem(e, usedTypeIds);
+    let di = 0;
     for (let s = 0; s < 4; s++) {
       const key = `${cId}_${e}_${s}`;
       const val = emblemStats[key];
-      if (val)
+      if (val) {
         statIds.push(val);
-      else
-        statIds.push(base[e])
+        anySet = true;
+      } else if (di < defaults.length) {
+        statIds.push(defaults[di++]);
+      } else {
+        statIds.push('');
+      }
     }
-    if (statIds.filter(x => base.includes(x)).length != 4)
+
+    if (anySet)
       lines.push(`emblem ${cId} ${e + 1} ${statIds.join(' ')} @${playerId}`);
   }
   outputEl.textContent = lines.length > 0 ? lines.join('\n')+'\n' : '—';

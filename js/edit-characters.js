@@ -164,17 +164,17 @@ function buildEditCharsLines() {
     if (!params) continue;
 
     if (colId === 'all') {
-      lines.push(`!c all${params}${suffix}`);
+      lines.push(`c all${params}${suffix}`);
     } else if (colId === '4stars') {
       for (const cid of FOUR_STAR_IDS) {
-        lines.push(`!c ${cid}${params}${suffix}`);
+        lines.push(`c ${cid}${params}${suffix}`);
       }
     } else if (colId === 'standards') {
       for (const cid of STANDARD_IDS) {
-        lines.push(`!c ${cid}${params}${suffix}`);
+        lines.push(`c ${cid}${params}${suffix}`);
       }
     } else {
-      lines.push(`!c ${colId}${params}${suffix}`);
+      lines.push(`c ${colId}${params}${suffix}`);
     }
   }
   return lines;
