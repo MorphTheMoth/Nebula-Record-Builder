@@ -144,19 +144,35 @@ def main():
             changed.append(path)
         prev[path] = sha
 
-    if not changed:
+    has_data_changed = bool(changed)
+    if has_data_changed:
+        print(f'[auto-update] changed upstream: {", ".join(changed)}')
+    else:
         print('[auto-update] no upstream changes.')
-        return
-
-    print(f'[auto-update] changed upstream: {", ".join(changed)}')
 
     if check_only:
+        if has_data_changed:
+            print('[auto-update] --check mode: would fetch slim data.')
+        else:
+            print('[auto-update] --check mode: no data changes.')
+        print('[auto-update] --check: probing head images...')
+        try:
+            subprocess.call(
+                [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-heads.py'), '--check'])
+        except Exception as e:
+            print(f'[auto-update] fetch-heads --check failed: {e}')
         print('[auto-update] --check mode: nothing fetched or committed.')
         return
 
-    subprocess.check_call(
-        [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-slim.py')])
-    # Refresh local _XL head images (trimmed) — cheap if already cached
+    # Fetch slim data only if StellaSoraData changed; heads are always refreshed
+    # so ssassets-only additions (e.g. head_12003_XL.webp) are detected.
+    if has_data_changed:
+        subprocess.check_call(
+            [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-slim.py')])
+
+    # Refresh local _XL head images (trimmed) — cheap if already cached:
+    # fetch-heads.py skips existing files without network (continue), only
+    # the first missing variant per char triggers a GET (404 -> break, 200 -> download).
     try:
         print('[auto-update] refreshing head images...')
         subprocess.check_call(
@@ -165,25 +181,42 @@ def main():
         print(f'[auto-update] fetch-heads failed (continuing): {e}')
     except Exception as e:
         print(f'[auto-update] fetch-heads error (continuing): {e}')
-    with open(STATE_FILE, 'w') as f:
-        json.dump(prev, f, indent=2, sort_keys=True)
-        f.write('\n')
+
+    # Persist updated hashes only if data actually changed.
+    if has_data_changed:
+        with open(STATE_FILE, 'w') as f:
+            json.dump(prev, f, indent=2, sort_keys=True)
+            f.write('\n')
 
     git('add', 'data')
     # Also commit the state file so clones stay in sync. Force-add in case
     # .gitignore ignores it (pattern .fetch-state.json matches any dir).
-    git('add', '-f', os.path.join('scripts', '.fetch-state.json'), check=False)
+    if has_data_changed:
+        git('add', '-f', os.path.join('scripts', '.fetch-state.json'), check=False)
     # Track auto-update runner and heads fetcher
     if os.path.exists(os.path.join(SCRIPT_DIR, 'auto-update.py')):
         git('add', '-f', os.path.join('scripts', 'auto-update.py'), check=False)
     if os.path.exists(os.path.join(SCRIPT_DIR, 'fetch-heads.py')):
         git('add', '-f', os.path.join('scripts', 'fetch-heads.py'), check=False)
     staged = git('diff', '--cached', '--name-only')
-    if not staged.stdout.strip():
-        print('[auto-update] no data changes after slim; nothing to commit.')
+    staged_files = staged.stdout.strip()
+    if not staged_files:
+        if has_data_changed:
+            print('[auto-update] no data changes after slim; nothing to commit.')
+        else:
+            print('[auto-update] no head image changes; nothing to commit.')
         return
 
-    git('commit', '-m', 'Update game data from upstream StellaSoraData')
+    # Choose commit message based on what is staged.
+    has_heads_in_staged = any('data/heads' in line for line in staged_files.splitlines())
+    if has_data_changed and has_heads_in_staged:
+        commit_msg = 'Update game data and head images from upstream'
+    elif has_data_changed:
+        commit_msg = 'Update game data from upstream StellaSoraData'
+    else:
+        commit_msg = 'Update head images from ssassets'
+
+    git('commit', '-m', commit_msg)
 
     token = load_token()
     if not token:
