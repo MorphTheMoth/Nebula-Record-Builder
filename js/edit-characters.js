@@ -71,13 +71,13 @@ function renderEditCharsGrid() {
       lbl.textContent = 'Standards';
       col.appendChild(lbl);
     } else {
-      const img = document.createElement('img');
       // Use same image as characters section: BASE_ASSETS + head_${id}02_XXL.webp
       const base = (typeof BASE_ASSETS !== 'undefined' ? BASE_ASSETS : 'https://raw.githubusercontent.com/AutumnVN/ssassets/main/');
-      setCroppedHead(img, base + `export/assets/assetbundles/icon/head/head_${colId}02_XXL.webp`);
+      const wrap = headCropEl(base + `export/assets/assetbundles/icon/head/head_${colId}02_XXL.webp`);
+      const img = wrap.querySelector('img');
       img.alt = colId;
       img.onerror = () => { img.style.opacity = '0.2'; };
-      col.appendChild(img);
+      col.appendChild(wrap);
       const lbl = document.createElement('div');
       lbl.className = 'col-label';
       const name = (typeof charData !== 'undefined' && charData[colId]) ? charData[colId] : (typeof charJson !== 'undefined' && charJson[colId]?.name ? charJson[colId].name : colId);

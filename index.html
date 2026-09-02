@@ -64,7 +64,8 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
   position: relative; user-select: none;
 }
 .char-card.selected::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.05); }
-.char-card img { width: 100%; aspect-ratio: 1; display: block; background: #2a2a2a; }
+.char-card .head-crop { width: 100%; aspect-ratio: 1; overflow: hidden; background: #2a2a2a; }
+.head-crop img { display: block; width: calc(100% + 1px); height: calc(100% + 1px); }
 .char-card .label { font-size: 11px; color: #f0f0f0;; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* soft element backgrounds — subtle tint, no extra elements */
 .char-card[data-element="Aqua"]   { background: rgba(0, 255, 255, 0.22); }
@@ -663,9 +664,9 @@ body.vanilla-mode .emblem-section { display: none !important; }
   padding:10px 8px;
 }
 .edit-chars-col.all-col { border-color:#3a3a3a; background:#222; }
-.edit-chars-col img {
-  width:80px;height:80px;object-fit:cover;border-radius:3px;
-  background:#2a2a2a;display:block;
+.edit-chars-col .head-crop {
+  width:80px;height:80px;overflow:hidden;border-radius:3px;
+  background:#2a2a2a;
 }
 .edit-chars-col .col-label {
   font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:1px;
@@ -859,6 +860,10 @@ body.vanilla-mode .emblem-section { display: none !important; }
       <h2 class="record-preview-title" style="text-transform:none;">USER SETTINGS</h2>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px;padding:4px 4px 8px;">
+      <div class="user-settings-row">
+        <span>Title Font Size</span>
+        <input type="text" id="recordTitleFont" class="record-title-input" inputmode="numeric" placeholder="36" value="36" oninput="this.value=this.value.replace(/[^0-9]/g,'');setTitleFont(this.value)" style="width:50px;text-align:center;">
+      </div>
       <div class="user-settings-row">
         <span>Level Font Size</span>
         <input type="text" id="recordLvlFont" class="record-title-input" inputmode="numeric" placeholder="17" value="17" oninput="this.value=this.value.replace(/[^0-9]/g,'');setLvlFont(this.value)" style="width:50px;text-align:center;">

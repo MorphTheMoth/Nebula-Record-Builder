@@ -8,29 +8,13 @@ function headImageUrl(charId, variant) {
 function headImageFallbackUrl(charId, variant) {
   return `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}${variant}_XL.webp`;
 }
-async function cropHeadSrc(src) {
-  return new Promise(resolve => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      try {
-        const w = img.naturalWidth, h = img.naturalHeight;
-        if (!w || !h || w < 3 || h < 3) { resolve(src); return; }
-        const c = document.createElement('canvas');
-        c.width = w - 2;
-        c.height = h - 3;
-        c.getContext('2d').drawImage(img, 1, 1, w - 2, h - 3, 0, 0, w - 2, h - 3);
-        const url = c.toDataURL('image/webp');
-        if (url && url.startsWith('data:')) { resolve(url); return; }
-      } catch (e) {}
-      resolve(src);
-    };
-    img.onerror = () => resolve(src);
-    img.src = src;
-  });
-}
-function setCroppedHead(img, src) {
-  cropHeadSrc(src).then(cropped => { if (img.isConnected) img.src = cropped; });
+function headCropEl(src) {
+  const wrap = document.createElement('div');
+  wrap.className = 'head-crop';
+  const img = document.createElement('img');
+  img.src = src;
+  wrap.appendChild(img);
+  return wrap;
 }
 async function loadHeadManifest() {
   if (_headManifest) return _headManifest;

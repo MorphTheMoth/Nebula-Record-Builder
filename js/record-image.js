@@ -1,5 +1,6 @@
 let currentThemeName = resolveThemeName(localStorage.getItem('nrb-theme')) || 'dark';
 let currentTitle = localStorage.getItem('nrb-title') || '';
+let currentTitleFont = (() => { const v = Number(localStorage.getItem('nrb-title-font')); return (v && v > 0) ? v : 36; })();
 let currentLvlFont = (() => { const v = Number(localStorage.getItem('nrb-lvl-font')); return (v && v > 0) ? v : 17; })();
 let showTotalPots = localStorage.getItem('nrb-show-total-pots') !== 'false';
 let showTotalPotsCount = localStorage.getItem('nrb-show-total-pots-count') === 'true';
@@ -10,6 +11,16 @@ let _lastRecordPngBlob = null;
 function setRecordTitle(value) {
   currentTitle = value;
   localStorage.setItem('nrb-title', value);
+  const overlay = document.getElementById('recordImageOverlay');
+  if (overlay && overlay.style.display !== 'none') {
+    renderRecordImage(packPotentials());
+  }
+}
+
+function setTitleFont(value) {
+  const v = parseInt(value, 10);
+  currentTitleFont = (v && v > 0) ? v : 36;
+  localStorage.setItem('nrb-title-font', String(currentTitleFont));
   const overlay = document.getElementById('recordImageOverlay');
   if (overlay && overlay.style.display !== 'none') {
     renderRecordImage(packPotentials());
@@ -66,6 +77,8 @@ function setTotalPotsCountPrefix(value) {
 document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('recordTitle');
   if (input) input.value = currentTitle;
+  const titleFontInput = document.getElementById('recordTitleFont');
+  if (titleFontInput) titleFontInput.value = currentTitleFont;
   const lvlInput = document.getElementById('recordLvlFont');
   if (lvlInput) lvlInput.value = currentLvlFont;
   const totalPotsInput = document.getElementById('recordShowTotalPots');
@@ -310,7 +323,7 @@ function renderRecordImage(b64, options = {}) {
   }
   titleText += (currentTitle || '');
   if (titleText) {
-    svg += `<text x="${sp + 20}" y="${titleH - 18}" font-size="36" font-weight="900" fill="${theme.titleColor}" font-family="DejaVu Sans, sans-serif">${esc(titleText)}</text>`;
+    svg += `<text x="${sp + 20}" y="${titleH - 18}" font-size="${currentTitleFont}" font-weight="900" fill="${theme.titleColor}" font-family="DejaVu Sans, sans-serif">${esc(titleText)}</text>`;
   }
 
   const potPositions = [];
@@ -1184,6 +1197,9 @@ function checkRecordImageParam() {
 
   const titleInput = document.getElementById('recordTitle');
   if (titleInput) titleInput.value = currentTitle;
+
+  const titleFontInput2 = document.getElementById('recordTitleFont');
+  if (titleFontInput2) titleFontInput2.value = currentTitleFont;
 
   const lvlFontInput = document.getElementById('recordLvlFont');
   if (lvlFontInput) lvlFontInput.value = currentLvlFont;
