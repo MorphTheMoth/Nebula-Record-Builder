@@ -122,14 +122,157 @@ function updatePotentials() {
   if (activePotTab >= chars.length) activePotTab = 0;
 
   tabs.innerHTML = '';
-  chars.forEach((cId, i) => {
+  tabs.classList.toggle('has-extras', chars.length > 3);
+
+  // Warm the XXL head cache so the drag ghost includes portraits on the first drag
+  chars.forEach((cId) => {
+    try {
+      const v = (typeof charHeadVariants !== 'undefined' && charHeadVariants[String(cId)]) || '02';
+      const warm = new Image();
+      warm.decoding = 'sync';
+      warm.src = BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${cId}${v}_XXL.webp`;
+      if (warm.decode) warm.decode().catch(() => {});
+    } catch (err) {}
+  });
+
+  const makeHeadImg = (cId) => {
+    const wrap = document.createElement('span');
+    wrap.className = 'pot-tab-head';
+    const img = document.createElement('img');
+    img.alt = '';
+    img.draggable = false;
+    try { img.decoding = 'sync'; } catch (err) {}
+    const variant = (typeof charHeadVariants !== 'undefined' && charHeadVariants[String(cId)]) || '02';
+    img.src = BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${cId}${variant}_XXL.webp`;
+    wrap.appendChild(img);
+    return wrap;
+  };
+
+  const createPotTab = (cId, idx) => {
     const name = charJson[cId]?.name || cId;
     const btn = document.createElement('button');
-    btn.className = 'pot-tab' + (i === activePotTab ? ' active' : '');
-    btn.textContent = name;
-    btn.onclick = () => { activePotTab = i; updatePotentials(); };
-    tabs.appendChild(btn);
-  });
+    btn.className = 'pot-tab' + (idx === activePotTab ? ' active' : '');
+    btn.draggable = true;
+    btn.dataset.slot = String(idx);
+    btn.title = 'Drag to swap position';
+    btn.appendChild(makeHeadImg(cId));
+    const label = document.createElement('span');
+    label.className = 'pot-tab-name';
+    label.textContent = name;
+    btn.appendChild(label);
+    btn.onclick = () => { activePotTab = idx; updatePotentials(); };
+    btn.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/x-pot-slot', String(idx));
+      e.dataTransfer.effectAllowed = 'move';
+      try { e.dataTransfer.setData('text/plain', String(idx)); } catch (err) {}
+      btn.classList.add('dragging');
+    });
+    btn.addEventListener('dragend', () => {
+      btn.classList.remove('dragging');
+      tabs.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    });
+    // Touch fallback: drag with finger, drop where you lift
+    btn.addEventListener('touchstart', (e) => {
+      btn.dataset.touchSrc = String(idx);
+      btn.classList.add('dragging');
+    }, { passive: true });
+    btn.addEventListener('touchend', (e) => {
+      btn.classList.remove('dragging');
+      const fromIdx = Number(btn.dataset.touchSrc);
+      const t = e.changedTouches && e.changedTouches[0];
+      if (!t || Number.isNaN(fromIdx)) return;
+      const target = document.elementFromPoint(t.clientX, t.clientY);
+      const tabTarget = target && target.closest ? target.closest('.pot-tab') : null;
+      const emptyTarget = target && target.closest ? target.closest('.pot-slot-empty') : null;
+      const toRaw = tabTarget ? tabTarget.dataset.slot : (emptyTarget ? emptyTarget.dataset.slot : null);
+      if (toRaw === null || toRaw === undefined) return;
+      const toIdx = Number(toRaw);
+      if (!Number.isNaN(toIdx) && toIdx !== fromIdx) {
+        e.preventDefault();
+        swapPotSlots(fromIdx, toIdx);
+      }
+    });
+    return btn;
+  };
+
+  const markDragOver = (el, on) => {
+    const col = el.closest ? el.closest('.pot-slot-col') : null;
+    if (on) {
+      el.classList.add('drag-over');
+      if (col) col.classList.add('drag-over');
+    } else {
+      el.classList.remove('drag-over');
+      if (col) {
+        const anyOver = col.querySelector('.pot-tab.drag-over, .pot-slot-empty.drag-over');
+        if (!anyOver) col.classList.remove('drag-over');
+      }
+    }
+  };
+
+  const attachDropTarget = (el, targetIdx) => {
+    el.dataset.slot = String(targetIdx);
+    el.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      markDragOver(el, true);
+    });
+    el.addEventListener('dragleave', () => markDragOver(el, false));
+    el.addEventListener('drop', (e) => {
+      e.preventDefault();
+      markDragOver(el, false);
+      let fromRaw = null;
+      try { fromRaw = e.dataTransfer.getData('text/x-pot-slot'); } catch (err) {}
+      if (fromRaw === null || fromRaw === '' || fromRaw === undefined) {
+        try { fromRaw = e.dataTransfer.getData('text/plain'); } catch (err) {}
+      }
+      const fromIdx = Number(fromRaw);
+      if (Number.isNaN(fromIdx) || fromIdx === targetIdx) return;
+      swapPotSlots(fromIdx, targetIdx);
+    });
+  };
+
+  const slotTitle = (i) => i === 0 ? 'Main' : (i <= 2 ? 'Support' : '---');
+
+  for (let i = 0; i < 3; i++) {
+    const col = document.createElement('div');
+    col.className = 'pot-slot-col';
+    col.dataset.slot = String(i);
+    const title = document.createElement('div');
+    title.className = 'pot-slot-title';
+    title.textContent = slotTitle(i);
+    col.appendChild(title);
+    const cId = chars[i];
+    if (cId) {
+      const tab = createPotTab(cId, i);
+      col.appendChild(tab);
+      attachDropTarget(tab, i);
+    } else {
+      const empty = document.createElement('div');
+      empty.className = 'pot-slot-empty';
+      empty.textContent = '—';
+      col.appendChild(empty);
+      attachDropTarget(empty, i);
+    }
+    tabs.appendChild(col);
+  }
+
+  if (chars.length > 3) {
+    const col = document.createElement('div');
+    col.className = 'pot-slot-col pot-extras-col';
+    const title = document.createElement('div');
+    title.className = 'pot-slot-title';
+    title.textContent = '';
+    col.appendChild(title);
+    const stack = document.createElement('div');
+    stack.className = 'pot-extras-stack';
+    for (let i = 3; i < chars.length; i++) {
+      const tab = createPotTab(chars[i], i);
+      stack.appendChild(tab);
+      attachDropTarget(tab, i);
+    }
+    col.appendChild(stack);
+    tabs.appendChild(col);
+  }
 
   content.innerHTML = '';
   chars.forEach((cId, tabIdx) => {
@@ -660,4 +803,44 @@ function togglePriorityMode() {
     btn.style.color = priorityMode ? '#fff' : '';
   }
   updatePotentials();
+}
+
+function swapPotSlots(fromIdx, toIdx) {
+  const chars = selectedChars.filter(c => c);
+  fromIdx = Number(fromIdx);
+  toIdx = Number(toIdx);
+  if (Number.isNaN(fromIdx) || Number.isNaN(toIdx)) return;
+  if (fromIdx === toIdx) return;
+  if (fromIdx < 0 || fromIdx >= chars.length) return;
+  if (toIdx < 0) return;
+
+  // Keep per-slot custom pot ordering attached to the character, not the position
+  const orderArr = [];
+  for (let i = 0; i < chars.length; i++) orderArr[i] = potOrder[i];
+
+  if (toIdx < chars.length) {
+    const tmp = selectedChars[fromIdx];
+    selectedChars[fromIdx] = selectedChars[toIdx];
+    selectedChars[toIdx] = tmp;
+    const tmpO = orderArr[fromIdx];
+    orderArr[fromIdx] = orderArr[toIdx];
+    orderArr[toIdx] = tmpO;
+    activePotTab = toIdx;
+  } else {
+    const [moved] = selectedChars.splice(fromIdx, 1);
+    const [movedO] = orderArr.splice(fromIdx, 1);
+    const insertAt = Math.min(toIdx, selectedChars.length);
+    selectedChars.splice(insertAt, 0, moved);
+    orderArr.splice(insertAt, 0, movedO);
+    activePotTab = insertAt;
+  }
+
+  const rebuilt = {};
+  orderArr.forEach((entry, i) => { if (entry !== undefined) rebuilt[i] = entry; });
+  potOrder = rebuilt;
+
+  if (typeof refreshCharBadges === 'function') refreshCharBadges();
+  updatePotentials();
+  if (typeof updateNotes === 'function') updateNotes();
+  if (typeof generate === 'function') generate();
 }
