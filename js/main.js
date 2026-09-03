@@ -345,9 +345,9 @@ function clearCharacters() {
 
 function setupSectionFold() {
   const KEY = 'nrb-folded-sections';
-  document.querySelectorAll('.section h2 > span:first-child').forEach(span => {
-    const sec = span.closest('.section');
-    if (!sec) return;
+  document.querySelectorAll('.section').forEach(sec => {
+    const span = sec.querySelector('h2 span');
+    if (!span) return;
     span.classList.add('sec-title');
     span.addEventListener('click', () => {
       const folded = sec.classList.toggle('folded');

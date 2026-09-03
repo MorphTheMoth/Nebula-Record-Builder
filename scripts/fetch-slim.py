@@ -21,6 +21,10 @@ def slim_characters(raw):
             out['name'] = entry['name']
         if 'element' in entry:
             out['element'] = entry['element']
+        if 'star' in entry:
+            out['star'] = entry['star']
+        if 'source' in entry:
+            out['source'] = entry['source']
         if 'potential' in entry:
             pot = {}
             for key in POT_KEYS:

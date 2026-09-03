@@ -30,6 +30,8 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 
 .section { margin-bottom: 20px; border-top: 1px solid #2a2a2a; padding-top: 14px; }
 .section.folded > :not(h2) { display: none !important; }
+.section.folded #charElementFilters { display: none !important; }
+#charactersSection h2 { min-height: 34px; }
 .sec-title { cursor: pointer; user-select: none; }
 .sec-title:hover { color: #999; }
 .sec-title::before {
@@ -80,6 +82,18 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
   font-size: 9px; background: rgba(0,0,0,0.8); color: #ddd;
   padding: 2px 6px; border-radius: 3px; z-index: 2; font-weight: bold;
 }
+/* Character element filters */
+.char-filter-btn {
+  width: 34px; height: 34px; padding: 1px;
+  background: #222; border: 1px solid #333; border-radius: 3px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  opacity: 0.35; transition: opacity 0.1s, border-color 0.1s, background 0.1s;
+}
+.char-filter-btn img { width: 100%; height: 100%; object-fit: contain; display: block; transform: scale(1.15); position: relative; top: 1px; }
+.char-filter-btn:hover { opacity: 0.8; border-color: #555; }
+.char-filter-btn.active { opacity: 1; border-color: #888; background: #2a2a2a; }
+.char-filter-btn.star-btn { font-size: 13px; font-weight: bold; color: #ccc; font-family: inherit; letter-spacing: 0.5px; }
+.char-filter-sep { width: 1px; align-self: stretch; background: #333; margin: 2px 2px; }
 
 /* Discs */
 .disc-row { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
@@ -758,7 +772,21 @@ body.vanilla-mode .emblem-section { display: none !important; }
 
   <div class="section" id="charactersSection">
     <h2 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-      <span>Characters</span>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span>Characters</span>
+        <div id="charElementFilters" style="display:flex;gap:6px;align-items:center;">
+          <button class="char-filter-btn active" data-element="__all" title="Show all" onclick="clearCharElementFilters()"><img src="data/disc badges/None.avif" alt="All"></button>
+          <button class="char-filter-btn" data-element="Aqua" title="Show only Aqua" onclick="setCharElementFilter('Aqua')"><img src="data/disc badges/Aqua.avif" alt="Aqua"></button>
+          <button class="char-filter-btn" data-element="Ignis" title="Show only Ignis" onclick="setCharElementFilter('Ignis')"><img src="data/disc badges/Ignis.avif" alt="Ignis"></button>
+          <button class="char-filter-btn" data-element="Ventus" title="Show only Ventus" onclick="setCharElementFilter('Ventus')"><img src="data/disc badges/Ventus.avif" alt="Ventus"></button>
+          <button class="char-filter-btn" data-element="Terra" title="Show only Terra" onclick="setCharElementFilter('Terra')"><img src="data/disc badges/Terra.avif" alt="Terra"></button>
+          <button class="char-filter-btn" data-element="Lux" title="Show only Lux" onclick="setCharElementFilter('Lux')"><img src="data/disc badges/Lux.avif" alt="Lux"></button>
+          <button class="char-filter-btn" data-element="Umbra" title="Show only Umbra" onclick="setCharElementFilter('Umbra')"><img src="data/disc badges/Umbra.avif" alt="Umbra"></button>
+          <div class="char-filter-sep"></div>
+          <button class="char-filter-btn star-btn" data-star="4" title="Filter 4-star" onclick="setCharRarityFilter(4)">4★</button>
+          <button class="char-filter-btn star-btn" data-star="5" title="Filter 5-star" onclick="setCharRarityFilter(5)">5★</button>
+        </div>
+      </div>
       <div style="display:flex;gap:6px;align-items:center;">
         <button class="import-btn vanilla-hide" id="editCharsBtn" onclick="openEditCharsPopup()" title="Edit character skill/talent/affinity">Edit Characters</button>
         <button class="import-btn clear-btn" onclick="clearCharacters()" title="Unselect all characters">Clear</button>

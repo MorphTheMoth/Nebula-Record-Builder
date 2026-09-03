@@ -2,8 +2,34 @@
 // Values are not persisted — blank on load
 let editCharsData = {};
 
-const FOUR_STAR_IDS = ['103','107','108','111','112','113','116','117','118','120','123','126','127','142','147','150'];
-const STANDARD_IDS = ['119','125','132','135','141','149','156'];
+// Derived from data (charJson star/source) — fall back to hardcoded lists only if data is missing
+const _FOUR_STAR_FALLBACK = ['103','107','108','111','112','113','116','117','118','120','123','126','127','142','147','150'];
+const _STANDARD_FALLBACK = ['119','125','132','135','141','149','156'];
+
+function getFourStarIds() {
+  try {
+    if (typeof charJson !== 'undefined' && charJson && Object.keys(charJson).length) {
+      const ids = Object.keys(charJson).filter(id => Number(charJson[id]?.star) === 4);
+      if (ids.length) return ids.sort((a, b) => +a - +b);
+    }
+  } catch (e) {}
+  return _FOUR_STAR_FALLBACK;
+}
+
+function getStandardIds() {
+  try {
+    if (typeof charJson !== 'undefined' && charJson && Object.keys(charJson).length) {
+      const ids = Object.keys(charJson).filter(id => {
+        const c = charJson[id];
+        if (Number(c?.star) !== 5) return false;
+        const src = c?.source;
+        return Array.isArray(src) ? src.includes('Standard') : false;
+      });
+      if (ids.length) return ids.sort((a, b) => +a - +b);
+    }
+  } catch (e) {}
+  return _STANDARD_FALLBACK;
+}
 
 function getEditCharsColKey(id) {
   return String(id);
@@ -166,11 +192,11 @@ function buildEditCharsLines() {
     if (colId === 'all') {
       lines.push(`c all${params}${suffix}`);
     } else if (colId === '4stars') {
-      for (const cid of FOUR_STAR_IDS) {
+      for (const cid of getFourStarIds()) {
         lines.push(`c ${cid}${params}${suffix}`);
       }
     } else if (colId === 'standards') {
-      for (const cid of STANDARD_IDS) {
+      for (const cid of getStandardIds()) {
         lines.push(`c ${cid}${params}${suffix}`);
       }
     } else {

@@ -1,3 +1,61 @@
+let charElementFilters = new Set();
+let charRarityFilters = new Set();
+// legacy alias (single-filter) kept for compat
+let charElementFilter = null;
+
+function getCharStar(id) {
+  const s = (typeof charJson !== 'undefined' && charJson[id] != null) ? charJson[id].star : undefined;
+  return (s === 4 || s === '4') ? 4 : (s === 5 || s === '5') ? 5 : null;
+}
+
+function setCharElementFilter(el) {
+  if (el === '__all' || el === 'None') { clearCharElementFilters(); return; }
+  if (charElementFilters.has(el)) charElementFilters.delete(el);
+  else charElementFilters.add(el);
+  charElementFilter = charElementFilters.size === 1 ? [...charElementFilters][0] : null;
+  updateCharFilterButtons();
+  applyCharElementFilter();
+}
+
+function clearCharElementFilters() {
+  charElementFilters.clear();
+  charElementFilter = null;
+  updateCharFilterButtons();
+  applyCharElementFilter();
+}
+
+function setCharRarityFilter(star) {
+  star = Number(star);
+  if (charRarityFilters.has(star) && charRarityFilters.size === 1) charRarityFilters.clear();
+  else { charRarityFilters.clear(); charRarityFilters.add(star); }
+  updateCharFilterButtons();
+  applyCharElementFilter();
+}
+
+function updateCharFilterButtons() {
+  document.querySelectorAll('#charElementFilters .char-filter-btn').forEach(btn => {
+    if (btn.dataset.star) {
+      btn.classList.toggle('active', charRarityFilters.has(Number(btn.dataset.star)));
+      return;
+    }
+    const el = btn.dataset.element;
+    if (el === '__all') btn.classList.toggle('active', charElementFilters.size === 0);
+    else btn.classList.toggle('active', charElementFilters.has(el));
+  });
+}
+
+function applyCharElementFilter() {
+  document.querySelectorAll('.char-card').forEach(card => {
+    const elOk = charElementFilters.size === 0 || charElementFilters.has(card.dataset.element);
+    let starOk = true;
+    if (charRarityFilters.size !== 0) {
+      const cardStar = card.dataset.star ? Number(card.dataset.star) : getCharStar(card.dataset.charId);
+      starOk = cardStar != null && charRarityFilters.has(Number(cardStar));
+    }
+    card.style.display = (elOk && starOk) ? '' : 'none';
+  });
+}
+
 async function renderChars() {
   const grid = document.getElementById('charGrid');
   grid.innerHTML = '';
@@ -15,7 +73,8 @@ async function renderChars() {
     if (!probes[i]) continue;
     const id = ids[i];
     const element = charJson[id]?.element || 'Other';
-    validChars.push({ id, element, name: charData[id] });
+    const star = charJson[id]?.star ?? null;
+    validChars.push({ id, element, star, name: charData[id] });
   }
 
   const elementOrder = { Aqua:0, Ignis:1, Ventus:2, Terra:3, Lux:4, Umbra:5, Other:6 };
@@ -31,6 +90,7 @@ async function renderChars() {
     div.className = 'char-card';
     div.dataset.charId = ch.id;
     div.dataset.element = ch.element;
+    if (ch.star != null) div.dataset.star = String(ch.star);
 
     div.appendChild(headCropEl(BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${ch.id}02_XXL.webp`));
 
@@ -43,6 +103,7 @@ async function renderChars() {
   }
 
   refreshCharBadges();
+  applyCharElementFilter();
 }
 
 function refreshCharBadges() {
