@@ -224,20 +224,7 @@ function copyEditCharsOutput() {
   if (!out) return;
   const txt = out.textContent;
   if (!txt || txt.trim() === '—' || txt.trim() === '' || txt.includes('no characters')) return;
-  const normalized = txt.replace(/\r?\n+$/, '');
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(normalized + '\n').then(() => {
-      if (typeof showToast === 'function') showToast('Copied');
-    }).catch(()=>{});
-  } else {
-    const ta = document.createElement('textarea');
-    ta.value = normalized + '\n';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    ta.remove();
-    if (typeof showToast === 'function') showToast('Copied');
-  }
+  copyToClipboard(txt.replace(/\r?\n+$/, ''));
 }
 
 // Allow Escape to close
