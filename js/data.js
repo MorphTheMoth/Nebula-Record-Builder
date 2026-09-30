@@ -116,6 +116,12 @@ function saveState() {
   localStorage.setItem('nebulaBuildState', JSON.stringify(state));
 }
 
+// Prefix/suffix characters the canvas can render: printable ASCII (no space) plus ★/☆.
+const POT_TAG_ALLOWED_RE = /[^\x21-\x7E\u2605\u2606]/g;
+function cleanPotTag(str) {
+  return String(str ?? '').replace(/[0-9]/g, '').replace(POT_TAG_ALLOWED_RE, '').slice(0, 2);
+}
+
 function loadState() {
   const saved = localStorage.getItem('nebulaBuildState');
   if (!saved) return;
@@ -126,6 +132,10 @@ function loadState() {
     selectedDiscs = state.selectedDiscs || ["212005", "211006", "211005", null, null, null];
     potLevels = state.potLevels || {};
     potTags = state.potTags || {};
+    Object.keys(potTags).forEach(id => {
+      const { pre, post } = potTagParts(id);
+      if (pre || post) potTags[id] = { pre, post }; else delete potTags[id];
+    });
     emblemStats = state.emblemStats || {};
     emblemStatGroups = state.emblemStatGroups || {};
     noteCounts = state.noteCounts || {};
@@ -143,9 +153,8 @@ function parsePotLevelInput(raw, maxLvl) {
   const s = String(raw ?? '').replace(/\+\d+\s*$/, '');
   const m = s.match(/^([^0-9]*?)(\d+)([\s\S]*)$/);
   if (!m) return { level: 0, pre: '', post: '' };
-  const clean = (str) => str.replace(/[0-9]/g, '').trim().slice(0, 2);
   const level = Math.min(maxLvl ?? 6, Math.max(0, parseInt(m[2], 10) || 0));
-  const pre = clean(m[1]), post = clean(m[3]);
+  const pre = cleanPotTag(m[1]), post = cleanPotTag(m[3]);
   // only two characters allowed in total: prefer the ones after the number
   if (pre && post) return { level, pre: '', post };
   return { level, pre, post };
@@ -155,9 +164,11 @@ function parsePotLevelInput(raw, maxLvl) {
 function encodePotTagsParam() {
   const parts = [];
   for (const [id, tag] of Object.entries(potTags)) {
-    if (!tag || (!tag.pre && !tag.post)) continue;
+    if (!tag) continue;
+    const { pre, post } = potTagParts(id);
+    if (!pre && !post) continue;
     if ((potLevels[+id] || 0) <= 0) continue;
-    parts.push(`${id}:${tag.pre || ''}~${tag.post || ''}`);
+    parts.push(`${id}:${pre}~${post}`);
   }
   return parts.join('-');
 }
@@ -165,7 +176,6 @@ function encodePotTagsParam() {
 function parsePotTagsParam(str) {
   potTags = {};
   if (!str) return;
-  const clean = (s) => String(s || '').replace(/[0-9]/g, '').trim().slice(0, 2);
   str.split('-').forEach(part => {
     if (!part) return;
     const sep = part.indexOf(':');
@@ -174,19 +184,15 @@ function parsePotTagsParam(str) {
     const tag = part.slice(sep + 1);
     if (!/^\d+$/.test(id)) return;
     const [pre, post] = tag.split('~');
-    const pre2 = clean(pre), post2 = clean(post);
+    const pre2 = cleanPotTag(pre), post2 = cleanPotTag(post);
     if (pre2 || post2) potTags[id] = { pre: pre2, post: post2 };
   });
 }
 
-function potTagText(potId) {
-  const tag = potTags[potId] || potTags[String(potId)];
-  return tag ? `${tag.pre || ''}${tag.post || ''}` : '';
-}
-
 function potTagParts(potId) {
   const tag = potTags[potId] || potTags[String(potId)];
-  return tag ? { pre: tag.pre || '', post: tag.post || '' } : { pre: '', post: '' };
+  if (!tag) return { pre: '', post: '' };
+  return { pre: cleanPotTag(tag.pre), post: cleanPotTag(tag.post) };
 }
 
 function copyToClipboard(text) {

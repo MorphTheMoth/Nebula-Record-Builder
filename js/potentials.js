@@ -370,7 +370,7 @@ function updatePotentials() {
           const inp = document.createElement('input');
           inp.type = 'text'; inp.className = 'pot-val';
           inp.spellcheck = false; inp.autocomplete = 'off';
-          inp.title = `Type a level (0-${maxLvl}). Up to two non-digit characters before/after are kept, e.g. "4pq" or "pp4".`;
+          inp.title = `Type a level (0-${maxLvl}). Up to two non-digit characters before/after are kept (letters, symbols, ★/☆), e.g. "4p" or "p4".`;
           const renderVal = (withBonus) => {
             const tag = potTags[p.id] || { pre: '', post: '' };
             const b = emblemPotBonuses[p.id] || 0;
