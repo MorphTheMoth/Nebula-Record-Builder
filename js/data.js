@@ -273,7 +273,7 @@ function formatPotentialDesc(id, params) {
   if (!desc) return `[No description available for ${id}]`;
 
   if (!Array.isArray(params)) params = [];
-  const currentLevel = potLevels[id] || 0;
+  const currentLevel = (potLevels[id] || 0) + (typeof emblemPotBonuses !== 'undefined' ? (emblemPotBonuses[id] || 0) : 0);
 
   const result = replaceParams(desc, params, currentLevel, 'Param');
 
