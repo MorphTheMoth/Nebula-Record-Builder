@@ -73,6 +73,14 @@ function discImageUrl(discId) {
 function discImg(img, discId) {
   chainImgFallback(img, discImageUrl(discId), FALLBACK_DISC_URL);
 }
+// Cropped local note icons (one shared square crop, native scale, no resize).
+// Falls back to remote ssassets if a local file is missing.
+function noteImageUrl(noteId) {
+  return `data/notes/note_${noteId}_S.webp`;
+}
+function noteImg(img, noteId) {
+  chainImgFallback(img, noteImageUrl(noteId), `${BASE_ASSETS}export/assets/assetbundles/icon/note/note_${noteId}_S.webp`);
+}
 // SVG <image> fallbacks (inline onerror attributes call these). dataset.fb
 // guards against loops the same way as chainImgFallback.
 function headSvgFallback(el) {

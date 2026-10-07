@@ -98,6 +98,8 @@ def slim_discs(raw):
             out['element'] = entry['element']
         if 'star' in entry:
             out['star'] = entry['star']
+        if 'source' in entry:
+            out['source'] = entry['source']
         stat = entry.get('stat')
         if isinstance(stat, list) and stat:
             out['maxStat'] = stat[-1]
@@ -113,6 +115,11 @@ def slim_discs(raw):
         s2 = _slim_disc_skill(entry.get('secondarySkill2'))
         if s2:
             out['secondarySkill2'] = s2
+        sup = entry.get('supportNote')
+        if isinstance(sup, list) and sup and isinstance(sup[-1], dict):
+            out['support'] = sup[-1]
+        elif isinstance(sup, dict) and sup:
+            out['support'] = sup
         slim[did] = out
     return slim
 

@@ -29,6 +29,17 @@
       "desc": "Increases the main Trekker's ATK by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_1",
       "p1": "7%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 3
     }
   },
   "211002": {
@@ -61,6 +72,17 @@
       "desc": "Increases the support Trekker's ATK by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_1",
       "p1": "7%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 3
     }
   },
   "211003": {
@@ -93,6 +115,17 @@
       "desc": "Increases the main Trekker's Skill DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_4",
       "p1": "10%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Skill": 3
     }
   },
   "211004": {
@@ -125,6 +158,17 @@
       "desc": "Increases the support Trekker's Skill DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_4",
       "p1": "10%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Skill": 3
     }
   },
   "211005": {
@@ -157,6 +201,17 @@
       "desc": "Increases the main Trekker's Ultimate DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_4",
       "p1": "22.5%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Ultimate": 3
     }
   },
   "211006": {
@@ -189,6 +244,17 @@
       "desc": "Increases the support Trekker's Ultimate DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_4",
       "p1": "22.5%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Ultimate": 3
     }
   },
   "211007": {
@@ -221,6 +287,17 @@
       "desc": "Increases the main Trekker's Skill DMG and Ultimate DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_4",
       "p1": "8%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 3
     }
   },
   "211008": {
@@ -253,6 +330,17 @@
       "desc": "Increases the support Trekker's Skill DMG and Ultimate DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_4",
       "p1": "8%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 3
     }
   },
   "212001": {
@@ -285,6 +373,17 @@
       "desc": "Increases the main Trekker's Auto Attack DMG and Skill DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_4",
       "p1": "8%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 3
     }
   },
   "212002": {
@@ -317,6 +416,17 @@
       "desc": "Increases the main Trekker's ATK by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_1",
       "p1": "7%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 3
     }
   },
   "212003": {
@@ -349,6 +459,17 @@
       "desc": "Increases the main Trekker's Auto Attack DMG and Ultimate DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_4",
       "p1": "8%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 3
     }
   },
   "212005": {
@@ -381,6 +502,17 @@
       "desc": "Increases the squad's Ignis DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_13",
       "p1": "6%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Ignis": 3
     }
   },
   "212006": {
@@ -413,6 +545,17 @@
       "desc": "Increases the squad's Lux DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_14",
       "p1": "6%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Lux": 3
     }
   },
   "212007": {
@@ -445,6 +588,17 @@
       "desc": "Increases the squad's Ventus DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_9",
       "p1": "6%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Ventus": 3
     }
   },
   "212008": {
@@ -477,6 +631,17 @@
       "desc": "Increases the squad's Aqua DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_12",
       "p1": "6%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Aqua": 3
     }
   },
   "212009": {
@@ -509,6 +674,17 @@
       "desc": "Increases the squad's Umbra DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_10",
       "p1": "6%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Umbra": 3
     }
   },
   "212010": {
@@ -541,6 +717,17 @@
       "desc": "Increases the squad's Terra DMG by <color=#ec6d21>{1}</color>.",
       "icon": "DiscSkill_11",
       "p1": "6%"
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Terra": 3
     }
   },
   "213001": {
@@ -584,6 +771,17 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Shadow Siege",
+      "SS",
+      "Hunter Medal",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 4,
+      "Melody of Stamina": 5
     }
   },
   "213002": {
@@ -627,6 +825,17 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Shadow Siege",
+      "SS",
+      "Hunter Medal",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 5,
+      "Melody of Focus": 4
     }
   },
   "213003": {
@@ -670,6 +879,18 @@
         "Melody of Stamina": 10,
         "Melody of Focus": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 4,
+      "Melody of Ultimate": 5
     }
   },
   "213004": {
@@ -713,6 +934,18 @@
         "Melody of Focus": 10,
         "Melody of Skill": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 4,
+      "Melody of Skill": 5
     }
   },
   "213005": {
@@ -756,6 +989,18 @@
         "Melody of Stamina": 10,
         "Melody of Focus": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 5,
+      "Melody of Stamina": 4
     }
   },
   "213006": {
@@ -799,6 +1044,18 @@
         "Melody of Focus": 10,
         "Melody of Skill": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 4,
+      "Melody of Ultimate": 5
     }
   },
   "213007": {
@@ -842,6 +1099,18 @@
         "Melody of Stamina": 10,
         "Melody of Focus": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 4,
+      "Melody of Skill": 5
     }
   },
   "213008": {
@@ -885,6 +1154,18 @@
         "Melody of Focus": 10,
         "Melody of Skill": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 4,
+      "Melody of Ultimate": 5
     }
   },
   "213009": {
@@ -928,6 +1209,18 @@
         "Melody of Stamina": 10,
         "Melody of Focus": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 4,
+      "Melody of Skill": 5
     }
   },
   "213010": {
@@ -971,6 +1264,18 @@
         "Melody of Focus": 10,
         "Melody of Skill": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 4,
+      "Melody of Ultimate": 5
     }
   },
   "213011": {
@@ -1014,6 +1319,18 @@
         "Melody of Stamina": 10,
         "Melody of Focus": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 4,
+      "Melody of Ultimate": 5
     }
   },
   "213012": {
@@ -1057,6 +1374,18 @@
         "Melody of Focus": 10,
         "Melody of Skill": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 4,
+      "Melody of Skill": 5
     }
   },
   "213013": {
@@ -1100,6 +1429,18 @@
         "Melody of Stamina": 10,
         "Melody of Focus": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 5,
+      "Melody of Stamina": 4
     }
   },
   "213014": {
@@ -1143,6 +1484,18 @@
         "Melody of Focus": 10,
         "Melody of Skill": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 4,
+      "Melody of Ultimate": 5
     }
   },
   "213015": {
@@ -1186,6 +1539,18 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 4,
+      "Melody of Focus": 5
     }
   },
   "213016": {
@@ -1229,6 +1594,18 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 5,
+      "Melody of Focus": 4
     }
   },
   "213017": {
@@ -1272,6 +1649,18 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 4,
+      "Melody of Focus": 5
     }
   },
   "213018": {
@@ -1315,6 +1704,18 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 4,
+      "Melody of Focus": 5
     }
   },
   "213019": {
@@ -1358,6 +1759,18 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 5,
+      "Melody of Focus": 4
     }
   },
   "213020": {
@@ -1401,6 +1814,18 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 4,
+      "Melody of Focus": 5
     }
   },
   "213021": {
@@ -1444,6 +1869,17 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 4,
+      "Melody of Ventus": 5
     }
   },
   "213022": {
@@ -1487,6 +1923,17 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 4,
+      "Melody of Ignis": 5
     }
   },
   "213023": {
@@ -1530,6 +1977,17 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 4,
+      "Melody of Lux": 5
     }
   },
   "213024": {
@@ -1573,6 +2031,17 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 4,
+      "Melody of Aqua": 5
     }
   },
   "213025": {
@@ -1616,6 +2085,17 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 4,
+      "Melody of Umbra": 5
     }
   },
   "213026": {
@@ -1659,6 +2139,17 @@
         "Melody of Skill": 10,
         "Melody of Ultimate": 10
       }
+    },
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 4,
+      "Melody of Terra": 5
     }
   },
   "214001": {
@@ -1712,6 +2203,15 @@
         "Melody of Burst": 15,
         "Melody of Ignis": 15
       }
+    },
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Ignis": 11
     }
   },
   "214002": {
@@ -1765,6 +2265,15 @@
         "Melody of Focus": 15,
         "Melody of Ventus": 15
       }
+    },
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Ventus": 11
     }
   },
   "214003": {
@@ -1818,6 +2327,15 @@
         "Melody of Skill": 15,
         "Melody of Lux": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 7,
+      "Melody of Ultimate": 7
     }
   },
   "214004": {
@@ -1871,6 +2389,19 @@
         "Melody of Luck": 15,
         "Melody of Umbra": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Skill": 10
     }
   },
   "214005": {
@@ -1924,6 +2455,19 @@
         "Melody of Ultimate": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Ultimate": 7,
+      "Melody of Aqua": 7
     }
   },
   "214006": {
@@ -1977,6 +2521,19 @@
         "Melody of Ultimate": 15,
         "Melody of Umbra": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 7,
+      "Melody of Skill": 7
     }
   },
   "214007": {
@@ -2030,6 +2587,19 @@
         "Melody of Ultimate": 15,
         "Melody of Lux": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Skill": 7,
+      "Melody of Ultimate": 7
     }
   },
   "214008": {
@@ -2083,6 +2653,19 @@
         "Melody of Ultimate": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Pummel": 10,
+      "Melody of Luck": 4
     }
   },
   "214009": {
@@ -2136,6 +2719,17 @@
         "Melody of Ultimate": 15,
         "Melody of Ventus": 15
       }
+    },
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 7,
+      "Melody of Stamina": 7
     }
   },
   "214010": {
@@ -2189,6 +2783,17 @@
         "Melody of Ultimate": 15,
         "Melody of Lux": 15
       }
+    },
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 7,
+      "Melody of Skill": 7
     }
   },
   "214011": {
@@ -2242,6 +2847,17 @@
         "Melody of Ultimate": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 7,
+      "Melody of Stamina": 7
     }
   },
   "214012": {
@@ -2295,6 +2911,17 @@
         "Melody of Skill": 15,
         "Melody of Umbra": 15
       }
+    },
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 7,
+      "Melody of Stamina": 7
     }
   },
   "214013": {
@@ -2348,6 +2975,17 @@
         "Melody of Skill": 15,
         "Melody of Ignis": 15
       }
+    },
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 7,
+      "Melody of Stamina": 7
     }
   },
   "214014": {
@@ -2401,6 +3039,17 @@
         "Melody of Ultimate": 15,
         "Melody of Terra": 15
       }
+    },
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Stamina": 7,
+      "Melody of Skill": 7
     }
   },
   "214015": {
@@ -2454,6 +3103,19 @@
         "Melody of Luck": 15,
         "Melody of Ventus": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Ultimate": 10
     }
   },
   "214016": {
@@ -2507,6 +3169,19 @@
         "Melody of Ultimate": 15,
         "Melody of Ventus": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Pummel": 10,
+      "Melody of Luck": 4
     }
   },
   "214017": {
@@ -2560,6 +3235,19 @@
         "Melody of Luck": 15,
         "Melody of Ignis": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Skill": 10
     }
   },
   "214018": {
@@ -2613,6 +3301,17 @@
         "Melody of Skill": 15,
         "Melody of Ventus": 15
       }
+    },
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Stamina": 11
     }
   },
   "214019": {
@@ -2666,6 +3365,17 @@
         "Melody of Ultimate": 15,
         "Melody of Ignis": 15
       }
+    },
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Stamina": 11
     }
   },
   "214020": {
@@ -2719,6 +3429,17 @@
         "Melody of Skill": 15,
         "Melody of Lux": 15
       }
+    },
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Stamina": 11
     }
   },
   "214021": {
@@ -2772,6 +3493,17 @@
         "Melody of Skill": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Stamina": 11
     }
   },
   "214022": {
@@ -2825,6 +3557,17 @@
         "Melody of Ultimate": 15,
         "Melody of Umbra": 15
       }
+    },
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Stamina": 11
     }
   },
   "214023": {
@@ -2878,6 +3621,17 @@
         "Melody of Skill": 15,
         "Melody of Terra": 15
       }
+    },
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Stamina": 11
     }
   },
   "214024": {
@@ -2931,6 +3685,15 @@
         "Melody of Ultimate": 15,
         "Melody of Ventus": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 7,
+      "Melody of Ventus": 7
     }
   },
   "214026": {
@@ -2984,6 +3747,19 @@
         "Melody of Luck": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Ultimate": 10
     }
   },
   "214027": {
@@ -3037,6 +3813,19 @@
         "Melody of Ultimate": 15,
         "Melody of Ignis": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 7,
+      "Melody of Skill": 7
     }
   },
   "214028": {
@@ -3090,6 +3879,19 @@
         "Melody of Ultimate": 15,
         "Melody of Ventus": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Ultimate": 7,
+      "Melody of Ventus": 7
     }
   },
   "214029": {
@@ -3143,6 +3945,19 @@
         "Melody of Skill": 15,
         "Melody of Ignis": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Pummel": 10,
+      "Melody of Luck": 4
     }
   },
   "214030": {
@@ -3196,6 +4011,15 @@
         "Melody of Skill": 15,
         "Melody of Lux": 15
       }
+    },
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Lux": 11
     }
   },
   "214031": {
@@ -3249,6 +4073,15 @@
         "Melody of Focus": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Aqua": 11
     }
   },
   "214032": {
@@ -3302,6 +4135,15 @@
         "Melody of Burst": 15,
         "Melody of Umbra": 15
       }
+    },
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Umbra": 11
     }
   },
   "214033": {
@@ -3355,6 +4197,15 @@
         "Melody of Skill": 15,
         "Melody of Terra": 15
       }
+    },
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 3,
+      "Melody of Terra": 11
     }
   },
   "214036": {
@@ -3408,6 +4259,19 @@
         "Melody of Ultimate": 15,
         "Melody of Terra": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Skill": 7,
+      "Melody of Ultimate": 7
     }
   },
   "214037": {
@@ -3461,6 +4325,19 @@
         "Melody of Skill": 15,
         "Melody of Terra": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Ultimate": 10
     }
   },
   "214038": {
@@ -3514,6 +4391,19 @@
         "Melody of Skill": 15,
         "Melody of Lux": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Ultimate": 10
     }
   },
   "214039": {
@@ -3567,6 +4457,15 @@
         "Melody of Ultimate": 15,
         "Melody of Lux": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 7,
+      "Melody of Lux": 7
     }
   },
   "214040": {
@@ -3620,6 +4519,15 @@
         "Melody of Skill": 15,
         "Melody of Ignis": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 7,
+      "Melody of Ignis": 7
     }
   },
   "214041": {
@@ -3673,6 +4581,15 @@
         "Melody of Burst": 15,
         "Melody of Ignis": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 7,
+      "Melody of Skill": 7
     }
   },
   "214042": {
@@ -3726,6 +4643,15 @@
         "Melody of Ultimate": 15,
         "Melody of Terra": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 7,
+      "Melody of Terra": 7
     }
   },
   "214043": {
@@ -3779,6 +4705,15 @@
         "Melody of Skill": 15,
         "Melody of Umbra": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 7,
+      "Melody of Umbra": 7
     }
   },
   "214044": {
@@ -3832,6 +4767,19 @@
         "Melody of Ultimate": 15,
         "Melody of Terra": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Skill": 10
     }
   },
   "214045": {
@@ -3885,6 +4833,19 @@
         "Melody of Luck": 15,
         "Melody of Umbra": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Exclusive",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Umbra": 10
     }
   },
   "214046": {
@@ -3938,6 +4899,15 @@
         "Melody of Focus": 15,
         "Melody of Ventus": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 7,
+      "Melody of Ultimate": 7
     }
   },
   "214047": {
@@ -3991,6 +4961,15 @@
         "Melody of Ultimate": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 7,
+      "Melody of Aqua": 7
     }
   },
   "214048": {
@@ -4044,6 +5023,19 @@
         "Melody of Luck": 15,
         "Melody of Ignis": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Exclusive",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Ignis": 10
     }
   },
   "214049": {
@@ -4097,6 +5089,14 @@
         "Melody of Skill": 15,
         "Melody of Ultimate": 15
       }
+    },
+    "source": [
+      "Login Reward",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 7,
+      "Melody of Stamina": 7
     }
   },
   "214050": {
@@ -4150,6 +5150,15 @@
         "Melody of Burst": 15,
         "Melody of Umbra": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 7,
+      "Melody of Ultimate": 7
     }
   },
   "214051": {
@@ -4203,6 +5212,19 @@
         "Melody of Ultimate": 15,
         "Melody of Lux": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Skill": 10
     }
   },
   "214052": {
@@ -4256,6 +5278,15 @@
         "Melody of Skill": 15,
         "Melody of Terra": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 7,
+      "Melody of Ultimate": 7
     }
   },
   "214053": {
@@ -4309,6 +5340,15 @@
         "Melody of Burst": 15,
         "Melody of Ignis": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Focus": 7,
+      "Melody of Ultimate": 7
     }
   },
   "214054": {
@@ -4362,6 +5402,19 @@
         "Melody of Skill": 15,
         "Melody of Terra": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Terra": 10
     }
   },
   "214055": {
@@ -4415,6 +5468,19 @@
         "Melody of Luck": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Exclusive",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Aqua": 10
     }
   },
   "214056": {
@@ -4468,6 +5534,15 @@
         "Melody of Focus": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 7,
+      "Melody of Skill": 7
     }
   },
   "214057": {
@@ -4521,6 +5596,19 @@
         "Melody of Ultimate": 15,
         "Melody of Umbra": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Pummel": 10,
+      "Melody of Luck": 4
     }
   },
   "214058": {
@@ -4574,6 +5662,15 @@
         "Melody of Burst": 15,
         "Melody of Umbra": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Burst": 7,
+      "Melody of Skill": 7
     }
   },
   "214059": {
@@ -4627,6 +5724,19 @@
         "Melody of Luck": 15,
         "Melody of Ventus": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Ventus": 10
     }
   },
   "214060": {
@@ -4680,6 +5790,15 @@
         "Melody of Focus": 15,
         "Melody of Ventus": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 2,
+      "Melody of Ventus": 12
     }
   },
   "214061": {
@@ -4733,6 +5852,19 @@
         "Melody of Luck": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Aqua": 10
     }
   },
   "214062": {
@@ -4786,6 +5918,15 @@
         "Melody of Skill": 15,
         "Melody of Aqua": 15
       }
+    },
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "support": {
+      "Melody of Pummel": 7,
+      "Melody of Aqua": 7
     }
   }
 }

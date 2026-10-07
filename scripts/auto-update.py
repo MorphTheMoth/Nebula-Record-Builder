@@ -244,12 +244,17 @@ def main():
             print('[auto-update] refreshing head images...')
             subprocess.check_call(
                 [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-heads.py')])
+            # Note icons come from the same ssassets repo; crop + trim them here
+            # too so data/notes stays tight and uniform.
+            print('[auto-update] refreshing note icons...')
+            subprocess.check_call(
+                [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-notes.py')])
             heads_ok = True
             prev['ssassets'] = new_heads_sha
         except subprocess.CalledProcessError as e:
-            print(f'[auto-update] fetch-heads failed (continuing): {e}')
+            print(f'[auto-update] image refresh failed (continuing): {e}')
         except Exception as e:
-            print(f'[auto-update] fetch-heads error (continuing): {e}')
+            print(f'[auto-update] image refresh error (continuing): {e}')
 
     # Persist updated state for whichever parts actually succeeded.
     if (has_data_changed and build_ok) or (has_heads_changed and heads_ok):
@@ -263,7 +268,7 @@ def main():
     if (has_data_changed and build_ok) or (has_heads_changed and heads_ok):
         git('add', '-f', os.path.join('scripts', '.fetch-state.json'), check=False)
     # Track runner + pipeline scripts
-    for name in ('auto-update.py', 'fetch-heads.py', 'fetch-slim.py',
+    for name in ('auto-update.py', 'fetch-heads.py', 'fetch-notes.py', 'fetch-slim.py',
                  'build-from-ssdata.py'):
         if os.path.exists(os.path.join(SCRIPT_DIR, name)):
             git('add', '-f', os.path.join('scripts', name), check=False)
@@ -278,18 +283,18 @@ def main():
         elif has_data_changed:
             print('[auto-update] no data changes after rebuild; nothing to commit.')
         else:
-            print('[auto-update] no head image changes; nothing to commit.')
+            print('[auto-update] no head/note image changes; nothing to commit.')
         return
 
     # Choose commit message based on what is staged.
-    has_heads_in_staged = any('data/heads' in line for line in staged_files.splitlines())
+    has_heads_in_staged = any(('data/heads' in line or 'data/notes' in line) for line in staged_files.splitlines())
     data_ok = has_data_changed and build_ok
     if data_ok and has_heads_in_staged:
-        commit_msg = 'Update game data (ss-data) and head images from upstream'
+        commit_msg = 'Update game data (ss-data) and head/note images from upstream'
     elif data_ok:
         commit_msg = f'Update game data from upstream ss-data {new_data_sha[:12]}'
     else:
-        commit_msg = 'Update head images from ssassets'
+        commit_msg = 'Update head/note images from ssassets'
 
     git('commit', '-m', commit_msg)
 

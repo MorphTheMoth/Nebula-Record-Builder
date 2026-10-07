@@ -19,11 +19,6 @@
 body { font-family: 'Consolas', 'SF Mono', monospace; background: #161616; color: #ddd; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
 .page { max-width: 1050px; width: 100%; background: #1a1a1a; min-height: 100vh; padding: 20px; }
 img { image-rendering: -webkit-optimize-contrast; }
-.disc-dropdown::-webkit-scrollbar { width: 8px; }
-.disc-dropdown::-webkit-scrollbar-track { background: #1a1a1a; border-radius: 6px; }
-.disc-dropdown::-webkit-scrollbar-thumb { background: #444; border-radius: 6px; }
-.disc-dropdown::-webkit-scrollbar-thumb:hover { background: #666; }
-.disc-dropdown { scrollbar-width: thin; scrollbar-color: #444 #1a1a1a; }
 
 h1 { color: #aaa; font-size: 16px; font-weight: bold; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; }
 h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 10px; }
@@ -93,6 +88,7 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 .char-filter-btn:hover { opacity: 0.8; border-color: #555; }
 .char-filter-btn.active { opacity: 1; border-color: #888; background: #2a2a2a; }
 .char-filter-btn.star-btn { font-size: 13px; font-weight: bold; color: #ccc; font-family: 'DejaVu Sans Mono', monospace; letter-spacing: 0.5px; }
+.char-filter-btn.none-btn { font-size: 9px; padding: 0; }
 .char-filter-sep { width: 1px; align-self: stretch; background: #333; margin: 2px 2px; }
 
 /* Discs */
@@ -111,56 +107,69 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 .disc-slot.drag-over .disc-thumb { border-color: #999; background: #333; }
 .disc-thumb img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); }
 .disc-thumb .plus { color: #444; font-size: 24px; }
+.disc-thumb.picking { border-color: #bbb !important; box-shadow: 0 0 0 1px rgba(255,255,255,0.65); }
 
-.disc-dropdown {
-  display: none; position: absolute; top: 76px; left: 0;
-  background: #222; border: 1px solid #444; border-radius: 3px;
-  z-index: 100; width: 280px; max-height: 400px; overflow-y: auto;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+/* Disc selection submenu (inside discs section, folded by default) */
+.disc-sel-wrap { margin-top: 12px; border-top: 1px solid #2a2a2a; padding-top: 6px; }
+.disc-sel-head {
+  cursor: pointer; user-select: none; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 2px; color: #666; display: flex; align-items: center; gap: 6px;
+  padding: 4px 0 8px;
 }
-.disc-dropdown.open-above { top: auto; bottom: 76px; }
-.disc-dropdown.open { display: block; }
-.disc-search {
-  width: 100%; padding: 7px 10px; background: #1a1a1a; border: none; border-bottom: 1px solid #333;
-  color: #ccc; font-size: 11px; outline: none; font-family: inherit;
-  position: sticky; top: 0; z-index: 12;
-  display: block;
+.disc-sel-head:hover { color: #999; }
+.disc-sel-head::before {
+  content: '▸'; display: inline-block; width: 12px; margin-right: 4px;
+  color: #555; font-size: 18px; vertical-align: 0px;
 }
-.disc-group-header {
-  padding: 5px 10px 3px; font-size: 9px; text-transform: uppercase; letter-spacing: 1px;
-  color: #aaa; background: #1e1e1e; border-bottom: 1px solid #303030;
-  position: sticky;
-  top: 28px;
-  z-index: 10;
+.disc-sel-wrap.open .disc-sel-head::before { content: '▾'; }
+.disc-sel-body { display: none; }
+.disc-sel-wrap.open .disc-sel-body { display: block; }
+.disc-sel-filters { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.disc-sel-hl-seg { display: flex; gap: 6px; align-items: center; }
+.disc-sel-hl-btn {
+  height: 34px; padding: 0 12px;
+  background: #222; border: 1px solid #333; border-radius: 3px;
+  color: #ccc; font-family: 'DejaVu Sans Mono', monospace; font-size: 11px; font-weight: bold;
+  letter-spacing: 1px; text-transform: uppercase;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  opacity: 0.35; transition: opacity 0.1s, border-color 0.1s, background 0.1s;
 }
-.disc-search::placeholder { color: #555; }
-.disc-group-header.team-el { color: #cdd; background: #242424; }
-.disc-option {
-  display: flex; align-items: center; gap: 8px; padding: 7px 10px;
-  cursor: pointer; border-bottom: 1px solid #2a2a2a; transition: background 0.1s;
+.disc-sel-hl-btn:hover { opacity: 0.8; border-color: #555; }
+.disc-sel-hl-btn.active { opacity: 1; border-color: #888; background: #2a2a2a; }
+#discSelSource {
+  height: 34px; min-width: 104px; padding: 0 6px;
+  background: #222; border: 1px solid #333; border-radius: 3px;
+  color: #ccc; font-family: 'DejaVu Sans Mono', monospace; font-size: 11px;
+  cursor: pointer; outline: none;
 }
-.disc-option img { width: 58px; height: 58px; border-radius: 2px; background: #333; flex-shrink: 0; object-fit: cover;}
-.disc-option .info { flex: 1; }
-.disc-option .dname { font-size: 12px; color: #ccc; }
-.disc-option .dmeta { font-size: 9px; color: #666; margin-top: 2px; }
-.disc-option.selected-opt { background: #282828; }
-
-.disc-option[data-element="Aqua"] { background: rgba(0, 255, 255, 0.07); border-left: 2px solid rgba(0, 255, 255, 0.4); }
-.disc-option[data-element="Ignis"] { background: rgba(255, 80, 40, 0.07); border-left: 2px solid rgba(255, 80, 40, 0.4); }
-.disc-option[data-element="Ventus"] { background: rgba(100, 200, 100, 0.07); border-left: 2px solid rgba(100, 200, 100, 0.4); }
-.disc-option[data-element="Terra"] { background: rgba(148, 99, 25, 0.14); border-left: 2px solid rgba(160, 120, 60, 0.4); }
-.disc-option[data-element="Lux"] { background: rgba(255, 238, 112, 0.139); border-left: 2px solid rgba(255, 237, 100, 0.4); }
-.disc-option[data-element="Umbra"] { background: rgba(164, 107, 222, 0.138); border-left: 2px solid rgba(130, 54, 205, 0.446); }
-.disc-option[data-element="None"] { background: rgba(128, 128, 128, 0.05); border-left: 2px solid rgba(128, 128, 128, 0.3); }
-
-.disc-option[data-element="Aqua"]:hover { background: rgba(0, 255, 255, 0.18); border-left-color: rgba(0, 255, 255, 0.7); }
-.disc-option[data-element="Ignis"]:hover { background: rgba(255, 80, 40, 0.18); border-left-color: rgba(255, 80, 40, 0.7); }
-.disc-option[data-element="Ventus"]:hover { background: rgba(100, 200, 100, 0.18); border-left-color: rgba(100, 200, 100, 0.7); }
-.disc-option[data-element="Terra"]:hover { background: rgba(160, 120, 60, 0.18); border-left-color: rgba(160, 120, 60, 0.7); }
-.disc-option[data-element="Lux"]:hover { background: rgba(255, 219, 100, 0.284); border-left-color: rgba(252, 220, 117, 0.781); }
-.disc-option[data-element="Umbra"]:hover { background: rgba(159, 96, 222, 0.26); border-left-color: rgba(138, 83, 193, 0.7); }
-.disc-option[data-element="None"]:hover { background: rgba(128, 128, 128, 0.12); border-left-color: rgba(128, 128, 128, 0.5); }
-.disc-option:hover { background: #2a2a2a; border-left-color: #666; }
+#discSelSource:hover { border-color: #555; }
+.disc-sel-notes { position: absolute; right: 1px; bottom: 1px; display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; align-items: center; max-width: calc(100% - 2px); z-index: 3; background: none; padding: 0; pointer-events: none; }
+.disc-sel-note { position: static; width: auto; height: 15px; display: flex; align-items: center; gap: 3px; }
+.disc-sel-note img { width: 15px; height: 15px; object-fit: contain; display: block; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.8)); }
+.disc-sel-note-qty { position: static; font-size: 11px; font-weight: bold; color: #fff; line-height: 1; text-shadow: 0 1px 2px #000, 0 0 3px #000; }
+.disc-sel-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, 84px);
+  gap: 10px 8px; justify-content: start;
+}
+.disc-sel-card {
+  width: 84px; cursor: pointer; border-radius: 3px; overflow: hidden;
+  background: #222; border: 1px solid #2e2e2e; transition: border-color 0.1s, opacity 0.1s;
+}
+.disc-sel-card:hover { border-color: #666; }
+.disc-sel-card.in-use { opacity: 0.4; }
+.disc-sel-imgwrap { position: relative; width: 100%; aspect-ratio: 1; background: #2a2a2a; overflow: hidden; }
+.disc-sel-imgwrap img.disc-sel-art { width: 100%; height: 100%; object-fit: cover; display: block; }
+.disc-sel-el {
+  position: absolute; top: 2px; left: 2px; width: 22px; height: 22px;
+  object-fit: contain; z-index: 2; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.8));
+  pointer-events: none; display: block;
+}
+.disc-sel-name {
+  font-size: 9px; color: #ccc; text-align: center; padding: 3px 3px 4px;
+  line-height: 1.3; min-height: 26px; display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.disc-sel-empty { color: #555; font-size: 11px; padding: 12px 4px; }
 
 /* Potentials */
 .pot-tabs { display: flex; gap: 12px 30px; margin-bottom: 24px; justify-content: flex-start; align-items: flex-start; flex-wrap: wrap; padding-left: 22px; overflow: visible; }
@@ -287,19 +296,21 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
   max-width: 380px; min-width: 270px;
 }
 .disc-tt-top { display: flex; gap: 10px; align-items: center; }
+.disc-tt-top > div:last-child { flex: 1; min-width: 0; }
 .disc-tt-top img { width: 64px; height: 64px; object-fit: cover; border-radius: 3px; background: #2a2a2a; flex-shrink: 0; }
-.disc-tt-name { font-size: 12px; color: #fff; font-weight: bold; margin-bottom: 2px; }
+.disc-tt-name { font-size: 12px; color: #fff; font-weight: bold; margin-bottom: 2px; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
 .disc-tt-stats { display: flex; flex-direction: column; gap: 1px; font-size: 11px; color: #ccc; }
 .disc-tt-skill { border-top: 1px solid #333; padding-top: 6px; margin-top: 8px; }
 .disc-tt-skill-head { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
 .disc-tt-skill-head img { width: 28px; height: 28px; object-fit: contain; border-radius: 2px; background: #2a2a2a; flex-shrink: 0; }
+.disc-tt-titlewrap { flex: 1; min-width: 0; }
+.disc-tt-skill-head .disc-tt-notes { margin-left: auto; flex-shrink: 0; }
 .disc-tt-skill-kind { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; }
-.disc-tt-skill-title { font-size: 11px; color: #eee; font-weight: bold; display: block; line-height: 1.3; }
+.disc-tt-skill-title { font-size: 11px; color: #eee; font-weight: bold; display: block; line-height: 1.3; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
 .disc-tt-desc { color: #bbb; margin: 2px 0 6px; word-wrap: break-word; white-space: normal; }
 .disc-tt-notes { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
-.disc-tt-note { display: flex; align-items: center; gap: 2px; background: #262626; border: 1px solid #383838; border-radius: 3px; padding: 1px 5px 1px 1px; }
+.disc-tt-note { display: flex; align-items: center; background: none; border: none; padding: 0; }
 .disc-tt-note img { width: 22px; height: 22px; object-fit: contain; }
-.disc-tt-note span { font-size: 10px; color: #ccc; }
 
 /* Emblems */
 .emblem-section {
@@ -382,7 +393,7 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 /* Disc copies + output */
 .disc-and-output { display: flex; align-items: flex-start; gap: 16px; }
 .disc-copies-ctrl { display: flex; justify-content: center; }
-.disc-copy-val { width: 28px; height: 22px; font-size: 11px; font-weight: bold; }
+.disc-copy-val { width: 28px; height: 22px; font-size: 11px; font-weight: bold; display: flex; align-items: center; justify-content: center; line-height: 1; }
 .disc-output-panel {
   flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0;
   align-self: stretch; height: 114px; padding-top: 16px;
@@ -406,7 +417,7 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
   display: flex; flex-direction: column; align-items: center; gap: 4px;
   padding: 6px 8px; border: 1px solid #2a2a2a; border-radius: 3px; background: #1e1e1e;
 }
-.note-item img { width: 40px; height: 40px; object-fit: contain; border-radius: 2px; }
+.note-item img { width: 28px; height: 28px; object-fit: contain; border-radius: 2px; }
 .note-item .nname { font-size: 8px; color: #777; text-align: center; max-width: 72px; line-height: 1.3; }
 .note-controls { display: flex; align-items: center; }
 .note-btn {
@@ -787,7 +798,7 @@ body.vanilla-mode .emblem-section { display: none !important; }
   .char-grid { grid-template-columns: repeat(auto-fill, 72px); justify-content: start; gap: 4px; }
   .emblem-container { grid-template-columns: repeat(2, 1fr); }
   .note-item { padding: 4px 6px; }
-  .note-item img { width: 32px; height: 32px; }
+  .note-item img { width: 24px; height: 24px; }
   .record-preview-modal { width: 100vw; max-width: 100vw; max-height: 100vh; border-radius: 0; padding: 0; }
   .record-preview-content { width: 100%; }
   .record-preview-content svg { width: 100% !important; height: auto !important; }
@@ -908,6 +919,13 @@ body.vanilla-mode .emblem-section { display: none !important; }
     <div class="disc-and-output">
       <div class="disc-row" id="discRow"><span class="loading">Loading discs…</span></div>
       <div class="disc-output-panel" id="discOutputPanel"></div>
+    </div>
+    <div class="disc-sel-wrap" id="discSelWrap">
+      <div class="disc-sel-head" id="discSelHead" onclick="toggleDiscSelFold()">Disc selection</div>
+      <div class="disc-sel-body" id="discSelBody">
+        <div class="disc-sel-filters" id="discSelFilters"></div>
+        <div class="disc-sel-grid" id="discSelGrid"></div>
+      </div>
     </div>
   </div>
 

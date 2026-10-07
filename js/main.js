@@ -582,7 +582,7 @@ document.addEventListener('click', (e) => {
     tt.style.display = 'none';
   }
   const dt = document.querySelector('.disc-tooltip');
-  if (dt && dt.style.display !== 'none' && !e.target.closest('.disc-option, .disc-thumb, [data-id], #recordPngImage')) {
+  if (dt && dt.style.display !== 'none' && !e.target.closest('.disc-sel-card, .disc-thumb, [data-id], #recordPngImage')) {
     dt.style.display = 'none';
   }
   const vm = document.querySelector('.head-variant-menu');

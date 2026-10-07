@@ -124,6 +124,7 @@ function refreshCharBadges() {
       if (badge) badge.remove();
     }
   });
+  syncDiscSelTeamElements();
 }
 
 function toggleChar(id) {
@@ -144,29 +145,16 @@ function toggleChar(id) {
   generate();
 }
 
-function renderDiscs() {
-  const row = document.getElementById('discRow');
-  row.innerHTML = '';
-  // Warm the outfit image cache so the drag ghost includes them on the first drag
-  selectedDiscs.forEach((dId) => {
-    if (!dId) return;
-    try {
-      const warm = new Image();
-      warm.decoding = 'sync';
-      discImg(warm, dId);
-      if (warm.decode) warm.decode().catch(() => {});
-    } catch (err) {}
-  });
-  const labels = ['Main','Main','Main','Support','Support','Support'];
-  for (let i = 0; i < 6; i++) {
-    if (i === 3) { const sep = document.createElement('div'); sep.className = 'sep'; row.appendChild(sep); }
+function createDiscSlot(i) {
+    const labels = ['Main','Main','Main','Support','Support','Support'];
     const slot = document.createElement('div');
     slot.className = 'disc-slot';
     slot.innerHTML = `<div class="disc-slot-label">${labels[i]}</div>`;
     const picker = document.createElement('div');
     picker.className = 'disc-picker';
     const thumb = document.createElement('div');
-    thumb.className = 'disc-thumb' + (selectedDiscs[i] ? ' selected' : '');
+    thumb.className = 'disc-thumb' + (selectedDiscs[i] ? ' selected' : '') + (activeDiscSlot === i ? ' picking' : '');
+    thumb.dataset.discSlot = String(i);
     if (selectedDiscs[i]) {
       const thumbImg = document.createElement('img');
       thumbImg.decoding = 'sync';
@@ -176,14 +164,12 @@ function renderDiscs() {
     } else {
       thumb.innerHTML = `<span class="plus">+</span>`;
     }
-    thumb.onclick = (e) => { e.stopPropagation(); toggleDiscDropdown(i); };
+    thumb.onclick = (e) => { e.stopPropagation(); openDiscSelForSlot(i); };
     if (selectedDiscs[i]) attachDiscTooltip(thumb, selectedDiscs[i]);
     slot.dataset.discSlot = String(i);
     if (selectedDiscs[i]) {
       thumb.draggable = true;
-      thumb.title = 'Drag to swap position';
       thumb.addEventListener('dragstart', (ev) => {
-        closeAllDiscDD();
         ev.dataTransfer.setData('text/x-disc-slot', String(i));
         ev.dataTransfer.effectAllowed = 'move';
         try { ev.dataTransfer.setData('text/plain', String(i)); } catch (err) {}
@@ -208,13 +194,28 @@ function renderDiscs() {
     }
     slot.addEventListener('dragover', (ev) => {
       ev.preventDefault();
-      ev.dataTransfer.dropEffect = 'move';
+      let isDiscDrop = false;
+      try {
+        const types = ev.dataTransfer.types || [];
+        for (let t = 0; t < types.length; t++) {
+          if (types[t] === 'text/x-disc-id') { isDiscDrop = true; break; }
+        }
+      } catch (err) {}
+      ev.dataTransfer.dropEffect = isDiscDrop ? 'copy' : 'move';
       slot.classList.add('drag-over');
     });
     slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
     slot.addEventListener('drop', (ev) => {
       ev.preventDefault();
       slot.classList.remove('drag-over');
+      let discDrop = null;
+      try { discDrop = ev.dataTransfer.getData('text/x-disc-id'); } catch (err) {}
+      if (discDrop && typeof discData !== 'undefined' && discData[discDrop]) {
+        // No duplicates via drag either
+        if ((selectedDiscs || []).includes(discDrop)) return;
+        selectDisc(i, discDrop);
+        return;
+      }
       let fromRaw = null;
       try { fromRaw = ev.dataTransfer.getData('text/x-disc-slot'); } catch (err) {}
       if (fromRaw === null || fromRaw === '' || fromRaw === undefined) { try { fromRaw = ev.dataTransfer.getData('text/plain'); } catch (err) {} }
@@ -223,23 +224,13 @@ function renderDiscs() {
       swapDiscSlots(fromIdx, i);
     });
 
-    const dd = document.createElement('div');
-    dd.className = 'disc-dropdown';
-    dd.id = `disc-dd-${i}`;
-
-    const search = document.createElement('input');
-    search.className = 'disc-search';
-    search.placeholder = 'Search…';
-    dd.appendChild(search);
-
-    const list = document.createElement('div');
-    list.id = `disc-list-${i}`;
-    dd.appendChild(list);
-
-    search.oninput = () => fillDiscList(list, i, search.value);
-
     picker.appendChild(thumb);
-    picker.appendChild(dd);
+    // Notes overlay on the slot itself: Main discs show the harmony notes they
+    // need, Support discs show the notes they give (same look as the grid).
+    if (selectedDiscs[i]) {
+      const noteOverlay = buildDiscNoteOverlay(selectedDiscs[i], i < 3 ? 'main' : 'support');
+      if (noteOverlay) picker.appendChild(noteOverlay);
+    }
     slot.appendChild(picker);
 
     const id = selectedDiscs[i];
@@ -279,8 +270,472 @@ function renderDiscs() {
       slot.appendChild(placeholder);
     }
 
-    row.appendChild(slot);
+    return slot;
+}
+
+function renderDiscRow() {
+  const row = document.getElementById('discRow');
+  if (!row) return;
+  row.innerHTML = '';
+  // Warm the outfit image cache so the drag ghost includes them on the first drag
+  selectedDiscs.forEach((dId) => {
+    if (!dId) return;
+    try {
+      const warm = new Image();
+      warm.decoding = 'sync';
+      discImg(warm, dId);
+      if (warm.decode) warm.decode().catch(() => {});
+    } catch (err) {}
+  });
+  for (let i = 0; i < 6; i++) {
+    if (i === 3) { const sep = document.createElement('div'); sep.className = 'sep'; row.appendChild(sep); }
+    row.appendChild(createDiscSlot(i));
   }
+}
+
+function renderDiscs() {
+  renderDiscRow();
+  ensureDiscSelInit();
+  syncDiscSelTeamElements();
+  updateDiscSelectionState();
+}
+
+function refreshDiscSlot(i) {
+  const row = document.getElementById('discRow');
+  if (!row) return;
+  const old = row.querySelector(`.disc-slot[data-disc-slot="${i}"]`);
+  if (!old) { renderDiscRow(); return; }
+  old.replaceWith(createDiscSlot(i));
+}
+
+function updateDiscSelectionState() {
+  updateDiscPickingHighlight();
+  const inUse = new Set();
+  (selectedDiscs || []).forEach((sid) => { if (sid) inUse.add(sid); });
+  document.querySelectorAll('#discSelGrid .disc-sel-card').forEach(card => {
+    if (card.dataset.discId) card.classList.toggle('in-use', inUse.has(card.dataset.discId));
+  });
+}
+
+// ---- Disc selection submenu (in-discs-section grid, folded by default) ----
+let activeDiscSlot = null;
+let discSelElements = new Set();
+let discSelStars = new Set([5]);
+let discSelSource = '';
+let discSelHighlight = 'main';
+let discSelInitialized = false;
+
+function getDiscSelDefaultElements() {
+  const els = new Set();
+  (selectedChars || []).filter(c => c).slice(0, 3).forEach(id => {
+    const el = (typeof charJson !== 'undefined' && charJson[id]) ? charJson[id].element : null;
+    if (el) els.add(el);
+  });
+  return els;
+}
+
+function resetDiscSelFiltersToDefaults() {
+  discSelElements = getDiscSelDefaultElements();
+  discSelStars = new Set([5]);
+  discSelSource = '';
+  updateDiscSelFilterButtons();
+}
+
+// Keep the disc element filter aligned with the current team. The filter is
+// derived from the selected characters' elements, so any change to the team
+// (selecting/clearing/reordering characters, loading a build, importing) must
+// refresh it — otherwise the grid keeps showing the team from first load.
+// Star/source filters are left alone; they're not derived from characters.
+function syncDiscSelTeamElements() {
+  if (!discSelInitialized) return;
+  const newEls = getDiscSelDefaultElements();
+  const same = discSelElements.size === newEls.size &&
+    [...newEls].every(el => discSelElements.has(el));
+  if (same) return;
+  discSelElements = newEls;
+  updateDiscSelFilterButtons();
+  renderDiscSelection();
+}
+
+function ensureDiscSelInit() {
+  if (discSelInitialized) return;
+  if (typeof discData === 'undefined' || !discData) return;
+  const bar = document.getElementById('discSelFilters');
+  if (!bar) return;
+  discSelInitialized = true;
+  resetDiscSelFiltersToDefaults();
+  renderDiscSelFilters();
+  renderDiscSelection();
+}
+
+function renderDiscSelFilters() {
+  const bar = document.getElementById('discSelFilters');
+  if (!bar) return;
+  bar.innerHTML = '';
+  const mkEl = (el, img, title, onclick, isText) => {
+    const b = document.createElement('button');
+    b.className = 'char-filter-btn' + (isText ? ' star-btn none-btn' : '');
+    b.dataset.element = el;
+    b.title = title;
+    if (isText) {
+      b.textContent = 'NONE';
+    } else {
+      const im = document.createElement('img');
+      im.src = img;
+      im.alt = el;
+      b.appendChild(im);
+    }
+    b.onclick = onclick;
+    bar.appendChild(b);
+    return b;
+  };
+  mkEl('__all', null, 'Show all', clearDiscSelElementFilters, true);
+  mkEl('None', 'data/disc badges/None.avif', 'Show only None', () => setDiscSelElementFilter('None'));
+  ['Aqua', 'Ignis', 'Ventus', 'Terra', 'Lux', 'Umbra'].forEach(el => {
+    mkEl(el, `data/disc badges/${el}.avif`, `Show only ${el}`, () => setDiscSelElementFilter(el));
+  });
+  const sep = document.createElement('div');
+  sep.className = 'char-filter-sep';
+  bar.appendChild(sep);
+  [3, 4, 5].forEach(star => {
+    const b = document.createElement('button');
+    b.className = 'char-filter-btn star-btn';
+    b.dataset.star = String(star);
+    b.title = `Filter ${star}-star`;
+    b.textContent = `${star}★`;
+    b.onclick = () => setDiscSelStarFilter(star);
+    bar.appendChild(b);
+  });
+  const srcSep = document.createElement('div');
+  srcSep.className = 'char-filter-sep';
+  bar.appendChild(srcSep);
+  const srcSel = document.createElement('select');
+  srcSel.className = 'priority-select';
+  srcSel.id = 'discSelSource';
+  srcSel.title = 'Filter by source';
+  [['', 'All sources'], ['Limited', 'Limited'], ['Standard', 'Standard'], ['Event', 'Event'], ['f2p', 'F2P']].forEach(([val, label]) => {
+    const opt = document.createElement('option');
+    opt.value = val;
+    opt.textContent = label;
+    srcSel.appendChild(opt);
+  });
+  srcSel.value = discSelSource || '';
+  srcSel.onchange = () => setDiscSelSourceFilter(srcSel.value);
+  bar.appendChild(srcSel);
+  const hlSep = document.createElement('div');
+  hlSep.className = 'char-filter-sep';
+  bar.appendChild(hlSep);
+  const hlSeg = document.createElement('div');
+  hlSeg.className = 'disc-sel-hl-seg';
+  hlSeg.id = 'discSelHlSeg';
+  [['main', 'Main'], ['support', 'Support']].forEach(([val, label]) => {
+    const b = document.createElement('button');
+    b.className = 'disc-sel-hl-btn';
+    b.dataset.hl = val;
+    b.title = val === 'main' ? 'Highlight harmony notes needed' : 'Highlight support notes given';
+    b.textContent = label;
+    b.onclick = () => setDiscSelHighlight(val);
+    hlSeg.appendChild(b);
+  });
+  bar.appendChild(hlSeg);
+  updateDiscSelFilterButtons();
+}
+
+function updateDiscSelFilterButtons() {
+  document.querySelectorAll('#discSelFilters .char-filter-btn').forEach(btn => {
+    if (btn.dataset.star) {
+      btn.classList.toggle('active', discSelStars.has(Number(btn.dataset.star)));
+      return;
+    }
+    const el = btn.dataset.element;
+    if (el === '__all') btn.classList.toggle('active', discSelElements.size === 0);
+    else btn.classList.toggle('active', discSelElements.has(el));
+  });
+  const srcSel = document.getElementById('discSelSource');
+  if (srcSel) srcSel.value = discSelSource || '';
+  document.querySelectorAll('#discSelHlSeg .disc-sel-hl-btn').forEach(btn => {
+    btn.classList.toggle('active', discSelHighlight === btn.dataset.hl);
+  });
+}
+
+function applyDiscSelHighlight(val) {
+  discSelHighlight = val || '';
+  document.querySelectorAll('#discSelHlSeg .disc-sel-hl-btn').forEach(btn => {
+    btn.classList.toggle('active', discSelHighlight === btn.dataset.hl);
+  });
+  updateDiscSelNoteOverlays();
+}
+
+function setDiscSelHighlight(val) {
+  applyDiscSelHighlight(discSelHighlight === val ? '' : val);
+}
+
+// Highlight mode follows the slot being filled: main slots (0-2) → 'main',
+// support slots (3-5) → 'support'. With no slot, use the first empty slot's
+// role (so the Main/Support button auto-selects as you move through the row).
+function discHighlightForSlot(i) {
+  const idx = (i != null) ? i : (selectedDiscs || []).findIndex(d => !d);
+  if (idx < 0) return 'main';
+  return idx < 3 ? 'main' : 'support';
+}
+
+function getDiscSelNotes(id, mode) {
+  const d = (typeof discData !== 'undefined' && discData) ? discData[id] : null;
+  mode = mode || discSelHighlight;
+  if (!d || !mode) return [];
+  const out = new Map();
+  if (mode === 'main') {
+    [d.secondarySkill1, d.secondarySkill2].forEach(sk => {
+      const req = sk && sk.req1;
+      if (!req) return;
+      for (const [melody, qty] of Object.entries(req)) {
+        const prev = out.get(melody) || 0;
+        out.set(melody, Math.max(prev, Number(qty) || 0));
+      }
+    });
+  } else if (mode === 'support') {
+    const sup = d.support;
+    if (!sup) return [];
+    for (const [melody, qty] of Object.entries(sup)) out.set(melody, Number(qty) || 0);
+  }
+  const notes = [];
+  for (const [melody, qty] of out.entries()) {
+    const nid = discMelodyToNoteId(melody);
+    if (!nid) continue;
+    notes.push({ melody: String(melody).replace(/^Melody of\s+/i, ''), qty, nid });
+  }
+  const order = { Pummel: 0, Luck: 1, Burst: 2, Stamina: 3, Focus: 4, Skill: 5, Ultimate: 6, Aqua: 7, Ignis: 8, Ventus: 9, Terra: 10, Lux: 11, Umbra: 12 };
+  notes.sort((a, b) => (order[a.melody] ?? 99) - (order[b.melody] ?? 99));
+  return notes;
+}
+
+// Build the note-icon overlay (bottom-right) for a disc. `mode` is 'main'
+// (harmony notes the disc needs, icons only) or 'support' (notes it gives,
+// with the quantity beside each icon). Returns null when there is nothing.
+function buildDiscNoteOverlay(id, mode) {
+  if (!id || !mode) return null;
+  const notes = getDiscSelNotes(id, mode);
+  if (!notes.length) return null;
+  const div = document.createElement('div');
+  div.className = 'disc-sel-notes ' + mode;
+  const showQty = mode !== 'main';
+  notes.forEach(n => {
+    const chip = document.createElement('span');
+    chip.className = 'disc-sel-note';
+    chip.title = `${n.melody} ×${n.qty}`;
+    if (showQty) {
+      const q = document.createElement('span');
+      q.className = 'disc-sel-note-qty';
+      q.textContent = n.qty;
+      chip.appendChild(q);
+    }
+    const img = document.createElement('img');
+    img.alt = '';
+    img.loading = 'lazy';
+    img.draggable = false;
+    noteImg(img, n.nid);
+    chip.appendChild(img);
+    div.appendChild(chip);
+  });
+  return div;
+}
+
+function updateDiscSelNoteOverlays() {
+  document.querySelectorAll('#discSelGrid .disc-sel-card').forEach(card => {
+    const old = card.querySelector('.disc-sel-notes');
+    if (old) old.remove();
+    if (!discSelHighlight) return;
+    const wrap = card.querySelector('.disc-sel-imgwrap');
+    if (!wrap) return;
+    const el = buildDiscNoteOverlay(card.dataset.discId, discSelHighlight);
+    if (el) wrap.appendChild(el);
+  });
+}
+
+function setDiscSelSourceFilter(val) {
+  discSelSource = val || '';
+  updateDiscSelFilterButtons();
+  renderDiscSelection();
+}
+
+function setDiscSelElementFilter(el) {
+  if (discSelElements.has(el)) discSelElements.delete(el);
+  else discSelElements.add(el);
+  updateDiscSelFilterButtons();
+  renderDiscSelection();
+}
+
+function clearDiscSelElementFilters() {
+  discSelElements.clear();
+  updateDiscSelFilterButtons();
+  renderDiscSelection();
+}
+
+function setDiscSelStarFilter(star) {
+  star = Number(star);
+  if (discSelStars.has(star) && discSelStars.size === 1) discSelStars.clear();
+  else { discSelStars.clear(); discSelStars.add(star); }
+  updateDiscSelFilterButtons();
+  renderDiscSelection();
+}
+
+function toggleDiscSelFold() {
+  const wrap = document.getElementById('discSelWrap');
+  if (!wrap) return;
+  ensureDiscSelInit();
+  wrap.classList.toggle('open');
+  if (wrap.classList.contains('open')) {
+    // No specific slot active → pick the mode from the first empty slot.
+    if (activeDiscSlot == null) applyDiscSelHighlight(discHighlightForSlot(null));
+    const grid = document.getElementById('discSelGrid');
+    if (grid && !grid.children.length) renderDiscSelection();
+  }
+}
+
+function openDiscSelForSlot(i) {
+  ensureDiscSelInit();
+  if (activeDiscSlot === i) {
+    activeDiscSlot = null;
+    updateDiscSelectionState();
+    return;
+  }
+  activeDiscSlot = i;
+  // Auto-select Main/Support to match the slot being filled.
+  applyDiscSelHighlight(discHighlightForSlot(i));
+  const wrap = document.getElementById('discSelWrap');
+  if (wrap && !wrap.classList.contains('open')) wrap.classList.add('open');
+  // Switching slots keeps the same grid content (in-use no longer depends on
+  // the active slot), so only re-render if the default filters actually changed.
+  // Otherwise just move the picking highlight — no grid rebuild, no blink.
+  const newEls = getDiscSelDefaultElements();
+  const newStars = new Set([5]);
+  const newSrc = '';
+  const sameEls = discSelElements.size === newEls.size && [...newEls].every(el => discSelElements.has(el));
+  const sameStars = discSelStars.size === newStars.size && [...newStars].every(s => discSelStars.has(s));
+  const sameSrc = (discSelSource || '') === newSrc;
+  if (!sameEls || !sameStars || !sameSrc) {
+    discSelElements = newEls;
+    discSelStars = newStars;
+    discSelSource = newSrc;
+    updateDiscSelFilterButtons();
+    renderDiscSelection();
+  }
+  updateDiscPickingHighlight();
+}
+
+function updateDiscPickingHighlight() {
+  document.querySelectorAll('#discRow .disc-thumb').forEach(th => {
+    th.classList.toggle('picking', activeDiscSlot != null && Number(th.dataset.discSlot) === activeDiscSlot);
+  });
+}
+
+function renderDiscSelection() {
+  const grid = document.getElementById('discSelGrid');
+  if (!grid || typeof discData === 'undefined' || !discData) return;
+  grid.innerHTML = '';
+  const inUseOther = new Set();
+  (selectedDiscs || []).forEach((sid) => { if (sid) inUseOther.add(sid); });
+
+  const ids = Object.keys(discData).filter(id => {
+    const d = discData[id];
+    const elOk = discSelElements.size === 0 || discSelElements.has(d.element);
+    const starOk = discSelStars.size === 0 || discSelStars.has(Number(d.star));
+    let srcOk = true;
+    if (discSelSource) {
+      const tags = Array.isArray(d.source) ? d.source : [];
+      if (discSelSource === 'f2p') srcOk = tags.some(t => String(t).toLowerCase() === 'f2p');
+      else if (discSelSource === 'Limited') srcOk = tags.includes('Limited') || tags.includes('Exclusive');
+      else srcOk = tags.includes(discSelSource);
+    }
+    return elOk && starOk && srcOk;
+  });
+  const DISC_EL_ORDER = { Aqua: 0, Ignis: 1, Ventus: 2, Terra: 3, Lux: 4, Umbra: 5, None: 6 };
+  ids.sort((a, b) => {
+    const ea = DISC_EL_ORDER[discData[a].element] ?? 99;
+    const eb = DISC_EL_ORDER[discData[b].element] ?? 99;
+    if (ea !== eb) return ea - eb;
+    const na = Number(a), nb = Number(b);
+    if (!Number.isNaN(na) && !Number.isNaN(nb) && na !== nb) return na - nb;
+    return String(a).localeCompare(String(b));
+  });
+  if (!ids.length) {
+    const empty = document.createElement('div');
+    empty.className = 'disc-sel-empty';
+    empty.textContent = 'No discs match these filters.';
+    grid.appendChild(empty);
+    return;
+  }
+  ids.forEach(id => {
+    const d = discData[id];
+    const card = document.createElement('div');
+    card.className = 'disc-sel-card' + (inUseOther.has(id) ? ' in-use' : '');
+    card.dataset.discId = id;
+    card.draggable = true;
+    card.addEventListener('dragstart', (ev) => {
+      try {
+        ev.dataTransfer.setData('text/x-disc-id', id);
+        ev.dataTransfer.effectAllowed = 'copy';
+      } catch (err) {}
+      const tt = document.querySelector('.disc-tooltip');
+      if (tt) tt.style.display = 'none';
+    });
+    card.addEventListener('dragend', () => {
+      document.querySelectorAll('#discRow .drag-over').forEach(el => el.classList.remove('drag-over'));
+    });
+    const wrap = document.createElement('div');
+    wrap.className = 'disc-sel-imgwrap';
+    const img = document.createElement('img');
+    img.className = 'disc-sel-art';
+    img.loading = 'lazy';
+    img.alt = d.name || id;
+    img.draggable = false;
+    discImg(img, id);
+    wrap.appendChild(img);
+    const badge = document.createElement('img');
+    badge.className = 'disc-sel-el';
+    badge.alt = d.element || '';
+    badge.draggable = false;
+    badge.src = `data/disc badges/${d.element || 'None'}.avif`;
+    badge.onerror = () => badge.remove();
+    wrap.appendChild(badge);
+    card.appendChild(wrap);
+    const nm = document.createElement('div');
+    nm.className = 'disc-sel-name';
+    nm.textContent = d.name || id;
+    card.appendChild(nm);
+    card.onclick = () => {
+      // Already equipped → swap with active slot, else remove
+      if ((selectedDiscs || []).includes(id)) {
+        const fromIdx = selectedDiscs.indexOf(id);
+        if (activeDiscSlot != null && fromIdx !== activeDiscSlot) {
+          const target = activeDiscSlot;
+          const tmp = selectedDiscs[target];
+          selectedDiscs[target] = id;
+          selectedDiscs[fromIdx] = tmp || null;
+          activeDiscSlot = null;
+          refreshDiscSlot(target);
+          refreshDiscSlot(fromIdx);
+          updateDiscSelectionState();
+          renderDiscOutput();
+          updateNotes();
+          generate();
+          return;
+        }
+        unselectDiscById(id);
+        return;
+      }
+      if (activeDiscSlot == null) {
+        const firstEmpty = (selectedDiscs || []).findIndex(x => !x);
+        if (firstEmpty < 0) return;
+        selectDisc(firstEmpty, id);
+      } else {
+        selectDisc(activeDiscSlot, id);
+      }
+    };
+    attachDiscTooltip(card, id);
+    grid.appendChild(card);
+  });
+  updateDiscSelNoteOverlays();
 }
 
 function discSkillIconUrl(icon) {
@@ -379,6 +834,7 @@ function buildDiscTooltip(discId) {
     sImg.onerror = () => { sImg.onerror = null; sImg.src = FALLBACK_DISC_URL; };
     head.appendChild(sImg);
     const titleWrap = document.createElement('div');
+    titleWrap.className = 'disc-tt-titlewrap';
     const kindEl = document.createElement('span');
     kindEl.className = 'disc-tt-skill-kind';
     kindEl.textContent = `${kind} · Lv 1`;
@@ -388,30 +844,36 @@ function buildDiscTooltip(discId) {
     titleWrap.appendChild(kindEl);
     titleWrap.appendChild(titleEl);
     head.appendChild(titleWrap);
-    sec.appendChild(head);
-    const desc = document.createElement('div');
-    desc.className = 'disc-tt-desc';
-    desc.innerHTML = formatDiscSkillDesc(skill);
-    sec.appendChild(desc);
-    if (skill.req1) {
+    const buildNotes = () => {
       const notes = document.createElement('div');
       notes.className = 'disc-tt-notes';
+      if (!skill.req1) return notes;
       for (const [melody, qty] of Object.entries(skill.req1)) {
         const nid = discMelodyToNoteId(melody);
         if (!nid) continue;
         const chip = document.createElement('span');
         chip.className = 'disc-tt-note';
-        chip.title = melody;
+        chip.title = `${melody} ×${qty}`;
         const nImg = document.createElement('img');
         nImg.alt = '';
-        nImg.src = `${BASE_ASSETS}export/assets/assetbundles/icon/note/note_${nid}_S.webp`;
-        nImg.onerror = () => chip.remove();
-        const q = document.createElement('span');
-        q.textContent = `×${qty}`;
+        noteImg(nImg, nid);
         chip.appendChild(nImg);
-        chip.appendChild(q);
         notes.appendChild(chip);
       }
+      return notes;
+    };
+    const isHarmony = /^harmony/i.test(kind);
+    if (isHarmony) {
+      const notes = buildNotes();
+      if (notes.children.length) head.appendChild(notes);
+    }
+    sec.appendChild(head);
+    const desc = document.createElement('div');
+    desc.className = 'disc-tt-desc';
+    desc.innerHTML = formatDiscSkillDesc(skill);
+    sec.appendChild(desc);
+    if (!isHarmony && skill.req1) {
+      const notes = buildNotes();
       if (notes.children.length) sec.appendChild(notes);
     }
     tt.appendChild(sec);
@@ -436,157 +898,33 @@ function attachDiscTooltip(el, discId) {
   });
 }
 
-function fillDiscList(list, slotIdx, filter) {
-  list.innerHTML = '';
-
-  const none = document.createElement('div');
-  none.className = 'disc-option';
-  none.innerHTML = `<span style="color:#555;font-size:11px">— None —</span>`;
-  none.onclick = () => selectDisc(slotIdx, null);
-  list.appendChild(none);
-
-  const teamEls = getTeamElements();
-
-  const byElement = {};
-  Object.keys(discData).forEach(id => {
-    const d = discData[id];
-    if (filter && !d.name.toLowerCase().includes(filter.toLowerCase())) return;
-    const el = d.element || 'Other';
-    if (!byElement[el]) byElement[el] = [];
-    byElement[el].push(id);
-  });
-
-  Object.values(byElement).forEach(arr => arr.sort((a,b) => {
-    if (discData[b].star !== discData[a].star) return discData[b].star - discData[a].star;
-    return discData[a].name.localeCompare(discData[b].name);
-  }));
-
-  const allEls = Object.keys(byElement).sort();
-
-  const elementCount = new Map();
-  selectedChars.forEach(id => {
-    if (id && charJson[id]?.element) {
-      const el = charJson[id].element;
-      elementCount.set(el, (elementCount.get(el) || 0) + 1);
-    }
-  });
-  selectedDiscs.forEach(id => {
-    if (id && discData[id]?.element) {
-      const el = discData[id].element;
-      elementCount.set(el, (elementCount.get(el) || 0) + 1);
-    }
-  });
-
-  const teamElements = [...teamEls].sort((a, b) => {
-    const countA = elementCount.get(a) || 0;
-    const countB = elementCount.get(b) || 0;
-    if (countA !== countB) return countB - countA;
-    return a.localeCompare(b);
-  });
-  const nonTeamElements = allEls.filter(e => !teamEls.has(e)).sort();
-
-  const orderedElements = [...teamElements, ...nonTeamElements];
-  const noneIndex = orderedElements.indexOf('None');
-  if (noneIndex !== -1) {
-    orderedElements.splice(noneIndex, 1);
-    orderedElements.push('None');
-  }
-
-  orderedElements.forEach(el => {
-    const ids = byElement[el];
-    if (!ids?.length) return;
-    const hdr = document.createElement('div');
-    hdr.className = 'disc-group-header' + (teamEls.has(el) ? ' team-el' : '');
-    hdr.textContent = el;
-    list.appendChild(hdr);
-    ids.forEach(id => {
-      if (selectedDiscs.some((sel, idx) => sel === id && idx !== slotIdx)) return;
-      const d = discData[id];
-      const opt = document.createElement('div');
-      opt.className = 'disc-option' + (selectedDiscs[slotIdx] === id ? ' selected-opt' : '');
-      const optImg = document.createElement('img');
-      discImg(optImg, id);
-      const info = document.createElement('div');
-      info.className = 'info';
-      const dname = document.createElement('div');
-      dname.className = 'dname';
-      dname.textContent = d.name;
-      const dmeta = document.createElement('div');
-      dmeta.className = 'dmeta';
-      dmeta.textContent = `${'★'.repeat(d.star)} · ${d.element}`;
-      info.appendChild(dname);
-      info.appendChild(dmeta);
-      opt.appendChild(optImg);
-      opt.appendChild(info);
-      opt.setAttribute('data-element', d.element);
-      opt.onclick = () => selectDisc(slotIdx, id);
-      attachDiscTooltip(opt, id);
-      list.appendChild(opt);
-    });
-  });
-}
-
-function repositionDiscDropdown(dropdown) {
-  if (!dropdown || !dropdown.classList.contains('open')) return;
-  const picker = dropdown.closest('.disc-picker');
-  const thumb = picker?.querySelector('.disc-thumb');
-  if (!thumb) return;
-  const rect = thumb.getBoundingClientRect();
-  const dropdownHeight = 400;
-  const spaceBelow = window.innerHeight - rect.bottom;
-  const spaceAbove = rect.top;
-  const isCurrentlyAbove = dropdown.classList.contains('open-above');
-
-  const shouldBeAbove = (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight);
-
-  if (shouldBeAbove && !isCurrentlyAbove) {
-    dropdown.classList.add('open-above');
-  } else if (!shouldBeAbove && isCurrentlyAbove) {
-    dropdown.classList.remove('open-above');
-  }
-}
-
-function repositionAllDiscDropdowns() {
-  document.querySelectorAll('.disc-dropdown.open').forEach(dd => repositionDiscDropdown(dd));
-}
-
-let repositionTimeout;
-function debouncedReposition() {
-  if (repositionTimeout) clearTimeout(repositionTimeout);
-  repositionTimeout = setTimeout(() => {
-    repositionAllDiscDropdowns();
-    repositionTimeout = null;
-  }, 50);
-}
-
-window.addEventListener('scroll', debouncedReposition);
-window.addEventListener('resize', debouncedReposition);
-
-function toggleDiscDropdown(i) {
-  const dd = document.getElementById(`disc-dd-${i}`);
-  const wasOpen = dd.classList.contains('open');
-  closeAllDiscDD();
-  if (!wasOpen) {
-    fillDiscList(document.getElementById(`disc-list-${i}`), i, '');
-    dd.classList.add('open');
-    dd.scrollTop = 0;
-    repositionDiscDropdown(dd);
-    const search = dd.querySelector('.disc-search');
-    if (search) { search.value = ''; search.focus(); }
-  }
-}
-
-function closeAllDiscDD() {
-  document.querySelectorAll('.disc-dropdown').forEach(d => d.classList.remove('open'));
-}
-
 function selectDisc(slotIdx, id) {
+  if (slotIdx == null || slotIdx < 0 || slotIdx >= selectedDiscs.length) return;
+  if (!id) return;
+  // No duplicates: disc already equipped elsewhere → ignore
+  const existingIdx = selectedDiscs.indexOf(id);
+  if (existingIdx >= 0 && existingIdx !== slotIdx) return;
+  if (selectedDiscs[slotIdx] === id) return;
   selectedDiscs[slotIdx] = id;
-  closeAllDiscDD();
-  renderDiscs();
+  activeDiscSlot = null;
+  refreshDiscSlot(slotIdx);
+  updateDiscSelectionState();
   renderDiscOutput();
   updateNotes();
   generate();
+}
+
+function unselectDiscById(id) {
+  const idx = (selectedDiscs || []).indexOf(id);
+  if (idx < 0) return false;
+  selectedDiscs[idx] = null;
+  activeDiscSlot = null;
+  refreshDiscSlot(idx);
+  updateDiscSelectionState();
+  renderDiscOutput();
+  updateNotes();
+  generate();
+  return true;
 }
 
 function swapDiscSlots(fromIdx, toIdx) {
@@ -600,7 +938,6 @@ function swapDiscSlots(fromIdx, toIdx) {
   const tmp = selectedDiscs[fromIdx];
   selectedDiscs[fromIdx] = selectedDiscs[toIdx];
   selectedDiscs[toIdx] = tmp;
-  closeAllDiscDD();
   renderDiscs();
   renderDiscOutput();
   updateNotes();
@@ -672,8 +1009,7 @@ function updateNotes(resetNotesCount = 20) {
     item.className = 'note-item';
 
     const img = document.createElement('img');
-    img.src = BASE_ASSETS + `export/assets/assetbundles/icon/note/note_${id}_S.webp`;
-    img.onerror = () => { item.style.display = 'none'; };
+    noteImg(img, id);
 
     const nm = document.createElement('div');
     nm.className = 'nname'; nm.textContent = getNoteShortName(id);
@@ -708,4 +1044,4 @@ function getNoteShortName(id) {
     90021:'Terra',90022:'Lux',90023:'Umbra'}[id] || id;
 }
 
-document.addEventListener('click', (e) => { if (!e.target.closest('.disc-picker')) closeAllDiscDD(); });
+
