@@ -60,7 +60,9 @@ async function renderChars() {
   const grid = document.getElementById('charGrid');
   grid.innerHTML = '';
 
-  const ids = Object.keys(charData).sort((a,b) => +a - +b);
+  // Only show released units: charData (characterid.json) contains unreleased
+  // IDs not yet present in character.json — hide those from the grid.
+  const ids = Object.keys(charData).filter(id => charJson[id] != null).sort((a,b) => +a - +b);
   // Probe the real XXL portrait; chars whose art isn't on ssassets yet stay
   // visible via the playerhead placeholder instead of being dropped.
   const probes = await Promise.all(ids.map(id => new Promise(resolve => {
@@ -75,7 +77,7 @@ async function renderChars() {
     const id = ids[i];
     const element = charJson[id]?.element || 'Other';
     const star = charJson[id]?.star ?? null;
-    validChars.push({ id, element, star, name: charData[id], hasArt: probes[i] });
+    validChars.push({ id, element, star, name: charData[id] || charJson[id]?.name || id, hasArt: probes[i] });
   }
 
   const elementOrder = { Aqua:0, Ignis:1, Ventus:2, Terra:3, Lux:4, Umbra:5, Other:6 };
