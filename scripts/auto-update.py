@@ -1,13 +1,23 @@
 #!/usr/bin/env python3
-"""Periodically check StellaSoraData upstream for changes and refresh game data.
+"""Periodically check MakoStar/ss-data upstream and refresh game data.
 
-Compares the raw upstream files' sha256 against a local state file. If any
-changed, re-runs fetch-slim.py, commits data/, and pushes to origin.
+Builds data/ directly from https://github.com/MakoStar/ss-data via
+scripts/build-from-ssdata.py (local node parsers vendored from the AutumnVN
+repo under scripts/parsers/), instead of waiting on the AutumnVN
+StellaSoraData mirror to re-publish parsed files.
+
+Change detection uses the ss-data HEAD commit SHA (`git ls-remote`), stored
+in scripts/.fetch-state.json. If HEAD moved, the full parse+slim pipeline
+runs. Head images still come from AutumnVN/ssassets (ss-data ships no
+image assets), and are refreshed every run.
+
+If the ss-data build fails (e.g. a network blip fetching ss-lua), this run
+does nothing to data/ and retries on the next cycle.
 
 Auth for pushing: $GITHUB_TOKEN env var, or ~/.nebula-github-token (chmod 600).
 
 Usage:
-  python3 scripts/auto-update.py          # check, refetch, commit, push
+  python3 scripts/auto-update.py          # check, rebuild, commit, push
   python3 scripts/auto-update.py --check  # report only, make no changes
 """
 import hashlib
@@ -18,13 +28,14 @@ import sys
 import urllib.request
 
 REPO = 'https://github.com/MorphTheMoth/Nebula-Record-Builder.git'
-BASE_RAW = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/main/'
-SOURCES = [
+SSDATA_GIT_URL = 'https://github.com/MakoStar/ss-data.git'
+SSDATA_API_COMMIT = 'https://api.github.com/repos/MakoStar/ss-data/commits/main'
+# Legacy fallback sources (parsed files only exist on the mirror).
+LEGACY_RAW = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/main/'
+LEGACY_SOURCES = [
     'character.json',
     'disc.json',
     'characterid.json',
-    'EN/bin/CharGemAttrValue.json',
-    'EN/language/en_US/Item.json',
 ]
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -38,8 +49,27 @@ def git(*args, check=True):
                           capture_output=True, text=True)
 
 
+def ssdata_head_sha():
+    """Resolve ss-data main HEAD without a full clone. Tries ls-remote, then API."""
+    try:
+        out = subprocess.run(['git', 'ls-remote', SSDATA_GIT_URL, 'HEAD'],
+                             capture_output=True, text=True, timeout=30)
+        if out.returncode == 0 and out.stdout.strip():
+            return out.stdout.strip().split()[0]
+    except Exception as exc:
+        print(f'[auto-update] git ls-remote failed: {exc}')
+    try:
+        req = urllib.request.Request(
+            SSDATA_API_COMMIT, headers={'User-Agent': 'nebula-auto-update/1.0'})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            return json.load(resp)['sha']
+    except Exception as exc:
+        print(f'[auto-update] ss-data API check failed: {exc}')
+    return None
+
+
 def fetch_sha(path):
-    with urllib.request.urlopen(BASE_RAW + path) as resp:
+    with urllib.request.urlopen(LEGACY_RAW + path, timeout=30) as resp:
         return hashlib.sha256(resp.read()).hexdigest()
 
 
@@ -119,6 +149,19 @@ def sync_with_origin():
         return False
 
 
+def rebuild_from_ssdata():
+    """Run the ss-data parse+slim pipeline. Returns True on success."""
+    try:
+        subprocess.check_call(
+            [sys.executable, os.path.join(SCRIPT_DIR, 'build-from-ssdata.py')])
+        return True
+    except subprocess.CalledProcessError as exc:
+        print(f'[auto-update] build-from-ssdata failed: {exc}')
+    except Exception as exc:
+        print(f'[auto-update] build-from-ssdata error: {exc}')
+    return False
+
+
 def main():
     check_only = '--check' in sys.argv
     os.chdir(ROOT)
@@ -130,29 +173,28 @@ def main():
 
     prev = {}
     if os.path.exists(STATE_FILE):
-        with open(STATE_FILE) as f:
-            prev = json.load(f)
-
-    changed = []
-    for path in SOURCES:
         try:
-            sha = fetch_sha(path)
-        except Exception as exc:
-            print(f'[auto-update] failed to check {path}: {exc}')
-            continue
-        if prev.get(path) != sha:
-            changed.append(path)
-        prev[path] = sha
+            with open(STATE_FILE) as f:
+                prev = json.load(f)
+        except Exception:
+            prev = {}
 
-    has_data_changed = bool(changed)
-    if has_data_changed:
-        print(f'[auto-update] changed upstream: {", ".join(changed)}')
+    new_sha = ssdata_head_sha()
+    if new_sha is None:
+        print('[auto-update] could not resolve ss-data HEAD; '
+              'data rebuild skipped this run.')
+        has_data_changed = False
+    elif prev.get('ss-data') != new_sha:
+        print(f'[auto-update] ss-data moved: '
+              f'{prev.get("ss-data", "(unknown)")[:12]} -> {new_sha[:12]}')
+        has_data_changed = True
     else:
-        print('[auto-update] no upstream changes.')
+        print(f'[auto-update] ss-data unchanged at {new_sha[:12]}.')
+        has_data_changed = False
 
     if check_only:
         if has_data_changed:
-            print('[auto-update] --check mode: would fetch slim data.')
+            print('[auto-update] --check mode: would rebuild from ss-data.')
         else:
             print('[auto-update] --check mode: no data changes.')
         print('[auto-update] --check: probing head images...')
@@ -164,15 +206,22 @@ def main():
         print('[auto-update] --check mode: nothing fetched or committed.')
         return
 
-    # Fetch slim data only if StellaSoraData changed; heads are always refreshed
+    # Rebuild game data only if ss-data moved; heads are always refreshed
     # so ssassets-only additions (e.g. head_12003_XL.webp) are detected.
+    # A failed build does nothing to data/ -- the next cycle retries.
+    build_ok = False
     if has_data_changed:
-        subprocess.check_call(
-            [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-slim.py')])
+        build_ok = rebuild_from_ssdata()
+        if build_ok:
+            prev['ss-data'] = new_sha
+        else:
+            print('[auto-update] data rebuild failed; leaving data/ untouched, '
+                  'will retry next cycle.')
 
     # Refresh local _XL head images (trimmed) — cheap if already cached:
     # fetch-heads.py skips existing files without network (continue), only
     # the first missing variant per char triggers a GET (404 -> break, 200 -> download).
+    # NOTE: heads still come from AutumnVN/ssassets — ss-data ships no image assets.
     try:
         print('[auto-update] refreshing head images...')
         subprocess.check_call(
@@ -182,8 +231,8 @@ def main():
     except Exception as e:
         print(f'[auto-update] fetch-heads error (continuing): {e}')
 
-    # Persist updated hashes only if data actually changed.
-    if has_data_changed:
+    # Persist updated state only if the data build actually succeeded.
+    if has_data_changed and build_ok:
         with open(STATE_FILE, 'w') as f:
             json.dump(prev, f, indent=2, sort_keys=True)
             f.write('\n')
@@ -191,18 +240,23 @@ def main():
     git('add', 'data')
     # Also commit the state file so clones stay in sync. Force-add in case
     # .gitignore ignores it (pattern .fetch-state.json matches any dir).
-    if has_data_changed:
+    if has_data_changed and build_ok:
         git('add', '-f', os.path.join('scripts', '.fetch-state.json'), check=False)
-    # Track auto-update runner and heads fetcher
-    if os.path.exists(os.path.join(SCRIPT_DIR, 'auto-update.py')):
-        git('add', '-f', os.path.join('scripts', 'auto-update.py'), check=False)
-    if os.path.exists(os.path.join(SCRIPT_DIR, 'fetch-heads.py')):
-        git('add', '-f', os.path.join('scripts', 'fetch-heads.py'), check=False)
+    # Track runner + pipeline scripts
+    for name in ('auto-update.py', 'fetch-heads.py', 'fetch-slim.py',
+                 'build-from-ssdata.py'):
+        if os.path.exists(os.path.join(SCRIPT_DIR, name)):
+            git('add', '-f', os.path.join('scripts', name), check=False)
+    # Track vendored parsers (may be gitignored via scripts/parsers rules).
+    if os.path.isdir(os.path.join(SCRIPT_DIR, 'parsers')):
+        git('add', '-f', os.path.join('scripts', 'parsers'), check=False)
     staged = git('diff', '--cached', '--name-only')
     staged_files = staged.stdout.strip()
     if not staged_files:
-        if has_data_changed:
-            print('[auto-update] no data changes after slim; nothing to commit.')
+        if has_data_changed and not build_ok:
+            print('[auto-update] data build failed; nothing to commit.')
+        elif has_data_changed:
+            print('[auto-update] no data changes after rebuild; nothing to commit.')
         else:
             print('[auto-update] no head image changes; nothing to commit.')
         return
@@ -210,9 +264,9 @@ def main():
     # Choose commit message based on what is staged.
     has_heads_in_staged = any('data/heads' in line for line in staged_files.splitlines())
     if has_data_changed and has_heads_in_staged:
-        commit_msg = 'Update game data and head images from upstream'
+        commit_msg = 'Update game data (ss-data) and head images from upstream'
     elif has_data_changed:
-        commit_msg = 'Update game data from upstream StellaSoraData'
+        commit_msg = f'Update game data from upstream ss-data {new_sha[:12]}'
     else:
         commit_msg = 'Update head images from ssassets'
 

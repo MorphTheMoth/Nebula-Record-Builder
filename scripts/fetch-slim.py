@@ -1,8 +1,30 @@
-import json, urllib.request, os, re
+"""Slim full upstream JSONs down to the files in data/.
+
+Two input modes:
+
+1. Local ss-data build (preferred, used by build-from-ssdata.py):
+     python3 scripts/fetch-slim.py --ssdata scripts/.ssdata-work
+   Reads the node-parser outputs (character.json / disc.json /
+   characterid.json / item.json) plus raw EN files straight from the
+   given ss-data checkout directory. No network needed.
+
+2. Legacy network mode (manual fallback only):
+     python3 scripts/fetch-slim.py
+   Fetches the parsed files from the AutumnVN mirror and the raw files
+   from MakoStar/ss-data. Only for manual recovery; the auto-update timer
+   builds from ss-data and does nothing on failure instead.
+"""
+import argparse
+import json, urllib.request, os, re, sys
 
 STRIP_HIDDEN = re.compile(r'\s*(?:HiddenParam\d+:\s*&HiddenParam\d+&\s*(?:\([^)]*\))?|Param\d+:\s*&Param\d+&\s*(?:\([^)]*\))?)\s*')
 
-BASE_RAW = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/main/'
+# Raw game data now comes straight from the upstream source repo.
+SSDATA_RAW = 'https://raw.githubusercontent.com/MakoStar/ss-data/main/'
+# Parsed character.json / disc.json / characterid.json do NOT exist in
+# ss-data (it only holds raw EN/CN/JP/KR/TW files); the mirror below is
+# legacy fallback only.
+LEGACY_PARSED_RAW = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/main/'
 OUT_DIR = 'data'
 POT_KEYS = ['mainCore', 'mainNormal', 'supportCore', 'supportNormal', 'common']
 GEM_KEEP = {'TypeId', 'AttrType', 'AttrTypeFirstSubtype', 'Level', 'Id', 'Value'}
@@ -12,6 +34,11 @@ def fetch_json(url):
     print(f'  Fetching {url}...')
     with urllib.request.urlopen(url) as resp:
         return json.load(resp)
+
+def load_json(path):
+    print(f'  Reading {path}...')
+    with open(path, encoding='utf-8') as f:
+        return json.load(f)
 
 def slim_characters(raw):
     slim = {}
@@ -61,25 +88,50 @@ def slim_char_gem_attr_groups(raw):
 def slim_copy(raw):
     return raw
 
-def save(name, data):
-    path = os.path.join(OUT_DIR, name)
+def save(name, data, out_dir=OUT_DIR):
+    path = os.path.join(out_dir, name)
     with open(path, 'w') as f:
         json.dump(data, f, ensure_ascii=False)
 
 def main():
-    os.makedirs(OUT_DIR, exist_ok=True)
+    ap = argparse.ArgumentParser(description='Slim upstream JSONs into data/')
+    ap.add_argument('--ssdata', default=None,
+                    help='ss-data checkout dir holding node-parser outputs '
+                         '(character.json/disc.json/characterid.json) plus EN/... raw files')
+    ap.add_argument('--out', default=OUT_DIR, help='output data dir')
+    ap.add_argument('--legacy-parsed', action='store_true',
+                    help='force legacy network fetch of parsed files from AutumnVN mirror')
+    args = ap.parse_args()
 
-    for name, url, slim_fn in [
-        ('character.json',       BASE_RAW + 'character.json',                                          slim_characters),
-        ('disc.json',            BASE_RAW + 'disc.json',                                               slim_discs),
-        ('characterid.json',     BASE_RAW + 'characterid.json',                                        slim_copy),
-        ('CharGemAttrValue.json',BASE_RAW + 'EN/bin/CharGemAttrValue.json',                            slim_char_gem_attr),
-        ('Item.json',            BASE_RAW + 'EN/language/en_US/Item.json',                             slim_copy),
-        # ('CharGemAttrGroups.json', 'https://raw.githubusercontent.com/Melledy/Nebula/main/src/main/resources/defs/CharGemAttrGroups.json', slim_char_gem_attr_groups),
-    ]:
-        raw = fetch_json(url)
+    os.makedirs(args.out, exist_ok=True)
+
+    if args.ssdata and not args.legacy_parsed:
+        root = args.ssdata
+        sources = [
+            ('character.json',        os.path.join(root, 'character.json'),               slim_characters),
+            ('disc.json',             os.path.join(root, 'disc.json'),                    slim_discs),
+            ('characterid.json',      os.path.join(root, 'characterid.json'),             slim_copy),
+            ('CharGemAttrValue.json', os.path.join(root, 'EN/bin/CharGemAttrValue.json'), slim_char_gem_attr),
+            ('Item.json',             os.path.join(root, 'EN/language/en_US/Item.json'),  slim_copy),
+        ]
+        loader = load_json
+    else:
+        if args.ssdata:
+            print('  --legacy-parsed: ignoring --ssdata for parsed files.',
+                  file=sys.stderr)
+        sources = [
+            ('character.json',       LEGACY_PARSED_RAW + 'character.json',               slim_characters),
+            ('disc.json',            LEGACY_PARSED_RAW + 'disc.json',                    slim_discs),
+            ('characterid.json',     LEGACY_PARSED_RAW + 'characterid.json',             slim_copy),
+            ('CharGemAttrValue.json',SSDATA_RAW + 'EN/bin/CharGemAttrValue.json',        slim_char_gem_attr),
+            ('Item.json',            SSDATA_RAW + 'EN/language/en_US/Item.json',         slim_copy),
+        ]
+        loader = fetch_json
+
+    for name, loc, slim_fn in sources:
+        raw = loader(loc)
         slim = slim_fn(raw)
-        save(name, slim)
+        save(name, slim, args.out)
         orig = len(json.dumps(raw, ensure_ascii=False))
         now  = len(json.dumps(slim, ensure_ascii=False))
         print(f'  {name}: {orig/1024:.0f} KB → {now/1024:.0f} KB  ({now/orig*100:.0f}%)')
