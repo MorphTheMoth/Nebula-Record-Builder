@@ -61,20 +61,21 @@ async function renderChars() {
   grid.innerHTML = '';
 
   const ids = Object.keys(charData).sort((a,b) => +a - +b);
+  // Probe the real XXL portrait; chars whose art isn't on ssassets yet stay
+  // visible via the playerhead placeholder instead of being dropped.
   const probes = await Promise.all(ids.map(id => new Promise(resolve => {
     const img = new Image();
     img.onload = () => resolve(true);
     img.onerror = () => resolve(false);
-    img.src = BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${id}02_XXL.webp`;
+    img.src = headXXLUrl(id, '02');
   })));
 
   const validChars = [];
   for (let i = 0; i < ids.length; i++) {
-    if (!probes[i]) continue;
     const id = ids[i];
     const element = charJson[id]?.element || 'Other';
     const star = charJson[id]?.star ?? null;
-    validChars.push({ id, element, star, name: charData[id] });
+    validChars.push({ id, element, star, name: charData[id], hasArt: probes[i] });
   }
 
   const elementOrder = { Aqua:0, Ignis:1, Ventus:2, Terra:3, Lux:4, Umbra:5, Other:6 };
@@ -92,7 +93,9 @@ async function renderChars() {
     div.dataset.element = ch.element;
     if (ch.star != null) div.dataset.star = String(ch.star);
 
-    div.appendChild(headCropEl(BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${ch.id}02_XXL.webp`));
+    div.appendChild(headCropEl(
+      ch.hasArt ? headXXLUrl(ch.id, '02') : FALLBACK_HEAD_XXL_URL,
+      FALLBACK_HEAD_XXL_URL));
 
     const lbl = document.createElement('div');
     lbl.className = 'label'; lbl.textContent = ch.name;
@@ -148,7 +151,7 @@ function renderDiscs() {
     try {
       const warm = new Image();
       warm.decoding = 'sync';
-      warm.src = BASE_ASSETS + `export/assets/assetbundles/icon/outfit/outfit_${String(dId).slice(2)}_a.webp`;
+      discImg(warm, dId);
       if (warm.decode) warm.decode().catch(() => {});
     } catch (err) {}
   });
@@ -163,8 +166,11 @@ function renderDiscs() {
     const thumb = document.createElement('div');
     thumb.className = 'disc-thumb' + (selectedDiscs[i] ? ' selected' : '');
     if (selectedDiscs[i]) {
-      const imgId = String(selectedDiscs[i]).slice(2);
-      thumb.innerHTML = `<img decoding="sync" draggable="false" src="${BASE_ASSETS}export/assets/assetbundles/icon/outfit/outfit_${imgId}_a.webp" onerror="this.style.opacity=0.2">`;
+      const thumbImg = document.createElement('img');
+      thumbImg.decoding = 'sync';
+      thumbImg.draggable = false;
+      discImg(thumbImg, selectedDiscs[i]);
+      thumb.appendChild(thumbImg);
     } else {
       thumb.innerHTML = `<span class="plus">+</span>`;
     }
@@ -340,15 +346,22 @@ function fillDiscList(list, slotIdx, filter) {
     ids.forEach(id => {
       if (selectedDiscs.some((sel, idx) => sel === id && idx !== slotIdx)) return;
       const d = discData[id];
-      const imgId = String(id).slice(2);
       const opt = document.createElement('div');
       opt.className = 'disc-option' + (selectedDiscs[slotIdx] === id ? ' selected-opt' : '');
-      opt.innerHTML = `
-        <img src="${BASE_ASSETS}export/assets/assetbundles/icon/outfit/outfit_${imgId}_a.webp" onerror="this.style.opacity=0.2">
-        <div class="info">
-          <div class="dname">${d.name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
-          <div class="dmeta">${'★'.repeat(d.star)} · ${d.element}</div>
-        </div>`;
+      const optImg = document.createElement('img');
+      discImg(optImg, id);
+      const info = document.createElement('div');
+      info.className = 'info';
+      const dname = document.createElement('div');
+      dname.className = 'dname';
+      dname.textContent = d.name;
+      const dmeta = document.createElement('div');
+      dmeta.className = 'dmeta';
+      dmeta.textContent = `${'★'.repeat(d.star)} · ${d.element}`;
+      info.appendChild(dname);
+      info.appendChild(dmeta);
+      opt.appendChild(optImg);
+      opt.appendChild(info);
       opt.setAttribute('data-element', d.element);
       opt.onclick = () => selectDisc(slotIdx, id);
       list.appendChild(opt);

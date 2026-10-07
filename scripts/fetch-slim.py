@@ -58,7 +58,7 @@ def slim_characters(raw):
                 items = entry['potential'].get(key)
                 if items:
                     pot[key] = [
-                        {k: (STRIP_HIDDEN.sub('', v) if k == 'desc' else v) for k, v in item.items() if k in ('id', 'name', 'desc', 'params')}
+                        {k: (STRIP_HIDDEN.sub('', v) if k == 'desc' else v) for k, v in item.items() if k in ('id', 'name', 'desc', 'params', 'rarity')}
                         for item in items
                     ]
             if pot:

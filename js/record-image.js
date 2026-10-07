@@ -398,7 +398,7 @@ function renderRecordImage(b64, options = {}) {
     const pbW = RP + NW + IG + PW + RP;
     const potSum = allPots.reduce((s, p) => s + p.level, 0);
     totalPotCount += potSum;
-    elements.push({ t: 'portrait', x, w: pbW, img: charImg, name, slot, charId, potSum });
+    elements.push({ t: 'portrait', x, w: pbW, img: charImg, name, slot, charId, variant, potSum });
     x += pbW;
 
     for (const key of groupKeys) {
@@ -457,7 +457,7 @@ function renderRecordImage(b64, options = {}) {
       const ex = el.x + sp;
       if (el.t === 'portrait') {
         svg += `<rect x="${ex}" y="${ry}" width="${el.w}" height="${RH}" rx="4" fill="${theme.portrait[el.slot === 0 ? 0 : 1]}"/>`;
-        svg += `<g class="h-ar" transform="translate(${ex+RP+NW+IG},${ry+RP})" clip-path="url(#c)"><image x="${SO}" y="${SO}" width="${SW}" height="${SH}" href="${esc(el.img)}" preserveAspectRatio="xMidYMid slice"/><g class="h-bdg" style="pointer-events:none"><rect x="0" y="0" width="${PW}" height="${PH}" fill="rgba(0,0,0,0.4)"/><circle cx="${PW/2}" cy="${PH/2}" r="16" fill="rgba(0,0,0,0.55)"/><g transform="translate(${PW/2},${PH/2}) rotate(-45)"><polygon points="-10,-4 -8,-4 4,-4 10,0 4,4 -8,4 -10,4" fill="#eee"/></g></g><rect x="0" y="0" width="${PW}" height="${PH}" fill="transparent" class="char-head-click" data-slot="${el.slot}" data-char-id="${el.charId}"/></g>`;
+        svg += `<g class="h-ar" transform="translate(${ex+RP+NW+IG},${ry+RP})" clip-path="url(#c)"><image x="${SO}" y="${SO}" width="${SW}" height="${SH}" href="${esc(el.img)}" data-remote="${esc(headImageFallbackUrl(el.charId, el.variant || '02'))}" data-step="0" onerror="headXLSvgFallback(this)" preserveAspectRatio="xMidYMid slice"/><g class="h-bdg" style="pointer-events:none"><rect x="0" y="0" width="${PW}" height="${PH}" fill="rgba(0,0,0,0.4)"/><circle cx="${PW/2}" cy="${PH/2}" r="16" fill="rgba(0,0,0,0.55)"/><g transform="translate(${PW/2},${PH/2}) rotate(-45)"><polygon points="-10,-4 -8,-4 4,-4 10,0 4,4 -8,4 -10,4" fill="#eee"/></g></g><rect x="0" y="0" width="${PW}" height="${PH}" fill="transparent" class="char-head-click" data-slot="${el.slot}" data-char-id="${el.charId}"/></g>`;
         svg += vertText(ex + RP + 19, ry + RP + 2, el.name, theme.titleColor);
         if (showTotalPots)
           svg += `<text x="${ex + RP - 1}" y="${ry + RH - 8}" font-size="16" font-family="'DejaVu Sans Mono', monospace" font-weight="bold" fill="${theme.titleColor}">${el.potSum || 0}</text>`;
@@ -466,7 +466,8 @@ function renderRecordImage(b64, options = {}) {
         svg += vertText(ex + RP + 19, ry + RP + 2, el.key, theme.titleColor);
         let ix = ex + RP + NW + IG;
         for (const p of el.items) {
-          svg += `<g data-id="${p.id}" data-slot="${el.slot}" data-group="${el.key}" transform="translate(${ix},${ry+RP})"><rect width="${PW}" height="${PH}" fill="transparent"/><image x="0" y="0" width="${PW}" height="${PH}" href="${esc(BASE_ASSETS)}potential/${p.id}.webp" preserveAspectRatio="xMidYMid slice" clip-path="url(#c)" style="pointer-events:none;user-select:none"/></g>`;
+          const rarity = (typeof potRarityMap !== 'undefined' && potRarityMap[String(p.id)]) || 'common';
+          svg += `<g data-id="${p.id}" data-slot="${el.slot}" data-group="${el.key}" transform="translate(${ix},${ry+RP})"><rect width="${PW}" height="${PH}" fill="transparent"/><image x="0" y="0" width="${PW}" height="${PH}" href="${esc(BASE_ASSETS)}potential/${p.id}.webp" data-rarity="${rarity}" onerror="potSvgFallback(this)" preserveAspectRatio="xMidYMid slice" clip-path="url(#c)" style="pointer-events:none;user-select:none"/></g>`;
           if (!['01','02','03','04','21','22','23','24'].includes(String(p.id).slice(-2))) {
             const tg = potTagParts(p.id);
             svg += levelText(ix + 22, ry + RP + 12 + 0.25 * currentLvlFont, `${tg.pre}${p.level}${tg.post}`, '#568');
@@ -533,22 +534,31 @@ async function svgToPngBlob(svgSource) {
       const dataUrl = await new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); });
       return dataUrl;
     };
-    try {
-      const dataUrl = await tryFetch(href);
-      el.setAttribute('href', dataUrl);
-    } catch (e) {
-      // Fallback: if local heads 404, try remote ssassets
-      const m = href.match(/data\/heads\/head_(\d+)(\d{2})_XL\.webp/);
-      if (m) {
-        const fallback = headImageFallbackUrl(m[1], m[2]);
-        try {
-          const dataUrl2 = await tryFetch(fallback);
-          el.setAttribute('href', dataUrl2);
-          return;
-        } catch (e2) { console.warn('PNG embed fallback failed:', href, '->', fallback, e2); }
-      }
-      console.warn('PNG embed failed:', href, e); hadFailure = true; el.remove();
+    // Candidate URLs for assets ssassets hasn't published yet: the on-screen
+    // SVG may already point at a fallback (dataset.fb set), in which case
+    // just embed that href directly.
+    const candidates = [href];
+    const mHead = href.match(/data\/heads\/head_(\d+)(\d{2})_XL\.webp/);
+    if (mHead && !el.dataset.fb) {
+      candidates.push(headImageFallbackUrl(mHead[1], mHead[2]));
+      candidates.push(FALLBACK_HEAD_XL_URL);
     }
+    const mPot = href.match(/potential\/(\d+)\.webp/);
+    if (mPot && !el.dataset.fb) {
+      candidates.push(potFallbackFor(mPot[1]));
+    }
+    const mOutfit = href.match(/outfit_(\d+)_a\.webp/);
+    if (mOutfit && !el.dataset.fb) {
+      candidates.push(FALLBACK_DISC_URL);
+    }
+    for (const url of candidates) {
+      try {
+        const dataUrl = await tryFetch(url);
+        el.setAttribute('href', dataUrl);
+        return;
+      } catch (e) { /* try next candidate */ }
+    }
+    console.warn('PNG embed failed:', href); hadFailure = true; el.remove();
   }));
 
   const styles = clone.querySelectorAll('style');
@@ -1000,7 +1010,7 @@ function attachPotentialTooltips(container) {
         bigImg = document.createElement('img');
         tooltip.insertBefore(bigImg, tooltip.firstChild);
       }
-      bigImg.src = BASE_ASSETS + `potential/${pid}.webp`;
+      potImg(bigImg, pid);
       let descDiv = tooltip.querySelector('.desc');
       if (!descDiv) {
         descDiv = document.createElement('div');
@@ -1084,7 +1094,9 @@ function enablePngHover(pngImg) {
           tooltip.insertBefore(bigImg, tooltip.firstChild);
         }
         const imgEl = svgEl.querySelector(`g[data-id="${hit.id}"] image`);
-        bigImg.src = imgEl ? imgEl.getAttribute('href') : BASE_ASSETS + `potential/${hit.id}.webp`;
+        const href = imgEl ? imgEl.getAttribute('href') : null;
+        if (href) { bigImg.onerror = null; bigImg.src = href; }
+        else potImg(bigImg, hit.id);
         let descDiv = tooltip.querySelector('.desc');
         if (!descDiv) {
           descDiv = document.createElement('div');
@@ -1216,8 +1228,17 @@ function showHeadVariantMenu(charId, slot, clickX, clickY) {
       wrap.style.cssText = 'width:72px;height:92px;overflow:hidden;border-radius:2px;background:#2a2a2a;';
 
       const img = document.createElement('img');
+      img.dataset.fb = '';
       img.src = headImageUrl(charId, v);
-      img.onerror = () => { img.onerror = null; img.src = headImageFallbackUrl(charId, v); };
+      img.onerror = () => {
+        if (!img.dataset.fb) {
+          img.dataset.fb = '1';
+          img.src = headImageFallbackUrl(charId, v);
+        } else if (img.dataset.fb === '1') {
+          img.dataset.fb = '2';
+          img.src = FALLBACK_HEAD_XL_URL;
+        }
+      };
       img.style.cssText = 'width:100%;height:100%;display:block;object-fit:cover;';
       img.loading = 'lazy';
 

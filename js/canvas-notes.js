@@ -162,8 +162,7 @@ function _renderNoteSvg(note, svgW, svgH) {
       };
     }
     const dd = discData?.[note.discId] || {};
-    const imgId = String(note.discId).slice(2);
-    const href = BASE_ASSETS + `export/assets/assetbundles/icon/outfit/outfit_${imgId}_a.webp`;
+    const href = discImageUrl(note.discId);
     const star = dd.star || 0;
     const el = dd.element;
     const showBadge = !!el;
@@ -187,7 +186,7 @@ function _renderNoteSvg(note, svgW, svgH) {
     inner += `<rect x="${-size/2}" y="${-size/2}" width="${size}" height="${size}" fill="${frameFill}" rx="4"/>`;
     inner += `<g clip-path="url(#${clipId})">`;
     inner += `<rect x="${ix}" y="${iy}" width="${is}" height="${is}" fill="#2a2a2a"/>`;
-    inner += `<image x="${-iz/2}" y="${-iz/2}" width="${iz}" height="${iz}" href="${_escAttr(href)}" preserveAspectRatio="xMidYMid slice"/>`;
+    inner += `<image x="${-iz/2}" y="${-iz/2}" width="${iz}" height="${iz}" href="${_escAttr(href)}" onerror="discSvgFallback(this)" preserveAspectRatio="xMidYMid slice"/>`;
     inner += `</g>`;
     if (showBadge) {
       const badgeHref = _DISC_BADGE_BASE + el + '.avif';
@@ -632,7 +631,6 @@ function openDiscPickerForNote(noteId, anchorEl, clickPos) {
     const grid = document.createElement('div');
     grid.className = 'disc-picker-grid';
     for (const { id, d } of grouped[el]) {
-      const imgId = String(id).slice(2);
       const cell = document.createElement('button');
       cell.type = 'button';
       let cellClass = 'disc-picker-cell';
@@ -641,11 +639,21 @@ function openDiscPickerForNote(noteId, anchorEl, clickPos) {
       cell.className = cellClass;
       cell.title = `${d.name || id}${d.element && d.element !== 'None' ? ' (' + d.element + ')' : ''} · ${'★'.repeat(d.star || 0)}`;
       cell.setAttribute('data-id', id);
-      let cellHTML = `<div class="disc-picker-clip"><img loading="lazy" src="${BASE_ASSETS}export/assets/assetbundles/icon/outfit/outfit_${imgId}_a.webp" onerror="this.style.opacity=0.2"></div>`;
+      const clip = document.createElement('div');
+      clip.className = 'disc-picker-clip';
+      const cellImg = document.createElement('img');
+      cellImg.loading = 'lazy';
+      discImg(cellImg, id);
+      clip.appendChild(cellImg);
+      cell.appendChild(clip);
       if (d.element) {
-        cellHTML += `<img class="disc-picker-badge" loading="lazy" src="${_DISC_BADGE_BASE}${d.element}.avif" alt="${d.element}">`;
+        const badge = document.createElement('img');
+        badge.className = 'disc-picker-badge';
+        badge.loading = 'lazy';
+        badge.src = `${_DISC_BADGE_BASE}${d.element}.avif`;
+        badge.alt = d.element;
+        cell.appendChild(badge);
       }
-      cell.innerHTML = cellHTML;
       cell.onclick = (ev) => {
         ev.stopPropagation();
         updateCanvasNote(noteId, { discId: id });

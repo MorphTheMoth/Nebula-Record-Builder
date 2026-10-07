@@ -188,8 +188,7 @@ function showLoadBuildPopup() {
       const buildVariants = build.state?.charHeadVariants || {};
       const icons = build.chars.filter(c => c).map(id => {
         const v = buildVariants[String(id)] || '02';
-        const src = BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${id}${v}_XXL.webp`;
-        return `<img src="${src}" alt="" loading="lazy">`;
+        return `<img src="${headXXLUrl(id, v)}" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='${FALLBACK_HEAD_XXL_URL}'}" alt="" loading="lazy">`;
       }).join('');
       const time = new Date(build.timestamp).toLocaleString();
       html += `<div class="load-build-entry" data-id="${build.id}">
@@ -288,9 +287,8 @@ function preloadAllDiscImages() {
   if (typeof VANILLA_MODE !== 'undefined' && VANILLA_MODE) return;
   const ids = Object.keys(discData);
   for (const id of ids) {
-    const imgId = String(id).slice(2);
     const img = new Image();
-    img.src = BASE_ASSETS + `export/assets/assetbundles/icon/outfit/outfit_${imgId}_a.webp`;
+    discImg(img, id);
   }
   discImagesPreloaded = true;
 }

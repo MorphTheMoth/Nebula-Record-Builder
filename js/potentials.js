@@ -130,7 +130,7 @@ function updatePotentials() {
       const v = (typeof charHeadVariants !== 'undefined' && charHeadVariants[String(cId)]) || '02';
       const warm = new Image();
       warm.decoding = 'sync';
-      warm.src = BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${cId}${v}_XXL.webp`;
+      headXXLImg(warm, cId, v);
       if (warm.decode) warm.decode().catch(() => {});
     } catch (err) {}
   });
@@ -143,7 +143,7 @@ function updatePotentials() {
     img.draggable = false;
     try { img.decoding = 'sync'; } catch (err) {}
     const variant = (typeof charHeadVariants !== 'undefined' && charHeadVariants[String(cId)]) || '02';
-    img.src = BASE_ASSETS + `export/assets/assetbundles/icon/head/head_${cId}${variant}_XXL.webp`;
+    headXXLImg(img, cId, variant);
     wrap.appendChild(img);
     return wrap;
   };
@@ -340,8 +340,7 @@ function updatePotentials() {
         item.className = 'pot-item' + (potLevels[p.id] > 0 ? ' active' : '');
 
         const img = document.createElement('img');
-        img.src = BASE_ASSETS + `potential/${p.id}.webp`;
-        img.onerror = () => img.style.opacity = '0.15';
+        potImg(img, p.id);
 
         const nm = document.createElement('div');
         nm.className = 'pname'; nm.textContent = p.name || `#${p.id}`;

@@ -2,17 +2,111 @@ const BASE_ASSETS = 'https://raw.githubusercontent.com/AutumnVN/ssassets/main/';
 const LOCAL_HEAD_BASE = 'data/heads/';
 let _headManifest = null;
 
+// Temporary fallbacks used when ss-data has a new char/pot/disc but ssassets
+// hasn't published the art yet. Without these the site would show blank slots
+// (or hide the character entirely) until ssassets catches up.
+const FALLBACK_HEAD_XXL_URL = `${BASE_ASSETS}export/assets/assetbundles/icon/playerhead/playerhead_10001_XXL.webp`;
+const FALLBACK_HEAD_XL_URL = `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_npc96601_XL.webp`;
+const FALLBACK_POT_URLS = {
+  core: `${BASE_ASSETS}image/vestige_0.webp`,
+  rare: `${BASE_ASSETS}image/vestige_1.webp`,
+  common: `${BASE_ASSETS}image/vestige_2.webp`,
+};
+const FALLBACK_DISC_URL = 'data/disc-fallback.png';
+
 function headImageUrl(charId, variant) {
   return `${LOCAL_HEAD_BASE}head_${charId}${variant}_XL.webp`;
 }
 function headImageFallbackUrl(charId, variant) {
   return `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}${variant}_XL.webp`;
 }
-function headCropEl(src) {
+function headXXLUrl(charId, variant) {
+  return `${BASE_ASSETS}export/assets/assetbundles/icon/head/head_${charId}${variant}_XXL.webp`;
+}
+// One-step <img> fallback: try primary, then exactly one fallback. The
+// dataset guard prevents infinite loops if the fallback itself 404s.
+function chainImgFallback(img, primary, fallback) {
+  img.dataset.fb = '';
+  img.src = primary;
+  img.onerror = () => {
+    if (img.dataset.fb) return;
+    img.dataset.fb = '1';
+    img.src = fallback;
+  };
+}
+function headXXLImg(img, charId, variant) {
+  chainImgFallback(img, headXXLUrl(charId, variant), FALLBACK_HEAD_XXL_URL);
+}
+function headXLImg(img, charId, variant) {
+  // local trimmed -> remote XL -> npc placeholder (two steps)
+  img.dataset.fb = '';
+  img.src = headImageUrl(charId, variant);
+  img.onerror = () => {
+    if (!img.dataset.fb) {
+      img.dataset.fb = '1';
+      img.src = headImageFallbackUrl(charId, variant);
+    } else if (img.dataset.fb === '1') {
+      img.dataset.fb = '2';
+      img.src = FALLBACK_HEAD_XL_URL;
+    }
+  };
+}
+// rarity ('core' | 'rare' | 'common') -> vestige placeholder. Unknown/missing
+// rarity defaults to common.
+function potFallbackUrl(rarity) {
+  return FALLBACK_POT_URLS[rarity] || FALLBACK_POT_URLS.common;
+}
+function potImageUrl(potId) {
+  return `${BASE_ASSETS}potential/${potId}.webp`;
+}
+// potId -> rarity, filled by buildPotDescMap() from charJson.
+let potRarityMap = {};
+function potFallbackFor(potId) {
+  return potFallbackUrl(potRarityMap[String(potId)]);
+}
+function potImg(img, potId) {
+  chainImgFallback(img, potImageUrl(potId), potFallbackFor(potId));
+}
+function discImageUrl(discId) {
+  return `${BASE_ASSETS}export/assets/assetbundles/icon/outfit/outfit_${String(discId).slice(2)}_a.webp`;
+}
+function discImg(img, discId) {
+  chainImgFallback(img, discImageUrl(discId), FALLBACK_DISC_URL);
+}
+// SVG <image> fallbacks (inline onerror attributes call these). dataset.fb
+// guards against loops the same way as chainImgFallback.
+function headSvgFallback(el) {
+  if (!el || el.dataset.fb) return;
+  el.dataset.fb = '1';
+  el.setAttribute('href', FALLBACK_HEAD_XXL_URL);
+}
+function headXLSvgFallback(el) {
+  if (!el || el.dataset.fb) return;
+  const step = el.dataset.step || '0';
+  if (step === '0') {
+    el.dataset.step = '1';
+    el.setAttribute('href', el.dataset.remote);
+  } else {
+    el.dataset.fb = '1';
+    el.setAttribute('href', FALLBACK_HEAD_XL_URL);
+  }
+}
+function potSvgFallback(el) {
+  if (!el || el.dataset.fb) return;
+  el.dataset.fb = '1';
+  el.setAttribute('href', potFallbackUrl(el.dataset.rarity));
+}
+function discSvgFallback(el) {
+  if (!el || el.dataset.fb) return;
+  el.dataset.fb = '1';
+  el.setAttribute('href', FALLBACK_DISC_URL);
+}
+function headCropEl(src, fallback) {
   const wrap = document.createElement('div');
   wrap.className = 'head-crop';
   const img = document.createElement('img');
-  img.src = src;
+  if (fallback) chainImgFallback(img, src, fallback);
+  else img.src = src;
   wrap.appendChild(img);
   return wrap;
 }
@@ -235,6 +329,9 @@ function buildPotDescMap() {
       for (const p of arr) {
         if (p.id && p.desc) {
           map[p.id] = p.desc;
+        }
+        if (p.id && p.rarity) {
+          potRarityMap[String(p.id)] = p.rarity;
         }
       }
     }

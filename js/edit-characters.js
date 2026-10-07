@@ -97,12 +97,11 @@ function renderEditCharsGrid() {
       lbl.textContent = 'Standards';
       col.appendChild(lbl);
     } else {
-      // Use same image as characters section: BASE_ASSETS + head_${id}02_XXL.webp
-      const base = (typeof BASE_ASSETS !== 'undefined' ? BASE_ASSETS : 'https://raw.githubusercontent.com/AutumnVN/ssassets/main/');
-      const wrap = headCropEl(base + `export/assets/assetbundles/icon/head/head_${colId}02_XXL.webp`);
+      // Use same image as characters section, with the playerhead placeholder
+      // while ssassets hasn't published the art yet.
+      const wrap = headCropEl(headXXLUrl(colId, '02'), FALLBACK_HEAD_XXL_URL);
       const img = wrap.querySelector('img');
       img.alt = colId;
-      img.onerror = () => { img.style.opacity = '0.2'; };
       col.appendChild(wrap);
       const lbl = document.createElement('div');
       lbl.className = 'col-label';
