@@ -66,6 +66,28 @@ def slim_characters(raw):
         slim[cid] = out
     return slim
 
+def _slim_disc_skill(s):
+    if not isinstance(s, dict):
+        return None
+    out = {}
+    for k in ('name', 'desc', 'icon'):
+        v = s.get(k)
+        if v:
+            out[k] = v
+    params = s.get('params')
+    if isinstance(params, list):
+        flat = []
+        for x in params:
+            flat.append(','.join(x) if isinstance(x, list) else str(x))
+        params = '/'.join(flat)
+    if isinstance(params, str) and params:
+        out['p1'] = params.split('/')[0]
+    reqs = s.get('requirements')
+    if isinstance(reqs, list) and reqs and isinstance(reqs[0], dict):
+        out['req1'] = reqs[0]
+    return out or None
+
+
 def slim_discs(raw):
     slim = {}
     for did, entry in raw.items():
@@ -76,6 +98,21 @@ def slim_discs(raw):
             out['element'] = entry['element']
         if 'star' in entry:
             out['star'] = entry['star']
+        stat = entry.get('stat')
+        if isinstance(stat, list) and stat:
+            out['maxStat'] = stat[-1]
+        dupe = entry.get('dupe')
+        if isinstance(dupe, list) and dupe:
+            out['dupe'] = dupe
+        ms = _slim_disc_skill(entry.get('mainSkill'))
+        if ms:
+            out['mainSkill'] = ms
+        s1 = _slim_disc_skill(entry.get('secondarySkill1'))
+        if s1:
+            out['secondarySkill1'] = s1
+        s2 = _slim_disc_skill(entry.get('secondarySkill2'))
+        if s2:
+            out['secondarySkill2'] = s2
         slim[did] = out
     return slim
 

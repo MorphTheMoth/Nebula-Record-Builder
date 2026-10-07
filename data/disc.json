@@ -2,511 +2,4790 @@
   "211001": {
     "name": "Crisp Morning",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Fortissimo: Main Theme",
+      "desc": "Increases the main Trekker's ATK by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "7%"
+    }
   },
   "211002": {
     "name": "Sunny Breeze",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Fortissimo: Harmony",
+      "desc": "Increases the support Trekker's ATK by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "7%"
+    }
   },
   "211003": {
     "name": "Indigo Sunset",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Cadence: Main Theme",
+      "desc": "Increases the main Trekker's Skill DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "10%"
+    }
   },
   "211004": {
     "name": "Pink Dream",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Cadence: Harmony",
+      "desc": "Increases the support Trekker's Skill DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "10%"
+    }
   },
   "211005": {
     "name": "Lonely Dunes",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Crescendo: Main Theme",
+      "desc": "Increases the main Trekker's Ultimate DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "22.5%"
+    }
   },
   "211006": {
     "name": "Sweet Creek",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Crescendo: Harmony",
+      "desc": "Increases the support Trekker's Ultimate DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "22.5%"
+    }
   },
   "211007": {
     "name": "Starlit Hope",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Harmonics: Main Theme",
+      "desc": "Increases the main Trekker's Skill DMG and Ultimate DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "8%"
+    }
   },
   "211008": {
     "name": "Homeward Path",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Harmonics: Harmony",
+      "desc": "Increases the support Trekker's Skill DMG and Ultimate DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "8%"
+    }
   },
   "212001": {
     "name": "Grand Feast",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Feasts and Revelry",
+      "desc": "Increases the main Trekker's Auto Attack DMG and Skill DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "8%"
+    }
   },
   "212002": {
     "name": "Whoopla",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Cry of the Valor",
+      "desc": "Increases the main Trekker's ATK by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "7%"
+    }
   },
   "212003": {
     "name": "Elysium",
     "element": "None",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "In Ecstasy",
+      "desc": "Increases the main Trekker's Auto Attack DMG and Ultimate DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "8%"
+    }
   },
   "212005": {
     "name": "Flare Frenzy",
     "element": "Ignis",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Passion Ablaze",
+      "desc": "Increases the squad's Ignis DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_13",
+      "p1": "6%"
+    }
   },
   "212006": {
     "name": "Auspicious Glow",
     "element": "Lux",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Radiant Omen",
+      "desc": "Increases the squad's Lux DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_14",
+      "p1": "6%"
+    }
   },
   "212007": {
     "name": "Brave the Wind",
     "element": "Ventus",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Rise with Zephyr",
+      "desc": "Increases the squad's Ventus DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_9",
+      "p1": "6%"
+    }
   },
   "212008": {
     "name": "Bubbles",
     "element": "Aqua",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Bubbling Torrent",
+      "desc": "Increases the squad's Aqua DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_12",
+      "p1": "6%"
+    }
   },
   "212009": {
     "name": "Eclipse",
     "element": "Umbra",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Echoes of Eclipse",
+      "desc": "Increases the squad's Umbra DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_10",
+      "p1": "6%"
+    }
   },
   "212010": {
     "name": "Fortitude",
     "element": "Terra",
-    "star": 3
+    "star": 3,
+    "maxStat": {
+      "HP": 3120,
+      "ATK": 327
+    },
+    "dupe": [
+      {
+        "ATK": 46
+      },
+      {
+        "ATK": 91
+      },
+      {
+        "ATK": 137
+      },
+      {
+        "ATK": 182
+      },
+      {
+        "ATK": 228
+      }
+    ],
+    "mainSkill": {
+      "name": "Will of Steel",
+      "desc": "Increases the squad's Terra DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_11",
+      "p1": "6%"
+    }
   },
   "213001": {
     "name": "Zesty Curiosity",
     "element": "None",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Zesty Curiosity",
+      "desc": "Increases the Main Trekker's HP by <color=#ec6d21>{1}</color>.\u000bWhen the Main Trekker dodges, increases the squad's Crit DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_3",
+      "p1": "5%,6%,4"
+    },
+    "secondarySkill1": {
+      "name": "Flowing Amber",
+      "desc": "When the Main Trekker casts a skill, increases Support Trekkers' Skill DMG by <color=#ec6d21>{1}</color> for {2}s.\u000bWhen the Main Trekker casts an Ultimate, increases Support Trekkers' Ultimate DMG by <color=#ec6d21>{3}</color> for {4}s.",
+      "icon": "DiscSkill_4",
+      "p1": "3%,12,7.2%,12",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213002": {
     "name": "Seasonal Waves",
     "element": "None",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Seasonal Waves",
+      "desc": "Increases Support Trekkers' ATK by <color=#ec6d21>{1}</color>.\u000bWhen Support Trekkers are on the battlefield, increases the Auto Attack DMG dealt by the Main Trekker by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "5%,8%"
+    },
+    "secondarySkill1": {
+      "name": "Drowsy Delights",
+      "desc": "When any Support Trekker casts a skill, increases the Main Trekker's Skill DMG by <color=#ec6d21>{1}</color> for {2}s.\u000bWhen any Support Character casts an Ultimate, increases Main Trekker's Ultimate DMG by <color=#ec6d21>{3}</color> for {4}s.",
+      "icon": "DiscSkill_4",
+      "p1": "3%,12,7.2%,12",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213003": {
     "name": "Scorching Night's End",
     "element": "Ignis",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Rock Party",
+      "desc": "Increases the ATK of Ignis Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen an Ignis Trekker casts a skill, increases Ignis Trekkers' Ultimate DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_1",
+      "p1": "5%,25%,5"
+    },
+    "secondarySkill1": {
+      "name": "Lingering Heatwave",
+      "desc": "When any Trekker triggers ##Ignis Mark#1016#, increases the ATK of Ignis Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_1",
+      "p1": "4%,4",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10
+      }
+    }
   },
   "213004": {
     "name": "Twin Moon Mischief",
     "element": "Ignis",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Ardent Twin Moons",
+      "desc": "Increases the Skill DMG of Ignis Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bIf the main Trekker's HP is above {2} when any Ignis Trekker deals Skill DMG, increases the DMG of this hit by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,80%,8%"
+    },
+    "secondarySkill1": {
+      "name": "Twin Moons' Waltz",
+      "desc": "When a support Ignis Trekker is on the battlefield, increases the main Ignis Trekker's Skill DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "8%",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10,
+        "Melody of Skill": 10
+      }
+    }
   },
   "213005": {
     "name": "★Bam Bam Girl★",
     "element": "Lux",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Glimmer Bubbles",
+      "desc": "Increases the ATK of Lux Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen a Lux Trekker casts a skill, increases Lux Trekkers' Ultimate DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_1",
+      "p1": "5%,25%,5"
+    },
+    "secondarySkill1": {
+      "name": "Shining Burst",
+      "desc": "When any Trekker triggers ##Lux Mark#1015#, increases the ATK of Lux Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_1",
+      "p1": "4%,4",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10
+      }
+    }
   },
   "213006": {
     "name": "Good Night",
     "element": "Lux",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Light Lullaby",
+      "desc": "Increases the Skill DMG of Lux Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bIf the main Trekker's HP is above {2} when any Lux Trekker deals Skill DMG, increases the DMG of this hit by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,80%,8%"
+    },
+    "secondarySkill1": {
+      "name": "Tranquil Light",
+      "desc": "When a support Lux Trekker is on the battlefield, increases the main Lux Trekker's Skill DMG dealt by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "8%",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10,
+        "Melody of Skill": 10
+      }
+    }
   },
   "213007": {
     "name": "Emerald Dream",
     "element": "Ventus",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Emerald Dreamscape",
+      "desc": "Increases the ATK of Ventus Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen a Ventus Trekker casts a skill, increases Ventus Trekkers' Ultimate DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_1",
+      "p1": "5%,25%,5"
+    },
+    "secondarySkill1": {
+      "name": "Evening Breeze",
+      "desc": "When any Trekker triggers ##Ventus Mark#1017#, increases the ATK of Ventus Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_1",
+      "p1": "4%,4",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10
+      }
+    }
   },
   "213008": {
     "name": "Tranquil Retreat",
     "element": "Ventus",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Tailwind Journey",
+      "desc": "Increases the Skill DMG of Ventus Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bIf the main Trekker's HP is above {2} when any Ventus Trekker deals Skill DMG, increases the DMG of this hit by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,80%,8%"
+    },
+    "secondarySkill1": {
+      "name": "Companion's Bond",
+      "desc": "When a support Ventus Trekker is on the battlefield, increases the main Ventus Trekker's Skill DMG dealt by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "8%",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10,
+        "Melody of Skill": 10
+      }
+    }
   },
   "213009": {
     "name": "Rainy Tune",
     "element": "Aqua",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Dreamlike Illusion",
+      "desc": "Increases the ATK of Aqua Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen an Aqua Trekker casts a skill, increases Aqua Trekkers' Ultimate DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_1",
+      "p1": "5%,25%,5"
+    },
+    "secondarySkill1": {
+      "name": "Silken Raindrops",
+      "desc": "When any Trekker triggers ##Aqua Mark#1018#, increases the ATK of Aqua Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_1",
+      "p1": "4%,4",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10
+      }
+    }
   },
   "213010": {
     "name": "Steam Syndrome",
     "element": "Aqua",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Aromatic Steam",
+      "desc": "Increases the Skill DMG of Aqua Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bIf the main Trekker's HP is above {2}, increases the DMG of this hit by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,80%,8%"
+    },
+    "secondarySkill1": {
+      "name": "Shroud of Mist",
+      "desc": "When a support Aqua Trekker is on the battlefield, increases the main Aqua Trekker's Skill DMG dealt by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "8%",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10,
+        "Melody of Skill": 10
+      }
+    }
   },
   "213011": {
     "name": "Meow Rhythm",
     "element": "Umbra",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Nocturne Beat",
+      "desc": "Increases the ATK of Umbra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen an Umbra Trekker casts a skill, increases Umbra Trekkers' Ultimate DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_1",
+      "p1": "5%,25%,5"
+    },
+    "secondarySkill1": {
+      "name": "Dancing Shadows",
+      "desc": "When any Trekker triggers ##Umbra Mark#1019#, increases the ATK of Umbra Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_1",
+      "p1": "4%,4",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10
+      }
+    }
   },
   "213012": {
     "name": "Starry Night Ode",
     "element": "Umbra",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Starry Reverie",
+      "desc": "Increases the Skill DMG of Umbra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bIf the main Trekker's HP is above {2} when any Umbra Trekker deals Skill DMG, increases the DMG of this hit by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,80%,8%"
+    },
+    "secondarySkill1": {
+      "name": "Moonlit Taps",
+      "desc": "When a support Umbra Trekker is on the battlefield, increases the main Umbra Trekker's Skill DMG dealt by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "8%",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10,
+        "Melody of Skill": 10
+      }
+    }
   },
   "213013": {
     "name": "Leaf Her to Me",
     "element": "Terra",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Dappled Shade",
+      "desc": "Increases the ATK of Terra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen a Terra Trekker casts a skill, increases Terra Trekkers' Ultimate DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_1",
+      "p1": "5%,25%,5"
+    },
+    "secondarySkill1": {
+      "name": "Snuggle Up",
+      "desc": "When any Trekker triggers ##Terra Mark#1020#, increases the ATK of Terra Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_1",
+      "p1": "4%,4",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10
+      }
+    }
   },
   "213014": {
     "name": "The Knight's Smith",
     "element": "Terra",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Forged to Perfection",
+      "desc": "Increases the Skill DMG of Terra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bIf the main Trekker's HP is above {2} when any Terra Trekker deals Skill DMG, increases the DMG of this hit by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,80%,8%"
+    },
+    "secondarySkill1": {
+      "name": "Engine Lubrication",
+      "desc": "When a support Terra Trekker is on the battlefield, increases the main Terra Trekker's Skill DMG dealt by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "8%",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Focus": 10,
+        "Melody of Skill": 10
+      }
+    }
   },
   "213015": {
     "name": "Unknown Fragrance",
     "element": "Ventus",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Lingering Fragrance",
+      "desc": "Increases the Skill DMG of Ventus Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker casts an Ultimate, increases the effect by an additional <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,12.5%,16"
+    },
+    "secondarySkill1": {
+      "name": "Caressing Breeze",
+      "desc": "When the Ventus Main Trekker is hit, increases all friendly units' Ventus DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_9",
+      "p1": "4%,8",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213016": {
     "name": "Cage of Roses",
     "element": "Ignis",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Fury in Bloom",
+      "desc": "Increases the Skill DMG of Ignis Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker casts an Ultimate, increases the effect by an additional <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,12.5%,16"
+    },
+    "secondarySkill1": {
+      "name": "Thorning Rose",
+      "desc": "When the Ignis Main Trekker is hit, increases all friendly units' Ignis DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_13",
+      "p1": "4%,8",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213017": {
     "name": "★Rolling Life★",
     "element": "Lux",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Twirl of Light",
+      "desc": "Increases the Skill DMG of Lux Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker casts an Ultimate, increases the effect by an additional <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,12.5%,16"
+    },
+    "secondarySkill1": {
+      "name": "Spinning Light",
+      "desc": "When the Lux Main Trekker is hit, increases all friendly units' Lux DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_14",
+      "p1": "4%,8",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213018": {
     "name": "Soda Shopping",
     "element": "Aqua",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Fizz and Pop",
+      "desc": "Increases the Skill DMG of Aqua Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker casts an Ultimate, increases the effect by an additional <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,12.5%,16"
+    },
+    "secondarySkill1": {
+      "name": "Chilling Coolness",
+      "desc": "When the Aqua Main Trekker is hit, increases all friendly units' Aqua DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_12",
+      "p1": "4%,8",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213019": {
     "name": "Delusion",
     "element": "Umbra",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Ephemeral Shadowfall",
+      "desc": "Increases the Skill DMG of Umbra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker casts an Ultimate, increases the effect by an additional <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,12.5%,16"
+    },
+    "secondarySkill1": {
+      "name": "Fleeting Dreams",
+      "desc": "When the Umbra Main Trekker is hit, increases all friendly units' Umbra DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_10",
+      "p1": "4%,8",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213020": {
     "name": "The Shining",
     "element": "Terra",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Kitschphobia",
+      "desc": "Increases the Skill DMG of Terra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker casts an Ultimate, increases the effect by an additional <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,12.5%,16"
+    },
+    "secondarySkill1": {
+      "name": "Startling Moment",
+      "desc": "When the Terra Main Trekker is hit, increases all friendly units' Terra DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_11",
+      "p1": "4%,8",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213021": {
     "name": "Miraculous Anthem",
     "element": "Ventus",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "A Refraction of Mirage",
+      "desc": "Increases the Ultimate DMG of Ventus Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bAt the start of battle, Ventus Trekkers in the squad restore <color=#ec6d21>{2}</color> Energy.",
+      "icon": "DiscSkill_7",
+      "p1": "16%,15"
+    },
+    "secondarySkill1": {
+      "name": "Squall",
+      "desc": "When any Ventus Trekker casts an Ultimate, increases the ATK of Ventus Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_1",
+      "p1": "1.8%,30,3",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213022": {
     "name": "Love River's Curse",
     "element": "Ignis",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Benediction Under Lantern",
+      "desc": "Increases the Ultimate DMG of Ignis Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bAt the start of battle, Ignis Trekkers in the squad restore <color=#ec6d21>{2}</color> Energy.",
+      "icon": "DiscSkill_7",
+      "p1": "16%,15"
+    },
+    "secondarySkill1": {
+      "name": "Surge of Flame",
+      "desc": "When any Ignis Trekker casts an Ultimate, increases the ATK of Ignis Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_1",
+      "p1": "1.8%,30,3",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213023": {
     "name": "Pure White",
     "element": "Lux",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Angel's Prayer",
+      "desc": "Increases the Ultimate DMG of Lux Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bAt the start of battle, Lux Trekkers in the squad restore <color=#ec6d21>{2}</color> Energy.",
+      "icon": "DiscSkill_7",
+      "p1": "16%,15"
+    },
+    "secondarySkill1": {
+      "name": "Holy Glow",
+      "desc": "When any Lux Trekker casts an Ultimate, increases the ATK of Lux Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_1",
+      "p1": "1.8%,30,3",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213024": {
     "name": "Holiday Bubble",
     "element": "Aqua",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Call of Holiday",
+      "desc": "Increases the Ultimate DMG of Aqua Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bAt the start of battle, Aqua Trekkers in the squad restore <color=#ec6d21>{2}</color> Energy.",
+      "icon": "DiscSkill_7",
+      "p1": "16%,15"
+    },
+    "secondarySkill1": {
+      "name": "Sweet Creek",
+      "desc": "When any Aqua Trekker casts an Ultimate, increases the ATK of Aqua Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_1",
+      "p1": "1.8%,30,3",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213025": {
     "name": "Sweet Invitation",
     "element": "Umbra",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Forbidden Nectar",
+      "desc": "Increases the Ultimate DMG of Umbra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bAt the start of battle, Umbra Trekkers in the squad restore <color=#ec6d21>{2}</color> Energy.",
+      "icon": "DiscSkill_7",
+      "p1": "16%,15"
+    },
+    "secondarySkill1": {
+      "name": "Phantom Realm",
+      "desc": "When any Umbra Trekker casts an Ultimate, increases the ATK of Umbra Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_1",
+      "p1": "1.8%,30,3",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "213026": {
     "name": "Vent It Out ♥",
     "element": "Terra",
-    "star": 4
+    "star": 4,
+    "maxStat": {
+      "HP": 5620,
+      "ATK": 654
+    },
+    "dupe": [
+      {
+        "ATK": 85
+      },
+      {
+        "ATK": 169
+      },
+      {
+        "ATK": 254
+      },
+      {
+        "ATK": 338
+      },
+      {
+        "ATK": 423
+      }
+    ],
+    "mainSkill": {
+      "name": "Business Tips",
+      "desc": "Increases the Ultimate DMG of Terra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bAt the start of battle, Terra Trekkers in the squad restore <color=#ec6d21>{2}</color> Energy.",
+      "icon": "DiscSkill_7",
+      "p1": "16%,15"
+    },
+    "secondarySkill1": {
+      "name": "Livestream Prep",
+      "desc": "When any Terra Trekker casts an Ultimate, increases the ATK of Terra Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_1",
+      "p1": "1.8%,30,3",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    }
   },
   "214001": {
     "name": "Meowing Cat God",
     "element": "Ignis",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Ignis DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Meowing Cat God",
+      "desc": "Increases the squad's Ignis DMG by <color=#ec6d21>{1}</color>.\u000bWhen the main Ignis Trekker casts a skill, increases the ATK of Ignis Trekkers in the squad and their Minions by {2} for {3}s. The main Ignis Trekker gains Blazing Armor: Reduces DMG taken by {4} for {5}s.",
+      "icon": "DiscSkill_214001",
+      "p1": "10%,5%,8,10%,8"
+    },
+    "secondarySkill1": {
+      "name": "Cat God's Penalty",
+      "desc": "If the main Trekker is inflicted with Blazing Armor, increases Ignis squadmates' Ultimate DMG to elite or higher-tier targets by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "20%",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Skill": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Destructive Aura",
+      "desc": "When the target is killed, if the Main Trekker has Blazing Armor, increases the ATK of Ignis Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_1",
+      "p1": "1%,4,5",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Burst": 15,
+        "Melody of Ignis": 15
+      }
+    }
   },
   "214002": {
     "name": "Sky, Flowers, Poem",
     "element": "Ventus",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Ventus DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Sky, Flowers, Poem",
+      "desc": "Increases the squad's Ventus DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Ventus Trekker deals non-Auto Attack DMG to a target, there is a {2} chance to inflict Laceration: increases Ventus DMG taken by {3} for {4}s.\u000bReduces the DMG taken by the main Ventus Trekker from targets inflicted with Laceration by {5}.",
+      "icon": "DiscSkill_214002",
+      "p1": "10%,35%,10%,8,10%"
+    },
+    "secondarySkill1": {
+      "name": "Snowpetal Storm",
+      "desc": "Increases Ventus Trekkers' Ultimate DMG dealt to targets inflicted with Laceration by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "16%",
+      "req1": {
+        "Melody of Focus": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Fragrance of Heart",
+      "desc": "When any Ventus Trekker kills a target inflicted with Laceration, increases all friendly units' Ventus DMG by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_9",
+      "p1": "1%,4,5",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Focus": 15,
+        "Melody of Ventus": 15
+      }
+    }
   },
   "214003": {
     "name": "Seed Alike",
     "element": "Lux",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Lux DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Seed Alike",
+      "desc": "Lux Versatile Trekkers gain 1 stack of Light Particle per second on the battlefield: Each stack increases their ATK by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.\u000bWhen Light Particle is at max stacks, the Lux Main Trekker gains Wings of Light: Increases Auto Attack DMG by <color=#ec6d21>{4}</color> for {5}s.",
+      "icon": "DiscSkill_214003",
+      "p1": "1%,20,10,6%,10"
+    },
+    "secondarySkill1": {
+      "name": "Destiny Unleashed",
+      "desc": "Increases the squad's Lux DMG by <color=#ec6d21>{1}</color>.\u000bLight Particle gains an additional effect: Each stack increases own Skill DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "1%,0.4%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Free Will",
+      "desc": "When the Lux Main Trekker with Wings of Light triggers a mark that inflicts ##Thunderbolt#4027#, increases own Ultimate DMG by <color=#ec6d21>{1}</color> for {2}s.\u000bWhen the Lux Main Trekker with Wings of Light triggers a mark that inflicts ##Lucent#4028#, increases own Skill DMG by <color=#ec6d21>{3}</color> for {4}s.",
+      "icon": "DiscSkill_4",
+      "p1": "7%,5,7%,5",
+      "req1": {
+        "Melody of Focus": 15,
+        "Melody of Skill": 15,
+        "Melody of Lux": 15
+      }
+    }
   },
   "214004": {
     "name": "Wisteria Dream",
     "element": "Umbra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Umbra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Wisteria Dream",
+      "desc": "Increases the squad's Umbra DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Umbra Trekker summons a Minion, the main Umbra Trekker gains 1 stack of Reverence for {2}s, stacking up to {3} times. When the main Umbra Trekker summons a Minion, every stack of Reverence increases the Minion's DMG by <color=#ec6d21>{4}</color> for {5}s.\u000bWhen the main Umbra Trekker has Reverence, the Umbra Minion inflicts the following effects on the target when dealing DMG: increases Umbra Minion DMG taken by <color=#ec6d21>{6}</color> for {7}s.",
+      "icon": "DiscSkill_214004",
+      "p1": "15%,7,4,2.5%,10,10%,4"
+    },
+    "secondarySkill1": {
+      "name": "Graceful Essence",
+      "desc": "When the main Umbra Trekker has Reverence, increases the Ultimate DMG of Umbra Trekkers in the squad by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "20%",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Umbra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Graceful Poise",
+      "desc": "Reverence gains an additional effect: Each stack increases the main Umbra Trekker's Skill DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "5%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Luck": 15,
+        "Melody of Umbra": 15
+      }
+    }
   },
   "214005": {
     "name": "Sunlit Blossom",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Skill DMG": "24%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Sunlit Blossom",
+      "desc": "Increases the squad's Aqua DMG by <color=#ec6d21>{1}</color>.\u000bIncreases the Aqua DMG dealt by Aqua Trekkers in the squad to targets inflicted with ##Chill#1027# or ##Frozen#1002# by an additional <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_214005",
+      "p1": "10%,10%"
+    },
+    "secondarySkill1": {
+      "name": "Tears of Joy",
+      "desc": "When any Aqua Trekker casts an Ultimate, increases Aqua Trekkers' Auto Attack and Skill DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_4",
+      "p1": "10%,18",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Aqua": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Bygone Echoes",
+      "desc": "Increases Aqua Trekkers' Skill DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Aqua Trekker deals Skill DMG, if a support Aqua Trekker is on the battlefield, increases the DMG of this hit by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "4%,4.8%",
+      "req1": {
+        "Melody of Skill": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Aqua": 15
+      }
+    }
   },
   "214006": {
     "name": "Witch's Swing",
     "element": "Umbra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Umbra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Witch's Swing",
+      "desc": "Increases all friendly units' Umbra DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Umbra Trekker casts a Support Skill, increases the effect by an additional <color=#ec6d21>{2}</color> for {3} sec.",
+      "icon": "DiscSkill_214006",
+      "p1": "10%,15%,8"
+    },
+    "secondarySkill1": {
+      "name": "Spectral Fragrance",
+      "desc": "When any Umbra Trekker casts a Support Skill, increases the ATK of Umbra Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s.\u000bFor every Minion summoned by an Umbra Trekker in the squad, increases the DMG of all allied Umbra Minions on the battlefield by <color=#ec6d21>{3}</color> for {4}s, stacking up to {5} times.",
+      "icon": "DiscSkill_1",
+      "p1": "2.5%,8,0.5%,10,10",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Umbra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Dark Trace",
+      "desc": "Increases Umbra Trekkers' Ultimate DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker triggers ##Umbra Mark#1019#, increases this effect by an additional <color=#ec6d21>{2}</color> and the DMG of all allied Umbra minions on the battlefield by an additional <color=#ec6d21>{3}</color> for {4}s.",
+      "icon": "DiscSkill_4",
+      "p1": "6%,5%,2.5%,4",
+      "req1": {
+        "Melody of Skill": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Umbra": 15
+      }
+    }
   },
   "214007": {
     "name": "Midnight Mayhem",
     "element": "Lux",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Lux DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Midnight Mayhem",
+      "desc": "Increases the Skill DMG & Ultimate DMG of Lux Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker triggers ##Lux Mark#1015#, increases the main Lux Trekker' Auto Attack & Ultimate DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_214007",
+      "p1": "12%,13.8%,4"
+    },
+    "secondarySkill1": {
+      "name": "Decisive Strike",
+      "desc": "When a Lux Main Trekker hits a target with a skill, increases the ATK of Lux Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {3}s.\u000bWhen any Lux Trekker hits a stunned target or a target under Resilience Break, increases this effect by an additional <color=#ec6d21>{2}</color> for {4}s.",
+      "icon": "DiscSkill_1",
+      "p1": "2.5%,2.5%,15,15",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Lux": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Reach of Radiance",
+      "desc": "When a Lux Support Skill hits a target, increases the Lux DMG taken by the target by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_8",
+      "p1": "4%,10",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Lux": 15
+      }
+    }
   },
   "214008": {
     "name": "Soaring Blue",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Aqua DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Soaring Blue",
+      "desc": "When an Aqua Versatile Trekker deals Skill DMG, inflicts 1 stack of Bright Tide on the target for {1}s, stacking up to {2} times.\u000bBright Tide: At {3} stacks, increases Aqua Auto Attack DMG Taken by <color=#ec6d21>{4}</color>.\u000bAt {5} stacks, increases Aqua Skill DMG Taken by an additional <color=#ec6d21>{6}</color>.",
+      "icon": "DiscSkill_214008",
+      "p1": "5,20,10,10%,20,12%"
+    },
+    "secondarySkill1": {
+      "name": "Balloon of Joy",
+      "desc": "Increases the squad's Aqua DMG by <color=#ec6d21>{1}</color>.\u000bIf a target is inflicted with Bright Tide, each stack increases the Crit DMG dealt by the main Aqua Trekker to the target by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_3",
+      "p1": "5%,0.8%",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Aqua": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Horn of Departure",
+      "desc": "If a target is inflicted with Bright Tide, each stack increases the Skill DMG dealt by Aqua Trekkers to the target by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "0.4%",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Aqua": 15
+      }
+    }
   },
   "214009": {
     "name": "New Star Prelude",
     "element": "Ventus",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ultimate DMG": "40%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "New Star Prelude",
+      "desc": "Increases the ATK of Ventus Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bAfter the battle begins, the main Ventus Trekker gains a shield equal to {2} of Max HP for {3}s. This effect can only be triggered once every {4}s.",
+      "icon": "DiscSkill_214009",
+      "p1": "10%,20%,15,20"
+    },
+    "secondarySkill1": {
+      "name": "Starlit Winds",
+      "desc": "When the Ventus Main Trekker gains a shield, increases all friendly units' Ventus DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_9",
+      "p1": "5%,12",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Ventus": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Windswept Prayer",
+      "desc": "When any Ventus Trekker deals Skill DMG, if the main Ventus Trekker has a shield, increases the DMG of this hit by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Ventus": 15
+      }
+    }
   },
   "214010": {
     "name": "Prayer Beneath Light",
     "element": "Lux",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Lux DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Prayer Beneath Light",
+      "desc": "Increases the ATK of Lux Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen the main Lux Trekker is hit, gains a shield equal to {2} of Max HP for {3}s. This effect can only be triggered once every {4}s.",
+      "icon": "DiscSkill_214010",
+      "p1": "10%,15%,20,20"
+    },
+    "secondarySkill1": {
+      "name": "Light of Mercy",
+      "desc": "When the Lux Main Trekker gains a shield, increases all friendly units' Lux DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_14",
+      "p1": "5%,12",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Lux": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Divine Protection",
+      "desc": "When any Lux Trekker casts a skill, if the main Trekker has a shield, increases Lux squadmates' Skill DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_4",
+      "p1": "10%,6",
+      "req1": {
+        "Melody of Skill": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Lux": 15
+      }
+    }
   },
   "214011": {
     "name": "Summer Afternoon Rain",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ultimate DMG": "40%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Summer Afternoon Rain",
+      "desc": "Increases the ATK of Aqua Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen an Aqua Trekker casts an Ultimate, the main Aqua Trekker gains a shield equal to {2} of Max HP for {3}s.",
+      "icon": "DiscSkill_214011",
+      "p1": "10%,15%,20"
+    },
+    "secondarySkill1": {
+      "name": "Frosted Blossom",
+      "desc": "When the Aqua Main Trekker gains a shield, increases all friendly units' Aqua DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_12",
+      "p1": "5%,12",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Aqua": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Dancing Waters",
+      "desc": "When any Aqua Trekker deals Skill DMG, if the main Aqua Trekker has a shield, increases the DMG of this hit by <color=#ec6d21>{1}</color>.\u000bIncreases the main Aqua Trekker's Aqua DMG dealt to elite or higher-tier targets by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "4%,3%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Aqua": 15
+      }
+    }
   },
   "214012": {
     "name": "Those with Ambition",
     "element": "Umbra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Umbra DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Those with Ambition",
+      "desc": "Increases the ATK of Umbra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any support Umbra Trekker or Umbra minion inflicts ##Umbra Mark#1019#, the main Umbra Trekker gains a shield equal to {2} of Max HP for {3}s. This effect can only be triggered once every {4}s.",
+      "icon": "DiscSkill_214012",
+      "p1": "10%,15%,20,20"
+    },
+    "secondarySkill1": {
+      "name": "Dark Reckoning",
+      "desc": "When the Umbra Main Trekker gains a shield, increases all friendly units' Umbra DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_10",
+      "p1": "5%,12",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Umbra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Greedy Pursuit",
+      "desc": "When any Trekker triggers ##Umbra Mark#1019#, if the main Trekker has a shield, increases Umbra squadmates' Skill and Ultimate DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_4",
+      "p1": "6%,4",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Skill": 15,
+        "Melody of Umbra": 15
+      }
+    }
   },
   "214013": {
     "name": "Voyage Blueprint",
     "element": "Ignis",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ultimate DMG": "40%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Voyage Blueprint",
+      "desc": "Increases the ATK of Ignis Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Ignis Trekker casts a skill, the main Ignis Trekker gains a shield equal to {2} of Max HP for {3}s. This effect can only be triggered once every {4}s.",
+      "icon": "DiscSkill_214013",
+      "p1": "10%,15%,20,20"
+    },
+    "secondarySkill1": {
+      "name": "Raging Wildfire",
+      "desc": "When the Ignis Main Trekker gains a shield, increases all friendly units' Ignis DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_13",
+      "p1": "5%,12",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Ignis": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Epic Adventure",
+      "desc": "When the main Ignis Trekker deals Skill DMG, if her HP is above {1}, increases the DMG of this hit by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "50%,11%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Skill": 15,
+        "Melody of Ignis": 15
+      }
+    }
   },
   "214014": {
     "name": "Sweet Times",
     "element": "Terra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ultimate DMG": "40%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Sweet Times",
+      "desc": "Increases the ATK of Terra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker triggers ##Terra Mark#1020#, the main Terra Trekker gains a shield equal to {2} of Max HP for {3}s. This effect can only be triggered once every {4}s.",
+      "icon": "DiscSkill_214014",
+      "p1": "10%,15%,20,20"
+    },
+    "secondarySkill1": {
+      "name": "Fruity & Fragrant",
+      "desc": "When the Terra Main Trekker gains a shield, increases all friendly units' Terra DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_11",
+      "p1": "5%,12",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Terra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Juicy & Healthy",
+      "desc": "When any Terra Trekker casts an Ultimate, if the main Trekker has a shield, increases Terra squadmates' Skill DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_4",
+      "p1": "10%,15",
+      "req1": {
+        "Melody of Skill": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Terra": 15
+      }
+    }
   },
   "214015": {
     "name": "Deer's Song",
     "element": "Ventus",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Ventus DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Deer's Song",
+      "desc": "Increases the Skill DMG of Ventus Support Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Ventus Support Trekker deals Skill DMG, inflicts Flowing Fragrance on the target, up to {2} stacks.\nWhen any Ventus Support Trekker deals Skill DMG to a target with max stacks of Flowing Fragrance, removes all stacks and inflicts the following effects on the target: Increases the Skill DMG Taken by the target by <color=#ec6d21>{3}</color> for {4}s, up to {5} stacks.",
+      "icon": "DiscSkill_214015",
+      "p1": "20%,5,1.5%,6,10"
+    },
+    "secondarySkill1": {
+      "name": "Dreamflow Breeze",
+      "desc": "Increases the squad's Ventus DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Ventus Trekker casts a Skill, increases their Skill DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "2.5%,6.5%,10",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Ventus": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Scattered Fragrance",
+      "desc": "When the Ventus Main Trekker deals DMG to a target inflicted with Flowing Fragrance, increases the Ventus DMG of this hit by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_9",
+      "p1": "8%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Luck": 15,
+        "Melody of Ventus": 15
+      }
+    }
   },
   "214016": {
     "name": "Chronicles of Spring",
     "element": "Ventus",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Ventus DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Chronicles of Spring",
+      "desc": "When the Ventus Main Trekker gains 1 stack of Drifting Snow for 10s after casting a skill, stacking up to 3 times.\u000bWhen the Ventus Main Trekker deals Auto Attack DMG, 1/2/3 stacks of Drifting Snow inflict the following on the target: increases Ventus Auto Attack DMG taken by <color=#ec6d21>{1}</color>/<color=#ec6d21>{2}</color>/<color=#ec6d21>{3}</color> for 10s.\u000bWhen the Ventus Main Trekker deals Skill DMG, 1/2/3 stacks of Drifting Snow inflict the following on the target: increases Ventus Skill DMG taken by <color=#ec6d21>{4}</color>/<color=#ec6d21>{5}</color>/<color=#ec6d21>{6}</color> for 10s.",
+      "icon": "DiscSkill_214016",
+      "p1": "6%,12%,18%,2.5%,5%,7.5%"
+    },
+    "secondarySkill1": {
+      "name": "Vernal Zephyr",
+      "desc": "Increases the squad's Ventus DMG by <color=#ec6d21>{1}</color>.\u000bDrifting Snow gains an additional effect: Each stack increases own Auto Attack Crit DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_3",
+      "p1": "6%,6%",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Ventus": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Vitalizing Rain",
+      "desc": "Drifting Snow gains an additional effect: Each stack increases own Skill DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "4%",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Ventus": 15
+      }
+    }
   },
   "214017": {
     "name": "Fireworks",
     "element": "Ignis",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Ignis DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Fireworks",
+      "desc": "The main Ignis Trekker gains {1} stacks of Explosive Flame after casting a skill. Each stack increases Auto Attack DMG by <color=#ec6d21>{2}</color>, stacking up to {3} times. Each ammo used by the main Ignis Trekker grants one additional stack.\u000bWhen Explosive Flame is at max stacks, increases the main Ignis Trekker's Ignis Auto Attack DMG to targets by <color=#ec6d21>{4}</color> for {5}s. All Explosive Flame stacks are removed after {6}s.",
+      "icon": "DiscSkill_214017",
+      "p1": "3,7%,10,10%,12,3"
+    },
+    "secondarySkill1": {
+      "name": "Warmth in the Arms",
+      "desc": "Increases the squad's Ignis DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker triggers ##Ignis Mark#1016#, increases Ignis squadmates' Skill DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_13",
+      "p1": "4%,4%,4",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Ignis": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Fervent Flames",
+      "desc": "Each stack of Explosive Flame additionally grants: Skill DMG +<color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_3",
+      "p1": "1.5%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Luck": 15,
+        "Melody of Ignis": 15
+      }
+    }
   },
   "214018": {
     "name": "Lemon & Black Tea",
     "element": "Ventus",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ventus DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Lemon & Black Tea",
+      "desc": "Increases the squad's Ventus DMG by <color=#ec6d21>{1}</color>.\u000bFor every Destiny Card owned, increases the effect by an additional {2}, stacking up to {3} times.",
+      "icon": "DiscSkill_214018",
+      "p1": "5%,2%,10"
+    },
+    "secondarySkill1": {
+      "name": "Subtle Influence",
+      "desc": "Increases Ventus Trekkers' Ventus DMG dealt to targets with Ventus VUL by <color=#ec6d21>{1}</color>.\u000bReduces the DMG taken by the main Ventus Trekker by {2}.",
+      "icon": "DiscSkill_6",
+      "p1": "2.5%,10%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Lasting Trends",
+      "desc": "For each target killed, increases the ATK of Ventus Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_1",
+      "p1": "0.6%,4,10",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Skill": 15,
+        "Melody of Ventus": 15
+      }
+    }
   },
   "214019": {
     "name": "One Shot, One Down",
     "element": "Ignis",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ignis DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "One Shot, One Down",
+      "desc": "Increases the squad's Ignis DMG by <color=#ec6d21>{1}</color>.\u000bFor every Destiny Card owned, increases the effect by an additional {2}, stacking up to {3} times.",
+      "icon": "DiscSkill_214019",
+      "p1": "5%,2%,10"
+    },
+    "secondarySkill1": {
+      "name": "Windbreaking Shots",
+      "desc": "Increases Ignis Trekkers' Ignis DMG dealt to targets with Ignis VUL by <color=#ec6d21>{1}</color>.\u000bReduces the DMG taken by the main Ignis Trekker by {2}.",
+      "icon": "DiscSkill_6",
+      "p1": "2.5%,10%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Battle Rhapsody",
+      "desc": "Increases Ignis Trekkers' ATK by <color=#ec6d21>{1}</color>.\u000bAfter the battle begins, increases this effect by an additional {3} every {2}s, stacking up to {4} times.",
+      "icon": "DiscSkill_1",
+      "p1": "2.5%,8,1.36%,10",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Ignis": 15
+      }
+    }
   },
   "214020": {
     "name": "Sparkling Moment",
     "element": "Lux",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Lux DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Sparkling Moment",
+      "desc": "Increases the squad's Lux DMG by <color=#ec6d21>{1}</color>.\u000bFor every Destiny Card owned, increases the effect by an additional {2}, stacking up to {3} times.",
+      "icon": "DiscSkill_214020",
+      "p1": "5%,2%,10"
+    },
+    "secondarySkill1": {
+      "name": "Flashing Memories",
+      "desc": "Increases Lux Trekkers' Lux DMG dealt to targets with Lux VUL by <color=#ec6d21>{1}</color>.\u000bReduces the DMG taken by the main Lux Trekker by {2}.",
+      "icon": "DiscSkill_6",
+      "p1": "2.5%,10%",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Radiant Bonds",
+      "desc": "Increases Lux Trekkers' Auto Attack and Skill DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Lux Trekker casts an Ultimate, increases this effect by an additional {2}, stacking up to {3} times.",
+      "icon": "DiscSkill_4",
+      "p1": "3%,3%,6",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Skill": 15,
+        "Melody of Lux": 15
+      }
+    }
   },
   "214021": {
     "name": "United by Fate",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Aqua DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "United by Fate",
+      "desc": "Increases the squad's Aqua DMG by <color=#ec6d21>{1}</color>.\u000bFor every Destiny Card owned, increases the effect by an additional {2}, stacking up to {3} times.",
+      "icon": "DiscSkill_214021",
+      "p1": "5%,2%,10"
+    },
+    "secondarySkill1": {
+      "name": "Unbreakable Trio",
+      "desc": "Increases Aqua Trekkers' Aqua DMG dealt to targets with Aqua VUL by <color=#ec6d21>{1}</color>.\u000bReduces the DMG taken by the main Aqua Trekker by {2}.",
+      "icon": "DiscSkill_6",
+      "p1": "2.5%,10%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Moment of Unity",
+      "desc": "Increases the Auto Attack DMG and Skill DMG of Aqua Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bFor every {2} targets killed, increases this effect by an additional {3}, stacking up to {4} times.",
+      "icon": "DiscSkill_4",
+      "p1": "3%,10,1.8%,10",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Skill": 15,
+        "Melody of Aqua": 15
+      }
+    }
   },
   "214022": {
     "name": "The Meow",
     "element": "Umbra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Umbra DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "The Meow",
+      "desc": "Increases the squad's Umbra DMG by <color=#ec6d21>{1}</color>.\u000bFor every Destiny Card owned, increases the effect by an additional {2}, stacking up to {3} times.",
+      "icon": "DiscSkill_214022",
+      "p1": "5%,2%,10"
+    },
+    "secondarySkill1": {
+      "name": "Moment of Terror",
+      "desc": "Increases Umbra Trekkers' Umbra DMG dealt to targets with Umbra VUL by <color=#ec6d21>{1}</color>.\u000bReduces the DMG taken by the main Umbra Trekker by {2}.",
+      "icon": "DiscSkill_6",
+      "p1": "2.5%,10%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Humble Courage",
+      "desc": "Increases Umbra Trekkers' Skill and Ultimate DMG dealt to normal targets by <color=#ec6d21>{1}</color>.\u000bAfter the battle begins, for {2} normal targets killed in total, increases Umbra Trekkers' Skill and Ultimate DMG dealt to elite or higher-tier targets by {3}.",
+      "icon": "DiscSkill_4",
+      "p1": "3%,50,18%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Umbra": 15
+      }
+    }
   },
   "214023": {
     "name": "Colors Pierce the Grey",
     "element": "Terra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Terra DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Colors Pierce the Grey",
+      "desc": "Increases the squad's Terra DMG by <color=#ec6d21>{1}</color>.\u000bFor every Destiny Card owned, increases the effect by an additional {2}, stacking up to {3} times.",
+      "icon": "DiscSkill_214023",
+      "p1": "5%,2%,10"
+    },
+    "secondarySkill1": {
+      "name": "Street Spirit",
+      "desc": "Increases Terra Trekkers' Terra DMG dealt to targets with Terra VUL by <color=#ec6d21>{1}</color>.\u000bReduces the DMG taken by the main Terra Trekker by {2}.",
+      "icon": "DiscSkill_6",
+      "p1": "2.5%,10%",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Hit and Run",
+      "desc": "Increases the Skill DMG and Ultimate DMG of Terra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bFor every {2} targets killed, increases this effect by an additional {3}, stacking up to {4} times.",
+      "icon": "DiscSkill_4",
+      "p1": "3%,10,1.8%,10",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Skill": 15,
+        "Melody of Terra": 15
+      }
+    }
   },
   "214024": {
     "name": "One, Two, Three, Jump!",
     "element": "Ventus",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ventus DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "One, Two, Three, Jump!",
+      "desc": "When any Ventus Trekker deals Ultimate DMG, increases the Skill DMG of the Ventus Trekkers in the squad by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_214024",
+      "p1": "25%,3"
+    },
+    "secondarySkill1": {
+      "name": "Graceful Dive",
+      "desc": "Increases the Ultimate DMG of Ventus Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker triggers ##Ventus Mark#1017#, increases the ATK of Ventus Trekkers in the squad and their Minions by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "6%,2%,3",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Ventus": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Team Spirit",
+      "desc": "When any Support Ventus Trekker inflicts Marks, increases this Trekker's Skill DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_4",
+      "p1": "7%,3",
+      "req1": {
+        "Melody of Focus": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Ventus": 15
+      }
+    }
   },
   "214026": {
     "name": "Sword Against Stream",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Aqua DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Sword Against Stream",
+      "desc": "Increases the squad's Aqua DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker triggers ##Aqua Mark#1018#, increases all friendly units' Aqua DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_214026",
+      "p1": "15%,15%,4"
+    },
+    "secondarySkill1": {
+      "name": "Splashing Moves",
+      "desc": "After the main Aqua Trekker deals DMG {1} times in total, increases Aqua squadmates' ATK by <color=#ec6d21>{2}</color> for {3}s. This effect can only be triggered once every {4}s.",
+      "icon": "DiscSkill_1",
+      "p1": "20,14%,10,15",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Aqua": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Water Mirror",
+      "desc": "Increases Aqua Trekkers' Skill DMG dealt to elite or higher-tier targets by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "12%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Luck": 15,
+        "Melody of Aqua": 15
+      }
+    }
   },
   "214027": {
     "name": "Mystic Brushstrokes",
     "element": "Ignis",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Ignis DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Mystic Brushstrokes",
+      "desc": "Increases the squad's Ignis DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker triggers ##Ignis Mark#1016#, increases Ignis squadmates' Skill DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_214027",
+      "p1": "10%,15%,4"
+    },
+    "secondarySkill1": {
+      "name": "Wild Brushstrokes",
+      "desc": "Increases Ignis Trekkers' Skill DMG by <color=#ec6d21>{1}</color>. When the target is inflicted with ##Burn#2027#, increases by an additional <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "4%,4%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Ignis": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Power Unleashed",
+      "desc": "When any Ignis Trekker casts a Support Skill, increases the ATK of the main Ignis Trekker and minions by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_1",
+      "p1": "3%,8",
+      "req1": {
+        "Melody of Skill": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Ignis": 15
+      }
+    }
   },
   "214028": {
     "name": "Daylight Garden",
     "element": "Ventus",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Ventus DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Daylight Garden",
+      "desc": "Increases the Auto Attack DMG & Skill DMG of the main Ventus Trekker by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker triggers ##Ventus Mark#1017#, increases the main Ventus Trekker's Ventus DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_214028",
+      "p1": "14%,12%,4"
+    },
+    "secondarySkill1": {
+      "name": "Fragrant Illusion",
+      "desc": "Increases Ventus Trekkers' Ultimate DMG by <color=#ec6d21>{1}</color>.\u000bWhen the main Ventus Trekker deals Ultimate DMG, increases her Ventus DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "8%,4.8%,20",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Ventus": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Swaying Petals",
+      "desc": "After the main Ventus Trekker deals DMG to the same target {1} times, increases the Ventus DMG the target takes by <color=#ec6d21>{2}</color> for {3}s. This effect can only be triggered once every {4}s for the same target.",
+      "icon": "DiscSkill_8",
+      "p1": "10,4%,6,10",
+      "req1": {
+        "Melody of Skill": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Ventus": 15
+      }
+    }
   },
   "214029": {
     "name": "The Cat's Treasure",
     "element": "Ignis",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Ignis DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "The Cat's Treasure",
+      "desc": "When the Ignis Main Trekker casts a skill, increases own Skill DMG by <color=#ec6d21>{1}</color> for 9s and grants 1 stack of Dark Evil Eye for 9s, stacking up to 3 times.\u000bWhen the Ignis Main Trekker deals Skill DMG, 1/2/3 stacks of Dark Evil Eye increase Ignis Skill DMG taken by the target by <color=#ec6d21>{2}</color>/<color=#ec6d21>{3}</color>/<color=#ec6d21>{4}</color> for 9s.",
+      "icon": "DiscSkill_214029",
+      "p1": "25%,5%,10%,15%"
+    },
+    "secondarySkill1": {
+      "name": "Meowth's Curse",
+      "desc": "Increases the squad's Ignis DMG by <color=#ec6d21>{1}</color>.\u000bEach stack of Dark Evil Eye additionally increases own Skill Crit DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_3",
+      "p1": "6%,6%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Ignis": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Doomfire",
+      "desc": "When Dark Evil Eye is at max stacks, increases own Ignis DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_13",
+      "p1": "9%",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Skill": 15,
+        "Melody of Ignis": 15
+      }
+    }
   },
   "214030": {
     "name": "A Moment in the Afternoon",
     "element": "Lux",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Lux DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "A Moment in the Afternoon",
+      "desc": "Increases the squad's Lux DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Lux Trekker deals non-Auto Attack DMG to a target, there is a {2} chance to inflict Shock: increases Lux DMG taken by {3} for {4}s.\u000bReduces the DMG taken by the main Lux Trekker from targets inflicted with Shock by {5}.",
+      "icon": "DiscSkill_214030",
+      "p1": "10%,35%,10%,8,10%"
+    },
+    "secondarySkill1": {
+      "name": "Falling Gleam",
+      "desc": "Increases Lux Trekkers' Skill DMG dealt to targets inflicted with Shock by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%",
+      "req1": {
+        "Melody of Focus": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Relaxing Tea",
+      "desc": "When any Lux Trekker kills a target inflicted with Shock, increases all friendly units' Lux DMG by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_14",
+      "p1": "1%,4,5",
+      "req1": {
+        "Melody of Focus": 15,
+        "Melody of Skill": 15,
+        "Melody of Lux": 15
+      }
+    }
   },
   "214031": {
     "name": "The Clash of Blade and Axe",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Aqua DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "The Clash of Blade and Axe",
+      "desc": "Increases the squad's Aqua DMG by <color=#ec6d21>{1}</color>.\u000bWhen the main Aqua Trekker casts a skill, increases the Skill DMG of Aqua Trekkers in the squad by {2} for {3}s. The main Aqua Trekker gains Bless: reduces DMG taken by {4} for {5}s.",
+      "icon": "DiscSkill_214031",
+      "p1": "10%,8%,8,10%,8"
+    },
+    "secondarySkill1": {
+      "name": "Surging Slash",
+      "desc": "If the Main Trekker has Bless, increases all friendly units' Aqua DMG to elite or higher-tier targets by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_12",
+      "p1": "6%",
+      "req1": {
+        "Melody of Focus": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Preferred Enemy",
+      "desc": "When the target is killed, if the Main Trekker has Bless, increases the ATK of Aqua Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_1",
+      "p1": "1%,4,5",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Focus": 15,
+        "Melody of Aqua": 15
+      }
+    }
   },
   "214032": {
     "name": "Dream Factory of ☆Truth",
     "element": "Umbra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Umbra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Dream Factory of ☆Truth",
+      "desc": "Increases the squad's Umbra DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Umbra Trekker deal non-Auto Attack DMG to a target, there is a {2} chance to inflict Corrosion: increases Umbra DMG taken by {3} for {4}s.\u000bReduces the DMG taken by the main Umbra Trekker from targets inflicted with Corrosion by {5}.",
+      "icon": "DiscSkill_214032",
+      "p1": "10%,35%,10%,8,10%"
+    },
+    "secondarySkill1": {
+      "name": "Veiled Negative",
+      "desc": "When inflicting Corrosion on a target, increases Umbra squadmates' ATK by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_1",
+      "p1": "5%,8",
+      "req1": {
+        "Melody of Burst": 10,
+        "Melody of Skill": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "News Spree",
+      "desc": "When any Umbra Trekker kills a target inflicted with Corrosion, increases all friendly units' Umbra DMG by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_10",
+      "p1": "1%,4,5",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Burst": 15,
+        "Melody of Umbra": 15
+      }
+    }
   },
   "214033": {
     "name": "Dancing with the Bones",
     "element": "Terra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Terra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Dancing with the Bones",
+      "desc": "Increases the squad's Terra DMG by <color=#ec6d21>{1}</color>.\u000bWhen the main Terra Trekker's HP is above {2} when any Terra Trekker deals Skill DMG, increases the DMG of this hit by {3}. The main Terra Trekker gains Boulder: reduces DMG taken by {4}.",
+      "icon": "DiscSkill_214033",
+      "p1": "10%,50%,8.5%,10%"
+    },
+    "secondarySkill1": {
+      "name": "Truth Digger",
+      "desc": "If the Main Trekker is inflicted with Boulder, increases the ATK of Terra Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "5%",
+      "req1": {
+        "Melody of Focus": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Buried Past",
+      "desc": "When the target is killed, if the main Trekker is inflicted with Boulder, increases Terra squadmates' ATK by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_4",
+      "p1": "1.6%,4,5",
+      "req1": {
+        "Melody of Focus": 15,
+        "Melody of Skill": 15,
+        "Melody of Terra": 15
+      }
+    }
   },
   "214036": {
     "name": "The Lost Pilgrim",
     "element": "Terra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Terra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "The Lost Pilgrim",
+      "desc": "Increases the squad's Terra DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker triggers ##Terra Mark#1020#, increases the main Terra Trekker's Skill & Auto Attack DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_214036",
+      "p1": "10%,14%,4"
+    },
+    "secondarySkill1": {
+      "name": "Iron Love Embrace",
+      "desc": "Increases Terra Trekkers' ATK by <color=#ec6d21>{1}</color>.\u000bWhen any Terra Trekker deals Skill DMG, if a support Terra Trekker is on the battlefield, increases the Skill DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "2.5%,5%",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Terra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Prison of Passion",
+      "desc": "When any Trekker triggers ##Terra Mark#1020#, increases the ATK of Terra Trekkers in the squad and their Minions by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_11",
+      "p1": "1%,5,4",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Terra": 15
+      }
+    }
   },
   "214037": {
     "name": "Claw the Claw",
     "element": "Terra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 932,
+      "Terra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Claw the Claw",
+      "desc": "Increases the squad's Terra DMG by <color=#ec6d21>{1}</color>.\u000bWhen a target's ##Terra Mark#1020# is triggered, the target takes <color=#ec6d21>{2}</color> more Terra DMG for {3}s.",
+      "icon": "DiscSkill_214037",
+      "p1": "10%,7.5%,4"
+    },
+    "secondarySkill1": {
+      "name": "Lucky Clip",
+      "desc": "When any Terra Trekker restores HP, increases the squad's Terra DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_11",
+      "p1": "5%,10",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Terra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Record Breaker",
+      "desc": "When a support Trekker deals Skill DMG, increases Terra squadmates' Skill DMG by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_4",
+      "p1": "1.4%,8,6",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Skill": 15,
+        "Melody of Terra": 15
+      }
+    }
   },
   "214038": {
     "name": "Ripples of Nostalgia",
     "element": "Lux",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Lux DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Ripples of Nostalgia",
+      "desc": "Increases the squad's Lux DMG by <color=#ec6d21>{1}</color>.\u000bWhen the main Lux Trekkers deals Ultimate DMG to a target, the target takes <color=#ec6d21>{2}</color> more Lux DMG for {3}s, stacking up to {4} times.",
+      "icon": "DiscSkill_214038",
+      "p1": "15%,2.5%,15,9"
+    },
+    "secondarySkill1": {
+      "name": "Dance of Shimmers",
+      "desc": "Increases the main Lux Trekker's Auto Attack and Skill DMG by <color=#ec6d21>{1}</color>.\u000bWhen the main Lux Trekker deals Skill DMG, increases this effect by an additional <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "5%,4.5%,6",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Lux": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Gleaming Steps",
+      "desc": "After the main Lux Trekker deals Skill DMG {1} times in total, increases the squad's Lux DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_14",
+      "p1": "30,9%,10",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Skill": 15,
+        "Melody of Lux": 15
+      }
+    }
   },
   "214039": {
     "name": "Summer Sanctuary",
     "element": "Lux",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Lux DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Summer Sanctuary",
+      "desc": "Increases the main Lux Trekker's Auto Attack & Skill DMG by <color=#ec6d21>{1}</color>.\u000bIf any Trekker triggers ##Lux Mark#1015# while the main Lux Trekker's Ultimate is active, increases the squad's Lux DMG by <color=#ec6d21>{2}</color> for {3}s, stacking up to {4} times.",
+      "icon": "DiscSkill_214039",
+      "p1": "6%,3%,10,5"
+    },
+    "secondarySkill1": {
+      "name": "Azure Horizon",
+      "desc": "Increases Lux squadmates' Skill DMG by <color=#ec6d21>{1}</color>.\u000bWhen any Lux Trekker casts a skill, increases this effect by an additional <color=#ec6d21>{2}</color> for {3}s, stacking up to {4} times.",
+      "icon": "DiscSkill_4",
+      "p1": "3%,1.5%,10,3",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Lux": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Infinite Sunshine",
+      "desc": "When any Lux Trekker deals Skill DMG, the main Lux Trekker gains 1 stack of Diffraction, stacking up to {1} times.\u000bWhen the main Lux Trekker casts a skill, increases Lux squadmates' Skill DMG by the number of Diffraction stacks x<color=#ec6d21>{2}</color> for {3}s, and removes all the Diffraction stacks.",
+      "icon": "DiscSkill_4",
+      "p1": "6,1%,10",
+      "req1": {
+        "Melody of Focus": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Lux": 15
+      }
+    }
   },
   "214040": {
     "name": "Fist of Courage",
     "element": "Ignis",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ignis DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Fist of Courage",
+      "desc": "The main Ignis Trekker gains 1 stack of Courage when dealing Ultimate DMG, increasing Ultimate DMG by <color=#ec6d21>{1}</color> for {3}s, stacking up to {2} times.",
+      "icon": "DiscSkill_214040",
+      "p1": "4%,10,8"
+    },
+    "secondarySkill1": {
+      "name": "Passion of the Captain",
+      "desc": "Increases the Skill DMG of Ignis Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen an Ignis Trekker deals Skill DMG, increases the ATK of Ignis Trekkers in the squad and their Minions by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "5%,2%,5",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Ignis": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Inspiration of Courage",
+      "desc": "When the duration of Courage ends, each stack of Courage increases the main Ignis Trekker's Auto Attack DMG by <color=#ec6d21>{1}</color> and grants {2} DEF for {3}s.",
+      "icon": "DiscSkill_1",
+      "p1": "1.5%,6,27",
+      "req1": {
+        "Melody of Burst": 15,
+        "Melody of Skill": 15,
+        "Melody of Ignis": 15
+      }
+    }
   },
   "214041": {
     "name": "A Gift for the Journey",
     "element": "Ignis",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ignis DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "A Gift for the Journey",
+      "desc": "Increases the ATK of Ignis Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen an Ignis Support Trekker's minion is present, increases Minion DMG dealt by Ignis Trekkers' minions in the squad by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_214041",
+      "p1": "5%,8%"
+    },
+    "secondarySkill1": {
+      "name": "Salutes Boomed",
+      "desc": "Increases the Main Ignis Trekker's Skill DMG by <color=#ec6d21>{1}</color>.\u000bIncreases Support Ignis Trekkers' Minion DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "2.4%,5%",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Skill": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Holy Night Revelry",
+      "desc": "When at least two Ignis Trekker's minions are present, increases the Ultimate DMG of Ignis Trekkers in the squad by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "12%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Burst": 15,
+        "Melody of Ignis": 15
+      }
+    }
   },
   "214042": {
     "name": "Wine Warm, Lamps Alight",
     "element": "Terra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Terra DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Wine Warm, Lamps Alight",
+      "desc": "Increases the Ultimate DMG of Terra Trekkers in the squad by <color=#ec6d21>{1}</color>. When a Versatile Terra Trekker deals Skill DMG, increases the effect by an additional <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_214042",
+      "p1": "10%,20%,4"
+    },
+    "secondarySkill1": {
+      "name": "Eternal Pulse",
+      "desc": "Increases Terra Versatile Trekkers' ATK by <color=#ec6d21>{1}</color>.\u000bIncreases the main Terra Trekker's Auto Attack DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "2%,5%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Terra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Bright Refrain",
+      "desc": "After the main Terra Trekker deals DMG {1} times, increases own ATK by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_1",
+      "p1": "10,5%,5",
+      "req1": {
+        "Melody of Focus": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Terra": 15
+      }
+    }
   },
   "214043": {
     "name": "The Bud of Change",
     "element": "Umbra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Umbra DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "The Bud of Change",
+      "desc": "Increases DMG of Umbra Trekkers' Minions by <color=#ec6d21>{1}</color>.\u000bWhen the main Umbra Trekker summons a Minion, increases the Minion's DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_214043",
+      "p1": "5%,12%,10"
+    },
+    "secondarySkill1": {
+      "name": "Shadow Mastermind",
+      "desc": "When any Umbra Trekker triggers a Mark that inflicts ##Dark Burn#2028#, increases their minions' Minion DMG by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_4",
+      "p1": "6%,4",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Umbra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Growing Ambition",
+      "desc": "Increases the Skill DMG dealt to targets inflicted with ##Dark Burn#2028# by the main Umbra Trekker by <color=#ec6d21>{1}</color>.\u000bIncreases the Minion DMG dealt to targets inflicted with ##Dark Burn#2028# by the main Umbra Trekker's minions by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "5%,2%",
+      "req1": {
+        "Melody of Burst": 15,
+        "Melody of Skill": 15,
+        "Melody of Umbra": 15
+      }
+    }
   },
   "214044": {
     "name": "Veiled Dawn of Spring",
     "element": "Terra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Terra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Veiled Dawn of Spring",
+      "desc": "Increases Skill DMG of Support Terra Trekkers by <color=#ec6d21>{1}</color>.\u000bWhen a Versatile Terra Trekker deals Skill DMG, inflicts Spring Blossom on the target: increases Terra Skill DMG taken by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_214044",
+      "p1": "20%,15%,4"
+    },
+    "secondarySkill1": {
+      "name": "The Sovereign Elixir",
+      "desc": "Increases Terra Versatile Trekkers' Skill Crit DMG by <color=#ec6d21>{1}</color>.\u000bIncreases the main Terra Trekker's Skill DMG to targets inflicted with Spring Blossom by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_3",
+      "p1": "15%,12%",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Terra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Blossom's Requiring",
+      "desc": "After the main Terra Trekker deals DMG to targets inflicted with Spring Blossom {1} times, increases Terra squadmates' Skill DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_4",
+      "p1": "10,10%,5",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Terra": 15
+      }
+    }
   },
   "214045": {
     "name": "Petals of Blooming Mirage",
     "element": "Umbra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Umbra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Petals of Blooming Mirage",
+      "desc": "Increases the squad's Umbra DMG by <color=#ec6d21>{1}</color>.\u000bWhen an Umbra Versatile Trekker deals Skill DMG, inflicts 1 stack of Dark Sakura on the target for {2}s, stacking up to {3} times. Dark Sakura: At max stacks, increases Umbra Skill DMG Taken by <color=#ec6d21>{4}</color>.",
+      "icon": "DiscSkill_214045",
+      "p1": "20%,5,20,15%"
+    },
+    "secondarySkill1": {
+      "name": "Fading Petals",
+      "desc": "Increases Umbra Versatile Trekkers' Crit DMG by <color=#ec6d21>{1}</color>.\u000bDark Sakura gains an additional effect: Each stack increases the Umbra Ultimate DMG Taken by the target by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_3",
+      "p1": "15%,0.6%",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Umbra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Lunar Mirage",
+      "desc": "When an Umbra Versatile Trekker deals Ultimate DMG to a target with max stacks of Dark Sakura, the Main Umbra Trekker gains Flower Feast for {1}s.\u000bWhen the Main Umbra Trekker with Flower Feast triggers a mark that inflicts ##Dark Burn#2028#, increases own Skill Crit Rate by <color=#ec6d21>{2}</color> for {3}s.\u000bWhen the Main Umbra Trekker with Flower Feast triggers a mark to activate the effects of ##Dark Shackles#2020#, increases own Auto Attack Crit DMG by <color=#ec6d21>{4}</color> for {5}s.",
+      "icon": "DiscSkill_3",
+      "p1": "5,7.5%,30,15%,30",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Luck": 15,
+        "Melody of Umbra": 15
+      }
+    }
   },
   "214046": {
     "name": "Dawn After Winter",
     "element": "Ventus",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ventus DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Dawn After Winter",
+      "desc": "When the Ventus Main Trekker deals Ultimate DMG, they gain 1 stack of Bitter Cold: increases Auto Attack and Skill DMG by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.",
+      "icon": "DiscSkill_214046",
+      "p1": "3%,25,10"
+    },
+    "secondarySkill1": {
+      "name": "Weightless Tread",
+      "desc": "Increases the Ultimate DMG of the main Ventus Trekker by <color=#ec6d21>{1}</color>.\u000bBitter Cold gains an additional effect: Each stack increases own ATK by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "7%,0.5%",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Silent Descent",
+      "desc": "Bitter Cold gains an additional effect: Each stack increases own Ventus DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "1%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Focus": 15,
+        "Melody of Ventus": 15
+      }
+    }
   },
   "214047": {
     "name": "Delivered by the Breeze",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Aqua DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Delivered by the Breeze",
+      "desc": "When an Aqua Versatile Trekker deals Skill DMG, the Aqua Main Trekker gains 1 stack of Thought Ripple for {1}s, stacking up to {2} times.\u000bAt {3} stacks, increases the Aqua DMG dealt by all friendly units by <color=#ec6d21>{4}</color>.\u000bAt {5} stacks, increases the Skill DMG dealt by Aqua Trekkers in the squad by an additional <color=#ec6d21>{6}</color>.",
+      "icon": "DiscSkill_214047",
+      "p1": "5,20,10,5%,20,6%"
+    },
+    "secondarySkill1": {
+      "name": "Words into Longing",
+      "desc": "Increases the ATK of Aqua Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bThought Ripple gains an additional effect: Each stack increases own Auto Attack DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "3%,0.4%",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Aqua": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Words of Endless Devotion",
+      "desc": "Thought Ripple gains an additional effect: Each stack increases own Ultimate DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "0.7%",
+      "req1": {
+        "Melody of Focus": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Aqua": 15
+      }
+    }
   },
   "214048": {
     "name": "Snowy Night Surprise",
     "element": "Ignis",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Ignis DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Snowy Night Surprise",
+      "desc": "Increases Ignis DMG of the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Ignis Trekker deals Skill DMG, inflicts ##Ode#6002#, lasting {2}s.\u000bOde can be converted into Hymn.\u000bHymn: Increase Ignis DMG Taken by <color=#ec6d21>{3}</color> for {4}s, stacking up to {5} times.",
+      "icon": "DiscSkill_214048",
+      "p1": "20%,12.25,1%,18,15"
+    },
+    "secondarySkill1": {
+      "name": "Kingdom of Fries",
+      "desc": "Hymn grants extra effects: Increases the Ignis Skill DMG Taken by <color=#ec6d21>{1}</color>.\u000bWhen ##Ode#6002# is converted to Hymn, increases the Skill DMG of Ignis Trekkers in the squad by <color=#ec6d21>{2}</color> for {3}s, stacking up to {4} times.",
+      "icon": "DiscSkill_8",
+      "p1": "0.5%,1%,15,4",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Ignis": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Crispy Crunch",
+      "desc": "##Ode#6002# grants extra effects: Reduces enemy ATK by <color=#ec6d21>{1}</color>.\u000bIgnis Trekkers in the squad deal increased Ultimate DMG to targets inflicted with Ode by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "1%,20%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Luck": 15,
+        "Melody of Ignis": 15
+      }
+    }
   },
   "214049": {
     "name": "Traces of Starlight",
     "element": "None",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "HP": 6990,
+      "ATK": 883
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Traces of Starlight",
+      "desc": "When the main Trekker's HP drops below 10%, instantly gains a shield equal to <color=#ec6d21>{1}</color> of Max HP for {2}s. This effect can only be triggered once every {3}s.",
+      "icon": "DiscSkill_214049",
+      "p1": "20%,20,30"
+    },
+    "secondarySkill1": {
+      "name": "Starlight Journey",
+      "desc": "Increases the squad's ATK by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "10%,10%%",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Stamina": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Memory Resonance",
+      "desc": "Increases the squad's Elemental DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "10%,10%%",
+      "req1": {
+        "Melody of Focus": 15,
+        "Melody of Skill": 15,
+        "Melody of Ultimate": 15
+      }
+    }
   },
   "214050": {
     "name": "Phantom of the Banquet",
     "element": "Umbra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Umbra DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Phantom of the Banquet",
+      "desc": "Increases the squad's Umbra DMG by <color=#ec6d21>{1}</color>.\u000bWhen an Umbra Versatile Trekker deals Skill DMG, the Umbra Main Trekker gains 1 stack of Blossom Glow for {2}s, stacking up to {3} times. At max stacks, increases the Skill DMG dealt by Umbra Trekkers in the squad by <color=#ec6d21>{4}</color>.",
+      "icon": "DiscSkill_214050",
+      "p1": "5%,5,20,6%"
+    },
+    "secondarySkill1": {
+      "name": "Umbral Harmony",
+      "desc": "Increases Umbra Versatile Trekkers' Ultimate DMG by <color=#ec6d21>{1}</color>.\u000bBlossom Glow gains an additional effect: Each stack increases own Skill DMG and Ultimate DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "6%,0.4%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Umbra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "A Toast Behind the Scenes",
+      "desc": "When the Main Umbra Trekker with max stacks of Blossom Glow triggers a mark that activates the effects of ##Dark Burn#2028#, increases own Skill DMG by <color=#ec6d21>{1}</color> for {2}s.\u000bWhen the Main Umbra Trekker with max stacks of Blossom Glow triggers a mark that inflicts ##Dark Shackles#2020#, increases own Auto Attack DMG by <color=#ec6d21>{3}</color> for {4}s.",
+      "icon": "DiscSkill_4",
+      "p1": "7%,5,7%,5",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Burst": 15,
+        "Melody of Umbra": 15
+      }
+    }
   },
   "214051": {
     "name": "Stellar Destination",
     "element": "Lux",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Lux DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Stellar Destination",
+      "desc": "Lux Versatile Trekkers gain 1 stack of Sync Rate per second on the battlefield: Each stack increases their Lux DMG by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.\u000bWhen Sync Rate is at max stacks, dealing DMG additionally inflicts Hostile Reaction on the target: Increases the Lux Auto ATK DMG the target takes by <color=#ec6d21>{4}</color> for {5}s.",
+      "icon": "DiscSkill_214051",
+      "p1": "3%,8,10,10%,10"
+    },
+    "secondarySkill1": {
+      "name": "Start Conversation",
+      "desc": "Increases the squad's Lux DMG by <color=#ec6d21>{1}</color>.\u000bSync Rate gains an additional effect: Each stack increases own Crit DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_3",
+      "p1": "4%,2%",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Lux": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Mutual Understanding",
+      "desc": "When the Lux Main Trekker triggers a mark on a target with Hostile Reaction and inflicts ##Thunderbolt#4027#, increases own Ultimate Crit DMG by <color=#ec6d21>{1}</color> for {2}s.\u000bWhen the Lux Main Trekker triggers a mark on a target with Hostile Reaction and inflicts ##Lucent#4028#, increases own Skill Crit DMG by <color=#ec6d21>{3}</color> for {4}s.",
+      "icon": "DiscSkill_3",
+      "p1": "15%,5,15%,5",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Lux": 15
+      }
+    }
   },
   "214052": {
     "name": "Touch of Miracle",
     "element": "Terra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Terra DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Touch of Miracle",
+      "desc": "When a Terra Vanguard Trekker casts a skill, they gain Assembly for {1}s, stacking up to 2 times.\u000bWhen a Terra Vanguard Trekker has 1 stack of Assembly, increases their Skill DMG by <color=#ec6d21>{2}</color>.\u000bWhen a Terra Vanguard Trekker has 2 stacks of Assembly, increases their ATK by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_214052",
+      "p1": "15,7%,5%"
+    },
+    "secondarySkill1": {
+      "name": "Sky of Fantasy",
+      "desc": "Increases the squad's Terra DMG by <color=#ec6d21>{1}</color>.\u000bEach stack of Assembly gains an additional effect: increases own Skill DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "1%,1.4%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Ultimate": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Construction Blueprint",
+      "desc": "Assembly can stack up to 3 times.\u000bWhen a Terra Vanguard Trekker has 3 stacks of Assembly, increases own Ultimate DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "12%",
+      "req1": {
+        "Melody of Focus": 15,
+        "Melody of Skill": 15,
+        "Melody of Terra": 15
+      }
+    }
   },
   "214053": {
     "name": "Joyful Gathering",
     "element": "Ignis",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ignis DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Joyful Gathering",
+      "desc": "When the Ignis Main Trekker casts a skill, increases own Skill DMG by <color=#ec6d21>{1}</color> for 12s and grants 1 stack of Dark Blessing for 12s, stacking up to 3 times.\u000bWhen the Ignis Main Trekker deals Skill DMG, 1/2/3 stacks of Dark Blessing grant a shield equal to <color=#ec6d21>{2}</color>/<color=#ec6d21>{3}</color>/<color=#ec6d21>{4}</color> of Base Max HP for 20s to self. This effect can be triggered once every 30s.",
+      "icon": "DiscSkill_214053",
+      "p1": "10%,2%,4%,6%"
+    },
+    "secondarySkill1": {
+      "name": "Meowth's Triumph",
+      "desc": "Each stack of Dark Blessing additionally increases own Skill DMG by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "1.5%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Ignis": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Dark Ceremony",
+      "desc": "Increases the ATK of Ignis Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen Dark Blessing is at max stacks, increases own Ultimate DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "2%,8%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Burst": 15,
+        "Melody of Ignis": 15
+      }
+    }
   },
   "214054": {
     "name": "Little Paradise",
     "element": "Terra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Terra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Little Paradise",
+      "desc": "After a Terra Vanguard Trekker casts a skill, they gain Loaded for {1}s, stacking up to 2 times.\u000bWhen a Terra Vanguard Trekker has 1 stack of Loaded, dealing Skill DMG inflicts the following effects on the target: increases Terra Skill DMG Taken by <color=#ec6d21>{2}</color> for {3}s.\u000bWhen a Terra Vanguard Trekker has 2 stacks of Loaded, increases their Skill DMG by <color=#ec6d21>{4}</color>.",
+      "icon": "DiscSkill_214054",
+      "p1": "15,15%,10,25%"
+    },
+    "secondarySkill1": {
+      "name": "Clockwork Waltz",
+      "desc": "Increases the squad's Terra DMG by <color=#ec6d21>{1}</color>.\u000bEach stack of Loaded gains an additional effect: increases own Skill Crit DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_3",
+      "p1": "6%,6%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Terra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Symphony Box",
+      "desc": "Loaded can stack up to 3 times.\u000bWhen a Terra Vanguard Trekker has 3 stacks of Loaded, increases own ATK by <color=#ec6d21>{1}</color>",
+      "icon": "DiscSkill_1",
+      "p1": "8%",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Skill": 15,
+        "Melody of Terra": 15
+      }
+    }
   },
   "214055": {
     "name": "Fleeting Glimmers",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Auto Attack DMG": "35%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Fleeting Glimmers",
+      "desc": "Increases the squad's Aqua DMG by <color=#ec6d21>{1}</color>.\u000bWhen an Aqua Support Trekker casts a skill or for every 5s they are on the field, grants Tide Weave to the squad for {2}s, stacking up to {3} times.\u000bWhen a Trekker with Tide Weave inflicts ##Aqua Mark#1018# to a target, it additionally increases this target's Aqua Skill DMG Taken by <color=#ec6d21>{4}</color> for {5}s.",
+      "icon": "DiscSkill_214055",
+      "p1": "20%,6,4,15%,4"
+    },
+    "secondarySkill1": {
+      "name": "Azure Echo",
+      "desc": "Increases the Crit DMG of Aqua Trekkers by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker with Tide Weave triggers an ##Aqua Mark#1018#, the target takes <color=#ec6d21>{2}</color> increased Aqua Auto Attack DMG for {3}s.",
+      "icon": "DiscSkill_3",
+      "p1": "12%,10%,4",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Aqua": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Sun-Kissed Sands",
+      "desc": "Tide Weave gains an additional effect: Each stack increases own Aqua DMG by <color=#ec6d21>{1}</color>, and increases the ATK of Aqua Support Trekkers by an additional <color=#ec6d21>{2}</color> per stack.\u000bAfter an Aqua Support Trekker casts their Ultimate, each stack of Tide Weave they possess restores Energy equal to <color=#ec6d21>{3}</color> of their Max Energy, up to <color=#ec6d21>{4}</color>.",
+      "icon": "DiscSkill_7",
+      "p1": "2%,2%,1.5%,20",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Luck": 15,
+        "Melody of Aqua": 15
+      }
+    }
   },
   "214056": {
     "name": "Dappled Sunlight",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Aqua DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Dappled Sunlight",
+      "desc": "When an Aqua Support Trekker casts a Skill, or every 5s they are on the field, they grant 1 stack of Ripple Echo to the entire squad: Increases Aqua DMG by <color=#ec6d21>{1}</color> for {2}s, stacking up to {3} times.\u000bWhen a Trekker granted Ripple Echo triggers ##Aqua Mark#1018#, increases this Trekker's ATK by <color=#ec6d21>{4}</color> for {5}s.",
+      "icon": "DiscSkill_214056",
+      "p1": "2.5%,6,2,5%,10"
+    },
+    "secondarySkill1": {
+      "name": "Summer Time Whispers",
+      "desc": "Increases the Ultimate DMG of Aqua Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bRipple Echo gains an additional effect: Each stack increases own Aqua DMG dealt by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_12",
+      "p1": "6%,1%",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Aqua": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Summer Isle Song",
+      "desc": "When Ripple Echo is at max stacks, increases own Aqua Skill DMG by an additional <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "4.5%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Focus": 15,
+        "Melody of Aqua": 15
+      }
+    }
   },
   "214057": {
     "name": "Ride the Waves With Me",
     "element": "Umbra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Umbra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Ride the Waves with Me",
+      "desc": "The Umbra Main Trekker gains Dark Tide for 15s after dealing Ultimate DMG, stacking up to 3 times.\u000bWhen the Umbra Main Trekker deals Auto Attack DMG, 1/2/3 stacks of Dark Tide inflict the following on the target: increases Umbra Auto Attack DMG Taken by <color=#ec6d21>{1}</color>/<color=#ec6d21>{2}</color>/<color=#ec6d21>{3}</color> for 10s.\u000bWhen the Umbra Main Trekker deals Ultimate DMG, 1/2/3 stacks of Dark Tide inflict the following on the target: increases Umbra Ultimate DMG Taken by <color=#ec6d21>{4}</color>/<color=#ec6d21>{5}</color>/<color=#ec6d21>{6}</color> for 10s.",
+      "icon": "DiscSkill_214057",
+      "p1": "5%,10%,15%,3%,6%,9%"
+    },
+    "secondarySkill1": {
+      "name": "Wave Riding",
+      "desc": "Increases the Ultimate Crit DMG dealt by Umbra Trekkers in the squad to targets inflicted with ##Dark Burn#2028# by <color=#ec6d21>{1}</color>.\u000bDark Tide gains an additional effect: Each stack increases own Ultimate DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "15%,4%",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Umbra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Solo Voyage",
+      "desc": "Increases the Auto Attack DMG dealt by Umbra Trekkers in the squad to elite or higher-tier targets by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Ultimate": 15,
+        "Melody of Umbra": 15
+      }
+    }
   },
   "214058": {
     "name": "Summer March",
     "element": "Umbra",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Umbra DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Summer March",
+      "desc": "Increases the Umbra Main Trekker's Auto Attack and Ultimate DMG by <color=#ec6d21>{1}</color>.\u000bThe Umbra Main Trekker gains Surging Wave for {2}s when casting a skill, stacking up to {3} times.\u000bWhen a Trekker with Surging Wave deals Ultimate DMG, increases the Umbra DMG dealt by Umbra Trekkers in the squad and their Minions by <color=#ec6d21>{4}</color> for {5}s.",
+      "icon": "DiscSkill_214058",
+      "p1": "7%,15,2,5%,30"
+    },
+    "secondarySkill1": {
+      "name": "Joyful Wave",
+      "desc": "When the Umbra Main Trekker triggers a mark and inflicts ##Dark Burn#2028# on a target, increases own Auto Attack DMG by <color=#ec6d21>{1}</color> for {2}s.\u000bWhen Surging Wave is at max stacks, increases the Umbra DMG dealt by Umbra Trekkers in the squad and their Minions by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "2.5%,10,2%",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Skill": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Undying Passion",
+      "desc": "Surging Wave gains an additional effect: Each stack increases own ATK by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "2.4%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Burst": 15,
+        "Melody of Umbra": 15
+      }
+    }
   },
   "214059": {
     "name": "Fly, O Caged Bird",
     "element": "Ventus",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Ventus DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Fly, O Caged Bird",
+      "desc": "When a Ventus Versatile Trekker is on the battlefield, grants 1 stack of Starlit Hope on the Main Trekker for {1}s, stacking up to 10 times.\u000bWhen a Trekker with 5 stacks or more of Starlit Hope deals DMG, inflicts the following on the target: increases Ventus Skill DMG Taken by <color=#ec6d21>{2}</color> for {3}s.\u000bWhen a Trekker with 10 stacks of Starlit Hope deals DMG, additionally inflicts the following on the target: increases Ventus Auto Attack DMG Taken by <color=#ec6d21>{4}</color> for {5}s.",
+      "icon": "DiscSkill_214059",
+      "p1": "12,10%,5,15%,5"
+    },
+    "secondarySkill1": {
+      "name": "Wings of Dream",
+      "desc": "Increases Ventus Versatile Trekkers' Auto Attack DMG and Skill DMG by <color=#ec6d21>{1}</color>.\u000bStarlit Hope gains an additional effect: Each stack increases own Skill Crit DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_3",
+      "p1": "5%,1.5%",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Ventus": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Voice of the Future",
+      "desc": "When a Trekker with Starlit Hope triggers a Mark that inflicts Cyclone, increases the squad's Ventus Auto Attack DMG by <color=#ec6d21>{1}</color> for {2}s.\u000bWhen a Trekker with Starlit Hope triggers a Mark that inflicts Blossom, increases the squad's Ventus Skill DMG by <color=#ec6d21>{3}</color> for {4}s.",
+      "icon": "DiscSkill_4",
+      "p1": "7.5%,10,7.5%,10",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Luck": 15,
+        "Melody of Ventus": 15
+      }
+    }
   },
   "214060": {
     "name": "Moment of Glory",
     "element": "Ventus",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Ventus DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Moment of Glory",
+      "desc": "When a Ventus Versatile Trekker deals Auto Attack and Skill DMG, the Ventus Main Trekker gains 1 stack of Glory for {1}s, stacking up to {2} times.\u000bAt 10 stacks, increases the Ventus DMG dealt by Ventus Trekkers in the squad by <color=#ec6d21>{3}</color>.\u000bAt 20 stacks, increases the Auto Attack DMG dealt by Ventus Trekkers in the squad by an additional <color=#ec6d21>{4}</color>.",
+      "icon": "DiscSkill_214060",
+      "p1": "15,20,5%,5%"
+    },
+    "secondarySkill1": {
+      "name": "Path of Radiance",
+      "desc": "Increases the ATK of Ventus squadmates by <color=#ec6d21>{1}</color>.\u000bGlory gains an additional effect: Each stack increases own Skill DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_1",
+      "p1": "2.4%,0.1%",
+      "req1": {
+        "Melody of Ultimate": 10,
+        "Melody of Ventus": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Bright Prospects",
+      "desc": "When Glory is at max stacks, increases Ventus squadmates' Ventus DMG dealt by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_10",
+      "p1": "4%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Focus": 15,
+        "Melody of Ventus": 15
+      }
+    }
   },
   "214061": {
     "name": "Bedtime Story",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 981,
+      "Aqua DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Bedtime Story",
+      "desc": "When the Aqua Main Trekker casts a skill or Ultimate, gains 1 stack of Storybook: increases Skill DMG by <color=#ec6d21>{1}</color> for {2}s, up to 3 stacks.\u000bWhen a Trekker with Storybook deals DMG to a target, increases the target's Aqua Skill DMG Taken and Aqua Mark DMG Taken by <color=#ec6d21>{3}</color> for {4}s.",
+      "icon": "DiscSkill_214061",
+      "p1": "7.5%,20,12%,4"
+    },
+    "secondarySkill1": {
+      "name": "New Start Book",
+      "desc": "Increases the squad's Aqua Skill DMG by <color=#ec6d21>{1}</color>.\u000bAfter the Aqua Main Trekker triggers ##Aqua Mark#1018#, gains stacks of Reverie equal to the current stacks of Storybook: increases Mark DMG by <color=#ec6d21>{2}</color> for {3}s, up to 10 stacks.",
+      "icon": "DiscSkill_4",
+      "p1": "4%,3%,8",
+      "req1": {
+        "Melody of Pummel": 10,
+        "Melody of Aqua": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Innocent Reverie",
+      "desc": "When the Aqua Main Trekker gains Reverie, increases the squad's Aqua DMG dealt by <color=#ec6d21>{1}</color> for {2}s.\u000bWhen Reverie is at max stacks, increases own Skill Crit DMG by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_12",
+      "p1": "10%,8,18%",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Luck": 15,
+        "Melody of Aqua": 15
+      }
+    }
   },
   "214062": {
     "name": "All That Was Beautiful",
     "element": "Aqua",
-    "star": 5
+    "star": 5,
+    "maxStat": {
+      "ATK": 883,
+      "Aqua DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "All That Was Beautiful",
+      "desc": "When the Aqua Main Trekker triggers ##Aqua Mark#1018# or takes DMG, gains 1 stack of Hope for {1}s, up to 6 stacks.\u000bWhen Hope reaches 3 stacks, increases the squad's Aqua Skill DMG dealt by <color=#ec6d21>{2}</color>.\u000bWhen Hope reaches 6 stacks, increases own Mark DMG by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_214062",
+      "p1": "8,6%,15%"
+    },
+    "secondarySkill1": {
+      "name": "Glimmer of Yore",
+      "desc": "When Hope is at max stacks, increases Aqua Main Trekker's ATK by <color=#ec6d21>{1}</color>. Dealing DMG inflicts Lingering Wish on the target for {2}s.\u000bTo targets inflicted with Lingering Wish, increases the squad's Aqua Skill DMG dealt by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "2.4%,3,2.5%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Aqua": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Shadow of the Past",
+      "desc": "When the Aqua Main Trekker inflicts Lingering Wish, increases the squad's ATK by <color=#ec6d21>{1}</color> for {2}s.",
+      "icon": "DiscSkill_1",
+      "p1": "4%,5",
+      "req1": {
+        "Melody of Pummel": 15,
+        "Melody of Skill": 15,
+        "Melody of Aqua": 15
+      }
+    }
   }
 }

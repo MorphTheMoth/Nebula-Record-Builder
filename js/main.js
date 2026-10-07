@@ -581,6 +581,10 @@ document.addEventListener('click', (e) => {
   if (tt && tt.style.display !== 'none' && !e.target.closest('.pot-item img, [data-id], #recordPngImage')) {
     tt.style.display = 'none';
   }
+  const dt = document.querySelector('.disc-tooltip');
+  if (dt && dt.style.display !== 'none' && !e.target.closest('.disc-option, .disc-thumb, [data-id], #recordPngImage')) {
+    dt.style.display = 'none';
+  }
   const vm = document.querySelector('.head-variant-menu');
   if (vm && !e.target.closest('.head-variant-menu, .char-head-click')) {
     vm.remove();
@@ -590,4 +594,6 @@ document.addEventListener('click', (e) => {
 document.addEventListener('touchmove', () => {
   const tt = document.querySelector('.pot-tooltip');
   if (tt) tt.style.display = 'none';
+  const dt = document.querySelector('.disc-tooltip');
+  if (dt) dt.style.display = 'none';
 }, { passive: true });
