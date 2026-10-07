@@ -91,7 +91,8 @@ def slim_copy(raw):
 def save(name, data, out_dir=OUT_DIR):
     path = os.path.join(out_dir, name)
     with open(path, 'w') as f:
-        json.dump(data, f, ensure_ascii=False)
+        json.dump(data, f, ensure_ascii=False, indent=2)
+        f.write('\n')
 
 def main():
     ap = argparse.ArgumentParser(description='Slim upstream JSONs into data/')
