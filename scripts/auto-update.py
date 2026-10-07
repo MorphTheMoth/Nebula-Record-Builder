@@ -19,6 +19,8 @@ Auth for pushing: $GITHUB_TOKEN env var, or ~/.nebula-github-token (chmod 600).
 Usage:
   python3 scripts/auto-update.py          # check, rebuild, commit, push
   python3 scripts/auto-update.py --check  # report only, make no changes
+  python3 scripts/auto-update.py --heads  # force head image sweep even if
+                                          # ssassets HEAD is unchanged
 """
 import hashlib
 import json
@@ -30,6 +32,8 @@ import urllib.request
 REPO = 'https://github.com/MorphTheMoth/Nebula-Record-Builder.git'
 SSDATA_GIT_URL = 'https://github.com/MakoStar/ss-data.git'
 SSDATA_API_COMMIT = 'https://api.github.com/repos/MakoStar/ss-data/commits/main'
+SSASSETS_GIT_URL = 'https://github.com/AutumnVN/ssassets.git'
+SSASSETS_API_COMMIT = 'https://api.github.com/repos/AutumnVN/ssassets/commits/main'
 # Legacy fallback sources (parsed files only exist on the mirror).
 LEGACY_RAW = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/main/'
 LEGACY_SOURCES = [
@@ -49,23 +53,31 @@ def git(*args, check=True):
                           capture_output=True, text=True)
 
 
-def ssdata_head_sha():
-    """Resolve ss-data main HEAD without a full clone. Tries ls-remote, then API."""
+def remote_head_sha(git_url, api_commit_url, label):
+    """Resolve a repo's main HEAD without a full clone. Tries ls-remote, then API."""
     try:
-        out = subprocess.run(['git', 'ls-remote', SSDATA_GIT_URL, 'HEAD'],
+        out = subprocess.run(['git', 'ls-remote', git_url, 'HEAD'],
                              capture_output=True, text=True, timeout=30)
         if out.returncode == 0 and out.stdout.strip():
             return out.stdout.strip().split()[0]
     except Exception as exc:
-        print(f'[auto-update] git ls-remote failed: {exc}')
+        print(f'[auto-update] git ls-remote ({label}) failed: {exc}')
     try:
         req = urllib.request.Request(
-            SSDATA_API_COMMIT, headers={'User-Agent': 'nebula-auto-update/1.0'})
+            api_commit_url, headers={'User-Agent': 'nebula-auto-update/1.0'})
         with urllib.request.urlopen(req, timeout=30) as resp:
             return json.load(resp)['sha']
     except Exception as exc:
-        print(f'[auto-update] ss-data API check failed: {exc}')
+        print(f'[auto-update] {label} API check failed: {exc}')
     return None
+
+
+def ssdata_head_sha():
+    return remote_head_sha(SSDATA_GIT_URL, SSDATA_API_COMMIT, 'ss-data')
+
+
+def ssassets_head_sha():
+    return remote_head_sha(SSASSETS_GIT_URL, SSASSETS_API_COMMIT, 'ssassets')
 
 
 def fetch_sha(path):
@@ -164,6 +176,7 @@ def rebuild_from_ssdata():
 
 def main():
     check_only = '--check' in sys.argv
+    force_heads = '--heads' in sys.argv
     os.chdir(ROOT)
 
     # Always sync with GitHub first, so we don't diverge and --check is accurate.
@@ -179,60 +192,80 @@ def main():
         except Exception:
             prev = {}
 
-    new_sha = ssdata_head_sha()
-    if new_sha is None:
+    new_data_sha = ssdata_head_sha()
+    if new_data_sha is None:
         print('[auto-update] could not resolve ss-data HEAD; '
               'data rebuild skipped this run.')
         has_data_changed = False
-    elif prev.get('ss-data') != new_sha:
+    elif prev.get('ss-data') != new_data_sha:
         print(f'[auto-update] ss-data moved: '
-              f'{prev.get("ss-data", "(unknown)")[:12]} -> {new_sha[:12]}')
+              f'{str(prev.get("ss-data", "(unknown)"))[:12]} -> {new_data_sha[:12]}')
         has_data_changed = True
     else:
-        print(f'[auto-update] ss-data unchanged at {new_sha[:12]}.')
+        print(f'[auto-update] ss-data unchanged at {new_data_sha[:12]}.')
         has_data_changed = False
+
+    # Heads (~40 probes per sweep) are gated the same way: a single
+    # ls-remote on ssassets decides whether the per-character sweep runs.
+    new_heads_sha = ssassets_head_sha()
+    if new_heads_sha is None:
+        print('[auto-update] could not resolve ssassets HEAD; '
+              'head images skipped this run.')
+        has_heads_changed = False
+    elif force_heads or prev.get('ssassets') != new_heads_sha:
+        if force_heads and prev.get('ssassets') == new_heads_sha:
+            print('[auto-update] --heads: forcing head image refresh.')
+        else:
+            print(f'[auto-update] ssassets moved: '
+                  f'{str(prev.get("ssassets", "(unknown)"))[:12]} -> {new_heads_sha[:12]}')
+        has_heads_changed = True
+    else:
+        print(f'[auto-update] ssassets unchanged at {new_heads_sha[:12]}; '
+              f'skipping head image sweep.')
+        has_heads_changed = False
 
     if check_only:
         if has_data_changed:
             print('[auto-update] --check mode: would rebuild from ss-data.')
         else:
             print('[auto-update] --check mode: no data changes.')
-        print('[auto-update] --check: probing head images...')
-        try:
-            subprocess.call(
-                [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-heads.py'), '--check'])
-        except Exception as e:
-            print(f'[auto-update] fetch-heads --check failed: {e}')
+        if has_heads_changed:
+            print('[auto-update] --check mode: would refresh head images.')
+        else:
+            print('[auto-update] --check mode: no head image changes.')
         print('[auto-update] --check mode: nothing fetched or committed.')
         return
 
-    # Rebuild game data only if ss-data moved; heads are always refreshed
-    # so ssassets-only additions (e.g. head_12003_XL.webp) are detected.
-    # A failed build does nothing to data/ -- the next cycle retries.
+    # Rebuild game data only if ss-data moved; heads refresh only if
+    # ssassets moved. A failed build does nothing -- next cycle retries.
     build_ok = False
     if has_data_changed:
         build_ok = rebuild_from_ssdata()
         if build_ok:
-            prev['ss-data'] = new_sha
+            prev['ss-data'] = new_data_sha
         else:
             print('[auto-update] data rebuild failed; leaving data/ untouched, '
                   'will retry next cycle.')
 
-    # Refresh local _XL head images (trimmed) — cheap if already cached:
+    # Refresh local _XL head images (trimmed) — only when ssassets moved.
     # fetch-heads.py skips existing files without network (continue), only
     # the first missing variant per char triggers a GET (404 -> break, 200 -> download).
     # NOTE: heads still come from AutumnVN/ssassets — ss-data ships no image assets.
-    try:
-        print('[auto-update] refreshing head images...')
-        subprocess.check_call(
-            [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-heads.py')])
-    except subprocess.CalledProcessError as e:
-        print(f'[auto-update] fetch-heads failed (continuing): {e}')
-    except Exception as e:
-        print(f'[auto-update] fetch-heads error (continuing): {e}')
+    heads_ok = False
+    if has_heads_changed:
+        try:
+            print('[auto-update] refreshing head images...')
+            subprocess.check_call(
+                [sys.executable, os.path.join(SCRIPT_DIR, 'fetch-heads.py')])
+            heads_ok = True
+            prev['ssassets'] = new_heads_sha
+        except subprocess.CalledProcessError as e:
+            print(f'[auto-update] fetch-heads failed (continuing): {e}')
+        except Exception as e:
+            print(f'[auto-update] fetch-heads error (continuing): {e}')
 
-    # Persist updated state only if the data build actually succeeded.
-    if has_data_changed and build_ok:
+    # Persist updated state for whichever parts actually succeeded.
+    if (has_data_changed and build_ok) or (has_heads_changed and heads_ok):
         with open(STATE_FILE, 'w') as f:
             json.dump(prev, f, indent=2, sort_keys=True)
             f.write('\n')
@@ -240,7 +273,7 @@ def main():
     git('add', 'data')
     # Also commit the state file so clones stay in sync. Force-add in case
     # .gitignore ignores it (pattern .fetch-state.json matches any dir).
-    if has_data_changed and build_ok:
+    if (has_data_changed and build_ok) or (has_heads_changed and heads_ok):
         git('add', '-f', os.path.join('scripts', '.fetch-state.json'), check=False)
     # Track runner + pipeline scripts
     for name in ('auto-update.py', 'fetch-heads.py', 'fetch-slim.py',
@@ -263,10 +296,11 @@ def main():
 
     # Choose commit message based on what is staged.
     has_heads_in_staged = any('data/heads' in line for line in staged_files.splitlines())
-    if has_data_changed and has_heads_in_staged:
+    data_ok = has_data_changed and build_ok
+    if data_ok and has_heads_in_staged:
         commit_msg = 'Update game data (ss-data) and head images from upstream'
-    elif has_data_changed:
-        commit_msg = f'Update game data from upstream ss-data {new_sha[:12]}'
+    elif data_ok:
+        commit_msg = f'Update game data from upstream ss-data {new_data_sha[:12]}'
     else:
         commit_msg = 'Update head images from ssassets'
 
