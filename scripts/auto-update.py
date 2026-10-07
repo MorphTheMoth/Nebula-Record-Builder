@@ -22,7 +22,6 @@ Usage:
   python3 scripts/auto-update.py --heads  # force head image sweep even if
                                           # ssassets HEAD is unchanged
 """
-import hashlib
 import json
 import os
 import subprocess
@@ -34,13 +33,6 @@ SSDATA_GIT_URL = 'https://github.com/MakoStar/ss-data.git'
 SSDATA_API_COMMIT = 'https://api.github.com/repos/MakoStar/ss-data/commits/main'
 SSASSETS_GIT_URL = 'https://github.com/AutumnVN/ssassets.git'
 SSASSETS_API_COMMIT = 'https://api.github.com/repos/AutumnVN/ssassets/commits/main'
-# Legacy fallback sources (parsed files only exist on the mirror).
-LEGACY_RAW = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/main/'
-LEGACY_SOURCES = [
-    'character.json',
-    'disc.json',
-    'characterid.json',
-]
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(SCRIPT_DIR)
@@ -78,11 +70,6 @@ def ssdata_head_sha():
 
 def ssassets_head_sha():
     return remote_head_sha(SSASSETS_GIT_URL, SSASSETS_API_COMMIT, 'ssassets')
-
-
-def fetch_sha(path):
-    with urllib.request.urlopen(LEGACY_RAW + path, timeout=30) as resp:
-        return hashlib.sha256(resp.read()).hexdigest()
 
 
 def load_token():
