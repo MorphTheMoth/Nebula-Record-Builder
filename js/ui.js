@@ -365,6 +365,7 @@ function ensureDiscSelInit() {
   const bar = document.getElementById('discSelFilters');
   if (!bar) return;
   discSelInitialized = true;
+  preloadDiscNoteIcons();
   resetDiscSelFiltersToDefaults();
   renderDiscSelFilters();
   renderDiscSelection();
@@ -514,12 +515,17 @@ function getDiscSelNotes(id, mode) {
 // Build the note-icon overlay (bottom-right) for a disc. `mode` is 'main'
 // (harmony notes the disc needs, icons only) or 'support' (notes it gives,
 // with the quantity beside each icon). Returns null when there is nothing.
+// Both modes are pre-rendered per card and toggled via display, so switching
+// Main/Support is instant with no remove-then-reload blink. Icons use eager
+// loading + a one-time preload (see preloadDiscNoteIcons) so the hidden mode
+// is already in the browser cache when it is shown.
 function buildDiscNoteOverlay(id, mode) {
   if (!id || !mode) return null;
   const notes = getDiscSelNotes(id, mode);
   if (!notes.length) return null;
   const div = document.createElement('div');
   div.className = 'disc-sel-notes ' + mode;
+  div.dataset.mode = mode;
   const showQty = mode !== 'main';
   notes.forEach(n => {
     const chip = document.createElement('span');
@@ -533,8 +539,11 @@ function buildDiscNoteOverlay(id, mode) {
     }
     const img = document.createElement('img');
     img.alt = '';
-    img.loading = 'lazy';
+    img.loading = 'eager';
+    img.decoding = 'sync';
     img.draggable = false;
+    img.width = 15;
+    img.height = 15;
     noteImg(img, n.nid);
     chip.appendChild(img);
     div.appendChild(chip);
@@ -542,15 +551,43 @@ function buildDiscNoteOverlay(id, mode) {
   return div;
 }
 
+// Warm the browser cache for all note icons once, so toggling Main/Support
+// never waits on a first-time fetch.
+function preloadDiscNoteIcons() {
+  if (preloadDiscNoteIcons._done) return;
+  preloadDiscNoteIcons._done = true;
+  try {
+    if (typeof NOTE_IDS === 'undefined') return;
+    NOTE_IDS.forEach(nid => {
+      const im = new Image();
+      im.decoding = 'sync';
+      noteImg(im, nid);
+    });
+  } catch (err) {}
+}
+
 function updateDiscSelNoteOverlays() {
   document.querySelectorAll('#discSelGrid .disc-sel-card').forEach(card => {
-    const old = card.querySelector('.disc-sel-notes');
-    if (old) old.remove();
-    if (!discSelHighlight) return;
-    const wrap = card.querySelector('.disc-sel-imgwrap');
-    if (!wrap) return;
-    const el = buildDiscNoteOverlay(card.dataset.discId, discSelHighlight);
-    if (el) wrap.appendChild(el);
+    const discId = card.dataset.discId;
+    let mainOv = card.querySelector('.disc-sel-notes[data-mode="main"]');
+    let supOv = card.querySelector('.disc-sel-notes[data-mode="support"]');
+    // Upgrade path: cards rendered before dual overlays have a single
+    // modeless .disc-sel-notes — replace it with the dual pair once.
+    const legacy = (!mainOv && !supOv) ? card.querySelector('.disc-sel-notes') : null;
+    if (legacy) legacy.remove();
+    if ((!mainOv && !supOv) && discId) {
+      const wrap = card.querySelector('.disc-sel-imgwrap');
+      if (wrap) {
+        const m = buildDiscNoteOverlay(discId, 'main');
+        if (m) wrap.appendChild(m);
+        const s = buildDiscNoteOverlay(discId, 'support');
+        if (s) wrap.appendChild(s);
+        mainOv = card.querySelector('.disc-sel-notes[data-mode="main"]');
+        supOv = card.querySelector('.disc-sel-notes[data-mode="support"]');
+      }
+    }
+    if (mainOv) mainOv.style.display = discSelHighlight === 'main' ? '' : 'none';
+    if (supOv) supOv.style.display = discSelHighlight === 'support' ? '' : 'none';
   });
 }
 
@@ -634,6 +671,7 @@ function updateDiscPickingHighlight() {
 function renderDiscSelection() {
   const grid = document.getElementById('discSelGrid');
   if (!grid || typeof discData === 'undefined' || !discData) return;
+  preloadDiscNoteIcons();
   grid.innerHTML = '';
   const inUseOther = new Set();
   (selectedDiscs || []).forEach((sid) => { if (sid) inUseOther.add(sid); });
@@ -700,6 +738,12 @@ function renderDiscSelection() {
     badge.src = `data/disc badges/${d.element || 'None'}.avif`;
     badge.onerror = () => badge.remove();
     wrap.appendChild(badge);
+    // Pre-render both Main and Support overlays so the highlight toggle only
+    // flips visibility — no teardown/rebuild, no image reload, no blink.
+    const mainOv = buildDiscNoteOverlay(id, 'main');
+    if (mainOv) { mainOv.style.display = discSelHighlight === 'main' ? '' : 'none'; wrap.appendChild(mainOv); }
+    const supOv = buildDiscNoteOverlay(id, 'support');
+    if (supOv) { supOv.style.display = discSelHighlight === 'support' ? '' : 'none'; wrap.appendChild(supOv); }
     card.appendChild(wrap);
     const nm = document.createElement('div');
     nm.className = 'disc-sel-name';
