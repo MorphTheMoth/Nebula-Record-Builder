@@ -320,7 +320,18 @@ function bytesToB64(bytes) {
 }
 
 function formatDescriptionWithColor(desc) {
-  let result = desc.replace(/<color=#([0-9a-fA-F]{6})>(.*?)<\/color>/g, '<span style="color:#$1;">$2</span>');
+  // Game data uses VT (\u000b) as a paragraph separator. Some fonts/OSes lack
+  // a glyph for it and render a box+cross (tofu) instead, e.g. before
+  // 'After dodging or casting Torrent Flash...'. Normalize it (plus FF and
+  // plain newlines) to <br>, and strip any other C0 controls that would
+  // otherwise show as tofu.
+  let result = String(desc ?? '')
+    .replace(/\u000b/g, '<br>')
+    .replace(/\u000c/g, '<br>')
+    .replace(/\r\n/g, '<br>')
+    .replace(/[\r\n]/g, '<br>')
+    .replace(/[\u0000-\u0008\u000e-\u001f\u007f]/g, '');
+  result = result.replace(/<color=#([0-9a-fA-F]{6})>(.*?)<\/color>/g, '<span style="color:#$1;">$2</span>');
   result = result.replace(/##(.*?)#\d+#/g, '$1');
   return result;
 }
