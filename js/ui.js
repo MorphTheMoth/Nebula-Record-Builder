@@ -747,7 +747,11 @@ function renderDiscSelection() {
     card.appendChild(wrap);
     const nm = document.createElement('div');
     nm.className = 'disc-sel-name';
-    nm.textContent = d.name || id;
+    nm.title = d.name || id;
+    const nt = document.createElement('span');
+    nt.className = 'disc-sel-name-text';
+    nt.textContent = d.name || id;
+    nm.appendChild(nt);
     card.appendChild(nm);
     card.onclick = () => {
       // Already equipped → swap with active slot, else remove
