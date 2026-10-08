@@ -40,6 +40,27 @@ def load_json(path):
     with open(path, encoding='utf-8') as f:
         return json.load(f)
 
+CHAR_SKILL_KEYS = ['normalAtk', 'skill', 'supportSkill', 'ultimate']
+
+def _slim_character_skill(s):
+    if not isinstance(s, dict):
+        return None
+    out = {}
+    for k in ('name', 'desc', 'icon', 'cooldown', 'energy', 'energyLimit'):
+        v = s.get(k)
+        if v in (None, ''):
+            continue
+        # Drop the raw "ParamN: &ParamN& (...)" annotation trail the parser
+        # appends to skill text; keep just the descriptive sentence.
+        if k == 'desc':
+            v = STRIP_HIDDEN.sub('', v)
+        out[k] = v
+    params = s.get('params')
+    if isinstance(params, list) and params:
+        out['params'] = params
+    return out or None
+
+
 def slim_characters(raw):
     slim = {}
     for cid, entry in raw.items():
@@ -63,6 +84,11 @@ def slim_characters(raw):
                     ]
             if pot:
                 out['potential'] = pot
+        # Skills, shown at max skill level in the hover tooltip.
+        for key in CHAR_SKILL_KEYS:
+            sk = _slim_character_skill(entry.get(key))
+            if sk:
+                out[key] = sk
         slim[cid] = out
     return slim
 

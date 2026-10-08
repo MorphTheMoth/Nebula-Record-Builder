@@ -371,6 +371,8 @@ function setupSectionFold() {
 
 document.addEventListener('DOMContentLoaded', () => {
   setupSectionFold();
+  const hoverBtn = document.getElementById('charHoverBtn');
+  if (hoverBtn && !charHoverEnabled) hoverBtn.classList.add('off');
   const inp = document.getElementById('importInput');
   if (inp) {
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') importPotentials(); });
@@ -585,6 +587,10 @@ document.addEventListener('click', (e) => {
   if (dt && dt.style.display !== 'none' && !e.target.closest('.disc-sel-card, .disc-thumb, [data-id], #recordPngImage')) {
     dt.style.display = 'none';
   }
+  const ct = document.querySelector('.char-tooltip');
+  if (ct && ct.style.display !== 'none' && !e.target.closest('.char-card, [data-id], #recordPngImage')) {
+    ct.style.display = 'none';
+  }
   const vm = document.querySelector('.head-variant-menu');
   if (vm && !e.target.closest('.head-variant-menu, .char-head-click')) {
     vm.remove();
@@ -596,4 +602,9 @@ document.addEventListener('touchmove', () => {
   if (tt) tt.style.display = 'none';
   const dt = document.querySelector('.disc-tooltip');
   if (dt) dt.style.display = 'none';
+  const ct = document.querySelector('.char-tooltip');
+  if (ct) ct.style.display = 'none';
 }, { passive: true });
+
+// Fixed-position tooltips detach from their card while the page scrolls.
+window.addEventListener('scroll', () => hideCharTooltip(), { passive: true, capture: true });

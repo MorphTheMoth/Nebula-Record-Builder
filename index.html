@@ -63,7 +63,7 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 .char-card.selected::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.05); }
 .char-card .head-crop { width: 100%; aspect-ratio: 1; overflow: hidden; background: #2a2a2a; }
 .head-crop img { display: block; width: calc(100% + 1px); height: calc(100% + 1px); }
-.char-card .label { font-size: 11px; color: #f0f0f0;; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.char-card .label { font-size: 11px; color: #f0f0f0;; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 450; }
 /* soft element backgrounds — subtle tint, no extra elements */
 .char-card[data-element="Aqua"]   { background: rgba(0, 255, 255, 0.22); }
 .char-card[data-element="Ignis"]  { background: rgba(255, 80, 40, 0.22); }
@@ -312,6 +312,23 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 .disc-tt-note { display: flex; align-items: center; background: none; border: none; padding: 0; }
 .disc-tt-note img { width: 22px; height: 22px; object-fit: contain; }
 
+/* Character tooltip */
+.char-tooltip {
+  position: fixed; background: #1e1e1e; border: 1px solid #555; border-radius: 6px; padding: 10px; z-index: 100000;
+  pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  font-family: 'Consolas', monospace; font-size: 11px; line-height: 1.4; color: #ddd; backdrop-filter: blur(2px);
+  max-width: 540px; min-width: 400px;
+}
+.char-tt-portrait { float: right; width: 121.6px; height: auto; margin: 0 0 6px 12px; border-radius: 3px; background: #2a2a2a; display: block; }
+.char-tt-skill { border-top: 1px solid #333; padding-top: 6px; margin-top: 8px; }
+.char-tt-portrait + .char-tt-skill { border-top: none; padding-top: 0; margin-top: 0; }
+.char-tt-skill-head { display: block; margin-bottom: 4px; }
+.char-tt-skill-head img { float: left; width: 28px; height: 28px; object-fit: contain; border-radius: 2px; background: #2a2a2a; margin: 0 6px 0 0; }
+.char-tt-titlewrap { display: block; }
+.char-tt-skill-kind { font-size: 9px; color: #888; letter-spacing: 1px; display: block; }
+.char-tt-skill-title { font-size: 11px; color: #eee; font-weight: bold; display: block; line-height: 1.3; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
+.char-tt-desc { color: #bbb; margin: 2px 0 4px; word-wrap: break-word; white-space: normal; }
+
 /* Emblems */
 .emblem-section {
   margin-top: 0;            /* remove top margin because gap already handles spacing */
@@ -466,6 +483,7 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
   letter-spacing: 1px; white-space: nowrap; transition: background 0.1s; height: 32px;
 }
 .import-btn:hover { background: #2e2e2e; color: #ccc; }
+.import-btn.off { background: #181818; border-color: #333; color: #555; text-decoration: line-through; }
 .clear-btn { color: #966; border-color: #4a3333; }
 .clear-btn:hover { background: #2e2222; color: #c88; border-color: #6a3333; }
 .import-status { font-size: 10px; font-weight: normal; }
@@ -865,6 +883,7 @@ body.vanilla-mode .emblem-section { display: none !important; }
         </div>
       </div>
       <div style="display:flex;gap:6px;align-items:center;">
+        <button class="import-btn" id="charHoverBtn" onclick="toggleCharHover()" title="Toggle character hover tooltips">Hover</button>
         <button class="import-btn vanilla-hide" id="editCharsBtn" onclick="openEditCharsPopup()" title="Edit character skill/talent/affinity">Edit Characters</button>
         <button class="import-btn clear-btn" onclick="clearCharacters()" title="Unselect all characters">Clear</button>
       </div>

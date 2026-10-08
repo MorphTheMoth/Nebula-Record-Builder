@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Font & Weight Test</title>
+<style>
+  body {
+    font-family: 'Consolas', 'SF Mono', monospace;
+    background: #161616; color: #ddd;
+    margin: 0; padding: 20px 40px;
+  }
+  h1 { color: #aaa; font-size: 16px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px; }
+  h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 10px; margin-top: 30px; }
+
+  .variants-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .variant-group {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 16px 20px;
+  }
+  .variant-group h3 {
+    font-size: 12px;
+    color: #888;
+    margin: 0 0 12px 0;
+    letter-spacing: 1px;
+  }
+
+  .char-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .char-card {
+    width: 90px;
+    background: #222;
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: default;
+    position: relative;
+  }
+  .char-card .head-crop {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #2a2a2a;
+  }
+  .char-card .head-crop img {
+    display: block;
+    width: calc(100% + 1px);
+    height: calc(100% + 1px);
+  }
+
+  /* ---- LABEL VARIANTS ---- */
+
+  /* 1. Default (no font-weight override) */
+  .v-default .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* 2. 550 (current) */
+  .v-550 .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
+
+  /* 3. 600 (semi-bold) */
+  .v-600 .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+
+  /* 4. 700 (bold) */
+  .v-700 .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; }
+
+  /* 5. 500 */
+  .v-500 .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+
+  /* 6. 400 (normal) */
+  .v-400 .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400; }
+
+  /* 7. 650 */
+  .v-650 .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 650; }
+
+  /* 8. 575 */
+  .v-575 .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 575; }
+
+  /* 9. 525 */
+  .v-525 .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 525; }
+
+  /* 10. Letter-spacing variations */
+  .v-ls1 .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; letter-spacing: 0.5px; }
+
+  .v-ls2 .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; letter-spacing: 1px; }
+
+  /* 11. Slightly larger font */
+  .v-12 .label { font-size: 12px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
+
+  /* 12. Slightly smaller font */
+  .v-10 .label { font-size: 10px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
+
+  /* 13. Arial / sans-serif */
+  .v-sans .label { font-family: Arial, sans-serif; font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
+
+  /* 14. Verdana */
+  .v-verdana .label { font-family: Verdana, sans-serif; font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
+
+  /* 15. Tahoma */
+  .v-tahoma .label { font-family: Tahoma, sans-serif; font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
+
+  /* 16. Segoe UI */
+  .v-segoe .label { font-family: 'Segoe UI', sans-serif; font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
+
+  /* 17. System UI stack */
+  .v-system .label { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
+
+  /* 18. Monospace (DejaVu) */
+  .v-mono .label { font-family: 'DejaVu Sans Mono', 'Consolas', monospace; font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
+
+  /* 19. 600 with letter-spacing 0.3 */
+  .v-600-ls .label { font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; letter-spacing: 0.3px; }
+
+  /* 20. Georgia (serif) */
+  .v-georgia .label { font-family: Georgia, serif; font-size: 11px; color: #f0f0f0; text-align: center; padding: 3px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
+</style>
+</head>
+<body>
+
+<h1>Font &amp; Weight Test — Character Name Labels</h1>
+<p style="color:#666;font-size:11px;margin-bottom:24px;">Each section shows a different font/weight/style applied to the character names. Compare and choose.</p>
+
+<div id="testArea" class="variants-grid"></div>
+
+<script>
+const charData = {
+  "103":"Amber","107":"Tilia","108":"Kasimira","110":"Firenze","111":"Iris",
+  "112":"Noya","113":"Shimiao","114":"Chaton","115":"Firefly","116":"Ridge",
+  "117":"Jinglin","118":"Coronis","119":"Nanoha","120":"Canace","123":"Ann",
+  "125":"Freesia","126":"Flora","127":"Teresa","130":"Donna","132":"Minova",
+  "133":"Nazuka","134":"Fuyuka","135":"Mistique","137":"Eleanor","139":"Allie",
+  "140":"Sparkla","141":"Chixia","142":"Cosette","143":"Wraith","144":"Chitose",
+  "145":"Otoha","147":"Caramel","149":"Gerie","150":"Laru","155":"Shia",
+  "156":"Nazuna","157":"Karin","158":"Laru","159":"Coronis","160":"Willow"
+};
+
+const charJson = {
+  "103":{"element":"Ignis","star":4},"107":{"element":"Lux","star":4},"108":{"element":"Ignis","star":4},
+  "110":{"element":"Umbra","star":5},"111":{"element":"Aqua","star":4},"112":{"element":"Ventus","star":4},
+  "113":{"element":"Aqua","star":4},"114":{"element":"Ignis","star":5},"115":{"element":"Lux","star":5},
+  "116":{"element":"Terra","star":4},"117":{"element":"Lux","star":4},"118":{"element":"Umbra","star":4},
+  "119":{"element":"Ventus","star":5},"120":{"element":"Ventus","star":4},"123":{"element":"Ventus","star":4},
+  "125":{"element":"Aqua","star":5},"126":{"element":"Ignis","star":4},"127":{"element":"Aqua","star":4},
+  "130":{"element":"Aqua","star":5},"132":{"element":"Lux","star":5},"133":{"element":"Ventus","star":5},
+  "134":{"element":"Ignis","star":5},"135":{"element":"Umbra","star":5},"137":{"element":"Ventus","star":5},
+  "139":{"element":"Aqua","star":5},"140":{"element":"Terra","star":5},"141":{"element":"Ignis","star":5},
+  "142":{"element":"Umbra","star":4},"143":{"element":"Ventus","star":5},"144":{"element":"Aqua","star":5},
+  "145":{"element":"Ventus","star":5},"147":{"element":"Lux","star":5},"149":{"element":"Aqua","star":4},
+  "150":{"element":"Ignis","star":5},"155":{"element":"Terra","star":5},"156":{"element":"Umbra","star":5},
+  "157":{"element":"Aqua","star":5},"158":{"element":"Ignis","star":5},"159":{"element":"Umbra","star":5},
+  "160":{"element":"Ventus","star":4}
+};
+
+const variants = [
+  { id: 'v-400',    label: 'font-weight: 400 (normal) — original before your change' },
+  { id: 'v-500',    label: 'font-weight: 500' },
+  { id: 'v-525',    label: 'font-weight: 525' },
+  { id: 'v-550',    label: 'font-weight: 550 (current)' },
+  { id: 'v-575',    label: 'font-weight: 575' },
+  { id: 'v-600',    label: 'font-weight: 600 (semi-bold)' },
+  { id: 'v-650',    label: 'font-weight: 650' },
+  { id: 'v-700',    label: 'font-weight: 700 (bold)' },
+  { id: 'v-600-ls', label: 'font-weight: 600 + letter-spacing: 0.3px' },
+  { id: 'v-ls1',    label: 'font-weight: 550 + letter-spacing: 0.5px' },
+  { id: 'v-ls2',    label: 'font-weight: 550 + letter-spacing: 1px' },
+  { id: 'v-12',     label: 'font-weight: 550 + font-size: 12px' },
+  { id: 'v-10',     label: 'font-weight: 550 + font-size: 10px' },
+  { id: 'v-sans',   label: 'Arial / sans-serif, weight: 550' },
+  { id: 'v-verdana',label: 'Verdana, weight: 550' },
+  { id: 'v-tahoma', label: 'Tahoma, weight: 550' },
+  { id: 'v-segoe',  label: 'Segoe UI, weight: 550' },
+  { id: 'v-system', label: 'System UI stack, weight: 550' },
+  { id: 'v-mono',   label: 'DejaVu Sans Mono (monospace), weight: 550' },
+  { id: 'v-georgia',label: 'Georgia (serif), weight: 550' },
+];
+
+const elementBg = {
+  Aqua:   'rgba(0, 255, 255, 0.22)',
+  Ignis:  'rgba(255, 80, 40, 0.22)',
+  Ventus: 'rgba(100, 200, 100, 0.22)',
+  Terra:  'rgba(146, 83, 44, 0.32)',
+  Lux:    'rgba(255, 230, 70, 0.28)',
+  Umbra:  'rgba(120, 80, 160, 0.22)',
+  Other:  '#222',
+};
+
+function buildCard(ch) {
+  const card = document.createElement('div');
+  card.className = 'char-card';
+  card.style.background = elementBg[ch.elem] || '#222';
+
+  const crop = document.createElement('div');
+  crop.className = 'head-crop';
+  const img = document.createElement('img');
+  img.alt = '';
+  img.src = `https://raw.githubusercontent.com/AutumnVN/ssassets/main/export/assets/assetbundles/icon/head/head_${ch.id}02_XXL.webp`;
+  img.onerror = function() { this.src = 'https://raw.githubusercontent.com/AutumnVN/ssassets/main/export/assets/assetbundles/icon/head/playerhead_10001_XXL.webp'; };
+  crop.appendChild(img);
+  card.appendChild(crop);
+
+  const lbl = document.createElement('div');
+  lbl.className = 'label';
+  lbl.textContent = ch.name;
+  card.appendChild(lbl);
+  return card;
+}
+
+const ids = Object.keys(charData).filter(id => charJson[id]).sort((a,b) => +a - +b);
+const chars = ids.map(id => ({ id, name: charData[id], elem: charJson[id].element || 'Other', star: charJson[id].star }));
+
+const testArea = document.getElementById('testArea');
+
+variants.forEach(v => {
+  const group = document.createElement('div');
+  group.className = 'variant-group';
+
+  const h3 = document.createElement('h3');
+  h3.textContent = v.label;
+  group.appendChild(h3);
+
+  const row = document.createElement('div');
+  row.className = 'char-row ' + v.id;
+
+  chars.forEach(ch => {
+    row.appendChild(buildCard(ch));
+  });
+
+  group.appendChild(row);
+  testArea.appendChild(group);
+});
+</script>
+</body>
+</html>

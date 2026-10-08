@@ -58,6 +58,7 @@ function applyCharElementFilter() {
 
 async function renderChars() {
   const grid = document.getElementById('charGrid');
+  hideCharTooltip();
   grid.innerHTML = '';
 
   // Only show released units: charData (characterid.json) contains unreleased
@@ -103,6 +104,7 @@ async function renderChars() {
     lbl.className = 'label'; lbl.textContent = ch.name;
     div.appendChild(lbl);
 
+    attachCharTooltip(div, ch.id);
     div.onclick = () => toggleChar(ch.id);
     grid.appendChild(div);
   }
@@ -898,6 +900,131 @@ function attachDiscTooltip(el, discId) {
   });
 }
 
+// ---- Character hover tooltip (grid cards) ----
+const CHAR_SKILL_MAX_LEVEL = 10;
+let charHoverEnabled = localStorage.getItem('charHoverEnabled') !== 'false';
+
+function toggleCharHover() {
+  charHoverEnabled = !charHoverEnabled;
+  localStorage.setItem('charHoverEnabled', charHoverEnabled);
+  const btn = document.getElementById('charHoverBtn');
+  if (btn) btn.classList.toggle('off', !charHoverEnabled);
+  if (!charHoverEnabled) hideCharTooltip();
+}
+
+function charSkillIconUrl(icon) {
+  return `${BASE_ASSETS}export/assets/assetbundles/icon/skill/${icon}.webp`;
+}
+
+// Resolve &ParamN& placeholders in a skill description at max skill level,
+// so the tooltip shows the fully upgraded values.
+function formatCharSkillDesc(skill) {
+  if (!skill || !skill.desc) return '';
+  const vals = Array.isArray(skill.params) ? skill.params : [];
+  let out = replaceParams(String(skill.desc), vals, CHAR_SKILL_MAX_LEVEL, 'Param');
+  out = out.replace(/\u000b/g, '<br>');
+  return formatDescriptionWithColor(out);
+}
+
+function getCharTooltipEl() {
+  let el = document.querySelector('.char-tooltip');
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'char-tooltip';
+    el.style.display = 'none';
+    document.body.appendChild(el);
+  }
+  return el;
+}
+
+let _charTtMove = null;
+
+function positionCharTooltip(tt, e) {
+  const r = tt.getBoundingClientRect();
+  let x = e.clientX + 15, y = e.clientY + 15;
+  if (x + r.width > window.innerWidth - 8) x = e.clientX - r.width - 12;
+  if (y + r.height > window.innerHeight - 8) y = window.innerHeight - r.height - 8;
+  tt.style.left = Math.max(8, x) + 'px';
+  tt.style.top = Math.max(8, y) + 'px';
+}
+
+function hideCharTooltip() {
+  const tt = document.querySelector('.char-tooltip');
+  if (tt) tt.style.display = 'none';
+  if (_charTtMove) { window.removeEventListener('mousemove', _charTtMove); _charTtMove = null; }
+}
+
+function buildCharTooltip(charId) {
+  const tt = getCharTooltipEl();
+  const c = (typeof charJson !== 'undefined' && charJson) ? charJson[charId] : null;
+  tt.innerHTML = '';
+  if (!c) return tt;
+
+  const img = document.createElement('img');
+  img.className = 'char-tt-portrait';
+  img.alt = '';
+  headXXLImg(img, charId, '02');
+  tt.appendChild(img);
+
+  const skills = [
+    ['Normal Attack', c.normalAtk],
+    ['Skill', c.skill],
+    ['Support Skill', c.supportSkill],
+    ['Ultimate', c.ultimate],
+  ].filter(([, s]) => s);
+
+  skills.forEach(([kind, skill]) => {
+    const sec = document.createElement('div');
+    sec.className = 'char-tt-skill';
+
+    const head = document.createElement('div');
+    head.className = 'char-tt-skill-head';
+    const sImg = document.createElement('img');
+    sImg.alt = '';
+    chainImgFallback(sImg, charSkillIconUrl(skill.icon), FALLBACK_HEAD_XXL_URL);
+    head.appendChild(sImg);
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'char-tt-titlewrap';
+    const kindEl = document.createElement('span');
+    kindEl.className = 'char-tt-skill-kind';
+    const extra = [];
+    if (skill.cooldown) extra.push(`${skill.cooldown}`);
+    if (skill.energy != null) extra.push(`${skill.energy} Energy`);
+    kindEl.textContent = `${kind} · Lv ${CHAR_SKILL_MAX_LEVEL}` + (extra.length ? ` · ${extra.join(' · ')}` : '');
+    const titleEl = document.createElement('span');
+    titleEl.className = 'char-tt-skill-title';
+    titleEl.textContent = skill.name || kind;
+    titleWrap.appendChild(kindEl);
+    titleWrap.appendChild(titleEl);
+    head.appendChild(titleWrap);
+    sec.appendChild(head);
+
+    const desc = document.createElement('div');
+    desc.className = 'char-tt-desc';
+    desc.innerHTML = formatCharSkillDesc(skill);
+    sec.appendChild(desc);
+
+    tt.appendChild(sec);
+  });
+
+  return tt;
+}
+
+function attachCharTooltip(el, charId) {
+  if (!el || !charId) return;
+  el.addEventListener('mouseenter', (e) => {
+    if (!charHoverEnabled) return;
+    const tt = buildCharTooltip(charId);
+    tt.style.display = 'block';
+    positionCharTooltip(tt, e);
+    if (_charTtMove) window.removeEventListener('mousemove', _charTtMove);
+    _charTtMove = (ev) => positionCharTooltip(tt, ev);
+    window.addEventListener('mousemove', _charTtMove);
+  });
+  el.addEventListener('mouseleave', () => hideCharTooltip());
+}
+
 function selectDisc(slotIdx, id) {
   if (slotIdx == null || slotIdx < 0 || slotIdx >= selectedDiscs.length) return;
   if (!id) return;
@@ -1043,5 +1170,3 @@ function getNoteShortName(id) {
     90016:'Skill',90017:'Ultimate',90018:'Aqua',90019:'Ignis',90020:'Ventus',
     90021:'Terra',90022:'Lux',90023:'Umbra'}[id] || id;
 }
-
-
