@@ -193,6 +193,13 @@ const CHARGE_EFF_TYPE_NAMES = {
   0: 'Supp', 1: 'Main'
 };
 
+// Bright text colors for element keywords (mirrors ELEMENT_COLORS in
+// canvas-notes.js). Used for ##Element Mark#id# refs in skill descriptions.
+const ELEMENT_KEYWORD_COLORS = {
+  Aqua: '#4aa3ff', Ignis: '#ff6b4a', Ventus: '#5fd97e',
+  Terra: '#c4a04a', Lux: '#ffd84a', Umbra: '#a06fff'
+};
+
 function capitalizeWords(str) {
   return str
     .split(' ')
@@ -332,7 +339,24 @@ function formatDescriptionWithColor(desc) {
     .replace(/[\r\n]/g, '<br>')
     .replace(/[\u0000-\u0008\u000e-\u001f\u007f]/g, '');
   result = result.replace(/<color=#([0-9a-fA-F]{6})>(.*?)<\/color>/g, '<span style="color:#$1;">$2</span>');
-  result = result.replace(/##(.*?)#\d+#/g, '$1');
+  // Some refs have an empty name (e.g. Sparkla's "###4033#"). Fill them from
+  // a named occurrence of the same id elsewhere in the text ("##Bunny Jaws
+  // Mode#4033#"), so the strip below doesn't leave a blank.
+  const nameById = {};
+  result.replace(/##([^#<>][^<>]*?)#(\d+)#/g, (m, name, id) => {
+    const t = String(name).trim();
+    if (t && t !== '#') nameById[id] = t;
+    return m;
+  });
+  result = result.replace(/###(\d+)#/g, (m, id) => (nameById[id] ? `##${nameById[id]}#${id}#` : m));
+  // ##Name#id# refs (modes, marks, statuses like Bunny Jaws Mode / Terra Mark)
+  // render as blue keywords, with element marks in their element color.
+  result = result.replace(/##(.*?)#\d+#/g, (m, name) => {
+    const t = String(name ?? '');
+    if (!t.trim() || t.trim() === '#') return '';
+    const el = Object.keys(ELEMENT_KEYWORD_COLORS).find(e => t.startsWith(e + ' Mark'));
+    return `<span style="color:${el ? ELEMENT_KEYWORD_COLORS[el] : '#4aa3ff'};">${t}</span>`;
+  });
   return result;
 }
 
