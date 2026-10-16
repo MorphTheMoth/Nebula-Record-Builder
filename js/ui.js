@@ -1177,21 +1177,22 @@ function updateDiscOutputText() {
 }
 
 // ---- Note hover tooltip (notes section images) ----
-// Hardcoded from data/Item.json ("Item.<noteId>.1" = name, "Item.<noteId>.2" = stat).
+// Hardcoded from data/Item.json ("Item.<noteId>.1" = name, "Item.<noteId>.2" = stat)
+// plus per-note values from the screenshot (value of a single note).
 const NOTE_INFO = {
-  90011: { name: 'Melody of Pummel', stat: 'ATK' },
-  90012: { name: 'Melody of Luck', stat: 'Crit Rate' },
-  90013: { name: 'Melody of Burst', stat: 'Crit DMG' },
-  90014: { name: 'Melody of Stamina', stat: 'Max HP' },
-  90015: { name: 'Melody of Focus', stat: 'Auto Attack DMG' },
-  90016: { name: 'Melody of Skill', stat: 'Skill DMG' },
-  90017: { name: 'Melody of Ultimate', stat: 'Ultimate DMG' },
-  90018: { name: 'Melody of Aqua', stat: 'Aqua DMG Boost' },
-  90019: { name: 'Melody of Ignis', stat: 'Ignis DMG Boost' },
-  90020: { name: 'Melody of Ventus', stat: 'Ventus DMG Boost' },
-  90021: { name: 'Melody of Terra', stat: 'Terra DMG Boost' },
-  90022: { name: 'Melody of Lux', stat: 'Lux DMG Boost' },
-  90023: { name: 'Melody of Umbra', stat: 'Umbra DMG Boost' },
+  90011: { name: 'Melody of Pummel', stat: 'ATK', value: '0.30%' },
+  90012: { name: 'Melody of Luck', stat: 'Crit Rate', value: '0.10%' },
+  90013: { name: 'Melody of Burst', stat: 'Crit DMG', value: '0.46%' },
+  90014: { name: 'Melody of Stamina', stat: 'Max HP', value: '0.30%' },
+  90015: { name: 'Melody of Focus', stat: 'Auto Attack DMG', value: '1.20%' },
+  90016: { name: 'Melody of Skill', stat: 'Skill DMG', value: '0.46%' },
+  90017: { name: 'Melody of Ultimate', stat: 'Ultimate DMG', value: '1.00%' },
+  90018: { name: 'Melody of Aqua', stat: 'Aqua DMG Boost', value: '0.30%' },
+  90019: { name: 'Melody of Ignis', stat: 'Ignis DMG Boost', value: '0.30%' },
+  90020: { name: 'Melody of Ventus', stat: 'Ventus DMG Boost', value: '0.30%' },
+  90021: { name: 'Melody of Terra', stat: 'Terra DMG Boost', value: '0.30%' },
+  90022: { name: 'Melody of Lux', stat: 'Lux DMG Boost', value: '0.30%' },
+  90023: { name: 'Melody of Umbra', stat: 'Umbra DMG Boost', value: '0.30%' },
 };
 
 function getNoteTooltipEl() {
@@ -1239,9 +1240,8 @@ function buildNoteTooltip(noteId) {
   right.appendChild(nm);
   const stats = document.createElement('div');
   stats.className = 'note-tt-stats';
-  const count = (typeof noteCounts !== 'undefined' && noteCounts[noteId] != null) ? noteCounts[noteId] : 20;
   const line = document.createElement('div');
-  line.textContent = info.stat ? `${info.stat}: ${count}` : `${count}`;
+  line.textContent = info.stat ? `${info.stat}: ${info.value || ''}`.trim() : (info.value || '');
   stats.appendChild(line);
   right.appendChild(stats);
   top.appendChild(right);
