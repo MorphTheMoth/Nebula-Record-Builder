@@ -1,3 +1,31 @@
+const EMBLEM_FOLD_KEY = 'nrb-folded-emblems';
+
+function getEmblemFoldedIds() {
+  try { return new Set(JSON.parse(localStorage.getItem(EMBLEM_FOLD_KEY) || '[]')); }
+  catch(e) { return new Set(); }
+}
+
+function isEmblemFolded(cId) {
+  try {
+    const list = JSON.parse(localStorage.getItem(EMBLEM_FOLD_KEY) || '[]');
+    return list.includes(String(cId));
+  } catch(e) { return false; }
+}
+
+function setEmblemFolded(cId, folded) {
+  const key = String(cId);
+  const foldedSet = getEmblemFoldedIds();
+  if (folded) foldedSet.add(key);
+  else foldedSet.delete(key);
+  try { localStorage.setItem(EMBLEM_FOLD_KEY, JSON.stringify([...foldedSet])); } catch(e) {}
+}
+
+function toggleEmblemFold(cId) {
+  const sec = document.querySelector(`.emblem-section[data-char="${cId}"]`);
+  if (!sec) return;
+  setEmblemFolded(cId, sec.classList.toggle('folded'));
+}
+
 function buildEmblemGroups(charId, isMain) {
   const potMap = {};
   const entries = Object.entries(emblemAttrData)
@@ -138,13 +166,16 @@ function updatePotentials() {
   const makeHeadImg = (cId) => {
     const wrap = document.createElement('span');
     wrap.className = 'pot-tab-head';
+    wrap.title = '';
     const img = document.createElement('img');
     img.alt = '';
+    img.title = '';
     img.draggable = false;
     try { img.decoding = 'sync'; } catch (err) {}
     const variant = (typeof charHeadVariants !== 'undefined' && charHeadVariants[String(cId)]) || '02';
     headXXLImg(img, cId, variant);
     wrap.appendChild(img);
+    if (typeof attachCharTooltip === 'function') attachCharTooltip(wrap, cId);
     return wrap;
   };
 
@@ -154,10 +185,10 @@ function updatePotentials() {
     btn.className = 'pot-tab' + (idx === activePotTab ? ' active' : '');
     btn.draggable = true;
     btn.dataset.slot = String(idx);
-    btn.title = 'Drag to swap position';
     btn.appendChild(makeHeadImg(cId));
     const label = document.createElement('span');
     label.className = 'pot-tab-name';
+    label.title = 'Drag to swap position';
     label.textContent = name;
     btn.appendChild(label);
     const removeBtn = document.createElement('span');
@@ -481,13 +512,19 @@ function updatePotentials() {
     page.appendChild(groupsRow);
 
     const emblemSection = document.createElement('div');
-    emblemSection.className = 'emblem-section';
+    emblemSection.className = 'emblem-section' + (isEmblemFolded(cId) ? ' folded' : '');
+    emblemSection.dataset.char = String(cId);
 
     const emblemLabel = document.createElement('div');
     emblemLabel.className = 'emblem-section-label';
     emblemLabel.style.cssText = 'display:flex;justify-content:space-between;align-items:center;';
+    emblemLabel.onclick = (e) => {
+      if (e.target.closest('button')) return;
+      setEmblemFolded(cId, emblemSection.classList.toggle('folded'));
+    };
 
     const emblemLabelText = document.createElement('span');
+    emblemLabelText.className = 'emblem-fold-title';
     emblemLabelText.textContent = 'Emblems';
     emblemLabel.appendChild(emblemLabelText);
 
@@ -495,7 +532,7 @@ function updatePotentials() {
     clearEmblemBtn.className = 'import-btn clear-btn';
     clearEmblemBtn.textContent = 'Clear';
     clearEmblemBtn.title = 'Reset all emblems for this character';
-    clearEmblemBtn.onclick = () => clearEmblems(cId);
+    clearEmblemBtn.onclick = (e) => { e.stopPropagation(); clearEmblems(cId); };
     emblemLabel.appendChild(clearEmblemBtn);
 
     emblemSection.appendChild(emblemLabel);

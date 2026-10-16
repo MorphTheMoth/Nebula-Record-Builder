@@ -343,7 +343,15 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
   width: 100%;
   flex: 0 0 auto;          /* don’t grow or shrink, just be full width */
 }
-.emblem-section-label { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.emblem-section-label { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; cursor: pointer; user-select: none; }
+.emblem-section-label:hover { color: #999; }
+.emblem-fold-title { display: flex; align-items: center; }
+.emblem-fold-title::before {
+  content: '▾'; display: inline-block; width: 12px; margin-right: 4px;
+  color: #555; font-size: 18px; vertical-align: 0px;
+}
+.emblem-section.folded .emblem-fold-title::before { content: '▸'; }
+.emblem-section.folded .emblem-container { display: none; }
 .emblem-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);   /* 4 equal columns */
@@ -945,7 +953,7 @@ body.vanilla-mode .emblem-section { display: none !important; }
       <div class="disc-row" id="discRow"><span class="loading">Loading discs…</span></div>
       <div class="disc-output-panel" id="discOutputPanel"></div>
     </div>
-    <div class="disc-sel-wrap" id="discSelWrap">
+    <div class="disc-sel-wrap open" id="discSelWrap">
       <div class="disc-sel-head" id="discSelHead" onclick="toggleDiscSelFold()">Disc selection</div>
       <div class="disc-sel-body" id="discSelBody">
         <div class="disc-sel-filters" id="discSelFilters"></div>

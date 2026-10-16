@@ -369,6 +369,10 @@ function ensureDiscSelInit() {
   resetDiscSelFiltersToDefaults();
   renderDiscSelFilters();
   renderDiscSelection();
+  const wrap = document.getElementById('discSelWrap');
+  if (wrap && wrap.classList.contains('open') && activeDiscSlot == null) {
+    applyDiscSelHighlight(discHighlightForSlot(null));
+  }
 }
 
 function renderDiscSelFilters() {
@@ -727,7 +731,7 @@ function renderDiscSelection() {
     const img = document.createElement('img');
     img.className = 'disc-sel-art';
     img.loading = 'lazy';
-    img.alt = d.name || id;
+    img.alt = '';
     img.draggable = false;
     discImg(img, id);
     wrap.appendChild(img);
