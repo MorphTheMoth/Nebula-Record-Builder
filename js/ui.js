@@ -106,6 +106,16 @@ async function renderChars() {
 
     attachCharTooltip(div, ch.id);
     div.onclick = () => toggleChar(ch.id);
+    // Middle-click a selected character to unselect it (never selects).
+    div.addEventListener('auxclick', (e) => {
+      if (e.button !== 1) return;
+      e.preventDefault();
+      if (selectedChars.includes(ch.id)) toggleChar(ch.id);
+    });
+    // Prevent middle-click autoscroll so auxclick fires cleanly.
+    div.addEventListener('mousedown', (e) => {
+      if (e.button === 1) e.preventDefault();
+    });
     grid.appendChild(div);
   }
 

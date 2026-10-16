@@ -213,6 +213,15 @@ function updatePotentials() {
     };
     btn.appendChild(removeBtn);
     btn.onclick = () => { activePotTab = idx; updatePotentials(); };
+    // Middle-click a selected character tab to unselect it.
+    btn.addEventListener('auxclick', (e) => {
+      if (e.button !== 1) return;
+      e.preventDefault();
+      if (typeof toggleChar === 'function') toggleChar(cId);
+    });
+    btn.addEventListener('mousedown', (e) => {
+      if (e.button === 1) e.preventDefault();
+    });
     btn.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/x-pot-slot', String(idx));
       e.dataTransfer.effectAllowed = 'move';
