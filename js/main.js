@@ -350,6 +350,8 @@ function setupSectionFold() {
     const span = sec.querySelector('h2 span');
     if (!span) return;
     span.classList.add('sec-title');
+    // Title-only hitbox like the disc/emblem sub-menus: only the title text
+    // (not the full header row) folds the section.
     span.addEventListener('click', () => {
       const folded = sec.classList.toggle('folded');
       if (!sec.id) return;
@@ -591,6 +593,10 @@ document.addEventListener('click', (e) => {
   if (ct && ct.style.display !== 'none' && !e.target.closest('.char-card, [data-id], #recordPngImage')) {
     ct.style.display = 'none';
   }
+  const nt = document.querySelector('.note-tooltip');
+  if (nt && nt.style.display !== 'none' && !e.target.closest('.note-item img, [data-id], #recordPngImage')) {
+    nt.style.display = 'none';
+  }
   const vm = document.querySelector('.head-variant-menu');
   if (vm && !e.target.closest('.head-variant-menu, .char-head-click')) {
     vm.remove();
@@ -604,7 +610,9 @@ document.addEventListener('touchmove', () => {
   if (dt) dt.style.display = 'none';
   const ct = document.querySelector('.char-tooltip');
   if (ct) ct.style.display = 'none';
+  const nt = document.querySelector('.note-tooltip');
+  if (nt) nt.style.display = 'none';
 }, { passive: true });
 
 // Fixed-position tooltips detach from their card while the page scrolls.
-window.addEventListener('scroll', () => hideCharTooltip(), { passive: true, capture: true });
+window.addEventListener('scroll', () => { hideCharTooltip(); if (typeof hideNoteTooltip === 'function') hideNoteTooltip(); }, { passive: true, capture: true });

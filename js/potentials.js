@@ -518,14 +518,13 @@ function updatePotentials() {
     const emblemLabel = document.createElement('div');
     emblemLabel.className = 'emblem-section-label';
     emblemLabel.style.cssText = 'display:flex;justify-content:space-between;align-items:center;';
-    emblemLabel.onclick = (e) => {
-      if (e.target.closest('button')) return;
-      setEmblemFolded(cId, emblemSection.classList.toggle('folded'));
-    };
 
     const emblemLabelText = document.createElement('span');
     emblemLabelText.className = 'emblem-fold-title';
     emblemLabelText.textContent = 'Emblems';
+    emblemLabelText.onclick = () => {
+      setEmblemFolded(cId, emblemSection.classList.toggle('folded'));
+    };
     emblemLabel.appendChild(emblemLabelText);
 
     const clearEmblemBtn = document.createElement('button');

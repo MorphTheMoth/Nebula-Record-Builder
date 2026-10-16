@@ -21,13 +21,13 @@ body { font-family: 'Consolas', 'SF Mono', monospace; background: #161616; color
 img { image-rendering: -webkit-optimize-contrast; }
 
 h1 { color: #aaa; font-size: 16px; font-weight: bold; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; }
-h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 10px; }
+h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 10px; font-weight: bold; }
 
 .section { margin-bottom: 20px; border-top: 1px solid #2a2a2a; padding-top: 14px; }
 .section.folded > :not(h2) { display: none !important; }
 .section.folded #charElementFilters { display: none !important; }
 #charactersSection h2 { min-height: 34px; }
-.sec-title { cursor: pointer; user-select: none; }
+.sec-title { cursor: pointer; user-select: none; font-weight: bold; }
 .sec-title:hover { color: #999; }
 .sec-title::before {
   content: '▾'; display: inline-block; width: 12px; margin-right: 4px;
@@ -94,7 +94,7 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 /* Discs */
 .disc-row { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
 .disc-slot { display: flex; flex-direction: column; gap: 4px; }
-.disc-slot-label { font-size: 9px; color: #555; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+.disc-slot-label { font-size: 9px; color: #666; text-align: center; text-transform: uppercase; letter-spacing: 2px; }
 .disc-picker { position: relative; }
 .disc-thumb {
   width: 72px; height: 72px; border: 1px solid #333; border-radius: 3px; object-fit: cover;
@@ -110,18 +110,19 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 .disc-thumb.picking { border-color: #bbb !important; box-shadow: 0 0 0 1px rgba(255,255,255,0.65); }
 
 /* Disc selection submenu (inside discs section, folded by default) */
-.disc-sel-wrap { margin-top: 12px; border-top: 1px solid #2a2a2a; padding-top: 6px; }
+.disc-sel-wrap { margin-top: 12px; border-top: 1px solid #2a2a2a; padding-top: 14px; }
 .disc-sel-head {
-  cursor: pointer; user-select: none; font-size: 11px; text-transform: uppercase;
-  letter-spacing: 2px; color: #666; display: flex; align-items: center; gap: 6px;
-  padding: 4px 0 8px;
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 2px; color: #666; font-weight: bold; display: flex; align-items: center;
+  margin-bottom: 10px; padding: 0; user-select: none;
 }
-.disc-sel-head:hover { color: #999; }
-.disc-sel-head::before {
+.disc-sel-title { cursor: pointer; user-select: none; font-weight: bold; display: flex; align-items: center; }
+.disc-sel-title:hover { color: #999; }
+.disc-sel-title::before {
   content: '▸'; display: inline-block; width: 12px; margin-right: 4px;
   color: #555; font-size: 18px; vertical-align: 0px;
 }
-.disc-sel-wrap.open .disc-sel-head::before { content: '▾'; }
+.disc-sel-wrap.open .disc-sel-title::before { content: '▾'; }
 .disc-sel-body { display: none; }
 .disc-sel-wrap.open .disc-sel-body { display: block; }
 .disc-sel-filters { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
@@ -247,7 +248,7 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
   gap: 16px;
 }
 .pot-group { flex: 1; min-width: 200px; }
-.pot-group-label { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.pot-group-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
 .pot-list { display: flex; flex-direction: column; gap: 4px; }
 .pot-item {
   display: flex; align-items: center; gap: 8px; padding: 5px 8px;
@@ -318,6 +319,20 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 .disc-tt-note { display: flex; align-items: center; background: none; border: none; padding: 0; }
 .disc-tt-note img { width: 22px; height: 22px; object-fit: contain; }
 
+/* Note tooltip */
+.note-tooltip {
+  position: fixed; background: #1e1e1e; border: 1px solid #555; border-radius: 6px; padding: 10px; z-index: 100000;
+  pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  font-family: 'Consolas', monospace; font-size: 11px; line-height: 1.4; color: #ddd; backdrop-filter: blur(2px);
+  max-width: 320px; min-width: 220px;
+}
+.note-tt-top { display: flex; gap: 10px; align-items: center; }
+.note-tt-top > div:last-child { flex: 1; min-width: 0; }
+.note-tt-top img { width: 64px; height: 64px; object-fit: contain; border-radius: 3px; background: #2a2a2a; flex-shrink: 0; }
+.note-tt-name { font-size: 12px; color: #fff; font-weight: bold; margin-bottom: 2px; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
+.note-tt-stats { display: flex; flex-direction: column; gap: 1px; font-size: 11px; color: #ccc; }
+.note-item img { cursor: help; }
+
 /* Character tooltip */
 .char-tooltip {
   position: fixed; background: #1e1e1e; border: 1px solid #555; border-radius: 6px; padding: 10px; z-index: 100000;
@@ -339,13 +354,13 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 .emblem-section {
   margin-top: 0;            /* remove top margin because gap already handles spacing */
   border-top: 1px solid #2a2a2a;
-  padding-top: 12px;
+  padding-top: 14px;
   width: 100%;
   flex: 0 0 auto;          /* don’t grow or shrink, just be full width */
 }
-.emblem-section-label { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; cursor: pointer; user-select: none; }
-.emblem-section-label:hover { color: #999; }
-.emblem-fold-title { display: flex; align-items: center; }
+.emblem-section-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: bold; user-select: none; }
+.emblem-fold-title { display: flex; align-items: center; cursor: pointer; user-select: none; font-weight: bold; }
+.emblem-fold-title:hover { color: #999; }
 .emblem-fold-title::before {
   content: '▾'; display: inline-block; width: 12px; margin-right: 4px;
   color: #555; font-size: 18px; vertical-align: 0px;
@@ -398,7 +413,7 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 }
 .emblem-output-btn:hover { background: #2e2e2e; color: #ccc; }
 .emblem-feedback { font-size: 10px; color: #6c6; margin-left: 8px; white-space: nowrap; }
-.emblem-card-label { font-size: 9px; color: #777; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.emblem-card-label { font-size: 9px; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
 .emblem-stats { display: flex; flex-direction: column; gap: 4px; }
 .emblem-stat-row { display: flex; align-items: center; gap: 6px; }
 .emblem-stat-select {
@@ -954,7 +969,7 @@ body.vanilla-mode .emblem-section { display: none !important; }
       <div class="disc-output-panel" id="discOutputPanel"></div>
     </div>
     <div class="disc-sel-wrap open" id="discSelWrap">
-      <div class="disc-sel-head" id="discSelHead" onclick="toggleDiscSelFold()">Disc selection</div>
+      <div class="disc-sel-head" id="discSelHead"><span class="disc-sel-title" onclick="toggleDiscSelFold()">Disc selection</span></div>
       <div class="disc-sel-body" id="discSelBody">
         <div class="disc-sel-filters" id="discSelFilters"></div>
         <div class="disc-sel-grid" id="discSelGrid"></div>

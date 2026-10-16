@@ -1166,6 +1166,92 @@ function updateDiscOutputText() {
   outEl.textContent = lines.length ? lines.join('\n')+'\n' : '—';
 }
 
+// ---- Note hover tooltip (notes section images) ----
+// Hardcoded from data/Item.json ("Item.<noteId>.1" = name, "Item.<noteId>.2" = stat).
+const NOTE_INFO = {
+  90011: { name: 'Melody of Pummel', stat: 'ATK' },
+  90012: { name: 'Melody of Luck', stat: 'Crit Rate' },
+  90013: { name: 'Melody of Burst', stat: 'Crit DMG' },
+  90014: { name: 'Melody of Stamina', stat: 'Max HP' },
+  90015: { name: 'Melody of Focus', stat: 'Auto Attack DMG' },
+  90016: { name: 'Melody of Skill', stat: 'Skill DMG' },
+  90017: { name: 'Melody of Ultimate', stat: 'Ultimate DMG' },
+  90018: { name: 'Melody of Aqua', stat: 'Aqua DMG Boost' },
+  90019: { name: 'Melody of Ignis', stat: 'Ignis DMG Boost' },
+  90020: { name: 'Melody of Ventus', stat: 'Ventus DMG Boost' },
+  90021: { name: 'Melody of Terra', stat: 'Terra DMG Boost' },
+  90022: { name: 'Melody of Lux', stat: 'Lux DMG Boost' },
+  90023: { name: 'Melody of Umbra', stat: 'Umbra DMG Boost' },
+};
+
+function getNoteTooltipEl() {
+  let el = document.querySelector('.note-tooltip');
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'note-tooltip';
+    el.style.display = 'none';
+    document.body.appendChild(el);
+  }
+  return el;
+}
+
+let _noteTtMove = null;
+
+function positionNoteTooltip(tt, e) {
+  const r = tt.getBoundingClientRect();
+  let x = e.clientX + 15, y = e.clientY + 15;
+  if (x + r.width > window.innerWidth - 8) x = e.clientX - r.width - 12;
+  if (y + r.height > window.innerHeight - 8) y = window.innerHeight - r.height - 8;
+  tt.style.left = Math.max(8, x) + 'px';
+  tt.style.top = Math.max(8, y) + 'px';
+}
+
+function hideNoteTooltip() {
+  const tt = document.querySelector('.note-tooltip');
+  if (tt) tt.style.display = 'none';
+  if (_noteTtMove) { window.removeEventListener('mousemove', _noteTtMove); _noteTtMove = null; }
+}
+
+function buildNoteTooltip(noteId) {
+  const tt = getNoteTooltipEl();
+  const info = NOTE_INFO[noteId] || { name: getNoteShortName(noteId), stat: '' };
+  tt.innerHTML = '';
+  const top = document.createElement('div');
+  top.className = 'note-tt-top';
+  const img = document.createElement('img');
+  img.alt = '';
+  noteImg(img, noteId);
+  top.appendChild(img);
+  const right = document.createElement('div');
+  const nm = document.createElement('div');
+  nm.className = 'note-tt-name';
+  nm.textContent = info.name;
+  right.appendChild(nm);
+  const stats = document.createElement('div');
+  stats.className = 'note-tt-stats';
+  const count = (typeof noteCounts !== 'undefined' && noteCounts[noteId] != null) ? noteCounts[noteId] : 20;
+  const line = document.createElement('div');
+  line.textContent = info.stat ? `${info.stat}: ${count}` : `${count}`;
+  stats.appendChild(line);
+  right.appendChild(stats);
+  top.appendChild(right);
+  tt.appendChild(top);
+  return tt;
+}
+
+function attachNoteTooltip(el, noteId) {
+  if (!el || !noteId) return;
+  el.addEventListener('mouseenter', (e) => {
+    const tt = buildNoteTooltip(noteId);
+    tt.style.display = 'block';
+    positionNoteTooltip(tt, e);
+    if (_noteTtMove) window.removeEventListener('mousemove', _noteTtMove);
+    _noteTtMove = (ev) => positionNoteTooltip(tt, ev);
+    window.addEventListener('mousemove', _noteTtMove);
+  });
+  el.addEventListener('mouseleave', () => hideNoteTooltip());
+}
+
 function updateNotes(resetNotesCount = 20) {
   const sec = document.getElementById('notesSection');
   const grid = document.getElementById('notesGrid');
@@ -1189,6 +1275,7 @@ function updateNotes(resetNotesCount = 20) {
 
     const img = document.createElement('img');
     noteImg(img, id);
+    attachNoteTooltip(img, id);
 
     const nm = document.createElement('div');
     nm.className = 'nname'; nm.textContent = getNoteShortName(id);
