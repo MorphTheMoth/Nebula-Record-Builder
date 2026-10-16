@@ -21,7 +21,8 @@ function cleanupPotOrder() {
 function generate() {
   cleanupPotOrder();
   const out = document.getElementById('output');
-  const chars = selectedChars.filter(c => c).slice(0, 3);
+  const slots = selectedChars.slice(0, 3);
+  const chars = slots.filter(c => c);
   updateBase64();
   if (!chars.length) { out.textContent = '— select characters —'; out.style.color='#a66'; return; }
   if (selectedDiscs.slice(0, 3).filter(d => d).length < 3) { out.textContent = '— select main discs —'; out.style.color='#a66'; return; }
@@ -30,8 +31,8 @@ function generate() {
 
   const potIds = [];
   const addPots = (cId, keys) => { const d = charJson[cId]; if (d?.potential) keys.forEach(k => (d.potential[k]||[]).forEach(p => potIds.push(p.id))); };
-  if (chars[0]) addPots(chars[0], ['mainCore','mainNormal','common']);
-  for (let i = 1; i < chars.length; i++) addPots(chars[i], ['supportCore','supportNormal','common']);
+  if (slots[0]) addPots(slots[0], ['mainCore','mainNormal','common']);
+  for (let i = 1; i < 3; i++) if (slots[i]) addPots(slots[i], ['supportCore','supportNormal','common']);
   const seen = new Set();
   potIds.forEach(id => {
     if (!seen.has(id)) {
@@ -194,12 +195,13 @@ function unpackPotLevels(b64) {
 }
 
 function packPotentials() {
-  const top3 = selectedChars.filter(c => c).slice(0, 3);
+  const slots = [selectedChars[0], selectedChars[1], selectedChars[2]];
   const chars = [
-    top3[0] ? +top3[0] : 0,
-    top3[1] ? +top3[1] : 0,
-    top3[2] ? +top3[2] : 0,
+    slots[0] ? +slots[0] : 0,
+    slots[1] ? +slots[1] : 0,
+    slots[2] ? +slots[2] : 0,
   ];
+  const top3 = slots.filter(c => c).map(String);
   const cfgMap = buildCfgMap(top3);
 
   const bits = [];
@@ -271,8 +273,9 @@ function importPotentials(skipUI = false) {
 
   try {
     const { charIds, potentials } = unpackPotentials(raw);
-    const validIds = charIds.map(String).filter(id => id !== '0' && charData[id]);
-    selectedChars = validIds;
+    const slots = charIds.map(id => (id !== 0 && charData[String(id)]) ? String(id) : null);
+    while (slots.length && !slots[slots.length - 1]) slots.pop();
+    selectedChars = slots;
     Object.entries(potentials).forEach(([pid, lvl]) => { potLevels[+pid] = lvl; });
     potTags = {};
     if (!skipUI) {
@@ -281,7 +284,7 @@ function importPotentials(skipUI = false) {
       updateNotes();
       generate();
 
-      const names = validIds.map(id => charData[id] || id).join(', ');
+      const names = selectedChars.filter(c => c).map(id => charData[id] || id).join(', ');
       if (status) {
         status.textContent = `✓ Imported: ${names}`;
         status.className = 'import-status ok';

@@ -237,7 +237,9 @@ function loadState() {
   try {
     const state = JSON.parse(saved);
     playerId = state.playerId || '10001';
-    selectedChars = (state.selectedChars || []).filter(c => c != null);
+    selectedChars = Array.isArray(state.selectedChars) ? [...state.selectedChars] : [];
+    // Preserve empty Main/Support slots (null holes), drop only trailing empties
+    while (selectedChars.length && !selectedChars[selectedChars.length - 1]) selectedChars.pop();
     selectedDiscs = state.selectedDiscs || ["212005", "211006", "211005", null, null, null];
     potLevels = state.potLevels || {};
     potTags = state.potTags || {};

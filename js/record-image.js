@@ -248,10 +248,11 @@ function hideRecordImage() {
 function previewRecord() {
   const hasChar = selectedChars.some(c => c);
   const currentPotIds = new Set();
-  selectedChars.filter(c => c).slice(0, 3).forEach(cId => {
+  selectedChars.slice(0, 3).forEach((cId, slot) => {
+    if (!cId) return;
     const cfg = charJson[cId]?.potential;
     if (!cfg) return;
-    const isMain = selectedChars.filter(c => c).indexOf(cId) === 0;
+    const isMain = slot === 0;
     const coreKey = isMain ? 'mainCore' : 'supportCore';
     const normalKey = isMain ? 'mainNormal' : 'supportNormal';
     (cfg[coreKey] || []).forEach(p => currentPotIds.add(p.id));
@@ -278,11 +279,12 @@ function renderRecordImage(b64, options = {}) {
   }
 
   const { charIds, potentials } = decoded;
-  const validIds = charIds.filter(id => id !== 0);
+  const slotIds = charIds.slice(0, 3);
+  const validIds = slotIds.filter(id => id !== 0);
   if (!validIds.length) return;
 
   // Include extra selected chars beyond the first 3
-  const extraIds = selectedChars.filter(c => c).slice(3).map(id => +id).filter(id => !validIds.includes(id));
+  const extraIds = selectedChars.slice(3).filter(c => c).map(id => +id).filter(id => !validIds.includes(id));
 
   // Merge potentials from base64 (first 3) with extras' levels from global state
   const mergedPots = { ...potentials };
@@ -302,7 +304,10 @@ function renderRecordImage(b64, options = {}) {
     });
   });
 
-  const allCharIds = [...validIds, ...extraIds];
+  const slotEntries = [];
+  slotIds.forEach((id, slot) => { if (id !== 0) slotEntries.push({ id, slot }); });
+  extraIds.forEach((id, k) => slotEntries.push({ id, slot: 3 + k }));
+  const allCharIds = slotEntries.map(e => e.id);
   const cfgMap = buildCfgMap(allCharIds.map(String));
 
   const theme = getTheme(currentThemeName);
@@ -339,7 +344,7 @@ function renderRecordImage(b64, options = {}) {
   const dividerH = 3;
   const extraGap = 12;
 
-  allCharIds.forEach((charId, slot) => {
+  slotEntries.forEach(({ id: charId, slot }) => {
     if (!charId || !charJson[charId]) return;
 
     const ch = charJson[charId];
@@ -634,9 +639,9 @@ async function copyRecordPNG() {
 
 function buildRecordUrl() {
   const b64 = packPotentials();
-  const allChars = selectedChars.filter(c => c);
-  const chars = allChars.slice(0, 3);
-  const extras = allChars.slice(3);
+  const slots = selectedChars.slice(0, 3);
+  const chars = slots.filter(c => c);
+  const extras = selectedChars.slice(3).filter(c => c);
   const cfgMap = buildCfgMap(chars);
   const keys = ['core', 'high', 'medium', 'low', 'optional'];
   const slotStrs = [];
@@ -670,8 +675,9 @@ function buildRecordUrl() {
 
   const groupKeys = ['core', 'high', 'medium', 'low', 'optional'];
   const orderParts = [];
-  chars.forEach((cId, slot) => {
-    if (!potOrder[slot]) { orderParts.push(''); return; }
+  for (let slot = 0; slot < 3; slot++) {
+    const cId = slots[slot];
+    if (!cId || !potOrder[slot]) { orderParts.push(''); continue; }
     const encoded = groupKeys.map(key => {
       const ids = potOrder[slot][key];
       if (!ids || !ids.length) return '';
@@ -683,7 +689,7 @@ function buildRecordUrl() {
       return validIds.map(id => String(id).slice(-2)).join('');
     }).join('-');
     orderParts.push(encoded);
-  });
+  }
   const orderStr = orderParts.join('_');
   if (orderStr.replace(/_/g, '')) url += '&o=' + encodeURIComponent(orderStr);
 
@@ -694,7 +700,7 @@ function buildRecordUrl() {
   if (notesStr) url += '&n=' + encodeURIComponent(notesStr);
 
   const variantParts = [];
-  allChars.forEach(cId => {
+  [...chars, ...extras].forEach(cId => {
     const v = charHeadVariants[String(cId)] || '02';
     variantParts.push(v);
   });

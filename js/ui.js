@@ -133,8 +133,18 @@ function toggleChar(id) {
   const idx = selectedChars.indexOf(id);
   if (idx >= 0) {
     selectedChars.splice(idx, 1);
+    // Drop trailing empty slots left by support/main swaps
+    while (selectedChars.length && !selectedChars[selectedChars.length - 1]) selectedChars.pop();
+    if (typeof activePotTab !== 'undefined' && activePotTab >= selectedChars.length) {
+      const first = selectedChars.findIndex(c => c);
+      activePotTab = first >= 0 ? first : 0;
+    }
   } else {
-    selectedChars.push(id);
+    // Fill the first empty Main/Support slot so a support-only single
+    // keeps its position instead of being pushed to the end.
+    const hole = selectedChars.findIndex(c => !c);
+    if (hole >= 0 && hole < 3) selectedChars[hole] = id;
+    else selectedChars.push(id);
   }
   if (!selectedChars.length) {
     currentBuildId = null;
