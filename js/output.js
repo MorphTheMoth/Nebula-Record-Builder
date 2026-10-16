@@ -20,6 +20,9 @@ function cleanupPotOrder() {
 
 function generate() {
   cleanupPotOrder();
+  if (typeof maybeAutoDismissCachedTeamButton === 'function') {
+    try { maybeAutoDismissCachedTeamButton(); } catch (e) {}
+  }
   const out = document.getElementById('output');
   const slots = selectedChars.slice(0, 3);
   const chars = slots.filter(c => c);
@@ -58,6 +61,7 @@ function generate() {
   out.textContent = parts.join(' ');
   updateDiscOutputText();
   saveState();
+  if (typeof maybeAutoDismissCachedTeamButton === 'function') maybeAutoDismissCachedTeamButton();
   out.style.color = '#6a8a6a';
 }
 

@@ -515,6 +515,20 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
 .import-btn.off { background: #181818; border-color: #333; color: #555; text-decoration: line-through; }
 .clear-btn { color: #966; border-color: #4a3333; }
 .clear-btn:hover { background: #2e2222; color: #c88; border-color: #6a3333; }
+/* Stale autosave offer: brighter neutral than .import-btn, with dismiss cross */
+.cached-team-wrap { position: relative; display: inline-block; overflow: visible; margin-right: 10px; }
+.cached-team-btn { background: #3d3d3d; border-color: #888; color: #e4e4e4; padding-right: 14px; }
+.cached-team-btn:hover { background: #4a4a4a; color: #fff; border-color: #999; }
+.cached-team-remove {
+  position: absolute; top: -9px; right: -8px;
+  width: 17px; height: 17px; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; line-height: 1; font-family: inherit;
+  background: none; border: none; color: #888;
+  text-shadow: 0 0 3px #000; cursor: pointer; z-index: 3;
+  user-select: none; transition: color 0.1s;
+}
+.cached-team-remove:hover { color: #b56a6a; }
 .import-status { font-size: 10px; font-weight: normal; }
 .import-status.ok { color: rgb(64, 125, 64); }
 .import-status.bad { color: rgb(129, 77, 77); }

@@ -220,9 +220,42 @@ function saveState() {
     priorityMap: {...priorityMap},
     potOrder: JSON.parse(JSON.stringify(potOrder)),
     canvasNotes: canvasNotes.map(n => ({...n})),
-    charHeadVariants: {...charHeadVariants}
+    charHeadVariants: {...charHeadVariants},
+    savedAt: Date.now()
   };
   localStorage.setItem('nebulaBuildState', JSON.stringify(state));
+}
+
+// A stale autosave (>1.5 days old) is not auto-loaded. It is stashed as a
+// pending cached team the user can restore via the "load cached team" button.
+const CACHED_TEAM_MAX_AGE_MS = 1.5 * 24 * 60 * 60 * 1000;
+const CACHED_TEAM_KEY = 'nebulaCachedTeam';
+let pendingCachedState = null;
+
+function cachedStateHasChars(state) {
+  return !!(state && Array.isArray(state.selectedChars) && state.selectedChars.filter(c => c).length);
+}
+
+function applyBuildState(state) {
+  playerId = state.playerId || '10001';
+  selectedChars = Array.isArray(state.selectedChars) ? [...state.selectedChars] : [];
+  // Preserve empty Main/Support slots (null holes), drop only trailing empties
+  while (selectedChars.length && !selectedChars[selectedChars.length - 1]) selectedChars.pop();
+  selectedDiscs = state.selectedDiscs || ["212005", "211006", "211005", null, null, null];
+  potLevels = state.potLevels || {};
+  potTags = state.potTags || {};
+  Object.keys(potTags).forEach(id => {
+    const { pre, post } = potTagParts(id);
+    if (pre || post) potTags[id] = { pre, post }; else delete potTags[id];
+  });
+  emblemStats = state.emblemStats || {};
+  emblemStatGroups = state.emblemStatGroups || {};
+  noteCounts = state.noteCounts || {};
+  discCopies = state.discCopies || {};
+  priorityMap = state.priorityMap || {};
+  potOrder = state.potOrder || {};
+  canvasNotes = Array.isArray(state.canvasNotes) ? state.canvasNotes : [];
+  charHeadVariants = state.charHeadVariants || {};
 }
 
 // Prefix/suffix characters the canvas can render: printable ASCII (no space) plus ★/☆.
@@ -232,29 +265,32 @@ function cleanPotTag(str) {
 }
 
 function loadState() {
+  // Restore a previously stashed stale offer (survives the fresh autosave
+  // that overwrites nebulaBuildState on first load after expiry).
+  pendingCachedState = null;
+  try {
+    const cached = localStorage.getItem(CACHED_TEAM_KEY);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (cachedStateHasChars(parsed)) pendingCachedState = parsed;
+      else localStorage.removeItem(CACHED_TEAM_KEY);
+    }
+  } catch (e) { console.warn('Failed to load cached team:', e); }
+
   const saved = localStorage.getItem('nebulaBuildState');
   if (!saved) return;
   try {
     const state = JSON.parse(saved);
-    playerId = state.playerId || '10001';
-    selectedChars = Array.isArray(state.selectedChars) ? [...state.selectedChars] : [];
-    // Preserve empty Main/Support slots (null holes), drop only trailing empties
-    while (selectedChars.length && !selectedChars[selectedChars.length - 1]) selectedChars.pop();
-    selectedDiscs = state.selectedDiscs || ["212005", "211006", "211005", null, null, null];
-    potLevels = state.potLevels || {};
-    potTags = state.potTags || {};
-    Object.keys(potTags).forEach(id => {
-      const { pre, post } = potTagParts(id);
-      if (pre || post) potTags[id] = { pre, post }; else delete potTags[id];
-    });
-    emblemStats = state.emblemStats || {};
-    emblemStatGroups = state.emblemStatGroups || {};
-    noteCounts = state.noteCounts || {};
-    discCopies = state.discCopies || {};
-    priorityMap = state.priorityMap || {};
-    potOrder = state.potOrder || {};
-    canvasNotes = Array.isArray(state.canvasNotes) ? state.canvasNotes : [];
-    charHeadVariants = state.charHeadVariants || {};
+    // Stale autosave: stash it as a restorable cached team instead of loading.
+    if (state && state.savedAt && cachedStateHasChars(state) &&
+        (Date.now() - Number(state.savedAt)) > CACHED_TEAM_MAX_AGE_MS) {
+      pendingCachedState = state;
+      try { localStorage.setItem(CACHED_TEAM_KEY, JSON.stringify(state)); } catch (e) {}
+      return;
+    }
+    applyBuildState(state);
+    // Fresh autosave with no pending offer from this load: drop any leftover
+    // cached offer only when there is no offer to show (handled above).
   } catch (e) { console.warn('Failed to load state:', e); }
 }
 

@@ -164,6 +164,88 @@ function updatePotSaveButton() {
   btn.textContent = existing ? `Save '${existing.title}'` : 'Save';
 }
 
+function ensureLoadCachedTeamButton() {
+  if (typeof pendingCachedState === 'undefined' || !pendingCachedState) return;
+  const saveBtn = document.getElementById('potSaveBtn');
+  if (!saveBtn || !saveBtn.parentElement) return;
+  if (document.getElementById('loadCachedTeamBtn')) return;
+  const wrap = document.createElement('span');
+  wrap.className = 'cached-team-wrap';
+  wrap.id = 'loadCachedTeamWrap';
+  const btn = document.createElement('button');
+  btn.className = 'import-btn cached-team-btn';
+  btn.id = 'loadCachedTeamBtn';
+  btn.textContent = 'load cached team';
+  btn.title = 'Restore the team cached from your last visit';
+  btn.onclick = () => loadCachedTeam();
+  const x = document.createElement('span');
+  x.className = 'cached-team-remove';
+  x.textContent = '✕';
+  x.title = 'Discard cached team';
+  x.onclick = (e) => { e.stopPropagation(); dismissLoadCachedTeamButton(true); };
+  wrap.appendChild(btn);
+  wrap.appendChild(x);
+  saveBtn.parentElement.insertBefore(wrap, saveBtn);
+}
+
+function hideLoadCachedTeamButton() {
+  document.getElementById('loadCachedTeamWrap')?.remove();
+}
+
+function dismissLoadCachedTeamButton(discardStored) {
+  try {
+    if (typeof pendingCachedState !== 'undefined') pendingCachedState = null;
+  } catch (e) {}
+  hideLoadCachedTeamButton();
+  if (discardStored) {
+    try { localStorage.removeItem(CACHED_TEAM_KEY); } catch (e) {}
+    try { localStorage.removeItem('nebulaBuildState'); } catch (e) {}
+  }
+  // Keep the potentials section hidden when empty and there is no offer left.
+  if (typeof selectedChars !== 'undefined' && !selectedChars.filter(c => c).length) {
+    document.getElementById('potSection').style.display = 'none';
+  }
+}
+
+function loadCachedTeam() {
+  if (typeof pendingCachedState === 'undefined' || !pendingCachedState) return;
+  const extras = pendingCachedState;
+  pendingCachedState = null;
+  try { localStorage.removeItem(CACHED_TEAM_KEY); } catch (e) {}
+  clearCanvasNotes();
+  applyBuildState(extras);
+  currentTitle = extras.currentTitle || '';
+  try { localStorage.setItem('nrb-title', currentTitle); } catch (e) {}
+  const titleInput = document.getElementById('recordTitle');
+  if (titleInput) titleInput.value = currentTitle;
+  if (extras.currentThemeName) {
+    currentThemeName = extras.currentThemeName;
+    try { localStorage.setItem('nrb-theme', currentThemeName); } catch (e) {}
+    if (typeof populateThemeSelect === 'function') populateThemeSelect();
+  }
+  hideLoadCachedTeamButton();
+  refreshCharBadges();
+  renderDiscOutput();
+  renderDiscs();
+  updateDiscOutputText();
+  updateNotes();
+  selectedChars.filter(c => c).forEach(cId => computeEmblemBonuses(cId));
+  updatePotentials();
+  generate();
+  saveState();
+}
+
+function maybeAutoDismissCachedTeamButton() {
+  if (typeof pendingCachedState === 'undefined' || !pendingCachedState) return;
+  if (!document.getElementById('loadCachedTeamBtn')) return;
+  const chars = (typeof selectedChars !== 'undefined' ? selectedChars : []).filter(c => c);
+  if (chars.length < 3) return;
+  // User built a fresh full team: the old cache is obsolete.
+  try { pendingCachedState = null; } catch (e) {}
+  try { localStorage.removeItem(CACHED_TEAM_KEY); } catch (e) {}
+  hideLoadCachedTeamButton();
+}
+
 function showLoadBuildPopup() {
   let backdrop = document.querySelector('.load-build-backdrop');
   if (backdrop) return;
@@ -509,6 +591,7 @@ async function init() {
     refreshCharBadges();
     updatePotentials();
     generate();
+    ensureLoadCachedTeamButton();
   } catch(e) {
     document.getElementById('charGrid').innerHTML = `<span class="err">Error loading data: ${e.message}</span>`;
   }

@@ -143,7 +143,16 @@ function updatePotentials() {
   const tabs = document.getElementById('potTabs');
   const content = document.getElementById('potContent');
   const occupied = selectedChars.filter(c => c);
-  if (!occupied.length) { sec.style.display = 'none'; return; }
+  if (!occupied.length) {
+    const hasCached = (typeof pendingCachedState !== 'undefined' && !!pendingCachedState);
+    sec.style.display = hasCached ? '' : 'none';
+    if (hasCached) {
+      tabs.innerHTML = '';
+      content.innerHTML = '';
+      if (typeof ensureLoadCachedTeamButton === 'function') ensureLoadCachedTeamButton();
+    }
+    return;
+  }
   sec.style.display = '';
   updatePotSaveButton();
 
@@ -673,6 +682,7 @@ function updatePotentials() {
     content.appendChild(page);
     updateEmblemOutput(cId);
   });
+  if (typeof ensureLoadCachedTeamButton === 'function') ensureLoadCachedTeamButton();
 }
 
 function getEmblemDefaultOptions(emblemIdx) {
