@@ -904,7 +904,8 @@ function swapPotSlots(fromIdx, toIdx) {
   selectedChars[fromIdx] = selectedChars[toIdx] || null;
   selectedChars[toIdx] = tmp;
   const tmpO = potOrder[fromIdx];
-  potOrder[fromIdx] = potOrder[toIdx];
+  if (potOrder[toIdx] !== undefined) potOrder[fromIdx] = potOrder[toIdx];
+  else delete potOrder[fromIdx];
   if (tmpO !== undefined) potOrder[toIdx] = tmpO;
   else delete potOrder[toIdx];
 
