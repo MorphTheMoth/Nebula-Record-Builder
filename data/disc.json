@@ -3,6 +3,14 @@
     "name": "Crisp Morning",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -30,14 +38,6 @@
       "icon": "DiscSkill_1",
       "p1": "7%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 3
     }
@@ -46,6 +46,14 @@
     "name": "Sunny Breeze",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -73,14 +81,6 @@
       "icon": "DiscSkill_1",
       "p1": "7%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 3
     }
@@ -89,6 +89,14 @@
     "name": "Indigo Sunset",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -116,14 +124,6 @@
       "icon": "DiscSkill_4",
       "p1": "10%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Skill": 3
     }
@@ -132,6 +132,14 @@
     "name": "Pink Dream",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -159,14 +167,6 @@
       "icon": "DiscSkill_4",
       "p1": "10%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Skill": 3
     }
@@ -175,6 +175,14 @@
     "name": "Lonely Dunes",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -202,14 +210,6 @@
       "icon": "DiscSkill_4",
       "p1": "22.5%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Ultimate": 3
     }
@@ -218,6 +218,14 @@
     "name": "Sweet Creek",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -245,14 +253,6 @@
       "icon": "DiscSkill_4",
       "p1": "22.5%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Ultimate": 3
     }
@@ -261,6 +261,14 @@
     "name": "Starlit Hope",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -288,14 +296,6 @@
       "icon": "DiscSkill_4",
       "p1": "8%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 3
     }
@@ -304,6 +304,14 @@
     "name": "Homeward Path",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -331,14 +339,6 @@
       "icon": "DiscSkill_4",
       "p1": "8%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 3
     }
@@ -347,6 +347,14 @@
     "name": "Grand Feast",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -374,14 +382,6 @@
       "icon": "DiscSkill_4",
       "p1": "8%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 3
     }
@@ -390,6 +390,14 @@
     "name": "Whoopla",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -417,14 +425,6 @@
       "icon": "DiscSkill_1",
       "p1": "7%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 3
     }
@@ -433,6 +433,14 @@
     "name": "Elysium",
     "element": "None",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -460,14 +468,6 @@
       "icon": "DiscSkill_4",
       "p1": "8%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 3
     }
@@ -476,6 +476,14 @@
     "name": "Flare Frenzy",
     "element": "Ignis",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -503,14 +511,6 @@
       "icon": "DiscSkill_13",
       "p1": "6%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Ignis": 3
     }
@@ -519,6 +519,14 @@
     "name": "Auspicious Glow",
     "element": "Lux",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -546,14 +554,6 @@
       "icon": "DiscSkill_14",
       "p1": "6%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Lux": 3
     }
@@ -562,6 +562,14 @@
     "name": "Brave the Wind",
     "element": "Ventus",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -589,14 +597,6 @@
       "icon": "DiscSkill_9",
       "p1": "6%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Ventus": 3
     }
@@ -605,6 +605,14 @@
     "name": "Bubbles",
     "element": "Aqua",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -632,14 +640,6 @@
       "icon": "DiscSkill_12",
       "p1": "6%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Aqua": 3
     }
@@ -648,6 +648,14 @@
     "name": "Eclipse",
     "element": "Umbra",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -675,14 +683,6 @@
       "icon": "DiscSkill_10",
       "p1": "6%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Umbra": 3
     }
@@ -691,6 +691,14 @@
     "name": "Fortitude",
     "element": "Terra",
     "star": 3,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 3120,
       "ATK": 327
@@ -718,14 +726,6 @@
       "icon": "DiscSkill_11",
       "p1": "6%"
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Terra": 3
     }
@@ -734,6 +734,13 @@
     "name": "Zesty Curiosity",
     "element": "None",
     "star": 4,
+    "source": [
+      "Shadow Siege",
+      "SS",
+      "Hunter Medal",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -772,13 +779,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Shadow Siege",
-      "SS",
-      "Hunter Medal",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 4,
       "Melody of Stamina": 5
@@ -788,6 +788,13 @@
     "name": "Seasonal Waves",
     "element": "None",
     "star": 4,
+    "source": [
+      "Shadow Siege",
+      "SS",
+      "Hunter Medal",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -826,13 +833,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Shadow Siege",
-      "SS",
-      "Hunter Medal",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 5,
       "Melody of Focus": 4
@@ -842,6 +842,14 @@
     "name": "Scorching Night's End",
     "element": "Ignis",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -880,14 +888,6 @@
         "Melody of Focus": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 4,
       "Melody of Ultimate": 5
@@ -897,6 +897,14 @@
     "name": "Twin Moon Mischief",
     "element": "Ignis",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -935,14 +943,6 @@
         "Melody of Skill": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 4,
       "Melody of Skill": 5
@@ -952,6 +952,14 @@
     "name": "★Bam Bam Girl★",
     "element": "Lux",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -990,14 +998,6 @@
         "Melody of Focus": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 5,
       "Melody of Stamina": 4
@@ -1007,6 +1007,14 @@
     "name": "Good Night",
     "element": "Lux",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1045,14 +1053,6 @@
         "Melody of Skill": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 4,
       "Melody of Ultimate": 5
@@ -1062,6 +1062,14 @@
     "name": "Emerald Dream",
     "element": "Ventus",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1100,14 +1108,6 @@
         "Melody of Focus": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 4,
       "Melody of Skill": 5
@@ -1117,6 +1117,14 @@
     "name": "Tranquil Retreat",
     "element": "Ventus",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1155,14 +1163,6 @@
         "Melody of Skill": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 4,
       "Melody of Ultimate": 5
@@ -1172,6 +1172,14 @@
     "name": "Rainy Tune",
     "element": "Aqua",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1210,14 +1218,6 @@
         "Melody of Focus": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 4,
       "Melody of Skill": 5
@@ -1227,6 +1227,14 @@
     "name": "Steam Syndrome",
     "element": "Aqua",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1265,14 +1273,6 @@
         "Melody of Skill": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 4,
       "Melody of Ultimate": 5
@@ -1282,6 +1282,14 @@
     "name": "Meow Rhythm",
     "element": "Umbra",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1320,14 +1328,6 @@
         "Melody of Focus": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 4,
       "Melody of Ultimate": 5
@@ -1337,6 +1337,14 @@
     "name": "Starry Night Ode",
     "element": "Umbra",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1375,14 +1383,6 @@
         "Melody of Skill": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 4,
       "Melody of Skill": 5
@@ -1392,6 +1392,14 @@
     "name": "Leaf Her to Me",
     "element": "Terra",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1430,14 +1438,6 @@
         "Melody of Focus": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 5,
       "Melody of Stamina": 4
@@ -1447,6 +1447,14 @@
     "name": "The Knight's Smith",
     "element": "Terra",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1485,14 +1493,6 @@
         "Melody of Skill": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 4,
       "Melody of Ultimate": 5
@@ -1502,6 +1502,14 @@
     "name": "Unknown Fragrance",
     "element": "Ventus",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1540,14 +1548,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 4,
       "Melody of Focus": 5
@@ -1557,6 +1557,14 @@
     "name": "Cage of Roses",
     "element": "Ignis",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1595,14 +1603,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 5,
       "Melody of Focus": 4
@@ -1612,6 +1612,14 @@
     "name": "★Rolling Life★",
     "element": "Lux",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1650,14 +1658,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 4,
       "Melody of Focus": 5
@@ -1667,6 +1667,14 @@
     "name": "Soda Shopping",
     "element": "Aqua",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1705,14 +1713,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 4,
       "Melody of Focus": 5
@@ -1722,6 +1722,14 @@
     "name": "Delusion",
     "element": "Umbra",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1760,14 +1768,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 5,
       "Melody of Focus": 4
@@ -1777,6 +1777,14 @@
     "name": "The Shining",
     "element": "Terra",
     "star": 4,
+    "source": [
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1815,14 +1823,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 4,
       "Melody of Focus": 5
@@ -1832,6 +1832,13 @@
     "name": "Miraculous Anthem",
     "element": "Ventus",
     "star": 4,
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1870,13 +1877,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Journey Ticket",
-      "JT",
-      "Ascension",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 4,
       "Melody of Ventus": 5
@@ -1886,6 +1886,13 @@
     "name": "Love River's Curse",
     "element": "Ignis",
     "star": 4,
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1924,13 +1931,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Journey Ticket",
-      "JT",
-      "Ascension",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 4,
       "Melody of Ignis": 5
@@ -1940,6 +1940,13 @@
     "name": "Pure White",
     "element": "Lux",
     "star": 4,
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -1978,13 +1985,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Journey Ticket",
-      "JT",
-      "Ascension",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 4,
       "Melody of Lux": 5
@@ -1994,6 +1994,13 @@
     "name": "Holiday Bubble",
     "element": "Aqua",
     "star": 4,
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -2032,13 +2039,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Journey Ticket",
-      "JT",
-      "Ascension",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 4,
       "Melody of Aqua": 5
@@ -2048,6 +2048,13 @@
     "name": "Sweet Invitation",
     "element": "Umbra",
     "star": 4,
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -2086,13 +2093,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Journey Ticket",
-      "JT",
-      "Ascension",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 4,
       "Melody of Umbra": 5
@@ -2102,6 +2102,13 @@
     "name": "Vent It Out ♥",
     "element": "Terra",
     "star": 4,
+    "source": [
+      "Journey Ticket",
+      "JT",
+      "Ascension",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 5620,
       "ATK": 654
@@ -2140,13 +2147,6 @@
         "Melody of Ultimate": 10
       }
     },
-    "source": [
-      "Journey Ticket",
-      "JT",
-      "Ascension",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 4,
       "Melody of Terra": 5
@@ -2156,6 +2156,11 @@
     "name": "Meowing Cat God",
     "element": "Ignis",
     "star": 5,
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 932,
       "Ignis DMG": "15%"
@@ -2204,11 +2209,6 @@
         "Melody of Ignis": 15
       }
     },
-    "source": [
-      "Battle Pass",
-      "BP",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Ignis": 11
@@ -2218,6 +2218,11 @@
     "name": "Sky, Flowers, Poem",
     "element": "Ventus",
     "star": 5,
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 932,
       "Ventus DMG": "15%"
@@ -2266,11 +2271,6 @@
         "Melody of Ventus": 15
       }
     },
-    "source": [
-      "Battle Pass",
-      "BP",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Ventus": 11
@@ -2280,6 +2280,11 @@
     "name": "Seed Alike",
     "element": "Lux",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Lux DMG": "12%"
@@ -2328,11 +2333,6 @@
         "Melody of Lux": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 7,
       "Melody of Ultimate": 7
@@ -2342,6 +2342,15 @@
     "name": "Wisteria Dream",
     "element": "Umbra",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Umbra DMG": "15%"
@@ -2390,15 +2399,6 @@
         "Melody of Umbra": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Skill": 10
@@ -2408,6 +2408,15 @@
     "name": "Sunlit Blossom",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 932,
       "Skill DMG": "24%"
@@ -2456,15 +2465,6 @@
         "Melody of Aqua": 15
       }
     },
-    "source": [
-      "Signature",
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Ultimate": 7,
       "Melody of Aqua": 7
@@ -2474,6 +2474,15 @@
     "name": "Witch's Swing",
     "element": "Umbra",
     "star": 5,
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 932,
       "Umbra DMG": "15%"
@@ -2522,15 +2531,6 @@
         "Melody of Umbra": 15
       }
     },
-    "source": [
-      "Signature",
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 7,
       "Melody of Skill": 7
@@ -2540,6 +2540,15 @@
     "name": "Midnight Mayhem",
     "element": "Lux",
     "star": 5,
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 932,
       "Lux DMG": "15%"
@@ -2588,15 +2597,6 @@
         "Melody of Lux": 15
       }
     },
-    "source": [
-      "Signature",
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Skill": 7,
       "Melody of Ultimate": 7
@@ -2606,6 +2606,15 @@
     "name": "Soaring Blue",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Aqua DMG": "15%"
@@ -2654,15 +2663,6 @@
         "Melody of Aqua": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Pummel": 10,
       "Melody of Luck": 4
@@ -2672,6 +2672,13 @@
     "name": "New Star Prelude",
     "element": "Ventus",
     "star": 5,
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ultimate DMG": "40%"
@@ -2720,13 +2727,6 @@
         "Melody of Ventus": 15
       }
     },
-    "source": [
-      "A Finale Echoing",
-      "AFE",
-      "Whispers of Decay",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 7,
       "Melody of Stamina": 7
@@ -2736,6 +2736,13 @@
     "name": "Prayer Beneath Light",
     "element": "Lux",
     "star": 5,
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Lux DMG": "12%"
@@ -2784,13 +2791,6 @@
         "Melody of Lux": 15
       }
     },
-    "source": [
-      "A Finale Echoing",
-      "AFE",
-      "Whispers of Decay",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 7,
       "Melody of Skill": 7
@@ -2800,6 +2800,13 @@
     "name": "Summer Afternoon Rain",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ultimate DMG": "40%"
@@ -2848,13 +2855,6 @@
         "Melody of Aqua": 15
       }
     },
-    "source": [
-      "A Finale Echoing",
-      "AFE",
-      "Whispers of Decay",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 7,
       "Melody of Stamina": 7
@@ -2864,6 +2864,13 @@
     "name": "Those with Ambition",
     "element": "Umbra",
     "star": 5,
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Umbra DMG": "12%"
@@ -2912,13 +2919,6 @@
         "Melody of Umbra": 15
       }
     },
-    "source": [
-      "A Finale Echoing",
-      "AFE",
-      "Whispers of Decay",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 7,
       "Melody of Stamina": 7
@@ -2928,6 +2928,13 @@
     "name": "Voyage Blueprint",
     "element": "Ignis",
     "star": 5,
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ultimate DMG": "40%"
@@ -2976,13 +2983,6 @@
         "Melody of Ignis": 15
       }
     },
-    "source": [
-      "A Finale Echoing",
-      "AFE",
-      "Whispers of Decay",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 7,
       "Melody of Stamina": 7
@@ -2992,6 +2992,13 @@
     "name": "Sweet Times",
     "element": "Terra",
     "star": 5,
+    "source": [
+      "A Finale Echoing",
+      "AFE",
+      "Whispers of Decay",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ultimate DMG": "40%"
@@ -3040,13 +3047,6 @@
         "Melody of Terra": 15
       }
     },
-    "source": [
-      "A Finale Echoing",
-      "AFE",
-      "Whispers of Decay",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Stamina": 7,
       "Melody of Skill": 7
@@ -3056,6 +3056,15 @@
     "name": "Deer's Song",
     "element": "Ventus",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Ventus DMG": "15%"
@@ -3104,15 +3113,6 @@
         "Melody of Ventus": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Ultimate": 10
@@ -3122,6 +3122,15 @@
     "name": "Chronicles of Spring",
     "element": "Ventus",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Ventus DMG": "15%"
@@ -3170,15 +3179,6 @@
         "Melody of Ventus": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Pummel": 10,
       "Melody of Luck": 4
@@ -3188,6 +3188,15 @@
     "name": "Fireworks",
     "element": "Ignis",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Ignis DMG": "15%"
@@ -3236,15 +3245,6 @@
         "Melody of Ignis": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Skill": 10
@@ -3254,6 +3254,13 @@
     "name": "Lemon & Black Tea",
     "element": "Ventus",
     "star": 5,
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ventus DMG": "12%"
@@ -3302,13 +3309,6 @@
         "Melody of Ventus": 15
       }
     },
-    "source": [
-      "Cataclysm Survivor",
-      "CS",
-      "Defender's Medal",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Stamina": 11
@@ -3318,6 +3318,13 @@
     "name": "One Shot, One Down",
     "element": "Ignis",
     "star": 5,
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ignis DMG": "12%"
@@ -3366,13 +3373,6 @@
         "Melody of Ignis": 15
       }
     },
-    "source": [
-      "Cataclysm Survivor",
-      "CS",
-      "Defender's Medal",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Stamina": 11
@@ -3382,6 +3382,13 @@
     "name": "Sparkling Moment",
     "element": "Lux",
     "star": 5,
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Lux DMG": "12%"
@@ -3430,13 +3437,6 @@
         "Melody of Lux": 15
       }
     },
-    "source": [
-      "Cataclysm Survivor",
-      "CS",
-      "Defender's Medal",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Stamina": 11
@@ -3446,6 +3446,13 @@
     "name": "United by Fate",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Aqua DMG": "12%"
@@ -3494,13 +3501,6 @@
         "Melody of Aqua": 15
       }
     },
-    "source": [
-      "Cataclysm Survivor",
-      "CS",
-      "Defender's Medal",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Stamina": 11
@@ -3510,6 +3510,13 @@
     "name": "The Meow",
     "element": "Umbra",
     "star": 5,
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Umbra DMG": "12%"
@@ -3558,13 +3565,6 @@
         "Melody of Umbra": 15
       }
     },
-    "source": [
-      "Cataclysm Survivor",
-      "CS",
-      "Defender's Medal",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Stamina": 11
@@ -3574,6 +3574,13 @@
     "name": "Colors Pierce the Grey",
     "element": "Terra",
     "star": 5,
+    "source": [
+      "Cataclysm Survivor",
+      "CS",
+      "Defender's Medal",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Terra DMG": "12%"
@@ -3622,13 +3629,6 @@
         "Melody of Terra": 15
       }
     },
-    "source": [
-      "Cataclysm Survivor",
-      "CS",
-      "Defender's Medal",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Stamina": 11
@@ -3638,6 +3638,11 @@
     "name": "One, Two, Three, Jump!",
     "element": "Ventus",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ventus DMG": "12%"
@@ -3686,11 +3691,6 @@
         "Melody of Ventus": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 7,
       "Melody of Ventus": 7
@@ -3700,6 +3700,15 @@
     "name": "Sword Against Stream",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 981,
       "Aqua DMG": "15%"
@@ -3748,15 +3757,6 @@
         "Melody of Aqua": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Ultimate": 10
@@ -3766,6 +3766,15 @@
     "name": "Mystic Brushstrokes",
     "element": "Ignis",
     "star": 5,
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 932,
       "Ignis DMG": "15%"
@@ -3814,15 +3823,6 @@
         "Melody of Ignis": 15
       }
     },
-    "source": [
-      "Signature",
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 7,
       "Melody of Skill": 7
@@ -3832,6 +3832,15 @@
     "name": "Daylight Garden",
     "element": "Ventus",
     "star": 5,
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 932,
       "Ventus DMG": "15%"
@@ -3880,15 +3889,6 @@
         "Melody of Ventus": 15
       }
     },
-    "source": [
-      "Signature",
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Ultimate": 7,
       "Melody of Ventus": 7
@@ -3898,6 +3898,15 @@
     "name": "The Cat's Treasure",
     "element": "Ignis",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Ignis DMG": "15%"
@@ -3946,15 +3955,6 @@
         "Melody of Ignis": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Pummel": 10,
       "Melody of Luck": 4
@@ -3964,6 +3964,11 @@
     "name": "A Moment in the Afternoon",
     "element": "Lux",
     "star": 5,
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 932,
       "Lux DMG": "15%"
@@ -4012,11 +4017,6 @@
         "Melody of Lux": 15
       }
     },
-    "source": [
-      "Battle Pass",
-      "BP",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Lux": 11
@@ -4026,6 +4026,11 @@
     "name": "The Clash of Blade and Axe",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 932,
       "Aqua DMG": "15%"
@@ -4074,11 +4079,6 @@
         "Melody of Aqua": 15
       }
     },
-    "source": [
-      "Battle Pass",
-      "BP",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Aqua": 11
@@ -4088,6 +4088,11 @@
     "name": "Dream Factory of ☆Truth",
     "element": "Umbra",
     "star": 5,
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 932,
       "Umbra DMG": "15%"
@@ -4136,11 +4141,6 @@
         "Melody of Umbra": 15
       }
     },
-    "source": [
-      "Battle Pass",
-      "BP",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Umbra": 11
@@ -4150,6 +4150,11 @@
     "name": "Dancing with the Bones",
     "element": "Terra",
     "star": 5,
+    "source": [
+      "Battle Pass",
+      "BP",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 932,
       "Terra DMG": "15%"
@@ -4198,11 +4203,6 @@
         "Melody of Terra": 15
       }
     },
-    "source": [
-      "Battle Pass",
-      "BP",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 3,
       "Melody of Terra": 11
@@ -4212,6 +4212,15 @@
     "name": "The Lost Pilgrim",
     "element": "Terra",
     "star": 5,
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 932,
       "Terra DMG": "15%"
@@ -4260,15 +4269,6 @@
         "Melody of Terra": 15
       }
     },
-    "source": [
-      "Signature",
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Skill": 7,
       "Melody of Ultimate": 7
@@ -4278,6 +4278,15 @@
     "name": "Claw the Claw",
     "element": "Terra",
     "star": 5,
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 932,
       "Terra DMG": "15%"
@@ -4326,15 +4335,6 @@
         "Melody of Terra": 15
       }
     },
-    "source": [
-      "Signature",
-      "Permanent",
-      "Standard",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "f2p"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Ultimate": 10
@@ -4344,6 +4344,15 @@
     "name": "Ripples of Nostalgia",
     "element": "Lux",
     "star": 5,
+    "source": [
+      "Signature",
+      "Permanent",
+      "Standard",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 981,
       "Lux DMG": "15%"
@@ -4392,15 +4401,6 @@
         "Melody of Lux": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Ultimate": 10
@@ -4410,6 +4410,11 @@
     "name": "Summer Sanctuary",
     "element": "Lux",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Lux DMG": "12%"
@@ -4458,11 +4463,6 @@
         "Melody of Lux": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 7,
       "Melody of Lux": 7
@@ -4472,6 +4472,11 @@
     "name": "Fist of Courage",
     "element": "Ignis",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ignis DMG": "12%"
@@ -4520,11 +4525,6 @@
         "Melody of Ignis": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 7,
       "Melody of Ignis": 7
@@ -4534,6 +4534,11 @@
     "name": "A Gift for the Journey",
     "element": "Ignis",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ignis DMG": "12%"
@@ -4582,11 +4587,6 @@
         "Melody of Ignis": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 7,
       "Melody of Skill": 7
@@ -4596,6 +4596,11 @@
     "name": "Wine Warm, Lamps Alight",
     "element": "Terra",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Terra DMG": "12%"
@@ -4644,11 +4649,6 @@
         "Melody of Terra": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 7,
       "Melody of Terra": 7
@@ -4658,6 +4658,11 @@
     "name": "The Bud of Change",
     "element": "Umbra",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Umbra DMG": "12%"
@@ -4706,11 +4711,6 @@
         "Melody of Umbra": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 7,
       "Melody of Umbra": 7
@@ -4720,6 +4720,15 @@
     "name": "Veiled Dawn of Spring",
     "element": "Terra",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Terra DMG": "15%"
@@ -4768,15 +4777,6 @@
         "Melody of Terra": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Skill": 10
@@ -4786,6 +4786,15 @@
     "name": "Petals of Blooming Mirage",
     "element": "Umbra",
     "star": 5,
+    "source": [
+      "Signature",
+      "Exclusive",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Umbra DMG": "15%"
@@ -4834,15 +4843,6 @@
         "Melody of Umbra": 15
       }
     },
-    "source": [
-      "Signature",
-      "Exclusive",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Umbra": 10
@@ -4852,6 +4852,11 @@
     "name": "Dawn After Winter",
     "element": "Ventus",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ventus DMG": "12%"
@@ -4900,11 +4905,6 @@
         "Melody of Ventus": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 7,
       "Melody of Ultimate": 7
@@ -4914,6 +4914,11 @@
     "name": "Delivered by the Breeze",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Aqua DMG": "12%"
@@ -4962,11 +4967,6 @@
         "Melody of Aqua": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 7,
       "Melody of Aqua": 7
@@ -4976,6 +4976,15 @@
     "name": "Snowy Night Surprise",
     "element": "Ignis",
     "star": 5,
+    "source": [
+      "Signature",
+      "Exclusive",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Ignis DMG": "15%"
@@ -5024,15 +5033,6 @@
         "Melody of Ignis": 15
       }
     },
-    "source": [
-      "Signature",
-      "Exclusive",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Ignis": 10
@@ -5042,6 +5042,10 @@
     "name": "Traces of Starlight",
     "element": "None",
     "star": 5,
+    "source": [
+      "Login Reward",
+      "f2p"
+    ],
     "maxStat": {
       "HP": 6990,
       "ATK": 883
@@ -5090,10 +5094,6 @@
         "Melody of Ultimate": 15
       }
     },
-    "source": [
-      "Login Reward",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 7,
       "Melody of Stamina": 7
@@ -5103,6 +5103,11 @@
     "name": "Phantom of the Banquet",
     "element": "Umbra",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Umbra DMG": "12%"
@@ -5151,11 +5156,6 @@
         "Melody of Umbra": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 7,
       "Melody of Ultimate": 7
@@ -5165,6 +5165,15 @@
     "name": "Stellar Destination",
     "element": "Lux",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Lux DMG": "15%"
@@ -5213,15 +5222,6 @@
         "Melody of Lux": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Skill": 10
@@ -5231,6 +5231,11 @@
     "name": "Touch of Miracle",
     "element": "Terra",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Terra DMG": "12%"
@@ -5279,11 +5284,6 @@
         "Melody of Terra": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 7,
       "Melody of Ultimate": 7
@@ -5293,6 +5293,11 @@
     "name": "Joyful Gathering",
     "element": "Ignis",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ignis DMG": "12%"
@@ -5341,11 +5346,6 @@
         "Melody of Ignis": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Focus": 7,
       "Melody of Ultimate": 7
@@ -5355,6 +5355,15 @@
     "name": "Little Paradise",
     "element": "Terra",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Terra DMG": "15%"
@@ -5403,15 +5412,6 @@
         "Melody of Terra": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Terra": 10
@@ -5421,6 +5421,15 @@
     "name": "Fleeting Glimmers",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "Signature",
+      "Exclusive",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Auto Attack DMG": "35%"
@@ -5469,15 +5478,6 @@
         "Melody of Aqua": 15
       }
     },
-    "source": [
-      "Signature",
-      "Exclusive",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Aqua": 10
@@ -5487,6 +5487,11 @@
     "name": "Dappled Sunlight",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Aqua DMG": "12%"
@@ -5535,11 +5540,6 @@
         "Melody of Aqua": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 7,
       "Melody of Skill": 7
@@ -5549,6 +5549,15 @@
     "name": "Ride the Waves With Me",
     "element": "Umbra",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Umbra DMG": "15%"
@@ -5597,15 +5606,6 @@
         "Melody of Umbra": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Pummel": 10,
       "Melody of Luck": 4
@@ -5615,6 +5615,11 @@
     "name": "Summer March",
     "element": "Umbra",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Umbra DMG": "12%"
@@ -5663,11 +5668,6 @@
         "Melody of Umbra": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Burst": 7,
       "Melody of Skill": 7
@@ -5677,6 +5677,15 @@
     "name": "Fly, O Caged Bird",
     "element": "Ventus",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Ventus DMG": "15%"
@@ -5725,15 +5734,6 @@
         "Melody of Ventus": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Ventus": 10
@@ -5743,6 +5743,11 @@
     "name": "Moment of Glory",
     "element": "Ventus",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Ventus DMG": "12%"
@@ -5791,11 +5796,6 @@
         "Melody of Ventus": 15
       }
     },
-    "source": [
-      "Event",
-      "Shop",
-      "f2p"
-    ],
     "support": {
       "Melody of Pummel": 2,
       "Melody of Ventus": 12
@@ -5805,6 +5805,15 @@
     "name": "Bedtime Story",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
     "maxStat": {
       "ATK": 981,
       "Aqua DMG": "15%"
@@ -5853,15 +5862,6 @@
         "Melody of Aqua": 15
       }
     },
-    "source": [
-      "Signature",
-      "Limited",
-      "Premium",
-      "Recruit",
-      "Gacha",
-      "Banner",
-      "p2w"
-    ],
     "support": {
       "Melody of Luck": 4,
       "Melody of Aqua": 10
@@ -5871,6 +5871,11 @@
     "name": "All That Was Beautiful",
     "element": "Aqua",
     "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
     "maxStat": {
       "ATK": 883,
       "Aqua DMG": "12%"
@@ -5919,14 +5924,137 @@
         "Melody of Aqua": 15
       }
     },
+    "support": {
+      "Melody of Pummel": 7,
+      "Melody of Aqua": 7
+    }
+  },
+  "214066": {
+    "name": "My Guiding Star",
+    "element": "Lux",
+    "star": 5,
+    "source": [
+      "Signature",
+      "Exclusive",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "maxStat": {
+      "ATK": 981,
+      "Lux DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "My Guiding Star",
+      "desc": "Increases the squad's HP by <color=#ec6d21>{1}</color>.\u000bAfter the Main Trekker triggers ##Lux Mark#1015# for the first time, gains 1 stack of Starwish.\u000bWhen a Trekker with Starwish deals Skill DMG to a target, increases the target's Lux Skill DMG Taken by <color=#ec6d21>{2}</color> for {3}s.\u000bWhen the Lux Main Trekker triggers the Mark to generate ##Lucent#4028#, increases own Crit Rate by <color=#ec6d21>{4}</color> for {5}s.",
+      "icon": "DiscSkill_214066",
+      "p1": "15%,15%,5,15%,8"
+    },
+    "secondarySkill1": {
+      "name": "Shining Starwish",
+      "desc": "After a Versatile Trekker inflicts ##Lux Mark#1015# on a target for the first time, the Main Trekker gains 1 stack of Starwish.\u000bWhen a Trekker with Starwish deals Auto Attack DMG to a target, increases the target's Lux Auto Attack DMG Taken by <color=#ec6d21>{1}</color> for {2}s.\u000bStarwish gains an additional effect: each stack increases own Lux Skill DMG and Lux Auto Attack DMG by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "10%,5,7.5%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Lux": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Forging Tomorrow",
+      "desc": "After a Support Trekker inflicts ##Lux Mark#1015# on a target for the first time, the Main Trekker gains 1 stack of Starwish.\u000bWhen any Lux Trekker casts a skill, increases the Lux Main Trekker's Crit DMG by <color=#ec6d21>{1}</color> for {2}s.\u000bStarwish gains an additional effect: Each stack increases the Skill Crit DMG dealt by the Lux Main Trekker by <color=#ec6d21>{3}</color>.",
+      "icon": "DiscSkill_3",
+      "p1": "15%,12,3%",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Skill": 15,
+        "Melody of Lux": 15
+      }
+    },
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Lux": 10
+    }
+  },
+  "214067": {
+    "name": "Eternal Brilliance",
+    "element": "Lux",
+    "star": 5,
     "source": [
       "Event",
       "Shop",
       "f2p"
     ],
+    "maxStat": {
+      "HP": 6990,
+      "ATK": 883
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Eternal Brilliance",
+      "desc": "When the Lux Main Trekker deals Auto Attack or Skill DMG {1} times in total, gains 1 stack of Eternity: increases Lux Skill DMG by <color=#ec6d21>{2}</color> for {3}s, up to 10 stacks.\u000bWhile the Main Trekker has Eternity, increases the squad's Lux DMG dealt by <color=#ec6d21>{4}</color>.",
+      "icon": "DiscSkill_214067",
+      "p1": "5,0.5%,15,5%"
+    },
+    "secondarySkill1": {
+      "name": "Garden of Eternity",
+      "desc": "For every {1}s a Lux Versatile Trekker is on the battlefield, grants the Main Trekker 1 stack of Eternity.\u000bEternity gains an additional effect: each stack increases own Lux Auto Attack DMG by <color=#ec6d21>{2}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "5,0.3%",
+      "req1": {
+        "Melody of Stamina": 10,
+        "Melody of Lux": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Light of Humanity",
+      "desc": "When a Lux Support Trekker casts a skill, grants the Main Trekker 1 stack of Eternity.\u000bEternity can stack up to 20 times. When Eternity is at max stacks, increases own Lux DMG dealt by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_14",
+      "p1": "5%",
+      "req1": {
+        "Melody of Stamina": 15,
+        "Melody of Skill": 15,
+        "Melody of Lux": 15
+      }
+    },
     "support": {
-      "Melody of Pummel": 7,
-      "Melody of Aqua": 7
+      "Melody of Skill": 7,
+      "Melody of Lux": 7
     }
   }
 }

@@ -4905,7 +4905,7 @@
           "name": "Growth Tempest",
           "desc": "After Nanoha deals DMG with Auto Attacks <color=#0abec5>3</color> times, deals an additional <color=#0abec5>&Param1& of ATK</color> as AoE Ventus Auto Attack DMG.",
           "params": [
-            "9.4%/10.8%/12.2%/16.5%/17.8%/19.1%/21.7%/22.9%/24%/26.2%/28.1%/30%/31.9%"
+            "13%/15%/16.9%/22.9%/24.7%/26.5%/30.1%/31.7%/33.2%/36.3%/38.9%/41.6%/44.2%"
           ],
           "rarity": "core"
         },
@@ -4914,7 +4914,7 @@
           "name": "Blossom Flurry",
           "desc": "Within 10s after casting Flowers Dance (Main Skill), Nanoha fires <color=#0abec5>3</color> additional shurikens with her Auto Attacks that can pierce through the target, each dealing <color=#0abec5>&Param1& of ATK</color> as Ventus Auto Attack DMG.",
           "params": [
-            "3.5%/4%/4.6%/6.1%/6.6%/7.1%/8.1%/8.5%/8.9%/9.8%/10.5%/11.2%/11.9%"
+            "4.8%/5.5%/6.4%/8.4%/9.1%/9.8%/11.2%/11.8%/12.3%/13.6%/14.5%/15.5%/16.5%"
           ],
           "rarity": "core"
         },
@@ -4954,10 +4954,13 @@
         {
           "id": 511906,
           "name": "Phantom Follower",
-          "desc": "Each mirror image on the battlefield increases Nanoha's &Param2& by <color=#ec6d21>&Param1&</color>.",
+          "desc": "Increases Nanoha's &Param2& by <color=#ec6d21>&Param1&</color> for each active clone, stacking up to &Param3& times. Increases Nanoha's &Param4& by <color=#ec6d21>&Param5&</color> while Flowers Thrice (Ultimate) is on cooldown.",
           "params": [
             "12%/18%/25%/32%/39%/46%/53%/60%/67%",
-            "Auto Attack DMG"
+            "Auto Attack DMG",
+            2,
+            "Auto Attack DMG",
+            "14%/23%/32%/40%/49%/57%/66%/75%/83%"
           ],
           "rarity": "common"
         },
@@ -4977,10 +4980,10 @@
         {
           "id": 511908,
           "name": "Distant Prayer",
-          "desc": "When Flowers Dance (Main Skill) is cast, the farther the sunflower shuriken is from Nanoha, the more &Param2& it deals, with a minimum increase of <color=#ec6d21>&Param1&</color>.",
+          "desc": "When the sunflower shuriken cast by Flowers Dance (Main Skill) is farther from Nanoha, increases the &Param1& it deals by <color=#ec6d21>&Param2&</color>.",
           "params": [
-            "16%/26%/36%/46%/56%/65%/75%/85%/95%",
-            "Skill DMG"
+            "Skill DMG",
+            "40%/65%/90%/115%/140%/163%/188%/213%/238%"
           ],
           "rarity": "common"
         },
@@ -5021,9 +5024,12 @@
         {
           "id": 511910,
           "name": "Blossom Shower",
-          "desc": "When casting Flowers Dance (Main Skill), the clones fire non-returning sunflower shurikens, each dealing <color=#ec6d21>&Param1&</color> of Nanoha's ATK as Ventus Skill DMG.",
+          "desc": "When casting Flowers Dance (Main Skill), up to 2 active clones fire non-returning sunflower shurikens, each dealing <color=#ec6d21>&Param1&</color> of Nanoha's ATK as Ventus Skill DMG. Casting Flowers Thrice (Ultimate) increases Nanoha's &Param2& by <color=#ec6d21>&Param3&</color> for &Param4&s.",
           "params": [
-            "316%/506%/695%/885%/1074%/1264%/1453%/1643%/1833%"
+            "316%/506%/695%/885%/1074%/1264%/1453%/1643%/1833%",
+            "Skill DMG",
+            "18%/29%/40%/50%/61%/72%/83%/94%/104%",
+            30
           ],
           "rarity": "rare"
         },
@@ -5216,19 +5222,19 @@
       "icon": "11901_Normal",
       "energyLimit": 6.17,
       "params": [
-        "11%/12.6%/14.3%/19.2%/20.8%/22.3%/25.4%/26.7%/28%/30.7%/32.9%/35.1%/37.3%",
-        "11%/12.6%/14.3%/19.2%/20.8%/22.3%/25.4%/26.7%/28%/30.7%/32.9%/35.1%/37.3%",
-        "16.1%/18.5%/20.9%/28.2%/30.4%/32.7%/37.2%/39.1%/41.1%/44.9%/48.1%/51.4%/54.6%"
+        "15.2%/17.5%/19.8%/26.6%/28.8%/30.9%/35.2%/37%/38.8%/42.5%/45.6%/48.6%/51.7%",
+        "15.2%/17.5%/19.8%/26.6%/28.8%/30.9%/35.2%/37%/38.8%/42.5%/45.6%/48.6%/51.7%",
+        "22.3%/25.6%/28.9%/39.1%/42.1%/45.3%/51.5%/54.2%/56.9%/62.2%/66.6%/71.2%/75.6%"
       ]
     },
     "skill": {
       "name": "Flowers Dance",
-      "desc": "Throws two sunflower shurikens that strike the target and return for 4 times. Each hit deals <color=#ec6d21>&Param1&</color> of ATK as Ventus Skill DMG.\u000bFlowers Dance (Main Skill) can trigger ##Ventus Mark#1017# and create a Blossom, dealing &Param2& of ATK as AoE Ventus Mark DMG.",
+      "desc": "Throws two sunflower shurikens, each flying back and forth 8 times and dealing <color=#ec6d21>&Param1&</color> of ATK as Ventus Skill DMG.\u000bFlowers Dance (Main Skill) can trigger ##Ventus Mark#1017# and create a Blossom, dealing &Param2& of ATK as AoE Ventus Mark DMG.",
       "icon": "11901_Skill_Main",
       "cooldown": "10s",
       "energyLimit": 23.26,
       "params": [
-        "4.9%/5.6%/6.3%/8.5%/9.2%/9.9%/11.2%/11.8%/12.4%/13.5%/14.5%/15.5%/16.4%",
+        "6.9%/7.9%/8.9%/12%/13%/14%/15.8%/16.6%/17.5%/19%/20.4%/21.9%/23.1%",
         "31%/40%/49%/58%/67%/77%/86%/95%/104%"
       ]
     },
@@ -5244,7 +5250,7 @@
     },
     "ultimate": {
       "name": "Flowers Thrice",
-      "desc": "Generates 2 stationary clones that attack enemies with shurikens, dealing <color=#ec6d21>&Param1& x2</color> of ATK, <color=#ec6d21>&Param2& x2</color> of ATK, and <color=#ec6d21>&Param3& x3</color> of ATK as Ventus Ultimate DMG.\u000bEach clone lasts for 10s. Up to 2 clones can be present simultaneously.\u000bWhen a clone deals DMG, it can trigger ##Ventus Mark#1017# and create a Blossom, dealing &Param4& of ATK as AoE Ventus Mark DMG.",
+      "desc": "Generates 2 stationary clones that attack enemies with shurikens, dealing of ATK<color=#ec6d21>&Param1& x2, <color=#ec6d21>&Param2& x2</color>, and <color=#ec6d21></color>&Param3& x3</color> as Ventus Ultimate DMG.\u000bEach clone lasts for 25s. Up to 2 clones can be present simultaneously.\u000bWhen a clone deals DMG, it can trigger ##Ventus Mark#1017# and create a Blossom, dealing &Param4& of ATK as AoE Ventus Mark DMG.",
       "icon": "11901_Ultra",
       "cooldown": "30s",
       "energy": 285,
@@ -7987,12 +7993,12 @@
         {
           "id": 513202,
           "name": "Clan Clash Artistry",
-          "desc": "When &Param1& (Main Skill) triggers a ##Lux Mark#1015#, enhances Two Base Hit's DMG Multiplier by <color=#0abec5>&Param2&</color> and reduces its Attack Interval by <color=#0abec5>30%</color>.",
+          "desc": "Increases the DMG Multiplier of Three Base Hit from Ultimatum (Potential) by <color=#0abec5>&Param2&</color>.\u000bAfter &Param1& (Main Skill) triggers ##Lux Mark#1015#, increases the DMG Multiplier of Two Base Hit by <color=#0abec5>&Param2&</color> and reduces its Attack Interval by <color=#0abec5>30%</color>. Three Base Hit from Ultimatum also deals an additional <color=#0abec5>&Param4&</color> of ATK as AoE Lux Skill DMG.",
           "params": [
             "Syou: Pulsar Streak",
             "64.4%",
             "115%/132%/149%/201%/217%/233%/265%/278%/292%/320%/343%/366%/388%",
-            "229%/263%/297%/400%/432%/464%/528%/555%/583%/638%/683%/729%/775%"
+            "376%/432%/488%/657%/710%/763%/868%/913%/958%/1048%/1123%/1198%/1274%"
           ],
           "rarity": "core"
         },
@@ -8016,7 +8022,7 @@
           "params": [
             "Syou: Pulsar Streak",
             "47%",
-            "66%/76%/86%/115%/125%/134%/152%/160%/168%/184%/197%/211%/224%"
+            "82%/95%/107%/144%/156%/167%/191%/200%/210%/230%/247%/263%/280%"
           ],
           "rarity": "core"
         }
@@ -8065,7 +8071,7 @@
           "desc": "When &Param1& (Main Skill) hits a target, deals an additional <color=#ec6d21>&Param2& of ATK</color> as AoE Lux Skill DMG.",
           "params": [
             "Syou: Pulsar Streak",
-            "157%/250%/344%/438%/532%/626%/720%/814%/908%"
+            "196%/313%/430%/548%/665%/783%/900%/1017%/1135%"
           ],
           "rarity": "common"
         },
@@ -10884,7 +10890,7 @@
         {
           "id": 514110,
           "name": "Infernal Ember",
-          "desc": "When Chixia casts Purifying Flames (Main Skill), she gains a shield equal to <color=#ec6d21>&Param1&</color> of her Max HP.",
+          "desc": "Casting Purifying Flames (Main Skill) grants a Shield equal to <color=#ec6d21>&Param1&</color> of Max HP and Super Armor while the Shield lasts.",
           "params": [
             "7%/10%/12%/14%/17%/19%/22%/24%/26%"
           ],
@@ -11089,7 +11095,7 @@
       "cooldown": "7s",
       "energyLimit": 31.7,
       "params": [
-        "12.2%/14%/15.8%/21.3%/23%/24.7%/28.1%/29.6%/31%/34%/36.4%/38.8%/41.3%",
+        "24.7%/28.4%/32.1%/43.2%/46.7%/50.1%/57%/60%/63%/68.9%/73.8%/78.8%/83.7%",
         "Purifying Flames",
         "28%/36%/45%/53%/61%/70%/78%/86%/95%"
       ]
@@ -11535,7 +11541,7 @@
           "desc": "Within &Param1&s after casting Whirling Onslaught (Main Skill), when the next Auto Attack slash deals DMG, it generates a Whirlwind that deal <color=#0abec5>&Param2&</color> of ATK as AoE Auto Attack DMG every 0.5s for 4s.\u000bThe Whirlwind can track and attack enemies, triggering ##Ventus Mark#1017#.",
           "params": [
             4,
-            "27%/31.1%/35.1%/47.3%/51%/54.8%/62.4%/65.6%/68.9%/75.3%/80.7%/86.1%/91.5%",
+            "35%/40.4%/45.6%/61.5%/66.3%/71.2%/81.1%/85.3%/89.6%/97.9%/105%/112%/119%",
             "EffectValue,NoLevel,14301012,EffectTypeFirstSubtype,Enum,EAT",
             "EffectValue,NoLevel,14301012,EffectTypeParam1,HdPct",
             "BuffValue,NoLevel,14301012,Time,10K",
@@ -11548,7 +11554,7 @@
           "name": "Twin Shadows",
           "desc": "When casting Whirling Onslaught (Main Skill), generates 2 Whirlwinds that deal <color=#0abec5>&Param1&</color> of ATK as AoE Auto Attack DMG every 0.5s for 4s. \u000bThe Whirlwind can increase its Attack Range over time and trigger ##Ventus Mark#1017#.",
           "params": [
-            "27%/31.1%/35.1%/47.3%/51%/54.8%/62.4%/65.6%/68.9%/75.3%/80.7%/86.1%/91.5%",
+            "35%/40.4%/45.6%/61.5%/66.3%/71.2%/81.1%/85.3%/89.6%/97.9%/105%/112%/119%",
             "EffectValue,NoLevel,14302011,EffectTypeFirstSubtype,Enum,EAT",
             "EffectValue,NoLevel,14302011,EffectTypeParam1,HdPct",
             "BuffValue,NoLevel,14302011,Time,10K",
@@ -11559,7 +11565,7 @@
         {
           "id": 514303,
           "name": "Storm-Piercing Surge",
-          "desc": "The bullets of Whirling Onslaught (Main Skill) become lasers that track distant targets. Increases the &Param1& dealt by Wraith's shots to distant targets by <color=#0abec5>&Param2&</color>.",
+          "desc": "Whirling Onslaught (Main Skill) fires homing lasers instead of bullets, dealing AoE DMG. Increases the &Param1& dealt by Wraith's shots by <color=#0abec5>&Param2&</color>.",
           "params": [
             "Ventus DMG",
             "20%"
@@ -11584,7 +11590,7 @@
           "desc": "Whirling Onslaught (Main Skill)'s slashes will stir up a storm, blocking hostile projectiles.\u000bAlso increases Wraith's &Param1& to nearby targets by <color=#ec6d21>&Param2&</color>.",
           "params": [
             "Auto Attack DMG",
-            "15%/23%/32%/41%/50%/59%/67%/76%/85%"
+            "18%/28%/39%/50%/60%/71%/81%/92%/103%"
           ],
           "rarity": "rare"
         },
@@ -11666,7 +11672,7 @@
           "desc": "Within &Param1&s after casting Whirling Onslaught (Main Skill), enhances Wraith's weapon. Each additional Main Skill stack consumed extends the duration by 3s.\u000bWhile Wraith's weapon is enhanced, her Auto Attack shots fire lasers, dealing <color=#ec6d21>&Param2&</color> of ATK as Ventus Skill DMG. This effect can only be triggered once per second.",
           "params": [
             3,
-            "77%/123%/169%/216%/262%/308%/354%/400%/446%"
+            "84%/135%/185%/237%/287%/337%/388%/438%/489%"
           ],
           "rarity": "rare"
         },
@@ -11871,7 +11877,7 @@
       "energyLimit": 7.5,
       "params": [
         "49%/57%/64%/86%/93%/100%/114%/120%/126%/137%/147%/157%/167%",
-        "69%/80%/90%/121%/131%/141%/160%/168%/177%/193%/207%/221%/235%",
+        "76%/88%/99%/133%/144%/155%/175%/184%/194%/211%/227%/242%/258%",
         "8.5%/11%/13.5%/16.1%/18.6%/21.1%/23.7%/26.2%/28.7%"
       ]
     },
@@ -11904,12 +11910,12 @@
     "element": "Aqua",
     "star": 5,
     "source": [
-      "Limited",
-      "Premium",
+      "Permanent",
+      "Standard",
       "Recruit",
       "Gacha",
       "Banner",
-      "p2w"
+      "f2p"
     ],
     "potential": {
       "mainCore": [
@@ -13097,7 +13103,7 @@
           "name": "Avalanche of Stone",
           "desc": "When Gerie is in Lethal status, increases the range of her Auto Attacks by <color=#0abec5>25%</color>, and she can trigger ##Terra Mark#1020#. When an Auto Attack deals DMG, it also deals <color=#0abec5>&Param1& of ATK</color> as Terra Auto Attack DMG.",
           "params": [
-            "17.8%/20.5%/23.2%/31.2%/33.7%/36.2%/41.2%/43.3%/45.5%/49.7%/53.3%/56.9%/60.5%"
+            "36%/41%/46%/62%/67%/72%/82%/87%/91%/99%/107%/114%/121%"
           ],
           "rarity": "core"
         },
@@ -13116,7 +13122,7 @@
           "name": "Endless Throes",
           "desc": "When Gerie deals Auto Attack DMG to targets linked by the Iron Cage, deals an additional <color=#0abec5>&Param1& of ATK</color> as Terra Skill DMG to these targets. This effect can only be triggered once per second. Can trigger ##Terra Mark#1020#.",
           "params": [
-            "67%/77%/87%/117%/127%/136%/155%/163%/171%/187%/201%/214%/227%"
+            "82%/94%/106%/143%/155%/166%/189%/199%/209%/228%/245%/261%/278%"
           ],
           "rarity": "core"
         }
@@ -13406,12 +13412,12 @@
       "icon": "14901_Normal",
       "energyLimit": 15.48,
       "params": [
-        "15.4%/17.7%/20%/26.9%/29%/31.2%/35.5%/37.3%/39.2%/42.8%/45.9%/49%/52.1%",
-        "9.8%/11.3%/12.7%/17.2%/18.5%/19.9%/22.6%/23.8%/25%/27.3%/29.3%/31.3%/33.2%",
-        "14.1%/16.2%/18.3%/24.6%/26.6%/28.5%/32.5%/34.2%/35.8%/39.2%/42%/44.8%/47.6%",
-        "13.1%/15%/17%/23%/25%/27%/30%/32%/33%/36%/39%/42%/44%",
-        "22.9%/26.3%/29.7%/40%/43.2%/46.4%/52.8%/55.6%/58.3%/63.8%/68.4%/72.9%/77.5%",
-        "16.8%/19.3%/21.8%/29.4%/31.7%/34.1%/38.8%/40.8%/42.8%/46.8%/50.2%/53.5%/56.9%"
+        "31%/35%/40%/54%/58%/62%/71%/75%/78%/86%/92%/98%/104%",
+        "19.6%/22.5%/25.5%/34.3%/37%/39.8%/45.3%/47.6%/50%/54.7%/58.6%/62.5%/66.4%",
+        "28.1%/32.3%/36.5%/49.2%/53.1%/57.1%/64.9%/68.3%/71.7%/78.4%/84%/89.6%/95.3%",
+        "26.1%/30%/34%/46%/49%/53%/60%/64%/67%/73%/78%/83%/89%",
+        "46%/53%/59%/80%/86%/93%/106%/111%/117%/128%/137%/146%/155%",
+        "34%/39%/44%/59%/63%/68%/77%/82%/86%/94%/100%/107%/114%"
       ]
     },
     "skill": {
@@ -13421,9 +13427,9 @@
       "cooldown": "14s",
       "energyLimit": 26.2,
       "params": [
-        "86%/98%/111%/150%/162%/174%/198%/208%/218%/239%/256%/273%/290%",
-        "57%/66%/74%/100%/108%/116%/132%/139%/145%/159%/171%/182%/193%",
-        "25.2%/29%/32.7%/44.1%/47.6%/51.1%/58.2%/61.2%/64.2%/70.2%/75.3%/80.3%/85.3%",
+        "104%/120%/136%/183%/197%/212%/241%/254%/266%/291%/312%/333%/354%",
+        "70%/80%/90%/122%/132%/141%/161%/169%/177%/194%/208%/222%/236%",
+        "31%/35%/40%/54%/58%/62%/71%/75%/78%/86%/92%/98%/104%",
         "Auto Attack DMG",
         "30%",
         "37%/48%/59%/70%/81%/92%/103%/114%/125%"
@@ -13442,7 +13448,7 @@
     },
     "ultimate": {
       "name": "Divine: Retribution of Evil",
-      "desc": "Generates a huge chain shovel, dealing <color=#ec6d21>&Param1& x3</color> of ATK as Terra Ultimate DMG to targets in its path.\u000bDivine: Retribution of Evil (Ultimate) can trigger ##Terra Mark#1020#, dealing &Param3& of ATK as AoE Terra Mark DMG.",
+      "desc": "Generates 3 huge chain shovels, each dealing <color=#ec6d21>&Param1& of ATK x3</color> as Terra Ultimate DMG to targets along its path.\u000bDivine: Retribution of Evil (Ultimate) can trigger ##Terra Mark#1020#, dealing &Param3& of ATK as AoE Terra Mark DMG.",
       "icon": "14901_Ultra",
       "cooldown": "30s",
       "energy": 285,
@@ -13851,12 +13857,12 @@
     "element": "Lux",
     "star": 5,
     "source": [
-      "Limited",
-      "Premium",
+      "Permanent",
+      "Standard",
       "Recruit",
       "Gacha",
       "Banner",
-      "p2w"
+      "f2p"
     ],
     "potential": {
       "mainCore": [
@@ -16231,7 +16237,7 @@
         {
           "id": 516024,
           "name": "Thunderous Surf",
-          "desc": "Increases Decibels gained per shot from <color=#0abec5>2</color> to <color=#0abec5>4</color>.\u000bWhile ##Safety Alert#4043# is active, bubbles turn into piercing sonic waves, increasing DMG multiplier by <color=#0abec5>&Param1&</color>, and increasing the target's &Param2& by <color=#0abec5>&Param3&</color> for &Param4&s, stacking up to &Param5& times.",
+          "desc": "Increases Decibels gained per shot from <color=#0abec5>2</color> to <color=#0abec5>4</color>.\u000bWhile ##Safety Alert#4043# is active, bubbles turn into piercing sonic waves, increasing DMG Multiplier by <color=#0abec5>&Param1&</color>, and increasing the target's &Param2& by <color=#0abec5>&Param3&</color> for &Param4&s, stacking up to &Param5& times.",
           "params": [
             "50%",
             "Aqua DMG Taken",
@@ -16439,6 +16445,399 @@
         "2.5%/3.3%/4%/6.3%/7%/7.7%/9.1%/9.7%/10.3%/11.5%/12.5%/13.5%/14.5%",
         20,
         5
+      ]
+    }
+  },
+  "162": {
+    "name": "Firstlight Noya",
+    "element": "Lux",
+    "star": 5,
+    "source": [
+      "Exclusive",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "potential": {
+      "mainCore": [
+        {
+          "id": 516201,
+          "name": "Lucent Blitz",
+          "desc": "Storm Flash: Radiance (Main Skill) unleashes <color=#0abec5>4</color> more longsword attacks and fires <color=#0abec5>9</color> Glows, each Glow dealing <color=#0abec5>&Param1&</color> of Max HP as Lux Skill DMG.",
+          "params": [
+            "21%/25%/28%/37%/40%/43%/49%/52%/55%/60%/64%/68%/72%"
+          ],
+          "rarity": "core"
+        },
+        {
+          "id": 516202,
+          "name": "Dawnflare",
+          "desc": "Firing a total of <color=#0abec5>&Param1&</color> Glows grants Radiance Flurry (Special Main Skill): swings the longsword to unleash a massive blade light that deals <color=#0abec5>&Param2& x6</color> of Max HP as Lux Skill DMG and can trigger ##Lux Mark#1015#.\u000bLongsword sprint attacks during Auto Attacks now fire <color=#0abec5>3</color> Glows, each dealing <color=#0abec5>&Param3&</color> of Max HP as Lux Skill DMG.",
+          "params": [
+            17,
+            "134%/155%/175%/235%/254%/273%/310%/327%/343%/376%/403%/427%/452%",
+            "21%/25%/28%/37%/40%/43%/49%/52%/55%/60%/64%/68%/72%"
+          ],
+          "rarity": "core"
+        },
+        {
+          "id": 516203,
+          "name": "Stardust Descent",
+          "desc": "Storm Flash: Radiance (Main Skill) attacks additionally generate <color=#0abec5>2</color> Starfalls. Auto Attack sprints become greatsword attacks that deal <color=#0abec5>&Param1&</color> of Max HP as Lux Auto Attack DMG and generate 1 Starfall. Firstlight Noya triggering a Mark generates <color=#0abec5>1</color> Starfall, and this effect triggers only once every 1s. The above Starfalls deal <color=#0abec5>&Param2&</color> of Max HP as AoE Lux Auto Attack DMG.",
+          "params": [
+            "89%/103%/116%/156%/169%/181%/206%/217%/228%/250%/268%/284%/300%",
+            "23%/26%/30%/40%/43%/46%/52%/55%/58%/64%/68%/72%/76%"
+          ],
+          "rarity": "core"
+        },
+        {
+          "id": 516204,
+          "name": "Sinbreaker",
+          "desc": "Firstlight Noya absorbs lingering Starfalls nearby. For every <color=#0abec5>&Param1&</color> Starfalls absorbed, her next Auto Attack becomes Judgment Starfall (Special Auto Attack): channels energy into a massive downward greatsword strike, dealing <color=#0abec5>&Param2& x2</color> of Max HP as AoE Lux Auto Attack DMG, which can trigger ##Lux Mark#1015#.\u000bIncreases the greatsword's Attack Range and &Param3& during Auto Attacks by <color=#0abec5>&Param4&</color>. They can also trigger ##Lux Mark#1015#.",
+          "params": [
+            11,
+            "222%/256%/289%/389%/420%/451%/514%/540%/567%/623%/667%/707%/747%",
+            "Auto Attack DMG",
+            "20%"
+          ],
+          "rarity": "core"
+        }
+      ],
+      "mainNormal": [
+        {
+          "id": 516205,
+          "name": "Prism Warp",
+          "desc": "Glows fired by Firstlight Noya return to hit targets, dealing <color=#fb8037>&Param1&</color> of Max HP as Lux Skill DMG.\u000bIncreases the &Param2& dealt by Firstlight Noya's longsword attacks and Glows by <color=#fb8037>&Param3&</color>.",
+          "params": [
+            "16%/25%/35%/44%/53%/63%/69%/74%/79%",
+            "Skill Crit Rate",
+            "3.7%/6%/8.2%/10.5%/12.7%/15%/15%/15%/15%"
+          ],
+          "rarity": "rare"
+        },
+        {
+          "id": 516206,
+          "name": "Resolve: Blitz",
+          "desc": "Casting Radiance Flurry (Main Skill) switches Firstlight Noya's Ultimate to the longsword form.\u000bHer longsword attacks and Glows deal <color=#fb8037>&Param2&</color> more &Param1& to targets with ##Glimmer#4029#.",
+          "params": [
+            "DMG multiplier",
+            "4.5%/7.2%/9.9%/12.6%/15.3%/18%/20%/22%/24%"
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516207,
+          "name": "Lucent Tide",
+          "desc": "Glows can trigger ##Lux Mark#1015# and have a &Param1&% chance to gain increased Attack Range.\u000bCasting the Main Skill increases Firstlight Noya's &Param2& by <color=#fb8037>&Param3&</color> and Lux Versatile Trekkers' &Param4& by <color=#fb8037>&Param5&</color> for &Param6&s, stacking up to &Param7& times.",
+          "params": [
+            50,
+            "Skill Crit Rate",
+            "1.8%/3%/4.1%/5.2%/6.3%/7.5%/7.5%/7.5%/7.5%",
+            "Skill Crit DMG",
+            "7.5%/12%/16.5%/21%/25.5%/30%/33%/35.2%/37.5%",
+            12,
+            2
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516208,
+          "name": "Eclipse Phantom",
+          "desc": "Casting Judgment Starfall (Special Auto Attack) generates a field that deals <color=#fb8037>&Param1& x6</color> of Max HP as Lux Auto Attack DMG.\u000bIncreases the &Param2& dealt by Firstlight Noya's greatsword attacks and Starfalls by <color=#fb8037>&Param3&</color>.",
+          "params": [
+            "41%/66%/91%/115%/140%/165%/181%/194%/206%",
+            "Auto Attack Crit Rate",
+            "3.7%/6%/8.2%/10.5%/12.7%/15%/15%/15%/15%"
+          ],
+          "rarity": "rare"
+        },
+        {
+          "id": 516209,
+          "name": "Gavel of Absolution",
+          "desc": "When Starfalls dissipate, strike the target with a lightning bolt, dealing <color=#fb8037>&Param1&</color> of Max HP as Lux Auto Attack DMG.\u000bCasting the Main Skill increases Firstlight Noya's &Param2& by <color=#fb8037>&Param3&</color> for &Param4&.",
+          "params": [
+            "14%/22%/31%/39%/47%/56%/61%/65%/70%",
+            "Auto Attack Crit Rate",
+            "3.7%/6%/8.2%/10.5%/12.7%/15%/15%/15%/15%",
+            12
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516210,
+          "name": "Resolve: Sunder",
+          "desc": "Casting Judgment Starfall (Special Auto Attack) switches Firstlight Noya's Ultimate to the greatsword form.\u000bIncreases the &Param1& dealt by her greatsword attacks and Starfalls by <color=#fb8037>&Param2&</color>.",
+          "params": [
+            "DEF PEN",
+            "15/24/33/42/51/60/66/72/78"
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516211,
+          "name": "Searing Sun",
+          "desc": "Increases Firstlight Noya's &Param1& dealt to targets with ##Glimmer#4029# by <color=#fb8037>&Param2&</color>.\u000bIncreases her &Param3& by <color=#fb8037>&Param4&</color>.",
+          "params": [
+            "Lux DMG",
+            "6%/9.6%/13.2%/16.8%/20.4%/24%/26.4%/28.2%/30%",
+            "HP",
+            "150/240/330/420/510/600/660/705/750"
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516212,
+          "name": "Astral Brilliance",
+          "desc": "Each Lux Trekker in the squad increases Firstlight Noya's ##Lux PEN#2068# by <color=#fb8037>&Param2&</color>.",
+          "params": [
+            "Lux PEN",
+            "10/15/20/25/30/35/40/45/50"
+          ],
+          "rarity": "rare"
+        },
+        {
+          "id": 516213,
+          "name": "Veteran's Grit",
+          "desc": "Increases Firstlight Noya's &Param1& by <color=#fb8037>&Param2&</color>.",
+          "params": [
+            "HP",
+            "2250/3600/4950/6300/7650/9000/9900/10575/11250"
+          ],
+          "rarity": "common"
+        }
+      ],
+      "supportCore": [
+        {
+          "id": 516221,
+          "name": "Tempest Scourge",
+          "desc": "The greatsword attack in Thunderstrike: Break (Support Skill) leaves behind a field that deals <color=#0abec5>&Param1& x6</color> of Max HP as Lux Auto Attack DMG.",
+          "params": [
+            "92%/106%/120%/161%/174%/187%/213%/224%/235%/257%/276%/294%/312%"
+          ],
+          "rarity": "core"
+        },
+        {
+          "id": 516222,
+          "name": "Inquisitor's Edge",
+          "desc": "The greatsword attack in Thunderstrike: Break (Support Skill) generates <color=#0abec5>11</color> Starfalls, each dealing <color=#0abec5>&Param1&</color> of Max HP as Lux Auto Attack DMG.",
+          "params": [
+            "50%/58%/65%/88%/95%/102%/116%/122%/128%/140%/150%/160%/170%"
+          ],
+          "rarity": "core"
+        },
+        {
+          "id": 516223,
+          "name": "Skyrend Flash",
+          "desc": "The longsword attack in Thunderstrike: Break (Support Skill) continuously fires Glows at the target, each dealing <color=#0abec5>&Param1&</color> of Max HP as Lux Skill DMG.",
+          "params": [
+            "28%/32%/37%/49%/53%/57%/65%/68%/72%/79%/84%/90%/95%"
+          ],
+          "rarity": "core"
+        },
+        {
+          "id": 516224,
+          "name": "Galeblade",
+          "desc": "Thunderstrike: Break (Support Skill) performs <color=#0abec5>10</color> more longsword attacks.",
+          "params": [],
+          "rarity": "core"
+        }
+      ],
+      "supportNormal": [
+        {
+          "id": 516225,
+          "name": "Radiant Sever",
+          "desc": "Increases the Attack Range of Starfalls generated by Thunderstrike: Break (Support Skill).\u000bEach generated Starfall increases Firstlight Noya's &Param1& by <color=#fb8037>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+          "params": [
+            "Auto Attack DMG",
+            "5%/8%/11%/14%/17%/20%/23%/26%/29%",
+            12,
+            3
+          ],
+          "rarity": "rare"
+        },
+        {
+          "id": 516226,
+          "name": "Aegis: Sunder",
+          "desc": "After the greatsword attack in Thunderstrike: Break (Support Skill), switches Firstlight Noya's Ultimate to the greatsword form.\u000bWhen her longsword attacks deal DMG, increases her &Param1& by <color=#fb8037>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+          "params": [
+            "Lux DMG",
+            "3%/4.8%/6.6%/8.4%/10.2%/12%/13.8%/15.6%/17.4%",
+            8,
+            5
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516227,
+          "name": "Fiendbreaker",
+          "desc": "Increases the &Param1& dealt by Firstlight Noya's greatsword attacks and Starfalls by <color=#fb8037>&Param2&</color>.",
+          "params": [
+            "DMG multiplier",
+            "5%/8%/11%/14%/17%/20%/23%/26%/29%"
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516228,
+          "name": "Sunfire Cleave",
+          "desc": "Glows have a &Param1&% chance to gain increased Attack Range when fired.\u000bIncreases the &Param2& dealt by Firstlight Noya's longsword attacks and Glows by <color=#fb8037>&Param3&</color>.",
+          "params": [
+            50,
+            "Skill DMG",
+            "15%/24%/33%/42%/51%/60%/69%/78%/87%"
+          ],
+          "rarity": "rare"
+        },
+        {
+          "id": 516229,
+          "name": "Aegis: Blitz",
+          "desc": "After the longsword attack in Thunderstrike: Break (Support Skill), switches Firstlight Noya's Ultimate to the longsword form.\u000bWhen her greatsword deals DMG, increases her &Param1& by <color=#fb8037>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+          "params": [
+            "Lux DMG",
+            "5%/8%/11%/14%/17%/20%/23%/26%/29%",
+            20,
+            3
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516230,
+          "name": "Breath of Light",
+          "desc": "Increases the &Param1& dealt by Firstlight Noya's longsword attacks and Glows by <color=#fb8037>&Param2&</color>.",
+          "params": [
+            "DMG multiplier",
+            "5%/8%/11%/14%/17%/20%/23%/26%/29%"
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516231,
+          "name": "No More Goodbyes",
+          "desc": "Each Lux Trekker in the squad increases all Lux Trekkers' &Param1& by <color=#fb8037>&Param2&</color>.",
+          "params": [
+            "Lux DMG",
+            "3%/5%/7%/9%/11%/13%/15%/17%/19%"
+          ],
+          "rarity": "rare"
+        },
+        {
+          "id": 516232,
+          "name": "No More Sorrow",
+          "desc": "When the Lux Main Trekker casts the Main Skill, increases Firstlight Noya's &Param1& by <color=#fb8037>&Param2&</color> for &Param3&s.",
+          "params": [
+            "Lux DMG",
+            "10%/16%/22%/28%/34%/40%/46%/52%/58%",
+            15
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516233,
+          "name": "No More Chains",
+          "desc": "When any Lux Trekker in the squad casts a Main Skill or Support Skill, increases Firstlight Noya's &Param1& by <color=#fb8037>&Param2&</color> for &Param3&, stacking up to &Param4& times.",
+          "params": [
+            "Lux DMG",
+            "3%/5%/7%/9%/11%/13%/15%/17%/19%",
+            10,
+            3
+          ],
+          "rarity": "common"
+        }
+      ],
+      "common": [
+        {
+          "id": 516241,
+          "name": "Argent Mirage: Legion's End",
+          "desc": "When casting the longsword form Empyrean Starender (Ultimate), fires 7 Glows that each deal <color=#fb8037>&Param1&</color>of Max HP as Lux Skill DMG.\u000bIncreases Firstlight Noya's &Param2& by <color=#fb8037>&Param3&</color>.",
+          "params": [
+            "30%/48%/66%/84%/102%/120%/132%/141%/150%",
+            "Skill DMG",
+            "15%/24%/33%/42%/51%/60%/66%/70.5%/75%"
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516242,
+          "name": "Empyrean Starfall: Devil's End",
+          "desc": "The greatsword form Empyrean Starender (Ultimate) leaves behind a field that deals <color=#fb8037>&Param1& x6</color> of Max HP as Lux Auto Attack DMG.\u000bIncreases Firstlight Noya's &Param2& by <color=#fb8037>&Param3&</color>.",
+          "params": [
+            "41%/66%/91%/115%/140%/165%/181%/194%/206%",
+            "Auto Attack DMG",
+            "15%/24%/33%/42%/51%/60%/66%/70.5%/75%"
+          ],
+          "rarity": "common"
+        },
+        {
+          "id": 516243,
+          "name": "Guiding Star",
+          "desc": "While in the Starender state, Noya gains <color=#fb8037>&Param2&</color> additional &Param1& and restores <color=#fb8037>&Param4&</color> Energy every &Param3&s.",
+          "params": [
+            "Crit DMG",
+            "15%/24%/33%/42%/51%/60%/66%/70.5%/75%",
+            1,
+            "0.5/0.9/1.3/1.7/2.1/2.5/2.5/2.5/2.5"
+          ],
+          "rarity": "common"
+        }
+      ]
+    },
+    "normalAtk": {
+      "name": "Honed Sword Art",
+      "desc": "Wields the greatsword [Daybreak] and the longsword [Dawn] to deal continuous attacks.\u000bStrike 1: Swings the greatsword, dealing <color=#fb8037>&Param1& x2</color> of Max HP as Lux Auto Attack DMG.\u000bStrike 2: Swings the greatsword, dealing <color=#fb8037>&Param2& x3</color> of Max HP as Lux Auto Attack DMG.\u000bStrike 3: Swings the greatsword, dealing <color=#fb8037>&Param3& x2</color> of Max HP as Lux Auto Attack DMG.\u000bStrike 4: Swings the longsword and fires 2 Glows, each dealing <color=#fb8037>&Param4&</color> of Max HP as Lux Skill DMG.\u000bWhen Firstlight Noya is farther away from the target, her Auto Attacks become a sprint attack with the longsword, dealing <color=#fb8037>&Param5& x3</color> of Max HP as Lux Skill DMG. This effect can be triggered once every 1.5s.\u000bWhen Firstlight Noya's Auto Attacks deal DMG to a target with ##Glimmer#4029#, each stack of ##Glimmer#4029# on the target increases the &Param6& of this attack by <color=#fb8037>&Param7&</color>.",
+      "icon": "16201_Normal",
+      "energyLimit": 5.9837,
+      "params": [
+        "45%/51%/58%/78%/84%/90%/103%/108%/114%/125%/134%/142%/150%",
+        "46%/53%/60%/81%/88%/94%/107%/113%/118%/130%/139%/147%/156%",
+        "66%/76%/86%/115%/125%/134%/152%/160%/168%/185%/198%/210%/222%",
+        "21%/25%/28%/37%/40%/43%/49%/52%/55%/60%/64%/68%/72%",
+        "30%/35%/39%/53%/57%/62%/70%/74%/77%/85%/91%/96%/102%",
+        "DMG multiplier",
+        "4.2%/4.9%/5.5%/7.5%/8.1%/8.7%/9.9%/10.4%/10.9%/12%/12.5%/13%/13.5%"
+      ]
+    },
+    "skill": {
+      "name": "Storm Flash: Radiance",
+      "desc": "Rapidly swings the longsword [Dawn], dealing <color=#fb8037>&Param1& x5</color> of Max HP as AoE Lux Skill DMG. Then slams down with the greatsword [Daybreak], dealing <color=#fb8037>&Param2&</color> of Max HP as AoE Lux Auto Attack DMG, and generates 1 Starfall that deals <color=#fb8037>&Param3&</color> of Max HP as AoE Lux Auto Attack DMG.\u000bStorm Flash: Radiance (Main Skill) can trigger ##Lux Mark#1015# to generate ##Lucent#4028#: deals &Param4& of Max HP as AoE Lux Mark DMG and inflicts 1 stack of ##Glimmer#4029#.",
+      "icon": "16201_Skill_Main",
+      "cooldown": "10s",
+      "energyLimit": 20.8888,
+      "params": [
+        "36%/42%/47%/64%/69%/74%/84%/89%/93%/102%/109%/116%/123%",
+        "64%/74%/84%/113%/122%/131%/149%/156%/164%/180%/193%/205%/216%",
+        "23%/26%/30%/40%/43%/46%/52%/55%/58%/64%/68%/72%/76%",
+        "21%/27%/33%/39%/45%/51%/58%/64%/70%"
+      ]
+    },
+    "supportSkill": {
+      "name": "Thunderstrike: Break",
+      "desc": "Spins rapidly with the longsword [Dawn], dealing <color=#fb8037>&Param1& x8</color> of Max HP as AoE Lux Skill DMG. Then thrusts the greatsword [Daybreak] into the ground to create continuous shockwaves, dealing <color=#fb8037>&Param2& x6</color> and <color=#fb8037>&Param3&</color> of Max HP as AoE Lux Auto Attack DMG.\u000bThunderstrike: Break (Support Skill) can trigger ##Lux Mark#1015# to generate ##Lucent#4028#: deals &Param4& of Max HP as AoE Lux Mark DMG and inflicts 1 stack of ##Glimmer#4029#.",
+      "icon": "16201_Skill_Support",
+      "cooldown": "12s",
+      "params": [
+        "52%/60%/67%/91%/98%/105%/120%/126%/132%/145%/155%/165%/176%",
+        "54%/62%/70%/94%/102%/109%/124%/131%/137%/150%/161%/171%/182%",
+        "92%/106%/120%/161%/174%/187%/213%/224%/235%/257%/276%/294%/312%",
+        "21%/27%/33%/39%/45%/51%/58%/64%/70%"
+      ]
+    },
+    "ultimate": {
+      "name": "Empyrean Starender",
+      "desc": "Firstlight Noya's Ultimate has two forms, attacking with the greatsword [Daybreak] and the longsword [Dawn] respectively. She enters battle with the greatsword-form Ultimate by default.\u000bGreatsword Form: Leaps into the air and swings the greatsword, dealing <color=#fb8037>&Param1& x5</color> and <color=#fb8037>&Param2&</color> of Max HP as AoE Lux Auto Attack DMG in a large area.\u000bLongsword Form: Dashes quickly and attacks at high speed, dealing <color=#fb8037>&Param3& x7</color> of Max HP as AoE Lux Skill DMG in a large area, then generates a field that deals <color=#fb8037>&Param4& x7</color> of Max HP as AoE Lux Skill DMG in a large area.\u000bWhen casting Empyrean Starender (Ultimate), Firstlight Noya gains Starender: increases &Param5& by <color=#fb8037>&Param6&</color> for &Param7&s.\u000bEmpyrean Starender (Ultimate) can trigger ##Lux Mark#1015# to generate ##Lucent#4028#: deals &Param8& of Max HP as AoE Lux Mark DMG and inflicts 1 stack of ##Glimmer#4029#.",
+      "icon": "16201_Ultra_1",
+      "cooldown": "30s",
+      "energy": 235,
+      "params": [
+        "216%/248%/281%/378%/408%/438%/499%/525%/551%/605%/648%/687%/726%",
+        "270%/311%/351%/473%/510%/548%/624%/656%/689%/756%/810%/859%/907%",
+        "54%/63%/71%/95%/103%/111%/126%/132%/139%/153%/163%/173%/183%",
+        "109%/125%/142%/191%/206%/221%/252%/265%/278%/305%/327%/346%/366%",
+        "Crit Rate",
+        "7.1%/8.2%/9.2%/12.5%/13.5%/14.5%/16.5%/17.3%/18.2%/20%/21.4%/22.7%/24%",
+        30,
+        "21%/27%/33%/39%/45%/51%/58%/64%/70%"
       ]
     }
   }
