@@ -187,6 +187,17 @@ function createDiscSlot(i) {
       thumb.innerHTML = `<span class="plus">+</span>`;
     }
     thumb.onclick = (e) => { e.stopPropagation(); openDiscSelForSlot(i); };
+    // Middle-click a selected disc to deselect it (never selects).
+    thumb.addEventListener('auxclick', (e) => {
+      if (e.button !== 1) return;
+      e.preventDefault();
+      const id = selectedDiscs[i];
+      if (id) unselectDiscById(id);
+    });
+    // Prevent middle-click autoscroll so auxclick fires cleanly.
+    thumb.addEventListener('mousedown', (e) => {
+      if (e.button === 1) e.preventDefault();
+    });
     if (selectedDiscs[i]) attachDiscTooltip(thumb, selectedDiscs[i]);
     slot.dataset.discSlot = String(i);
     if (selectedDiscs[i]) {
@@ -247,6 +258,21 @@ function createDiscSlot(i) {
     });
 
     picker.appendChild(thumb);
+    // Small cross just outside the top-right to deselect this disc (mirrors
+    // the character tab remove button).
+    if (selectedDiscs[i]) {
+      const removeBtn = document.createElement('span');
+      removeBtn.className = 'disc-thumb-remove';
+      removeBtn.textContent = '✕';
+      removeBtn.title = 'Deselect disc';
+      removeBtn.draggable = false;
+      removeBtn.onclick = (e) => {
+        e.stopPropagation();
+        const id = selectedDiscs[i];
+        if (id) unselectDiscById(id);
+      };
+      picker.appendChild(removeBtn);
+    }
     // Notes overlay on the slot itself: Main discs show the harmony notes they
     // need, Support discs show the notes they give (same look as the grid).
     if (selectedDiscs[i]) {

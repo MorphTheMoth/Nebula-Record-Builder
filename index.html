@@ -108,6 +108,16 @@ h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #66
 .disc-thumb img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); }
 .disc-thumb .plus { color: #444; font-size: 24px; }
 .disc-thumb.picking { border-color: #bbb !important; box-shadow: 0 0 0 1px rgba(255,255,255,0.65); }
+.disc-thumb-remove {
+  position: absolute; top: -11px; right: -10px;
+  width: 21px; height: 21px; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; line-height: 1; font-family: inherit;
+  background: none; border: none; color: #888;
+  text-shadow: 0 0 3px #000; cursor: pointer; z-index: 4;
+  user-select: none; transition: color 0.1s;
+}
+.disc-thumb-remove:hover { color: #b56a6a; }
 
 /* Disc selection submenu (inside discs section, folded by default) */
 .disc-sel-wrap { margin-top: 12px; border-top: 1px solid #2a2a2a; padding-top: 14px; }
