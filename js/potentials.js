@@ -694,14 +694,28 @@ function updatePotentials() {
   if (typeof ensureLoadCachedTeamButton === 'function') ensureLoadCachedTeamButton();
 }
 
-function getEmblemDefaultOptions(emblemIdx) {
+// Filler stand-in stats, written only into the copied command for blank slots.
+// Subtypes are AttrTypeFirstSubtype ids: 2 = DEF, 3 = HP, 68 = Derivative DMG,
+// 1 = ATK, 66 = Minion DMG. Fractional values are the % variants of the same type.
+const EMBLEM_FILLER_SUBTYPES = [2, 3, 68];          // DEF, HP, Derivative DMG
+const EMBLEM_FILLER_SUBTYPES_BY_CHAR = {
+  // Firstlight Noya (162) never rolls HP or DEF, gets ATK and Minion DMG instead.
+  162: [1, 66, 68],
+};
+
+function emblemFillerSubtypes(charId) {
+  return EMBLEM_FILLER_SUBTYPES_BY_CHAR[charId] || EMBLEM_FILLER_SUBTYPES;
+}
+
+function getEmblemDefaultOptions(emblemIdx, charId) {
   const slot = emblemIdx + 1;
+  const subtypes = emblemFillerSubtypes(charId);
   const out = [];
   const seen = new Set();
   for (const entry of Object.values(emblemAttrData)) {
     if (entry.AttrType !== 12) continue;
     if (typeIdToSlot[entry.TypeId] !== slot) continue;
-    if (entry.AttrTypeFirstSubtype !== 2 && entry.AttrTypeFirstSubtype !== 3) continue;
+    if (!subtypes.includes(entry.AttrTypeFirstSubtype)) continue;
     if (seen.has(entry.TypeId)) continue;
     seen.add(entry.TypeId);
     out.push(entry.TypeId);
@@ -716,12 +730,13 @@ function emblemEntryIdForLevel(typeId, level) {
   return null;
 }
 
-function rollDefaultEmblem(emblemIdx, usedTypeIds) {
-  const pool = getEmblemDefaultOptions(emblemIdx).filter(t => !usedTypeIds.has(t));
+function rollDefaultEmblem(charId, emblemIdx, usedTypeIds) {
+  const pool = getEmblemDefaultOptions(emblemIdx, charId).filter(t => !usedTypeIds.has(t));
   for (let i = pool.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [pool[i], pool[j]] = [pool[j], pool[i]];
   }
+  // Only the two lowest rarities are ever used (Level 1 = lowest, 2 = next).
   return pool.map(t => emblemEntryIdForLevel(t, Math.random() < 0.5 ? 1 : 2));
 }
 
@@ -740,7 +755,7 @@ function updateEmblemOutput(cId) {
       if (entry) usedTypeIds.add(entry.TypeId);
     }
 
-    const defaults = rollDefaultEmblem(e, usedTypeIds);
+    const defaults = rollDefaultEmblem(cId, e, usedTypeIds);
     let di = 0;
     for (let s = 0; s < 4; s++) {
       const key = `${cId}_${e}_${s}`;
