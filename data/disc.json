@@ -6056,5 +6056,133 @@
       "Melody of Skill": 7,
       "Melody of Lux": 7
     }
+  },
+  "214068": {
+    "name": "Beneath Billowing Sails",
+    "element": "Terra",
+    "star": 5,
+    "source": [
+      "Signature",
+      "Limited",
+      "Premium",
+      "Recruit",
+      "Gacha",
+      "Banner",
+      "p2w"
+    ],
+    "maxStat": {
+      "ATK": 981,
+      "Terra DMG": "15%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Beneath Billowing Sails",
+      "desc": "Increases the Mark DMG of Terra Trekkers by <color=#ec6d21>{1}</color>.\u000bWhen a Versatile Terra Trekker deals DMG, inflicts Calibration on the target: Increases Terra Skill DMG taken by <color=#ec6d21>{2}</color> for {3}s.\u000bWhen a Versatile Terra Trekker deals Auto Attack DMG to a target inflicted with Calibration, inflicts an additional effect: Increases Auto Attack DMG taken by <color=#ec6d21>{4}</color> for {5}s.",
+      "icon": "DiscSkill_214068",
+      "p1": "30%,10%,15,15%,15"
+    },
+    "secondarySkill1": {
+      "name": "Tracker's Strike",
+      "desc": "Increases the squad's Terra DMG by <color=#ec6d21>{1}</color>.\u000bTerra Trekkers deal <color=#ec6d21>{2}</color> more Auto Attack and Skill DMG to targets inflicted with Calibration.",
+      "icon": "DiscSkill_11",
+      "p1": "4%,10%",
+      "req1": {
+        "Melody of Skill": 10,
+        "Melody of Terra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Riding the Waves",
+      "desc": "When a Support Trekker deals Auto Attack DMG, they gain 1 stack of Voyage: increases Terra Auto Attack DMG by <color=#ec6d21>{1}</color> for {2}s, stacking up to 5 times.\u000bTerra Main Trekkers deal <color=#ec6d21>{3}</color> more Skill DMG to targets inflicted with Calibration.",
+      "icon": "DiscSkill_4",
+      "p1": "2%,10,5%",
+      "req1": {
+        "Melody of Luck": 15,
+        "Melody of Skill": 15,
+        "Melody of Terra": 15
+      }
+    },
+    "support": {
+      "Melody of Luck": 4,
+      "Melody of Focus": 10
+    }
+  },
+  "214069": {
+    "name": "Emergency Evacuation",
+    "element": "Terra",
+    "star": 5,
+    "source": [
+      "Event",
+      "Shop",
+      "f2p"
+    ],
+    "maxStat": {
+      "ATK": 883,
+      "Terra DMG": "12%"
+    },
+    "dupe": [
+      {
+        "ATK": 130
+      },
+      {
+        "ATK": 260
+      },
+      {
+        "ATK": 390
+      },
+      {
+        "ATK": 520
+      },
+      {
+        "ATK": 650
+      }
+    ],
+    "mainSkill": {
+      "name": "Emergency Evacuation",
+      "desc": "Increases the Auto Attack DMG of Support Terra Trekkers by <color=#ec6d21>{1}</color>.\u000bWhen a Versatile Terra Trekker casts a skill, inflicts Anchored on the Main Trekker: Increases Terra DMG by <color=#ec6d21>{2}</color> for {3}s, stacking up to 2 times.",
+      "icon": "DiscSkill_214069",
+      "p1": "7.5%,2.5%,15"
+    },
+    "secondarySkill1": {
+      "name": "Domain Scan",
+      "desc": "Increases the Skill DMG of Terra Trekkers in the squad by <color=#ec6d21>{1}</color>.\u000bWhen any Trekker triggers a Terra Mark, increases Terra Trekkers' Ultimate DMG by <color=#ec6d21>{2}</color> for {3}s.",
+      "icon": "DiscSkill_1",
+      "p1": "3%,5%,3",
+      "req1": {
+        "Melody of Focus": 10,
+        "Melody of Terra": 10
+      }
+    },
+    "secondarySkill2": {
+      "name": "Endless Voyage",
+      "desc": "When Anchored is at max stacks, increases Terra Trekkers' ATK by <color=#ec6d21>{1}</color>.",
+      "icon": "DiscSkill_4",
+      "p1": "4%",
+      "req1": {
+        "Melody of Focus": 15,
+        "Melody of Skill": 15,
+        "Melody of Terra": 15
+      }
+    },
+    "support": {
+      "Melody of Skill": 7,
+      "Melody of Terra": 7
+    }
   }
 }
