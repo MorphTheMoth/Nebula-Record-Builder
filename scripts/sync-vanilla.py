@@ -33,7 +33,8 @@ UPSTREAM_REPO = 'https://github.com/MorphTheMoth/Nebula-Record-Builder.git'
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(SCRIPT_DIR)
 WORKDIR = os.path.join(SCRIPT_DIR, '.vanilla-work')
-TOKEN_FILE = os.path.expanduser('~/.nebula-github-token')
+TOKEN_FILES = [os.path.expanduser('~/.record-builder-token'),
+               os.path.expanduser('~/.nebula-github-token')]
 
 # Local deltas that make the tree "vanilla". Both must be found, or the sync
 # aborts: a silent miss would publish the Nebula build to the vanilla site.
@@ -46,9 +47,23 @@ AUTHOR_NAME = 'MorphTheMoth'
 AUTHOR_EMAIL = '36893247+MorphTheMoth@users.noreply.github.com'
 
 
-def git(*args, cwd=WORKDIR, check=True, env=None):
-    return subprocess.run(['git', *args], cwd=cwd, check=check,
-                          capture_output=True, text=True, env=env)
+SECRETS = []  # tokens, so a git error never echoes one into the cron log
+
+
+def git(*args, cwd=WORKDIR, env=None):
+    proc = subprocess.run(['git', *args], cwd=cwd, capture_output=True,
+                          text=True, env=env)
+    if proc.returncode != 0:
+        detail = (proc.stderr or proc.stdout or '').strip()
+        for secret in SECRETS:
+            detail = detail.replace(secret, '***')
+        if 'denied' in detail and 'Record-Builder' in detail:
+            detail += (
+                '\n          That token cannot write to Record-Builder: add the repo to the'
+                '\n          fine-grained token (Repository access + Contents: read and write)'
+                '\n          or drop a dedicated token at ~/.record-builder-token.')
+        raise SystemExit(f'[vanilla] git {args[0]} failed ({proc.returncode}):\n          {detail}')
+    return proc
 
 
 def ensure_workdir():
@@ -99,11 +114,20 @@ def build_tree(upstream):
 
 
 def load_token():
+    """A Record-Builder token wins over the shared one, so a dedicated PAT works."""
     token = os.environ.get('GITHUB_TOKEN')
-    if not token and os.path.exists(TOKEN_FILE):
-        with open(TOKEN_FILE) as f:
-            token = f.read().strip()
-    return token
+    source = 'GITHUB_TOKEN'
+    if not token:
+        for path in TOKEN_FILES:
+            if os.path.exists(path):
+                with open(path) as f:
+                    candidate = f.read().strip()
+                if candidate:
+                    token, source = candidate, path
+                    break
+    if token:
+        SECRETS.append(token)
+    return token, source
 
 
 def main():
@@ -141,14 +165,15 @@ def main():
     msg = f'Sync from upstream {upstream[:12]}'
     commit = git('commit-tree', tree, '-p', head, '-m', msg, env=env).stdout.strip()
 
-    token = load_token()
+    token, source = load_token()
     if not token:
         print('[vanilla] no token found; commit built but NOT pushed.')
-        print(f'          set $GITHUB_TOKEN or create {TOKEN_FILE}.')
+        print('          set $GITHUB_TOKEN, or create one of: '
+              + ', '.join(TOKEN_FILES))
         return
     push_url = f'https://{AUTHOR_NAME}:{token}@{VANILLA_REPO.split("//", 1)[1]}'
     git('push', '--quiet', push_url, f'{commit}:main')
-    print(f'[vanilla] pushed {commit[:12]} to Record-Builder ({msg}).')
+    print(f'[vanilla] pushed {commit[:12]} to Record-Builder via {source} ({msg}).')
 
 
 if __name__ == '__main__':
