@@ -4,9 +4,7 @@
 Sources: https://raw.githubusercontent.com/AutumnVN/ssassets/main/export/assets/assetbundles/icon/head/head_<id><variant>_XL.webp
 Output:  data/heads/head_<id><variant>_XL.webp  (trimmed)
 
-NOTE: heads intentionally still come from AutumnVN/ssassets — neither
-MakoStar/ss-data nor StellaSoraData ship image assets, only JSON data.
-Only the JSON pipeline (character/disc/item) moved to ss-data.
+NOTE: image assets only exist in AutumnVN/ssassets; ss-data ships JSON only.
 
 Trimming removes fully/near-transparent borders (alpha <= threshold) so the
 site can use tighter portraits.

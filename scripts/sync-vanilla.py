@@ -2,10 +2,7 @@
 """Mirror this repo into MorphTheMoth/Record-Builder (the vanilla site).
 
 Record-Builder is this project with the Nebula-only UI switched off and its own
-README. It used to be kept in sync by the `Sync from upstream` GitHub Action,
-which merged upstream/main every 15 minutes: conflict-prone, produced a merge
-commit per cycle, and burned Actions minutes. This script replaces it and runs
-from the same auto-update cycle on the Raspberry Pi.
+README. It runs from the same auto-update cycle on the Raspberry Pi.
 
 Sync model: build the vanilla tree from upstream's tree, then re-apply the two
 local deltas and drop .github. One linear commit on top of Record-Builder's main,
@@ -14,7 +11,7 @@ pushed only when the tree actually differs.
   * index.html -> upstream's, with VANILLA_MODE flipped to true and the title
     string set back to the vanilla one
   * README.md  -> Record-Builder's own (never overwritten)
-  * .github/   -> absent, so the old workflow is removed by the first sync
+  * .github/   -> dropped from the vanilla tree
 
 Usage:
   python3 scripts/sync-vanilla.py            # sync and push (needs a token)

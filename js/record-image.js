@@ -773,12 +773,6 @@ function getOrBuildGroupOrder(slot, group) {
   return potOrder[slot][group];
 }
 
-function resetPotOrder() {
-  potOrder = {};
-  saveState();
-  renderRecordImage(packPotentials());
-}
-
 function enableSvgReorder() {
   const svg = document.querySelector('#recordImageContent svg');
   if (!svg) return;

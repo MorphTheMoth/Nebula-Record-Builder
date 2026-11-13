@@ -1,11 +1,10 @@
 # Vendored upstream parsers
 
 These `*.js` files are copied from
-[AutumnVN/StellaSoraData](https://github.com/AutumnVN/StellaSoraData)
-(which itself parses raw game data from
+[AutumnVN/StellaSoraData](https://github.com/AutumnVN/StellaSoraData) (which
+parses raw game data from
 [MakoStar/ss-data](https://github.com/MakoStar/ss-data)) so this repo can
-build `data/` directly from `ss-data` instead of waiting on the AutumnVN
-mirror to re-publish parsed `character.json` / `disc.json`.
+build `data/` directly from `ss-data`.
 
 - `character.js` — builds full `character.json` (+ `unreleased.json`) from
   `EN/bin/*.json` + `EN|CN|JP|KR/language/*`.

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Build data/ directly from MakoStar/ss-data instead of the AutumnVN mirror.
-
-The AutumnVN StellaSoraData repo works by merging upstream ss-data and then
-running node parsers (character.js / disc.js / ...) to publish parsed
-character.json etc. This script does that parsing step locally:
+"""Build data/ directly from MakoStar/ss-data.
 
   1. Shallow-clone (or update) https://github.com/MakoStar/ss-data.git
      into scripts/.ssdata-work

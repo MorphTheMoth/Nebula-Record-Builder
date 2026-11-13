@@ -11,19 +11,18 @@ Two input modes:
 2. Legacy network mode (manual fallback only):
      python3 scripts/fetch-slim.py
    Fetches the parsed files from the AutumnVN mirror and the raw files
-   from MakoStar/ss-data. Only for manual recovery; the auto-update timer
-   builds from ss-data and does nothing on failure instead.
+   from MakoStar/ss-data.
 """
 import argparse
 import json, urllib.request, os, re, sys
 
 STRIP_HIDDEN = re.compile(r'\s*(?:HiddenParam\d+:\s*&HiddenParam\d+&\s*(?:\([^)]*\))?|Param\d+:\s*&Param\d+&\s*(?:\([^)]*\))?)\s*')
 
-# Raw game data now comes straight from the upstream source repo.
+# Raw game data comes from the upstream source repo.
 SSDATA_RAW = 'https://raw.githubusercontent.com/MakoStar/ss-data/main/'
 # Parsed character.json / disc.json / characterid.json do NOT exist in
 # ss-data (it only holds raw EN/CN/JP/KR/TW files); the mirror below is
-# legacy fallback only.
+# fallback only.
 LEGACY_PARSED_RAW = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/main/'
 OUT_DIR = 'data'
 POT_KEYS = ['mainCore', 'mainNormal', 'supportCore', 'supportNormal', 'common']

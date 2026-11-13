@@ -37,20 +37,6 @@ function chainImgFallback(img, primary, fallback) {
 function headXXLImg(img, charId, variant) {
   chainImgFallback(img, headXXLUrl(charId, variant), FALLBACK_HEAD_XXL_URL);
 }
-function headXLImg(img, charId, variant) {
-  // local trimmed -> remote XL -> npc placeholder (two steps)
-  img.dataset.fb = '';
-  img.src = headImageUrl(charId, variant);
-  img.onerror = () => {
-    if (!img.dataset.fb) {
-      img.dataset.fb = '1';
-      img.src = headImageFallbackUrl(charId, variant);
-    } else if (img.dataset.fb === '1') {
-      img.dataset.fb = '2';
-      img.src = FALLBACK_HEAD_XL_URL;
-    }
-  };
-}
 // rarity ('core' | 'rare' | 'common') -> vestige placeholder. Unknown/missing
 // rarity defaults to common.
 function potFallbackUrl(rarity) {
@@ -83,11 +69,6 @@ function noteImg(img, noteId) {
 }
 // SVG <image> fallbacks (inline onerror attributes call these). dataset.fb
 // guards against loops the same way as chainImgFallback.
-function headSvgFallback(el) {
-  if (!el || el.dataset.fb) return;
-  el.dataset.fb = '1';
-  el.setAttribute('href', FALLBACK_HEAD_XXL_URL);
-}
 function headXLSvgFallback(el) {
   if (!el || el.dataset.fb) return;
   const step = el.dataset.step || '0';
@@ -456,13 +437,6 @@ function formatPotentialDesc(id, params) {
   const result = replaceParams(desc, params, currentLevel, 'Param');
 
   return formatDescriptionWithColor(result);
-}
-
-function getTeamElements() {
-  const els = new Set();
-  selectedChars.filter(c => c).slice(0, 3).forEach(id => { if (id && charJson[id]?.element) els.add(charJson[id].element); });
-  selectedDiscs.forEach(id => { if (id && discData[id]?.element) els.add(discData[id].element); });
-  return els;
 }
 
 function getRelevantElements() {

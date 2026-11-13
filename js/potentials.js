@@ -20,12 +20,6 @@ function setEmblemFolded(cId, folded) {
   try { localStorage.setItem(EMBLEM_FOLD_KEY, JSON.stringify([...foldedSet])); } catch(e) {}
 }
 
-function toggleEmblemFold(cId) {
-  const sec = document.querySelector(`.emblem-section[data-char="${cId}"]`);
-  if (!sec) return;
-  setEmblemFolded(cId, sec.classList.toggle('folded'));
-}
-
 function buildEmblemGroups(charId, isMain) {
   const potMap = {};
   const entries = Object.entries(emblemAttrData)

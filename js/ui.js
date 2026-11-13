@@ -1,7 +1,5 @@
 let charElementFilters = new Set();
 let charRarityFilters = new Set();
-// legacy alias (single-filter) kept for compat
-let charElementFilter = null;
 
 function getCharStar(id) {
   const s = (typeof charJson !== 'undefined' && charJson[id] != null) ? charJson[id].star : undefined;
@@ -12,14 +10,12 @@ function setCharElementFilter(el) {
   if (el === '__all' || el === 'None') { clearCharElementFilters(); return; }
   if (charElementFilters.has(el)) charElementFilters.delete(el);
   else charElementFilters.add(el);
-  charElementFilter = charElementFilters.size === 1 ? [...charElementFilters][0] : null;
   updateCharFilterButtons();
   applyCharElementFilter();
 }
 
 function clearCharElementFilters() {
   charElementFilters.clear();
-  charElementFilter = null;
   updateCharFilterButtons();
   applyCharElementFilter();
 }
@@ -621,10 +617,6 @@ function updateDiscSelNoteOverlays() {
     const discId = card.dataset.discId;
     let mainOv = card.querySelector('.disc-sel-notes[data-mode="main"]');
     let supOv = card.querySelector('.disc-sel-notes[data-mode="support"]');
-    // Upgrade path: cards rendered before dual overlays have a single
-    // modeless .disc-sel-notes — replace it with the dual pair once.
-    const legacy = (!mainOv && !supOv) ? card.querySelector('.disc-sel-notes') : null;
-    if (legacy) legacy.remove();
     if ((!mainOv && !supOv) && discId) {
       const wrap = card.querySelector('.disc-sel-imgwrap');
       if (wrap) {
@@ -745,8 +737,8 @@ function renderDiscSelection() {
     const eb = DISC_EL_ORDER[discData[b].element] ?? 99;
     if (ea !== eb) return ea - eb;
     const na = Number(a), nb = Number(b);
-    if (!Number.isNaN(na) && !Number.isNaN(nb) && na !== nb) return na - nb;
-    return String(a).localeCompare(String(b));
+    if (!Number.isNaN(na) && !Number.isNaN(nb) && na !== nb) return nb - na;
+    return String(b).localeCompare(String(a));
   });
   if (!ids.length) {
     const empty = document.createElement('div');
@@ -1213,8 +1205,8 @@ function updateDiscOutputText() {
 }
 
 // ---- Note hover tooltip (notes section images) ----
-// Hardcoded from data/Item.json ("Item.<noteId>.1" = name, "Item.<noteId>.2" = stat)
-// plus per-note values from the screenshot (value of a single note).
+// Hardcoded from data/Item.json ("Item.<noteId>.1" = name, "Item.<noteId>.2" = stat);
+// value is one note's worth of that stat.
 const NOTE_INFO = {
   90011: { name: 'Melody of Pummel', stat: 'ATK', value: '0.30%' },
   90012: { name: 'Melody of Luck', stat: 'Crit Rate', value: '0.10%' },

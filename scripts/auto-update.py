@@ -2,9 +2,7 @@
 """Periodically check MakoStar/ss-data upstream and refresh game data.
 
 Builds data/ directly from https://github.com/MakoStar/ss-data via
-scripts/build-from-ssdata.py (local node parsers vendored from the AutumnVN
-repo under scripts/parsers/), instead of waiting on the AutumnVN
-StellaSoraData mirror to re-publish parsed files.
+scripts/build-from-ssdata.py.
 
 Change detection uses the ss-data HEAD commit SHA (`git ls-remote`) plus the
 last commit touching ss-lua's EN AVG nameplate file
@@ -17,11 +15,9 @@ repo's own HEAD.
 If the ss-data build fails (e.g. a network blip fetching ss-lua), this run
 does nothing to data/ and retries on the next cycle.
 
-Auth for pushing: $GITHUB_TOKEN env var, or ~/.nebula-github-token (chmod 600).
-
 After the upstream push, the same cycle mirrors the result into
 MorphTheMoth/Record-Builder (the vanilla site, VANILLA_MODE = true) through
-scripts/sync-vanilla.py -- replacing the old 15-minute merge GitHub Action.
+scripts/sync-vanilla.py.
 
 Usage:
   python3 scripts/auto-update.py          # check, rebuild, commit, push
@@ -196,9 +192,9 @@ def rebuild_from_ssdata():
 def sync_vanilla():
     """Mirror the pushed state into MorphTheMoth/Record-Builder (vanilla site).
 
-    Replaces the old 15-minute merge GitHub Action. Runs after the upstream
-    commit so the vanilla repo always matches what GitHub has; the script
-    fetches upstream itself and is a no-op when the trees already agree.
+    Runs after the upstream commit so the vanilla repo always matches what
+    GitHub has; the script fetches upstream itself and is a no-op when the
+    trees already agree.
     """
     try:
         subprocess.check_call(
