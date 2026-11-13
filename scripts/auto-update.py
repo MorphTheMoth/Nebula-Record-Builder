@@ -111,7 +111,7 @@ def load_token():
 def sync_with_origin():
     """Fetch and rebase onto origin/main so local never diverges.
 
-    Handles dirty working tree (e.g. modified .fetch-state.json) by stashing
+    Handles a dirty working tree (modified data files, etc.) by stashing
     before rebase and restoring afterwards. Returns True on success.
     """
     try:
@@ -335,10 +335,9 @@ def main():
             f.write('\n')
 
     git('add', 'data')
-    # Also commit the state file so clones stay in sync. Force-add in case
-    # .gitignore ignores it (pattern .fetch-state.json matches any dir).
-    if data_ok or names_ok or heads_done:
-        git('add', '-f', os.path.join('scripts', '.fetch-state.json'), check=False)
+    # scripts/.fetch-state.json is machine-local run state: it is gitignored and
+    # must never be staged. Do not force-add it (-f would defeat .gitignore, which
+    # is how it kept landing in commits before).
     # Track runner + pipeline scripts
     for name in ('auto-update.py', 'fetch-heads.py', 'fetch-notes.py', 'fetch-slim.py',
                  'build-from-ssdata.py', 'sync-vanilla.py'):
