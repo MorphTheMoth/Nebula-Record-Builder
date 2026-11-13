@@ -6,10 +6,13 @@ scripts/build-from-ssdata.py (local node parsers vendored from the AutumnVN
 repo under scripts/parsers/), instead of waiting on the AutumnVN
 StellaSoraData mirror to re-publish parsed files.
 
-Change detection uses the ss-data HEAD commit SHA (`git ls-remote`), stored
-in scripts/.fetch-state.json. If HEAD moved, the full parse+slim pipeline
-runs. Head images still come from AutumnVN/ssassets (ss-data ships no
-image assets), and are refreshed every run.
+Change detection uses the ss-data HEAD commit SHA (`git ls-remote`) plus the
+last commit touching ss-lua's EN AVG nameplate file
+(`Lua/Game/UI/Avg/_en/Preset/AvgCharacter.lua`), both stored in
+scripts/.fetch-state.json. If either moved, the full parse+slim pipeline runs
+(characterid.js re-fetches that one file out of ss-lua). Head/note images come
+from AutumnVN/ssassets (ss-data ships no image assets) and are gated on that
+repo's own HEAD.
 
 If the ss-data build fails (e.g. a network blip fetching ss-lua), this run
 does nothing to data/ and retries on the next cycle.
@@ -33,6 +36,12 @@ SSDATA_GIT_URL = 'https://github.com/MakoStar/ss-data.git'
 SSDATA_API_COMMIT = 'https://api.github.com/repos/MakoStar/ss-data/commits/main'
 SSASSETS_GIT_URL = 'https://github.com/AutumnVN/ssassets.git'
 SSASSETS_API_COMMIT = 'https://api.github.com/repos/AutumnVN/ssassets/commits/main'
+
+# The only file taken from ss-lua: the EN AVG preset name table that
+# characterid.js parses into data/characterid.json.
+SSLUA_NAMEPLATE_PATH = 'Lua/Game/UI/Avg/_en/Preset/AvgCharacter.lua'
+SSLUA_NAMEPLATE_COMMITS = ('https://api.github.com/repos/MakoStar/ss-lua/commits'
+                           '?path=' + SSLUA_NAMEPLATE_PATH + '&per_page=1')
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(SCRIPT_DIR)
@@ -70,6 +79,25 @@ def ssdata_head_sha():
 
 def ssassets_head_sha():
     return remote_head_sha(SSASSETS_GIT_URL, SSASSETS_API_COMMIT, 'ssassets')
+
+
+def sslua_nameplate_sha():
+    """SHA of the last commit that touched the EN AVG nameplate file.
+
+    ls-remote cannot filter by path, so this one goes through the commits API.
+    Pinning the path means unrelated ss-lua commits do not trigger a rebuild.
+    """
+    try:
+        req = urllib.request.Request(
+            SSLUA_NAMEPLATE_COMMITS, headers={'User-Agent': 'nebula-auto-update/1.0'})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            commits = json.load(resp)
+        if isinstance(commits, list) and commits:
+            return commits[0]['sha']
+        print('[auto-update] ss-lua nameplate API returned no commits.')
+    except Exception as exc:
+        print(f'[auto-update] ss-lua nameplate check failed: {exc}')
+    return None
 
 
 def load_token():
@@ -211,6 +239,22 @@ def main():
               f'skipping head image sweep.')
         has_heads_changed = False
 
+    # data/characterid.json comes from one ss-lua file, which is only fetched
+    # inside a build. Without its own trigger a name fix there waits for ss-data
+    # to move -- which may be never.
+    new_names_sha = sslua_nameplate_sha()
+    if new_names_sha is None:
+        print('[auto-update] could not resolve ss-lua nameplate; '
+              'name refresh skipped this run.')
+        has_names_changed = False
+    elif prev.get('ss-lua-nameplate') != new_names_sha:
+        print('[auto-update] ss-lua nameplate moved: '
+              f'{str(prev.get("ss-lua-nameplate", "(unknown)"))[:12]} -> {new_names_sha[:12]}')
+        has_names_changed = True
+    else:
+        print(f'[auto-update] ss-lua nameplate unchanged at {new_names_sha[:12]}.')
+        has_names_changed = False
+
     if check_only:
         if has_data_changed:
             print('[auto-update] --check mode: would rebuild from ss-data.')
@@ -220,18 +264,25 @@ def main():
             print('[auto-update] --check mode: would refresh head images.')
         else:
             print('[auto-update] --check mode: no head image changes.')
+        if has_names_changed:
+            print('[auto-update] --check mode: would refresh unit names from ss-lua.')
+        else:
+            print('[auto-update] --check mode: no nameplate changes.')
         print('[auto-update] --check mode: nothing fetched or committed.')
         return
 
-    # Rebuild game data only if ss-data moved; heads refresh only if
-    # ssassets moved. A failed build does nothing -- next cycle retries.
+    # Rebuild only if ss-data or the ss-lua nameplate moved; heads refresh only
+    # if ssassets moved. A failed build does nothing -- next cycle retries.
     build_ok = False
-    if has_data_changed:
+    if has_data_changed or has_names_changed:
         build_ok = rebuild_from_ssdata()
         if build_ok:
-            prev['ss-data'] = new_data_sha
+            if has_data_changed:
+                prev['ss-data'] = new_data_sha
+            if has_names_changed:
+                prev['ss-lua-nameplate'] = new_names_sha
         else:
-            print('[auto-update] data rebuild failed; leaving data/ untouched, '
+            print('[auto-update] rebuild failed; leaving data/ untouched, '
                   'will retry next cycle.')
 
     # Refresh local _XL head images (trimmed) — only when ssassets moved.
@@ -257,7 +308,10 @@ def main():
             print(f'[auto-update] image refresh error (continuing): {e}')
 
     # Persist updated state for whichever parts actually succeeded.
-    if (has_data_changed and build_ok) or (has_heads_changed and heads_ok):
+    data_ok = has_data_changed and build_ok
+    names_ok = has_names_changed and build_ok
+    heads_done = has_heads_changed and heads_ok
+    if data_ok or names_ok or heads_done:
         with open(STATE_FILE, 'w') as f:
             json.dump(prev, f, indent=2, sort_keys=True)
             f.write('\n')
@@ -265,7 +319,7 @@ def main():
     git('add', 'data')
     # Also commit the state file so clones stay in sync. Force-add in case
     # .gitignore ignores it (pattern .fetch-state.json matches any dir).
-    if (has_data_changed and build_ok) or (has_heads_changed and heads_ok):
+    if data_ok or names_ok or heads_done:
         git('add', '-f', os.path.join('scripts', '.fetch-state.json'), check=False)
     # Track runner + pipeline scripts
     for name in ('auto-update.py', 'fetch-heads.py', 'fetch-notes.py', 'fetch-slim.py',
@@ -278,9 +332,9 @@ def main():
     staged = git('diff', '--cached', '--name-only')
     staged_files = staged.stdout.strip()
     if not staged_files:
-        if has_data_changed and not build_ok:
-            print('[auto-update] data build failed; nothing to commit.')
-        elif has_data_changed:
+        if (has_data_changed or has_names_changed) and not build_ok:
+            print('[auto-update] build failed; nothing to commit.')
+        elif has_data_changed or has_names_changed:
             print('[auto-update] no data changes after rebuild; nothing to commit.')
         else:
             print('[auto-update] no head/note image changes; nothing to commit.')
@@ -288,13 +342,17 @@ def main():
 
     # Choose commit message based on what is staged.
     has_heads_in_staged = any(('data/heads' in line or 'data/notes' in line) for line in staged_files.splitlines())
-    data_ok = has_data_changed and build_ok
-    if data_ok and has_heads_in_staged:
-        commit_msg = 'Update game data (ss-data) and head/note images from upstream'
-    elif data_ok:
-        commit_msg = f'Update game data from upstream ss-data {new_data_sha[:12]}'
-    else:
+    parts = []
+    if data_ok:
+        parts.append(f'game data from upstream ss-data {(new_data_sha or "")[:12]}')
+    if names_ok:
+        parts.append(f'unit names from ss-lua nameplate {(new_names_sha or "")[:12]}')
+    if has_heads_in_staged:
+        parts.append('head/note images from ssassets')
+    if not parts:
         commit_msg = 'Update head/note images from ssassets'
+    else:
+        commit_msg = 'Update ' + ' and '.join(parts)
 
     git('commit', '-m', commit_msg)
 
