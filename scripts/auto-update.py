@@ -19,6 +19,10 @@ does nothing to data/ and retries on the next cycle.
 
 Auth for pushing: $GITHUB_TOKEN env var, or ~/.nebula-github-token (chmod 600).
 
+After the upstream push, the same cycle mirrors the result into
+MorphTheMoth/Record-Builder (the vanilla site, VANILLA_MODE = true) through
+scripts/sync-vanilla.py -- replacing the old 15-minute merge GitHub Action.
+
 Usage:
   python3 scripts/auto-update.py          # check, rebuild, commit, push
   python3 scripts/auto-update.py --check  # report only, make no changes
@@ -189,6 +193,24 @@ def rebuild_from_ssdata():
     return False
 
 
+def sync_vanilla():
+    """Mirror the pushed state into MorphTheMoth/Record-Builder (vanilla site).
+
+    Replaces the old 15-minute merge GitHub Action. Runs after the upstream
+    commit so the vanilla repo always matches what GitHub has; the script
+    fetches upstream itself and is a no-op when the trees already agree.
+    """
+    try:
+        subprocess.check_call(
+            [sys.executable, os.path.join(SCRIPT_DIR, 'sync-vanilla.py')])
+        return True
+    except subprocess.CalledProcessError as exc:
+        print(f'[auto-update] vanilla sync failed (continuing): {exc}')
+    except Exception as exc:
+        print(f'[auto-update] vanilla sync error (continuing): {exc}')
+    return False
+
+
 def main():
     check_only = '--check' in sys.argv
     force_heads = '--heads' in sys.argv
@@ -323,7 +345,7 @@ def main():
         git('add', '-f', os.path.join('scripts', '.fetch-state.json'), check=False)
     # Track runner + pipeline scripts
     for name in ('auto-update.py', 'fetch-heads.py', 'fetch-notes.py', 'fetch-slim.py',
-                 'build-from-ssdata.py'):
+                 'build-from-ssdata.py', 'sync-vanilla.py'):
         if os.path.exists(os.path.join(SCRIPT_DIR, name)):
             git('add', '-f', os.path.join('scripts', name), check=False)
     # Track vendored parsers (may be gitignored via scripts/parsers rules).
@@ -338,6 +360,7 @@ def main():
             print('[auto-update] no data changes after rebuild; nothing to commit.')
         else:
             print('[auto-update] no head/note image changes; nothing to commit.')
+        sync_vanilla()
         return
 
     # Choose commit message based on what is staged.
@@ -349,10 +372,12 @@ def main():
         parts.append(f'unit names from ss-lua nameplate {(new_names_sha or "")[:12]}')
     if has_heads_in_staged:
         parts.append('head/note images from ssassets')
-    if not parts:
-        commit_msg = 'Update head/note images from ssassets'
-    else:
+    if parts:
         commit_msg = 'Update ' + ' and '.join(parts)
+    elif any(line.startswith('scripts/') for line in staged_files.splitlines()):
+        commit_msg = 'Update update pipeline scripts'
+    else:
+        commit_msg = 'Update head/note images from ssassets'
 
     git('commit', '-m', commit_msg)
 
@@ -360,11 +385,13 @@ def main():
     if not token:
         print('[auto-update] no token found; commit made but NOT pushed.')
         print(f'           set $GITHUB_TOKEN or create {TOKEN_FILE} and run again.')
+        sync_vanilla()
         return
 
     push_url = f'https://MorphTheMoth:{token}@{REPO.split("//", 1)[1]}'
     git('push', push_url, 'HEAD:main')
     print('[auto-update] committed and pushed.')
+    sync_vanilla()
 
 
 if __name__ == '__main__':
