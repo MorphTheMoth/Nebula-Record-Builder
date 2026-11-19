@@ -519,6 +519,7 @@ async function init() {
       const bonusData = urlParams.get('b') ?? urlParams.get('bonus-data');
       let editUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?r=' + encodeURIComponent(png) + (prioStr ? '&p=' + encodeURIComponent(prioStr) : '') + (bonusData ? '&b=' + encodeURIComponent(bonusData) : '');
       if (tagsParam) editUrl += '&l=' + encodeURIComponent(tagsParam);
+      if (typeof EMBLEM_PARAM_RAW !== 'undefined' && EMBLEM_PARAM_RAW) editUrl += '&e=' + encodeURIComponent(EMBLEM_PARAM_RAW);
       const themeParam = urlParams.get('h') ?? urlParams.get('theme');
       if (themeParam) editUrl += '&h=' + encodeURIComponent(themeParam);
       if (orderParam) editUrl += '&o=' + encodeURIComponent(orderParam);
@@ -627,6 +628,15 @@ async function init() {
   preloadAllDiscImages();
 
   checkRecordImageParam();
+
+  // `?e=` is the Log Viewer's emblem handoff, read once on load after the
+  // record code (which sets the team) has been applied.
+  if (typeof parseEmblemParam === 'function' && parseEmblemParam(EMBLEM_PARAM_RAW)) {
+    selectedChars.filter(c => c).forEach(cId => computeEmblemBonuses(cId));
+    updatePotentials();
+    generate();
+    if (typeof refreshCharBadges === 'function') refreshCharBadges();
+  }
 
   const extrasJson = sessionStorage.getItem('nrb-load-extras');
   if (extrasJson) {
