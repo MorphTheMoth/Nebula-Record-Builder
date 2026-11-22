@@ -127,6 +127,24 @@ let priorityMode = false;
 let priorityMap = {};
 let pendingPrios = [];
 let potOrder = {};
+
+// potOrder is keyed by slot index, so every path that shifts selectedChars has
+// to shift it too. Without this, removing a character from the middle leaves
+// each later slot carrying the previous character's custom order (and the ids
+// then travel into shared links, where their 2-digit suffixes alias other
+// characters' potentials).
+function shiftPotOrderForRemovedSlot(idx) {
+  const out = {};
+  Object.keys(potOrder)
+    .map(Number)
+    .filter(k => !Number.isNaN(k))
+    .sort((a, b) => a - b)
+    .forEach(k => {
+      if (k === idx) return;
+      out[k > idx ? k - 1 : k] = potOrder[k];
+    });
+  potOrder = out;
+}
 let typeIdToSlot = {};
 let discImagesPreloaded = false;
 let activePotTab = 0;

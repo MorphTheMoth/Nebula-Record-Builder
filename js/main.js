@@ -416,6 +416,7 @@ function clearNotes(resetNotesCount) {
 
 function clearCharacters() {
   selectedChars = [];
+  potOrder = {};
   currentBuildId = null;
   localStorage.removeItem(CURRENT_BUILD_KEY);
   updatePotSaveButton();

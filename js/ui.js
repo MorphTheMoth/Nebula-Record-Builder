@@ -139,6 +139,7 @@ function toggleChar(id) {
   const idx = selectedChars.indexOf(id);
   if (idx >= 0) {
     selectedChars.splice(idx, 1);
+    shiftPotOrderForRemovedSlot(idx);
     // Drop trailing empty slots left by support/main swaps
     while (selectedChars.length && !selectedChars[selectedChars.length - 1]) selectedChars.pop();
     if (typeof activePotTab !== 'undefined' && activePotTab >= selectedChars.length) {
@@ -149,7 +150,7 @@ function toggleChar(id) {
     // Fill the first empty Main/Support slot so a support-only single
     // keeps its position instead of being pushed to the end.
     const hole = selectedChars.findIndex(c => !c);
-    if (hole >= 0 && hole < 3) selectedChars[hole] = id;
+    if (hole >= 0 && hole < 3) { selectedChars[hole] = id; delete potOrder[hole]; }
     else selectedChars.push(id);
   }
   if (!selectedChars.length) {

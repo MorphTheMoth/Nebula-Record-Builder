@@ -20,7 +20,27 @@ function cleanupPotOrder() {
   }
 }
 
+// An open record preview used to go stale: character / level / disc edits call
+// generate() but nothing re-rendered the overlay, so the screen, the PNG export
+// and the shared link could disagree about the same build.
+let _previewRefreshPending = false;
+
+function refreshOpenRecordPreview() {
+  const ov = document.getElementById('recordImageOverlay');
+  if (!ov || ov.style.display === 'none') return;
+  if (typeof renderRecordImage !== 'function' || typeof packPotentials !== 'function') return;
+  if (_previewRefreshPending) return;
+  _previewRefreshPending = true;
+  requestAnimationFrame(() => {
+    _previewRefreshPending = false;
+    if (document.getElementById('recordImageOverlay')?.style.display !== 'none') {
+      renderRecordImage(packPotentials());
+    }
+  });
+}
+
 function generate() {
+  refreshOpenRecordPreview();
   cleanupPotOrder();
   if (typeof maybeAutoDismissCachedTeamButton === 'function') {
     try { maybeAutoDismissCachedTeamButton(); } catch (e) {}
@@ -282,6 +302,10 @@ function importPotentials(skipUI = false) {
     const slots = charIds.map(id => (id !== 0 && charData[String(id)]) ? String(id) : null);
     while (slots.length && !slots[slots.length - 1]) slots.pop();
     selectedChars = slots;
+    // A previous record's custom order is keyed by slot index and refers to
+    // other characters' potential ids; keep it out of the imported build. An
+    // explicit `o` param is applied afterwards by resolveOrderFromParam().
+    potOrder = {};
     Object.entries(potentials).forEach(([pid, lvl]) => { potLevels[+pid] = lvl; });
     potTags = {};
     if (!skipUI) {
