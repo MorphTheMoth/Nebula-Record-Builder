@@ -16682,7 +16682,7 @@
         {
           "id": 516127,
           "name": "Ascending Draw Zone",
-          "desc": "Each time Leafia casts Area Plotting (Support Skill), Observation Points tier up 2 times. When Tactical Mapping deals DMG, increases its &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+          "desc": "Each time Leafia casts Area Plotting (Support Skill), Observation Points tier up 2 times when tiering up. When Tactical Mapping deals DMG, increases its &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
           "params": [
             "Terra DMG",
             "3%/4.8%/6.6%/8.4%/10.2%/12%/13.8%/15.6%/17.4%",
@@ -16706,7 +16706,7 @@
         {
           "id": 516130,
           "name": "Mark Suppression",
-          "desc": "Increases the &Param1& of Vanguard Strike and ##Calibration Mark#4055# by <color=#ec6d21>&Param2&</color>, and their &Param3& by <color=#ec6d21>&Param4&</color>. When enhanced Vanguard Strike deals DMD, inflicts 2 stacks of ##Calibration Mark#4055# on the target.",
+          "desc": "Increases the &Param1& of Vanguard Strike and ##Calibration Mark#4055# by <color=#ec6d21>&Param2&</color>, and their &Param3& by <color=#ec6d21>&Param4&</color>. When enhanced Vanguard Strike deals DMG, inflicts 2 stacks of ##Calibration Mark#4055# on the target.",
           "params": [
             "Terra DMG",
             "15%/24%/33%/42%/51%/60%/69%/78%/87%",
